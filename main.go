@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
+	f "github.com/sa-/slicefunk"
 )
 
 // hello is a component that displays a simple "Hello World!". A component is a
@@ -13,16 +15,35 @@ type hello struct {
 	app.Compo
 }
 
+type person struct {
+	name string
+	age int
+}
 // The Render method is where the component appearance is defined. Here, a
 // "Hello World!" is displayed as a heading.
 func (h *hello) Render() app.UI {
-	return app.H1().Text("Hello World!")
+	return app.H1().Text("Hello World!!")
 }
 
 // The main function is the entry point where the app is configured and started.
 // It is executed in 2 different environments: A client (the web browser) and a
 // server.
 func main() {
+
+	original := []int{1, 2, 3, 4, 5}
+    newArray := f.Map(original, func(item int) int { return item + 1 })
+    newArray = f.Map(newArray, func(item int) int { return item * 3 })
+    newArray = f.Filter(newArray, func(item int) bool { return item%2 == 0 })
+    fmt.Println(newArray)
+
+	people := []person{
+		person{"test", 5},
+		person{"test again", 20},
+	}
+	newPeople := f.Map(people, func(aPerson person) person {return person{aPerson.name, aPerson.age + 2}})
+	fmt.Println(people)
+	fmt.Println(newPeople)
+
 	// The first thing to do is to associate the hello component with a path.
 	//
 	// This is done by calling the Route() function,  which tells go-app what
