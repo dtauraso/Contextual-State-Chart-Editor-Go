@@ -21,6 +21,9 @@ type person struct {
 	age int
 }
 
+func TestState(state x.State) {
+	fmt.Println(state)
+}
 
 // The Render method is where the component appearance is defined. Here, a
 // "Hello World!" is displayed as a heading.
@@ -45,7 +48,8 @@ func main() {
 	fmt.Println(test.FunctionCode("I pass again 2"))
 	fmt.Println(test.State.NamePart)
 	fmt.Println(test.State.FunctionCode("I pass again 3"))
-
+	TestState(test)
+	TestState(*test.State)
 
 	original := []int{1, 2, 3, 4, 5}
     newArray := f.Map(original, func(item int) int { return item + 1 })
