@@ -40,6 +40,11 @@ func main() {
 	fmt.Println(x.StateTree.State.NamePart)
 	fmt.Println(x.StateTree.FunctionCode("I pass"))
 	fmt.Println(x.StateTree.State.FunctionCode("I pass again"))
+	test := x.State{"name", &x.State{"name 2", nil, x.Test}, x.Test}
+	fmt.Println(test.NamePart)
+	fmt.Println(test.FunctionCode("I pass again 2"))
+	fmt.Println(test.State.NamePart)
+	fmt.Println(test.State.FunctionCode("I pass again 3"))
 
 
 	original := []int{1, 2, 3, 4, 5}
