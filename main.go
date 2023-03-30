@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 	f "github.com/sa-/slicefunk"
+	x "github.com/dtauraso/test-go-package"
 )
 
 // hello is a component that displays a simple "Hello World!". A component is a
@@ -19,6 +20,8 @@ type person struct {
 	name string
 	age int
 }
+
+
 // The Render method is where the component appearance is defined. Here, a
 // "Hello World!" is displayed as a heading.
 func (h *hello) Render() app.UI {
@@ -29,7 +32,7 @@ func (h *hello) Render() app.UI {
 // It is executed in 2 different environments: A client (the web browser) and a
 // server.
 func main() {
-
+	x.test.Test()
 	original := []int{1, 2, 3, 4, 5}
     newArray := f.Map(original, func(item int) int { return item + 1 })
     newArray = f.Map(newArray, func(item int) int { return item * 3 })

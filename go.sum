@@ -1,3 +1,5 @@
+github.com/dtauraso/test-go-package v0.0.0-20230330051249-804cb476b6cb h1:H1NCc0LNLcM5sfDx2DlaYssTtkEb7MZWUySTKGxaYao=
+github.com/dtauraso/test-go-package v0.0.0-20230330051249-804cb476b6cb/go.mod h1:mbKtM+zfkj8SfUihGyZihX5jyo8gwgVeVD0Mx9SzD94=
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/maxence-charriere/go-app/v9 v9.6.7 h1:t+wofnLjVsptBB7MNevsFymMYaMIX2hGjLdWgsIFgq4=
