@@ -33,6 +33,7 @@ func (h *hello) Render() app.UI {
 // server.
 func main() {
 	fmt.Println(x.SayHello())
+	fmt.Println(x.X)
 	original := []int{1, 2, 3, 4, 5}
     newArray := f.Map(original, func(item int) int { return item + 1 })
     newArray = f.Map(newArray, func(item int) int { return item * 3 })
