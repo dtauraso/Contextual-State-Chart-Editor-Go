@@ -3,7 +3,7 @@ package dir1
 
 
 
-X := "test string"
+var X = "test string"
 func SayHello() string {
     return "Hi from package dir1"
 }
