@@ -1,4 +1,4 @@
-module contextual-state-chart-editor-go
+module github.com/dtauraso/Contextual-State-Chart-Editor-Go
 
 go 1.20
 
