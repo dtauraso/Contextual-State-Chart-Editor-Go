@@ -34,6 +34,12 @@ func (h *hello) Render() app.UI {
 func main() {
 	fmt.Println(x.SayHello())
 	fmt.Println(x.X)
+	fmt.Println(x.StateTree)
+	fmt.Println(x.StateTree.NamePart)
+	fmt.Println(x.StateTree.State)
+	fmt.Println(x.StateTree.State.NamePart)
+
+
 	original := []int{1, 2, 3, 4, 5}
     newArray := f.Map(original, func(item int) int { return item + 1 })
     newArray = f.Map(newArray, func(item int) int { return item * 3 })

@@ -2,15 +2,14 @@
 package dir1
 
 
-
 var X = "test string"
 type state struct {
-	namePart string
-	state *state
+	NamePart string
+	State *state
 }
 
 
-var stateTree = state{
+var StateTree = state{
 	"name1", &state{"name2", nil},
 }
 
