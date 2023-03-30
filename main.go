@@ -32,7 +32,7 @@ func (h *hello) Render() app.UI {
 // It is executed in 2 different environments: A client (the web browser) and a
 // server.
 func main() {
-	x.test.Test()
+	fmt.Println(x.SayHello())
 	original := []int{1, 2, 3, 4, 5}
     newArray := f.Map(original, func(item int) int { return item + 1 })
     newArray = f.Map(newArray, func(item int) int { return item * 3 })
