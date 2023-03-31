@@ -8,15 +8,18 @@ import (
 
 type IStateNamePart struct {
 	NamePart string
+    NextNamePart *IStateNamePart
 	State IState
 }
 
 type IState struct {
     FunctionCode func (csc.Graph) bool
     EdgeKinds map[string]IEdges
-    Children []IStateNamePart
+    Children map[string]IStateNamePart
     HaveStartChildren bool
     Variables map[string]any
+    LockedByStates map[string] bool
+    LockedByStatesCount int
 }
 
 type IEdges struct {
@@ -25,7 +28,51 @@ type IEdges struct {
 }
 
 var Customer = IStateNamePart{
-    "Cashier", IState{FunctionCode: u.ReturnTrue, Variables: map[string]any{"test": 1} },
+    NamePart: "Cashier",
+        State: IState{
+            FunctionCode: u.ReturnTrue,
+            EdgeKinds: map[string]IEdges{
+                "StartChildren": IEdges{
+                    Edges: [][]string{[]string{"Place order"}},
+                    AreParallel: false,
+                },
+            },
+            HaveStartChildren: true,
+            Children: map[string]IStateNamePart{
+                "Place order": IStateNamePart{
+                    State: IState{
+                        FunctionCode: u.ReturnTrue,
+                        EdgeKinds: map[string]IEdges{
+                            "Next": IEdges{
+                                Edges: [][]string{
+                                        []string{"Dig up money"},
+                                        []string{"Sip coffee"},
+                                        },
+                                AreParallel: true,
+                            },
+                        },
+                        HaveStartChildren: false,
+                    },
+                },
+                "Dig up money": IStateNamePart{
+                    State: IState{
+                        FunctionCode: u.ReturnTrue,
+                        EdgeKinds: map[string]IEdges{
+                            "Next": IEdges{
+                                Edges: [][]string{
+                                        []string{"Put away change"},
+                                },
+                                AreParallel: true,
+                            },
+                        },
+                        HaveStartChildren: false,
+                        LockedByStates: map[string]bool{"Compute Price": true},
+                        LockedByStatesCount: 1,
+                    },
+                },
+            },
+            // Variables: map[string]any{"test": 1}
+        },
 }
 
 var StateTree = Customer
