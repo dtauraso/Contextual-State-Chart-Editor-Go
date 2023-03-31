@@ -11,6 +11,7 @@ import (
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 	f "github.com/sa-/slicefunk"
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
+	csc "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
 )
 
 // hello is a component that displays a simple "Hello World!". A component is a
@@ -29,7 +30,7 @@ func TestState(state x.IState) {
 	fmt.Println(state)
 }
 
-func ReturnTrue(test any) bool {return true}
+func ReturnTrue(test csc.Graph) bool {return true}
 // The Render method is where the component appearance is defined. Here, a
 // "Hello World!" is displayed as a heading.
 func (h *hello) Render() app.UI {

@@ -1,5 +1,8 @@
 package StarbucksTree
 
+import (
+    csc "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
+)
 
 type IStateNamePart struct {
 	NamePart string
@@ -7,7 +10,7 @@ type IStateNamePart struct {
 }
 
 type IState struct {
-    FunctionCode func (any) bool
+    FunctionCode func (csc.Graph) bool
     EdgeKinds map[string]IEdges
     Children []IStateNamePart
     HaveStartChildren bool
