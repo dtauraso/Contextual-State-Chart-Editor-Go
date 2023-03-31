@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"reflect"
-	"runtime"
-	"strings"
+
 
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 	f "github.com/sa-/slicefunk"
@@ -37,17 +35,7 @@ func (h *hello) Render() app.UI {
 	return app.H1().Text("Hello World!!")
 }
 
-func GetFunctionName(temp interface{}) string {
-    strs := strings.Split((runtime.FuncForPC(reflect.ValueOf(temp).Pointer()).Name()), ".")
-    return strs[len(strs)-1]
-}
-func GetType(myvar interface{}) string {
-    if t := reflect.TypeOf(myvar); t.Kind() == reflect.Ptr {
-        return "*" + t.Elem().Name()
-    } else {
-        return t.Name()
-    }
-}
+
 // The main function is the entry point where the app is configured and started.
 // It is executed in 2 different environments: A client (the web browser) and a
 // server.
@@ -57,8 +45,8 @@ func main() {
 	// fmt.Println(x.StateTree)
 	// fmt.Println(x.StateTree.NamePart)
 	// fmt.Println(x.StateTree.State)
-	fmt.Println(GetFunctionName(u.ReturnTrue), GetFunctionName(u.ReturnTrue) == "ReturnTrue")
-	fmt.Println(GetType(x.StateTree), GetType(x.StateTree) == "IStateNamePart")
+	fmt.Println(u.GetFunctionName(u.ReturnTrue), u.GetFunctionName(u.ReturnTrue) == "ReturnTrue")
+	fmt.Println(u.GetType(x.StateTree), u.GetType(x.StateTree) == "IStateNamePart")
 	fmt.Println(x.StateTree.State.Variables["test"])
 	// fmt.Println(x.StateTree.State)
 	// fmt.Println(x.StateTree.FunctionCode("I pass"))
