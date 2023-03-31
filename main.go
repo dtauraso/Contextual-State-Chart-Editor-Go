@@ -5,12 +5,10 @@ import (
 	"log"
 	"net/http"
 
-
-	"github.com/maxence-charriere/go-app/v9/pkg/app"
-	f "github.com/sa-/slicefunk"
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	u "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Utility"
-
+	"github.com/maxence-charriere/go-app/v9/pkg/app"
+	f "github.com/sa-/slicefunk"
 )
 
 // hello is a component that displays a simple "Hello World!". A component is a
@@ -22,7 +20,7 @@ type hello struct {
 
 type person struct {
 	name string
-	age int
+	age  int
 }
 
 func TestState(state x.IState) {
@@ -34,7 +32,6 @@ func TestState(state x.IState) {
 func (h *hello) Render() app.UI {
 	return app.H1().Text("Hello World!!")
 }
-
 
 // The main function is the entry point where the app is configured and started.
 // It is executed in 2 different environments: A client (the web browser) and a
@@ -51,26 +48,26 @@ func main() {
 	// fmt.Println(x.StateTree.State)
 	// fmt.Println(x.StateTree.FunctionCode("I pass"))
 	// fmt.Println(x.StateTree.State.FunctionCode("I pass again"))
-	test := x.IState{FunctionCode: u.ReturnTrue, Variables: map[string]any{"test":x.IState{FunctionCode: u.ReturnTrue, EdgeKinds:nil}}}	// fmt.Println(test.INamePart)
+	test := x.IState{FunctionCode: u.ReturnTrue, Variables: map[string]any{"test": x.IState{FunctionCode: u.ReturnTrue, EdgeKinds: nil}}} // fmt.Println(test.INamePart)
 	// fmt.Println(test.FunctionCode("I pass again 2"))
 	fmt.Println(test)
 	fmt.Println(test.Variables["test"])
 
 	// fmt.Println(test.State.FunctionCode("I pass again 3"))
 	// TestState(test)
-		// TestState(*test.IState)
+	// TestState(*test.IState)
 
 	original := []int{1, 2, 3, 4, 5}
-    newArray := f.Map(original, func(item int) int { return item + 1 })
-    newArray = f.Map(newArray, func(item int) int { return item * 3 })
-    newArray = f.Filter(newArray, func(item int) bool { return item%2 == 0 })
-    fmt.Println(newArray)
+	newArray := f.Map(original, func(item int) int { return item + 1 })
+	newArray = f.Map(newArray, func(item int) int { return item * 3 })
+	newArray = f.Filter(newArray, func(item int) bool { return item%2 == 0 })
+	fmt.Println(newArray)
 
 	people := []person{
 		person{"test", 5},
 		person{"test again", 20},
 	}
-	newPeople := f.Map(people, func(aPerson person) person {return person{aPerson.name, aPerson.age + 2}})
+	newPeople := f.Map(people, func(aPerson person) person { return person{aPerson.name, aPerson.age + 2} })
 	fmt.Println(people)
 	fmt.Println(newPeople)
 
