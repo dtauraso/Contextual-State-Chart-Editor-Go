@@ -1,37 +1,27 @@
 package StarbucksTree
 
 
-var X = "test string"
-type TestFunction func (string) string
-type TestFunction2 func (any) bool
 type IStateNamePart struct {
 	NamePart string
 	State *IState
 }
 
 type IState struct {
-    FunctionCode TestFunction2
+    FunctionCode func (*string) bool
+    EdgeKinds map[string]IEdges
 }
 
-type IEdgeGroups struct {
-
-}
 type IEdges struct {
-    Edges []IEdge
+    Edges [][]string
     AreParallel bool
 }
 
-type IEdge struct {
-    NextStateName []string
-}
 
 var Customer = IStateNamePart{
     "Cashier", &IState{FunctionCode: nil },
 }
 
-// var StateTree = State{
-// 	"name1", &State{"name2", nil},
-// }
+var StateTree = Customer
 
 func Test(input string) string {
     return input

@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"reflect"
+	"runtime"
+	"strings"
 
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 	f "github.com/sa-/slicefunk"
@@ -22,35 +25,41 @@ type person struct {
 	age int
 }
 
-func TestState(state x.State) {
+func TestState(state x.IState) {
 	fmt.Println(state)
 }
 
+func ReturnTrue(test *string) bool {return true}
 // The Render method is where the component appearance is defined. Here, a
 // "Hello World!" is displayed as a heading.
 func (h *hello) Render() app.UI {
 	return app.H1().Text("Hello World!!")
 }
 
+func GetFunctionName(temp interface{}) string {
+    strs := strings.Split((runtime.FuncForPC(reflect.ValueOf(temp).Pointer()).Name()), ".")
+    return strs[len(strs)-1]
+}
 // The main function is the entry point where the app is configured and started.
 // It is executed in 2 different environments: A client (the web browser) and a
 // server.
 func main() {
-	fmt.Println(x.SayHello())
-	fmt.Println(x.X)
-	fmt.Println(x.StateTree)
-	fmt.Println(x.StateTree.NamePart)
-	fmt.Println(x.StateTree.State)
-	fmt.Println(x.StateTree.State.NamePart)
+	// fmt.Println(x.SayHello())
+	// fmt.Println(x.X)
+	// fmt.Println(x.StateTree)
+	// fmt.Println(x.StateTree.NamePart)
+	// fmt.Println(x.StateTree.State)
+	fmt.Println(GetFunctionName(ReturnTrue))
+
+	// fmt.Println(x.StateTree.State)
 	// fmt.Println(x.StateTree.FunctionCode("I pass"))
 	// fmt.Println(x.StateTree.State.FunctionCode("I pass again"))
-	test := x.State{"name", &x.State{"name 2", nil}}
-	fmt.Println(test.NamePart)
+	// test := x.IState{FunctionCode: ReturnTrue, EdgeKinds: &x.IState{FunctionCode: ReturnTrue, EdgeKinds:nil}}	// fmt.Println(test.INamePart)
 	// fmt.Println(test.FunctionCode("I pass again 2"))
-	fmt.Println(test.State.NamePart)
+	// fmt.Println(test.IState.INamePart)
 	// fmt.Println(test.State.FunctionCode("I pass again 3"))
-	TestState(test)
-	TestState(*test.State)
+	// TestState(test)
+		// TestState(*test.IState)
 
 	original := []int{1, 2, 3, 4, 5}
     newArray := f.Map(original, func(item int) int { return item + 1 })

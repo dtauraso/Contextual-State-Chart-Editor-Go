@@ -1,8 +1,10 @@
-github.com/dtauraso/test-go-package v0.0.0-20230330051249-804cb476b6cb h1:H1NCc0LNLcM5sfDx2DlaYssTtkEb7MZWUySTKGxaYao=
-github.com/dtauraso/test-go-package v0.0.0-20230330051249-804cb476b6cb/go.mod h1:mbKtM+zfkj8SfUihGyZihX5jyo8gwgVeVD0Mx9SzD94=
+github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/maxence-charriere/go-app/v9 v9.6.7 h1:t+wofnLjVsptBB7MNevsFymMYaMIX2hGjLdWgsIFgq4=
 github.com/maxence-charriere/go-app/v9 v9.6.7/go.mod h1:UlniES44R5JoD4HsjMNrAqWXSzyw0smM0Ox+QwnO/IE=
+github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/sa-/slicefunk v0.1.4 h1:fCgDllo0nYVywdREyJm53BQ5rfMW8pin57yNVpyPxNU=
 github.com/sa-/slicefunk v0.1.4/go.mod h1:k0abNpV9EW8LIPl2+Hc9RiKsojKmsUhNNGFyMpjMTCI=
+github.com/stretchr/testify v1.6.1 h1:hDPOHmpOpP40lSULcqw7IrRb/u7w6RpDC9399XyoNd0=
+gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c h1:dUUwHk2QECo/6vqA44rthZ8ie2QXMNeKRTHCNY2nXvo=
