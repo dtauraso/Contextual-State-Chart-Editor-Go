@@ -64,8 +64,8 @@ func main() {
 	fmt.Println(newArray)
 
 	people := []person{
-		person{"test", 5},
-		person{"test again", 20},
+		{"test", 5},
+		{"test again", 20},
 	}
 	newPeople := f.Map(people, func(aPerson person) person { return person{aPerson.name, aPerson.age + 2} })
 	fmt.Println(people)

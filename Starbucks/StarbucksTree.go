@@ -31,21 +31,21 @@ var Customer = IStateNamePart{
 	State: IState{
 		FunctionCode: u.ReturnTrue,
 		EdgeKinds: map[string]IEdges{
-			"StartChildren": IEdges{
-				Edges:       [][]string{[]string{"Place order"}},
+			"StartChildren": {
+				Edges:       [][]string{{"Place order"}},
 				AreParallel: false,
 			},
 		},
 		HaveStartChildren: true,
 		Children: map[string]IStateNamePart{
-			"Place order": IStateNamePart{
+			"Place order": {
 				State: IState{
 					FunctionCode: u.ReturnTrue,
 					EdgeKinds: map[string]IEdges{
-						"Next": IEdges{
+						"Next": {
 							Edges: [][]string{
-								[]string{"Dig up money"},
-								[]string{"Sip coffee"},
+								{"Dig up money"},
+								{"Sip coffee"},
 							},
 							AreParallel: true,
 						},
@@ -53,13 +53,13 @@ var Customer = IStateNamePart{
 					HaveStartChildren: false,
 				},
 			},
-			"Dig up money": IStateNamePart{
+			"Dig up money": {
 				State: IState{
 					FunctionCode: u.ReturnTrue,
 					EdgeKinds: map[string]IEdges{
-						"Next": IEdges{
+						"Next": {
 							Edges: [][]string{
-								[]string{"Put away change"},
+								{"Put away change"},
 							},
 							AreParallel: true,
 						},
