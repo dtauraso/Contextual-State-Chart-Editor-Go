@@ -5,20 +5,21 @@ import (
 	u "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Utility"
 )
 
-type IStateNamePart struct {
-	NamePart     string
-	NextNamePart *IStateNamePart
+type IStateNamePartTree struct {
+	NamePartTree map[string]IStateNamePartTree
 	State        IState
 }
 
 type IState struct {
 	FunctionCode        func(csc.Graph) bool
 	EdgeKinds           map[string]IEdges
-	Children            map[string]IStateNamePart
+	Children            map[string]IStateNamePartTree
 	HaveStartChildren   bool
 	Variables           map[string]any
 	LockedByStates      map[string]bool
 	LockedByStatesCount int
+	Array               []any
+	Map                 map[string]any
 }
 
 type IEdges struct {
@@ -26,51 +27,72 @@ type IEdges struct {
 	AreParallel bool
 }
 
-var Customer = IStateNamePart{
-	NamePart: "Cashier",
-	State: IState{
-		FunctionCode: u.ReturnTrue,
-		EdgeKinds: map[string]IEdges{
-			"StartChildren": {
-				Edges:       [][]string{{"Place order"}},
-				AreParallel: false,
-			},
-		},
-		HaveStartChildren: true,
-		Children: map[string]IStateNamePart{
-			"Place order": {
-				State: IState{
-					FunctionCode: u.ReturnTrue,
-					EdgeKinds: map[string]IEdges{
-						"Next": {
-							Edges: [][]string{
-								{"Dig up money"},
-								{"Sip coffee"},
+var Customer = IStateNamePartTree{
+	NamePartTree: map[string]IStateNamePartTree{
+		"Cashier": {
+			State: IState{
+				FunctionCode: u.ReturnTrue,
+				EdgeKinds: map[string]IEdges{
+					"StartChildren": {
+						Edges:       [][]string{{"Place order"}},
+						AreParallel: false,
+					},
+				},
+				HaveStartChildren: true,
+				Children: map[string]IStateNamePartTree{
+					"Place order": {
+						State: IState{
+							FunctionCode: u.ReturnTrue,
+							EdgeKinds: map[string]IEdges{
+								"Next": {
+									Edges: [][]string{
+										{"Dig up money"},
+										{"Sip coffee"},
+									},
+									AreParallel: true,
+								},
 							},
-							AreParallel: true,
+							HaveStartChildren: false,
 						},
 					},
-					HaveStartChildren: false,
-				},
-			},
-			"Dig up money": {
-				State: IState{
-					FunctionCode: u.ReturnTrue,
-					EdgeKinds: map[string]IEdges{
-						"Next": {
-							Edges: [][]string{
-								{"Put away change"},
+					"Dig up money": {
+						State: IState{
+							FunctionCode: u.ReturnTrue,
+							EdgeKinds: map[string]IEdges{
+								"Next": {
+									Edges: [][]string{
+										{"Put away change"},
+									},
+									AreParallel: true,
+								},
 							},
-							AreParallel: true,
+							HaveStartChildren:   false,
+							LockedByStates:      map[string]bool{"Compute Price": true},
+							LockedByStatesCount: 1,
 						},
 					},
-					HaveStartChildren:   false,
-					LockedByStates:      map[string]bool{"Compute Price": true},
-					LockedByStatesCount: 1,
+					"Put away change": {
+						State: IState{
+							FunctionCode:        u.ReturnTrue,
+							LockedByStates:      map[string]bool{"Compute change": true},
+							LockedByStatesCount: 1,
+						},
+					},
+					"Sip coffee": {
+						State: IState{
+							FunctionCode:        u.ReturnTrue,
+							LockedByStates:      map[string]bool{"Output buffer": true},
+							LockedByStatesCount: 1,
+						},
+					},
 				},
+				Variables: map[string]any{"drink": "frap choco"},
+			}},
+		"Barista": {
+			State: IState{
+				FunctionCode: u.ReturnTrue,
 			},
 		},
-		// Variables: map[string]any{"test": 1}
 	},
 }
 
