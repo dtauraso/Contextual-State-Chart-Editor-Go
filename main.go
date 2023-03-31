@@ -29,7 +29,7 @@ func TestState(state x.IState) {
 	fmt.Println(state)
 }
 
-func ReturnTrue(test *string) bool {return true}
+func ReturnTrue(test any) bool {return true}
 // The Render method is where the component appearance is defined. Here, a
 // "Hello World!" is displayed as a heading.
 func (h *hello) Render() app.UI {
@@ -40,6 +40,13 @@ func GetFunctionName(temp interface{}) string {
     strs := strings.Split((runtime.FuncForPC(reflect.ValueOf(temp).Pointer()).Name()), ".")
     return strs[len(strs)-1]
 }
+func GetType(myvar interface{}) string {
+    if t := reflect.TypeOf(myvar); t.Kind() == reflect.Ptr {
+        return "*" + t.Elem().Name()
+    } else {
+        return t.Name()
+    }
+}
 // The main function is the entry point where the app is configured and started.
 // It is executed in 2 different environments: A client (the web browser) and a
 // server.
@@ -49,14 +56,17 @@ func main() {
 	// fmt.Println(x.StateTree)
 	// fmt.Println(x.StateTree.NamePart)
 	// fmt.Println(x.StateTree.State)
-	fmt.Println(GetFunctionName(ReturnTrue))
-
+	fmt.Println(GetFunctionName(ReturnTrue), GetFunctionName(ReturnTrue) == "ReturnTrue")
+	fmt.Println(GetType(x.StateTree), GetType(x.StateTree) == "IStateNamePart")
+	fmt.Println(x.StateTree.State.Variables["test"])
 	// fmt.Println(x.StateTree.State)
 	// fmt.Println(x.StateTree.FunctionCode("I pass"))
 	// fmt.Println(x.StateTree.State.FunctionCode("I pass again"))
-	// test := x.IState{FunctionCode: ReturnTrue, EdgeKinds: &x.IState{FunctionCode: ReturnTrue, EdgeKinds:nil}}	// fmt.Println(test.INamePart)
+	test := x.IState{FunctionCode: ReturnTrue, Variables: map[string]any{"test":x.IState{FunctionCode: ReturnTrue, EdgeKinds:nil}}}	// fmt.Println(test.INamePart)
 	// fmt.Println(test.FunctionCode("I pass again 2"))
-	// fmt.Println(test.IState.INamePart)
+	fmt.Println(test)
+	fmt.Println(test.Variables["test"])
+
 	// fmt.Println(test.State.FunctionCode("I pass again 3"))
 	// TestState(test)
 		// TestState(*test.IState)

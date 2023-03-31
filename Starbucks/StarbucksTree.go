@@ -3,12 +3,15 @@ package StarbucksTree
 
 type IStateNamePart struct {
 	NamePart string
-	State *IState
+	State IState
 }
 
 type IState struct {
-    FunctionCode func (*string) bool
+    FunctionCode func (any) bool
     EdgeKinds map[string]IEdges
+    Children []IStateNamePart
+    HaveStartChildren bool
+    Variables map[string]any
 }
 
 type IEdges struct {
@@ -16,9 +19,8 @@ type IEdges struct {
     AreParallel bool
 }
 
-
 var Customer = IStateNamePart{
-    "Cashier", &IState{FunctionCode: nil },
+    "Cashier", IState{FunctionCode: nil, Variables: map[string]any{"test": 1} },
 }
 
 var StateTree = Customer
