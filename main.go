@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 	f "github.com/sa-/slicefunk"
-	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/dir1"
+	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 )
 
 // hello is a component that displays a simple "Hello World!". A component is a

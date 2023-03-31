@@ -1,5 +1,4 @@
-// dir1.go
-package dir1
+package StarbucksTree
 
 
 var X = "test string"
