@@ -11,7 +11,8 @@ import (
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 	f "github.com/sa-/slicefunk"
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
-	csc "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
+	u "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Utility"
+
 )
 
 // hello is a component that displays a simple "Hello World!". A component is a
@@ -30,7 +31,6 @@ func TestState(state x.IState) {
 	fmt.Println(state)
 }
 
-func ReturnTrue(test csc.Graph) bool {return true}
 // The Render method is where the component appearance is defined. Here, a
 // "Hello World!" is displayed as a heading.
 func (h *hello) Render() app.UI {
@@ -57,13 +57,13 @@ func main() {
 	// fmt.Println(x.StateTree)
 	// fmt.Println(x.StateTree.NamePart)
 	// fmt.Println(x.StateTree.State)
-	fmt.Println(GetFunctionName(ReturnTrue), GetFunctionName(ReturnTrue) == "ReturnTrue")
+	fmt.Println(GetFunctionName(u.ReturnTrue), GetFunctionName(u.ReturnTrue) == "ReturnTrue")
 	fmt.Println(GetType(x.StateTree), GetType(x.StateTree) == "IStateNamePart")
 	fmt.Println(x.StateTree.State.Variables["test"])
 	// fmt.Println(x.StateTree.State)
 	// fmt.Println(x.StateTree.FunctionCode("I pass"))
 	// fmt.Println(x.StateTree.State.FunctionCode("I pass again"))
-	test := x.IState{FunctionCode: ReturnTrue, Variables: map[string]any{"test":x.IState{FunctionCode: ReturnTrue, EdgeKinds:nil}}}	// fmt.Println(test.INamePart)
+	test := x.IState{FunctionCode: u.ReturnTrue, Variables: map[string]any{"test":x.IState{FunctionCode: u.ReturnTrue, EdgeKinds:nil}}}	// fmt.Println(test.INamePart)
 	// fmt.Println(test.FunctionCode("I pass again 2"))
 	fmt.Println(test)
 	fmt.Println(test.Variables["test"])

@@ -2,6 +2,8 @@ package StarbucksTree
 
 import (
     csc "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
+	u "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Utility"
+
 )
 
 type IStateNamePart struct {
@@ -23,7 +25,7 @@ type IEdges struct {
 }
 
 var Customer = IStateNamePart{
-    "Cashier", IState{FunctionCode: nil, Variables: map[string]any{"test": 1} },
+    "Cashier", IState{FunctionCode: u.ReturnTrue, Variables: map[string]any{"test": 1} },
 }
 
 var StateTree = Customer
