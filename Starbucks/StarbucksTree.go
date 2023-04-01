@@ -6,9 +6,9 @@ import (
 )
 
 type IStateNamePartTree struct {
-	NPT      map[string]IStateNamePartTree
-	State    IState
-	Datatree IDatabase
+	NPT       map[string]IStateNamePartTree
+	State     IState
+	DataTable IDatabase
 }
 
 type IState struct {
@@ -16,6 +16,7 @@ type IState struct {
 	EdgeKinds           map[string]IEdges
 	Children            map[string]IStateNamePartTree
 	HaveStartChildren   bool
+	Variable            any
 	Variables           map[string]any
 	LockedByStates      map[string]bool
 	LockedByStatesCount int
@@ -343,7 +344,7 @@ var StateTree = map[string]IStateNamePartTree{
 							},
 						},
 						"options": {
-							Datatree: IDatabase{
+							DataTable: IDatabase{
 								Array: []any{
 									"size",
 									"flavors",
@@ -352,18 +353,18 @@ var StateTree = map[string]IStateNamePartTree{
 							},
 						},
 						"sizes": {
-							Datatree: IDatabase{
+							DataTable: IDatabase{
 								Map: map[string]any{
-									"large":  1,
-									"grande": 1,
-									"vente":  1,
+									"large":  3,
+									"grande": 2,
+									"vente":  0,
 								},
 							},
 						},
 						"flavors": {
 							NPT: map[string]IStateNamePartTree{
 								"Sauces": {
-									Datatree: IDatabase{
+									DataTable: IDatabase{
 										Array: []any{
 											"Dark Caramel Sauce",
 											"Mocha Sauce",
@@ -371,7 +372,7 @@ var StateTree = map[string]IStateNamePartTree{
 									},
 								},
 								"syrups": {
-									Datatree: IDatabase{
+									DataTable: IDatabase{
 										Array: []any{
 											"Brown Sugar Syrup",
 											"Caramel Syrup",
@@ -383,7 +384,7 @@ var StateTree = map[string]IStateNamePartTree{
 						"toppings": {
 							NPT: map[string]IStateNamePartTree{
 								"cold foam": {
-									Datatree: IDatabase{
+									DataTable: IDatabase{
 										Map: map[string]any{
 											"value":    "Chocolate Cream Cold Foam",
 											"servings": 5,
@@ -394,10 +395,35 @@ var StateTree = map[string]IStateNamePartTree{
 							},
 						},
 						"drinks": {
-							Datatree: IDatabase{
-								Map: map[string]any{
-									"name":        "Pistachio",
-									"description": "desciption 1",
+							State: IState{
+								EdgeKinds: map[string]IEdges{
+									"Next": {
+										Edges: [][]string{
+											{"Pistachio ID"},
+										},
+									},
+								},
+							},
+						},
+						"Pistachio ID": {
+							State: IState{
+								Database: map[string]IStateNamePartTree{
+									"name": {
+										State: IState{
+											Variable: "Pistachio",
+										},
+									},
+									"sizes": {
+										State: IState{
+											EdgeKinds: map[string]IEdges{
+												"Next": {
+													Edges: [][]string{
+														{"id of sizes state"},
+													},
+												},
+											},
+										},
+									},
 								},
 							},
 						},
