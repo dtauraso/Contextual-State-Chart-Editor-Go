@@ -274,15 +274,11 @@ var StateTree = map[string]IStateNamePartTree{
 						"names": {
 							NPT: map[string]IStateNamePartTree{
 								"Pistachio": {
-									NPT: map[string]IStateNamePartTree{
-										"drink": {
-											State: IState{
-												EdgeKinds: map[string]IEdges{
-													"Next": {
-														Edges: [][]string{
-															{"Pistachio", "drink"},
-														},
-													},
+									State: IState{
+										EdgeKinds: map[string]IEdges{
+											"Next": {
+												Edges: [][]string{
+													{"Pistachio ID"},
 												},
 											},
 										},
@@ -343,6 +339,7 @@ var StateTree = map[string]IStateNamePartTree{
 								},
 							},
 						},
+						"prices": {},
 						"options": {
 							DataTable: IDatabase{
 								Array: []any{
