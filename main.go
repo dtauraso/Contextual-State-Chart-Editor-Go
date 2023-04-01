@@ -27,6 +27,8 @@ func TestState(state x.IState) {
 	fmt.Println(state)
 }
 
+// IEEE_Software_Design_2PC.pdf
+// IEEE Software Blog_ Your Local Coffee Shop Performs Resource Scaling.pdf
 // The Render method is where the component appearance is defined. Here, a
 // "Hello World!" is displayed as a heading.
 func (h *hello) Render() app.UI {

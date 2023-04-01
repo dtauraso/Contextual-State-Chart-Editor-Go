@@ -6,8 +6,8 @@ import (
 )
 
 type IStateNamePartTree struct {
-	NamePartTree map[string]IStateNamePartTree
-	State        IState
+	NPT   map[string]IStateNamePartTree
+	State IState
 }
 
 type IState struct {
@@ -28,7 +28,7 @@ type IEdges struct {
 }
 
 var Customer = IStateNamePartTree{
-	NamePartTree: map[string]IStateNamePartTree{
+	NPT: map[string]IStateNamePartTree{
 		"Cashier": {
 			State: IState{
 				FunctionCode: u.ReturnTrue,
@@ -96,6 +96,55 @@ var Customer = IStateNamePartTree{
 	},
 }
 
+var Cashier = IStateNamePartTree{
+	State: IState{
+		FunctionCode: u.ReturnTrue,
+		EdgeKinds: map[string]IEdges{
+			"StartChildren": {
+				Edges: [][]string{
+					{"Take order", "from customer"},
+				},
+				AreParallel: true,
+			},
+		},
+		HaveStartChildren: true,
+		Children: map[string]IStateNamePartTree{
+			"Take order": {
+				NPT: map[string]IStateNamePartTree{
+					"from customer": {
+						State: IState{
+							FunctionCode: u.ReturnTrue,
+							EdgeKinds: map[string]IEdges{
+								"Next": {
+									Edges: [][]string{
+										{"Compute Price"},
+									},
+									AreParallel: false,
+								},
+							},
+							HaveStartChildren:   false,
+							LockedByStates:      map[string]bool{"Place order": true},
+							LockedByStatesCount: 1,
+						},
+					}},
+			},
+			"Compute Price": {
+				State: IState{
+					FunctionCode: u.ReturnTrue,
+					EdgeKinds: map[string]IEdges{
+						"Next": {
+							Edges: [][]string{
+								{"Compute change"},
+							},
+							AreParallel: true,
+						},
+					},
+					HaveStartChildren: false,
+				},
+			},
+		},
+	},
+}
 var StateTree = Customer
 
 func Test(input string) string {
