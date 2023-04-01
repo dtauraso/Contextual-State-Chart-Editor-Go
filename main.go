@@ -46,7 +46,7 @@ func main() {
 	// fmt.Println(x.StateTree.State)
 	fmt.Println(u.GetFunctionName(u.ReturnTrue), u.GetFunctionName(u.ReturnTrue) == "ReturnTrue")
 	fmt.Println(u.GetType(x.StateTree), u.GetType(x.StateTree) == "IStateNamePart")
-	fmt.Println(x.StateTree.State.Variables["test"])
+	// fmt.Println(x.StateTree.State.Variables["test"])
 	// fmt.Println(x.StateTree.State)
 	// fmt.Println(x.StateTree.FunctionCode("I pass"))
 	// fmt.Println(x.StateTree.State.FunctionCode("I pass again"))

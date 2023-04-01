@@ -6,8 +6,9 @@ import (
 )
 
 type IStateNamePartTree struct {
-	NPT   map[string]IStateNamePartTree
-	State IState
+	NPT      map[string]IStateNamePartTree
+	State    IState
+	Datatree Database
 }
 
 type IState struct {
@@ -18,10 +19,13 @@ type IState struct {
 	Variables           map[string]any
 	LockedByStates      map[string]bool
 	LockedByStatesCount int
-	Array               []any
-	Map                 map[string]any
+	Database            map[string]IStateNamePartTree
 }
 
+type Database struct {
+	Array []any
+	Map   map[string]any
+}
 type IEdges struct {
 	Edges       [][]string
 	AreParallel bool
@@ -142,10 +146,174 @@ var Cashier = IStateNamePartTree{
 					HaveStartChildren: false,
 				},
 			},
+			"Compute change": {
+				State: IState{
+					FunctionCode: u.ReturnTrue,
+					EdgeKinds: map[string]IEdges{
+						"Next": {
+							Edges: [][]string{
+								{"No change"},
+							},
+							AreParallel: false,
+						},
+					},
+					HaveStartChildren:   false,
+					LockedByStates:      map[string]bool{"Dig up money": true},
+					LockedByStatesCount: 1,
+				},
+			},
+			"No change": {
+				State: IState{
+					FunctionCode: u.ReturnTrue,
+				},
+			},
+		},
+		Variables: map[string]any{
+			"currentOrder": 23456,
+			"price":        0,
 		},
 	},
 }
-var StateTree = Customer
+
+var Barista = IStateNamePartTree{
+	State: IState{
+		FunctionCode: u.ReturnTrue,
+		EdgeKinds: map[string]IEdges{
+			"StartChildren": {
+				Edges: [][]string{
+					{"Make drink"},
+				},
+				AreParallel: true,
+			},
+		},
+		HaveStartChildren: true,
+		Children: map[string]IStateNamePartTree{
+			"Make drink": {
+				State: IState{
+					FunctionCode: u.ReturnTrue,
+					EdgeKinds: map[string]IEdges{
+						"Next": {
+							Edges: [][]string{
+								{"Output buffer"},
+							},
+							AreParallel: false,
+						},
+					},
+					HaveStartChildren: false,
+				},
+			},
+			"Output buffer": {
+				State: IState{
+					FunctionCode: u.ReturnTrue,
+					EdgeKinds: map[string]IEdges{
+						"Next": {
+							Edges: [][]string{},
+						},
+					},
+					HaveStartChildren: false,
+				},
+			},
+		},
+	},
+}
+var StateTree = map[string]IStateNamePartTree{
+	"machine": {
+		NPT: map[string]IStateNamePartTree{
+			"StarbucksMachine": {
+				State: IState{
+					FunctionCode: u.ReturnTrue,
+					EdgeKinds: map[string]IEdges{
+						"StartChildren": {
+							Edges: [][]string{
+								{"Register"},
+								{"Barista"},
+							},
+							AreParallel: true,
+						},
+					},
+					HaveStartChildren: true,
+					Children: map[string]IStateNamePartTree{
+						"Register": {
+							State: IState{
+								FunctionCode: u.ReturnTrue,
+								EdgeKinds: map[string]IEdges{
+									"StartChildren": {
+										Edges: [][]string{
+											{"Customer", "Cashier"},
+											{"Cashier"},
+										},
+										AreParallel: true,
+									},
+									"Next": {
+										Edges: [][]string{
+											{"Customer", "Barista"},
+										},
+										AreParallel: false,
+									},
+								},
+								HaveStartChildren: true,
+								Children: map[string]IStateNamePartTree{
+									"Customer": Customer,
+									"Cashier":  Cashier,
+								},
+								Variables: map[string]any{
+									"drinkPrice": 0,
+									"change":     0,
+								},
+							},
+						},
+						"Barista": Barista,
+					},
+					Variables: map[string]any{
+						"orderQueue":   []string{},
+						"drinkOrder":   []string{},
+						"outputBuffer": []string{},
+					},
+					Database: map[string]IStateNamePartTree{
+						"names": {
+							NPT: map[string]IStateNamePartTree{
+								"Pistachio": {
+									NPT: map[string]IStateNamePartTree{
+										"drink": {
+											State: IState{
+												EdgeKinds: map[string]IEdges{
+													"Next": {
+														Edges: [][]string{
+															{"Pistachio", "drink"},
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+								"Dark Caramel Sauce": {
+									NPT: map[string]IStateNamePartTree{
+										"flavor": {
+											NPT: map[string]IStateNamePartTree{
+												"Sauces": {
+													State: IState{
+														EdgeKinds: map[string]IEdges{
+															"Next": {
+																Edges: [][]string{
+																	{"Dark Caramel Sauce", "flavor", "Sauces"},
+																},
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	},
+}
 
 func Test(input string) string {
 	return input
