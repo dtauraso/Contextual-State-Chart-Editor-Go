@@ -8,7 +8,7 @@ import (
 type IStateNamePartTree struct {
 	NPT      map[string]IStateNamePartTree
 	State    IState
-	Datatree Database
+	Datatree IDatabase
 }
 
 type IState struct {
@@ -22,7 +22,7 @@ type IState struct {
 	Database            map[string]IStateNamePartTree
 }
 
-type Database struct {
+type IDatabase struct {
 	Array []any
 	Map   map[string]any
 }
@@ -305,6 +305,99 @@ var StateTree = map[string]IStateNamePartTree{
 											},
 										},
 									},
+								},
+								"size": {
+									NPT: map[string]IStateNamePartTree{
+										"options": {
+											State: IState{
+												EdgeKinds: map[string]IEdges{
+													"Next": {
+														Edges: [][]string{
+															{"size", "options"},
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+								"Chocolate Cream Cold Foam": {
+									NPT: map[string]IStateNamePartTree{
+										"toppings": {
+											NPT: map[string]IStateNamePartTree{
+												"cold foam": {
+													State: IState{
+														EdgeKinds: map[string]IEdges{
+															"Next": {
+																Edges: [][]string{
+																	{"Chocolate Cream Cold Foam", "toppings", "cold foam"},
+																},
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+						"options": {
+							Datatree: IDatabase{
+								Array: []any{
+									"size",
+									"flavors",
+									"toppings",
+								},
+							},
+						},
+						"sizes": {
+							Datatree: IDatabase{
+								Map: map[string]any{
+									"large":  1,
+									"grande": 1,
+									"vente":  1,
+								},
+							},
+						},
+						"flavors": {
+							NPT: map[string]IStateNamePartTree{
+								"Sauces": {
+									Datatree: IDatabase{
+										Array: []any{
+											"Dark Caramel Sauce",
+											"Mocha Sauce",
+										},
+									},
+								},
+								"syrups": {
+									Datatree: IDatabase{
+										Array: []any{
+											"Brown Sugar Syrup",
+											"Caramel Syrup",
+										},
+									},
+								},
+							},
+						},
+						"toppings": {
+							NPT: map[string]IStateNamePartTree{
+								"cold foam": {
+									Datatree: IDatabase{
+										Map: map[string]any{
+											"value":    "Chocolate Cream Cold Foam",
+											"servings": 5,
+											"price":    1,
+										},
+									},
+								},
+							},
+						},
+						"drinks": {
+							Datatree: IDatabase{
+								Map: map[string]any{
+									"name":        "Pistachio",
+									"description": "desciption 1",
 								},
 							},
 						},

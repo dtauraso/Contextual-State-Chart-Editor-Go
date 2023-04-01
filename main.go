@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"reflect"
 
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	u "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Utility"
@@ -45,7 +46,7 @@ func main() {
 	// fmt.Println(x.StateTree.NamePart)
 	// fmt.Println(x.StateTree.State)
 	fmt.Println(u.GetFunctionName(u.ReturnTrue), u.GetFunctionName(u.ReturnTrue) == "ReturnTrue")
-	fmt.Println(u.GetType(x.StateTree), u.GetType(x.StateTree) == "IStateNamePart")
+	fmt.Println(reflect.TypeOf(x.StateTree), reflect.TypeOf(x.StateTree).String() == "map[string]StarbucksTree.IStateNamePartTree")
 	// fmt.Println(x.StateTree.State.Variables["test"])
 	// fmt.Println(x.StateTree.State)
 	// fmt.Println(x.StateTree.FunctionCode("I pass"))
