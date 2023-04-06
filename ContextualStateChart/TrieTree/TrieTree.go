@@ -33,12 +33,11 @@ func InsertName(input InsertNameParameters) []NamesTrie {
 		nextNameID, ok := namesTrie[namesTracker].NamePartTree[namePart]
 
 		if !ok {
-
 			namesTrie = append(namesTrie, NamesTrie{stateID: -1})
 			nextNameID = len(namesTrie) - 1
 
 			if namesTrie[namesTracker].NamePartTree == nil {
-				namesTrie[namesTracker] = NamesTrie{NamePartTree: map[string]int{namePart: nextNameID}, stateID: namesTrie[namesTracker].stateID}
+				namesTrie[namesTracker].NamePartTree = map[string]int{namePart: nextNameID}
 
 			} else {
 				namesTrie[namesTracker].NamePartTree[namePart] = nextNameID
