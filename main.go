@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"reflect"
 
+	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart/TrieTree"
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
-	u "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Utility"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
-	f "github.com/sa-/slicefunk"
 )
 
 // hello is a component that displays a simple "Hello World!". A component is a
@@ -45,37 +43,47 @@ func main() {
 	// fmt.Println(x.StateTree)
 	// fmt.Println(x.StateTree.NamePart)
 	// fmt.Println(x.StateTree.State)
-	fmt.Println(u.GetFunctionName(u.ReturnTrue), u.GetFunctionName(u.ReturnTrue) == "ReturnTrue")
-	fmt.Println(reflect.TypeOf(x.StateTree), reflect.TypeOf(x.StateTree).String() == "map[string]StarbucksTree.IStateNamePartTree")
+	// fmt.Println(u.GetFunctionName(u.ReturnTrue), u.GetFunctionName(u.ReturnTrue) == "ReturnTrue")
+	// fmt.Println(reflect.TypeOf(x.StateTree), reflect.TypeOf(x.StateTree).String() == "map[string]StarbucksTree.IStateNamePartTree")
 	// fmt.Println(x.StateTree.State.Variables["test"])
 	// fmt.Println(x.StateTree.State)
 	// fmt.Println(x.StateTree.FunctionCode("I pass"))
 	// fmt.Println(x.StateTree.State.FunctionCode("I pass again"))
-	test := x.IState{FunctionCode: u.ReturnTrue, Variables: map[string]any{"test": x.IState{FunctionCode: u.ReturnTrue, EdgeKinds: nil}}} // fmt.Println(test.INamePart)
+	// test := x.IState{FunctionCode: u.ReturnTrue, Variables: map[string]any{"test": x.IState{FunctionCode: u.ReturnTrue, EdgeKinds: nil}}} // fmt.Println(test.INamePart)
 	// fmt.Println(test.FunctionCode("I pass again 2"))
-	fmt.Println(test)
-	fmt.Println(test.Variables["test"])
+	// fmt.Println(test)
+	// fmt.Println(test.Variables["test"])
+
+	namesTrie := []t.NamesTrie{}
+	namesTrie = t.InsertName(t.InsertNameParameters{NamesTrie: namesTrie, Name: []string{"test"}, StateID: 0})
+	fmt.Println(namesTrie)
+	namesTrie = t.InsertName(t.InsertNameParameters{NamesTrie: namesTrie, Name: []string{"test", "test2"}, StateID: 1})
+	fmt.Println(namesTrie)
+	namesTrie = t.InsertName(t.InsertNameParameters{NamesTrie: namesTrie, Name: []string{"test", "test2", "test3"}, StateID: 2})
+	fmt.Println(namesTrie)
+	namesTrie = t.InsertName(t.InsertNameParameters{NamesTrie: namesTrie, Name: []string{"testx", "test2", "test3"}, StateID: 3})
+	fmt.Println(namesTrie)
 
 	// fmt.Println(test.State.FunctionCode("I pass again 3"))
 	// TestState(test)
 	// TestState(*test.IState)
 
-	original := []int{1, 2, 3, 4, 5}
-	newArray := f.Map(original, func(item int) int { return item + 1 })
-	newArray = f.Map(newArray, func(item int) int { return item * 3 })
-	newArray = f.Filter(newArray, func(item int) bool { return item%2 == 0 })
-	fmt.Println(newArray)
+	// original := []int{1, 2, 3, 4, 5}
+	// newArray := f.Map(original, func(item int) int { return item + 1 })
+	// newArray = f.Map(newArray, func(item int) int { return item * 3 })
+	// newArray = f.Filter(newArray, func(item int) bool { return item%2 == 0 })
+	// fmt.Println(newArray)
 
-	people := []person{
-		{"test", 5},
-		{"test again", 20},
-	}
-	newPeople := f.Map(people, func(aPerson person) person { return person{aPerson.name, aPerson.age + 2} })
-	fmt.Println(people)
-	fmt.Println(newPeople)
+	// people := []person{
+	// 	{"test", 5},
+	// 	{"test again", 20},
+	// }
+	// newPeople := f.Map(people, func(aPerson person) person { return person{aPerson.name, aPerson.age + 2} })
+	// fmt.Println(people)
+	// fmt.Println(newPeople)
 
-	fmt.Print("\n")
-	fmt.Print(x.StateTree)
+	// fmt.Print("\n")
+	// fmt.Print(x.StateTree)
 
 	// The first thing to do is to associate the hello component with a path.
 	//
