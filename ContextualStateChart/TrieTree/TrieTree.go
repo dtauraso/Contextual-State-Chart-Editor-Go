@@ -2,7 +2,7 @@ package TrieTree
 
 type NamesTrie struct {
 	NamePartTree map[string]int `json:"NextNamePartTree"`
-	stateID      int            `json:"StateID",omitempty`
+	StateID      int            `json:"StateID",omitempty`
 }
 type InsertNameParameters struct {
 	NamesTrie []NamesTrie
@@ -21,11 +21,12 @@ func InsertName(input InsertNameParameters) []NamesTrie {
 	if len(namesTrie) == 0 {
 		namePart := name[0]
 
-		namesTrie = append(namesTrie, NamesTrie{NamePartTree: map[string]int{namePart: 1}, stateID: stateID})
-		namesTrie = append(namesTrie, NamesTrie{stateID: -1})
+		namesTrie = append(namesTrie, NamesTrie{NamePartTree: map[string]int{namePart: 1}, StateID: stateID})
+		namesTrie = append(namesTrie, NamesTrie{StateID: -1})
 
 		return namesTrie
 	}
+
 	namesTracker := 0
 
 	for i := 0; i < len(name); i++ {
@@ -33,7 +34,7 @@ func InsertName(input InsertNameParameters) []NamesTrie {
 		nextNameID, ok := namesTrie[namesTracker].NamePartTree[namePart]
 
 		if !ok {
-			namesTrie = append(namesTrie, NamesTrie{stateID: -1})
+			namesTrie = append(namesTrie, NamesTrie{StateID: -1})
 			nextNameID = len(namesTrie) - 1
 
 			if namesTrie[namesTracker].NamePartTree == nil {
@@ -47,8 +48,8 @@ func InsertName(input InsertNameParameters) []NamesTrie {
 	}
 
 	// if item is new
-	if namesTrie[namesTracker].stateID == -1 {
-		namesTrie[namesTracker].stateID = stateID
+	if namesTrie[namesTracker].StateID == -1 {
+		namesTrie[namesTracker].StateID = stateID
 	}
 	return namesTrie
 
