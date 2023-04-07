@@ -63,6 +63,13 @@ func main() {
 	fmt.Println(namesTrie)
 	namesTrie = t.InsertName(t.InsertNameParameters{NamesTrie: namesTrie, Name: []string{"testx", "test2", "test3"}, StateID: 3})
 	fmt.Println(namesTrie)
+	// state tree for base cardinal directions
+	// state tree for base dimentions of shapes (1d)
+	// expected output from trie tree from test inputs (lines: [58, 64])
+	// expected output of trie tree from the starbucks tree
+	// expected output of array of states from starbucks tree after init conversion
+	// expected output of states run (async and non async) and variable changes
+	// github.com/nsf/jsondiff
 
 	// fmt.Println(test.State.FunctionCode("I pass again 3"))
 	// TestState(test)
