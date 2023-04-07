@@ -65,6 +65,8 @@ func main() {
 	fmt.Println(namesTrie)
 	// state tree for base cardinal directions
 	// state tree for base dimentions of shapes (1d)
+	// window slide for grouping substates having common superstate
+	// read sequence, group, make new states and state graph from input sequence
 	// expected output from trie tree from test inputs (lines: [58, 64])
 	// expected output of trie tree from the starbucks tree
 	// expected output of array of states from starbucks tree after init conversion
