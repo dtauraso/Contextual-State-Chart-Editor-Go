@@ -1,2 +1,16 @@
 GUI
 https://github.com/fyne-io/fyne
+
+state tree for base cardinal directions.
+state tree for base dimentions of shapes (1d) 1 color.
+state machine for detecting edge.
+at least 1 nearby(1 unit) square is different from current square.
+if tracker 1 can visit all shape squares without finding tracker 2 while tracker 2 doesn't move.
+tracker 1 is using a different shape than tracker 2.
+window slide for grouping substates having common superstate.
+read sequence, group, make new states and state graph from input sequence.
+retry matching partially constructed graph with the next input.
+if the first nodeName matches the next item in input keep matching till entire partial graph matches the input.
+if first matches but doesn't get all the way through the graph it's a new path(starts with first match and ends at first mismatch) added onto the end.
+
+github.com/nsf/jsondiff
