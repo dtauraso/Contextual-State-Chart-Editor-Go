@@ -63,17 +63,17 @@ func main() {
 	fmt.Println(namesTrie)
 	namesTrie = t.InsertName(t.InsertNameParameters{NamesTrie: namesTrie, Name: []string{"testx", "test2", "test3"}, StateID: 3})
 	fmt.Println(namesTrie)
-	// state tree for base cardinal directions
-	// state tree for base dimentions of shapes (1d) 1 color
-	// state machine for detecting edge
+	// state tree for base cardinal directions.
+	// state tree for base dimentions of shapes (1d) 1 color.
+	// state machine for detecting edge.
 	// at least 1 nearby(1 unit) square is different from current square.
-	// if tracker 1 can visit all shape squares without finding tracker 2 while tracker 2 doesn't move
-	// tracker 1 is using a different shape than tracker 2
-	// window slide for grouping substates having common superstate
-	// read sequence, group, make new states and state graph from input sequence
-	// retry matching partially constructed graph with the next input
-	// if the first nodeName matches the next item in input keep matching till entire partial graph matches the input
-	// if first matches but doesn't get all the way through the graph it's a new path(starts with first match and ends at first mismatch) added onto the end
+	// if tracker 1 can visit all shape squares without finding tracker 2 while tracker 2 doesn't move.
+	// tracker 1 is using a different shape than tracker 2.
+	// window slide for grouping substates having common superstate.
+	// read sequence, group, make new states and state graph from input sequence.
+	// retry matching partially constructed graph with the next input.
+	// if the first nodeName matches the next item in input keep matching till entire partial graph matches the input.
+	// if first matches but doesn't get all the way through the graph it's a new path(starts with first match and ends at first mismatch) added onto the end.
 	// expected output from trie tree from test inputs (lines: [58, 64])
 	// expected output of trie tree from the starbucks tree
 	// expected output of array of states from starbucks tree after init conversion
