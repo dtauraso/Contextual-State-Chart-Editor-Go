@@ -67,6 +67,8 @@ func main() {
 	// state tree for base dimentions of shapes (1d) 1 color
 	// state machine for detecting edge
 	// at least 1 nearby(1 unit) square is different from current square.
+	// make both trackers erase 1 data point and compare each shape sequence with it's version with erased data
+	// the shape sequence with only 1 tracker point erased is a separate shape sequence.
 	// window slide for grouping substates having common superstate
 	// read sequence, group, make new states and state graph from input sequence
 	// retry matching partially constructed graph with the next input
