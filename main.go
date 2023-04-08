@@ -67,6 +67,9 @@ func main() {
 	// state tree for base dimentions of shapes (1d)
 	// window slide for grouping substates having common superstate
 	// read sequence, group, make new states and state graph from input sequence
+	// retry matching partially constructed graph with the next input
+	// if the first nodeName matches the next item in input keep matching till entire partial graph matches the input
+	// if first matches but doesn't get all the way through the graph it's a new path(starts with first match and ends at first mismatch) added onto the end
 	// expected output from trie tree from test inputs (lines: [58, 64])
 	// expected output of trie tree from the starbucks tree
 	// expected output of array of states from starbucks tree after init conversion
