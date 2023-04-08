@@ -64,7 +64,9 @@ func main() {
 	namesTrie = t.InsertName(t.InsertNameParameters{NamesTrie: namesTrie, Name: []string{"testx", "test2", "test3"}, StateID: 3})
 	fmt.Println(namesTrie)
 	// state tree for base cardinal directions
-	// state tree for base dimentions of shapes (1d)
+	// state tree for base dimentions of shapes (1d) 1 color
+	// state machine for detecting edge
+	// at least 1 nearby(1 unit) square is different from current square.
 	// window slide for grouping substates having common superstate
 	// read sequence, group, make new states and state graph from input sequence
 	// retry matching partially constructed graph with the next input
