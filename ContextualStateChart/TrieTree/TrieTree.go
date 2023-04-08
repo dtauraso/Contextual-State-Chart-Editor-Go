@@ -5,14 +5,15 @@ type NamesTrie struct {
 	StateID      int            `json:"StateID",omitempty`
 }
 type InsertNameParameters struct {
-	NamesTrie []NamesTrie
-	Name      []string
-	StateID   int
+	Name    []string
+	StateID int
 }
 
-func InsertName(input InsertNameParameters) []NamesTrie {
+type TrieTree []NamesTrie
+
+func (trieTree TrieTree) InsertName(input InsertNameParameters) TrieTree {
 	name := input.Name
-	namesTrie := input.NamesTrie
+	namesTrie := trieTree
 	stateID := input.StateID
 
 	if len(name) == 0 {

@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart/TrieTree"
+	tt "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart/TrieTree"
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
@@ -54,15 +54,17 @@ func main() {
 	// fmt.Println(test)
 	// fmt.Println(test.Variables["test"])
 
-	namesTrie := []t.NamesTrie{}
-	namesTrie = t.InsertName(t.InsertNameParameters{NamesTrie: namesTrie, Name: []string{"test"}, StateID: 0})
+	namesTrie := tt.TrieTree{}
+	namesTrie = tt.TrieTree.
+		InsertName(namesTrie, tt.InsertNameParameters{Name: []string{"test"}, StateID: 0}).
+		InsertName(tt.InsertNameParameters{Name: []string{"test", "test2"}, StateID: 1}).
+		InsertName(tt.InsertNameParameters{Name: []string{"test", "test2", "test3"}, StateID: 2}).
+		InsertName(tt.InsertNameParameters{Name: []string{"testx", "test2", "test3"}, StateID: 3})
 	fmt.Println(namesTrie)
-	namesTrie = t.InsertName(t.InsertNameParameters{NamesTrie: namesTrie, Name: []string{"test", "test2"}, StateID: 1})
-	fmt.Println(namesTrie)
-	namesTrie = t.InsertName(t.InsertNameParameters{NamesTrie: namesTrie, Name: []string{"test", "test2", "test3"}, StateID: 2})
-	fmt.Println(namesTrie)
-	namesTrie = t.InsertName(t.InsertNameParameters{NamesTrie: namesTrie, Name: []string{"testx", "test2", "test3"}, StateID: 3})
-	fmt.Println(namesTrie)
+
+	// TrieTree.search([]string{"test"}) = 0
+	// TrieTree.search([]string{"test", "test2"}) = 1
+
 	// expected output from trie tree from test inputs (lines: [58, 64])
 	// expected output of trie tree from the starbucks tree
 	// expected output of array of states from starbucks tree after init conversion
