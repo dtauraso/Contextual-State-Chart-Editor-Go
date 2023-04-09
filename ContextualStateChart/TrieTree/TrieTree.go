@@ -11,13 +11,13 @@ type InsertNameParameters struct {
 
 type TrieTree []NamesTrie
 
-func (trieTree TrieTree) InsertName(input InsertNameParameters) TrieTree {
+func (trieTree TrieTree) InsertName(input InsertNameParameters) int {
 	name := input.Name
 	namesTrie := trieTree
 	stateID := input.StateID
 
 	if len(name) == 0 {
-		return namesTrie
+		return -1
 	}
 	if len(namesTrie) == 0 {
 		namePart := name[0]
@@ -25,7 +25,7 @@ func (trieTree TrieTree) InsertName(input InsertNameParameters) TrieTree {
 		namesTrie = append(namesTrie, NamesTrie{NamePartTree: map[string]int{namePart: 1}, StateID: stateID})
 		namesTrie = append(namesTrie, NamesTrie{StateID: -1})
 
-		return namesTrie
+		return stateID
 	}
 
 	namesTracker := 0
@@ -52,6 +52,6 @@ func (trieTree TrieTree) InsertName(input InsertNameParameters) TrieTree {
 	if namesTrie[namesTracker].StateID == -1 {
 		namesTrie[namesTracker].StateID = stateID
 	}
-	return namesTrie
+	return stateID
 
 }

@@ -4,3 +4,6 @@ build:
 
 run: build
 	./contextual-state-chart-editor-go
+
+testTT:
+	go test -C ContextualStateChart/TrieTree
