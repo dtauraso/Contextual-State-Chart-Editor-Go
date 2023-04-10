@@ -67,6 +67,31 @@ func TestTrieTree(t *testing.T) {
 
 		})
 	}
+
+	fmt.Println("Test Search Input")
+	searchInputTestParameters := []SearchGotWant{
+		{got: []string{"test"}, want: "true"},
+		{got: []string{"test", "test"}, want: "false"},
+		{got: []string{"test", "test2"}, want: "true"},
+		{got: []string{"test", "test2", "test3"}, want: "true"},
+		{got: []string{"testx", "test2", "test3"}, want: "true"},
+		{got: []string{"testx", "test1", "test3"}, want: "false"},
+	}
+
+	for i := 0; i < len(searchInputTestParameters); i++ {
+
+		got := searchInputTestParameters[i].got
+
+		want := searchInputTestParameters[i].want
+
+		t.Run(fmt.Sprintf("Search [%s] -> %s", strings.Join(got, " "), want), func(t *testing.T) {
+
+			isThere := namesTrie.SearchInput(got)
+			gotMarshaled, _ := json.Marshal(isThere)
+			assertCorrectMessage(t, string(gotMarshaled), want)
+
+		})
+	}
 }
 
 func assertCorrectMessage(t testing.TB, got, want string) {

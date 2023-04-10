@@ -72,3 +72,7 @@ func (trieTree TrieTree) Search(input []string) int {
 	}
 	return trieTree[namesTracker].StateID
 }
+
+func (trieTree TrieTree) SearchInput(input []string) bool {
+	return trieTree.Search(input) > -1
+}
