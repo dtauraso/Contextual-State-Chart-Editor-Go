@@ -21,8 +21,8 @@ func (trieTree TrieTree) Insert(input InputParameters) TrieTree {
 	if len(trieTree) == 0 {
 		namePart := name[0]
 
-		trieTree = append(trieTree, NamesTrie{NamePartTree: map[string]int{namePart: 1}, StateID: stateID})
-		trieTree = append(trieTree, NamesTrie{StateID: -1})
+		trieTree = append(trieTree, NamesTrie{NamePartTree: map[string]int{namePart: 1}, StateID: -1})
+		trieTree = append(trieTree, NamesTrie{StateID: stateID})
 
 		return trieTree
 	}
@@ -56,7 +56,19 @@ func (trieTree TrieTree) Insert(input InputParameters) TrieTree {
 
 }
 
-func (trieTree TrieTree) Search(input []string) TrieTree {
+func (trieTree TrieTree) Search(input []string) int {
 
-	return TrieTree{}
+	if len(input) == 0 {
+		return -1
+	}
+	namesTracker := 0
+	for i := 0; i < len(input); i++ {
+		namePart := input[i]
+		nextNameID, ok := trieTree[namesTracker].NamePartTree[namePart]
+		if !ok {
+			return -2
+		}
+		namesTracker = nextNameID
+	}
+	return trieTree[namesTracker].StateID
 }
