@@ -1,6 +1,10 @@
 GUI
 https://github.com/fyne-io/fyne
 
+enums
+https://www.sohamkamani.com/golang/enums/
+https://www.sohamkamani.com/golang/iota/
+
 state tree for base cardinal directions.
 state tree for base dimentions of shapes (1d) 1 color.
 state machine for detecting edge.
