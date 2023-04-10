@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
@@ -43,6 +44,8 @@ type myCompo struct {
 	Data   []string
 }
 
+var myTest = "test pass 3"
+
 // func (c *myCompo) Render() app.UI {
 // 	return app.Div().Text(c.Number)
 // }
@@ -50,19 +53,27 @@ type myCompo struct {
 func (c *myCompo) customTrigger(ctx app.Context, e app.Event) {
 	c.Number = rand.Intn(42)
 	if c.Number < 30 {
-		c.Data = []string{
-			"test 1",
-			"test 2",
-			"test 3",
-			"test 4",
-		}
+		myTest = "test 2"
 	} else {
 		c.Data = []string{
 			"test x 1",
 			"test x 2",
 		}
 	}
+	// fo, err := os.Create("output.txt")
+	// if err != nil {
+	// 	panic(err)
+	// }
 
+	// defer func() {
+	// 	if err := fo.Close(); err != nil {
+	// 		panic(err)
+	// 	}
+	// }()
+	// err1 := os.WriteFile("output.txt", []byte("test"), 0644)
+	// if err1 != nil {
+	// 	panic(err1)
+	// }
 	c.Update() // Manual updated trigger
 }
 
@@ -168,7 +179,14 @@ func main() {
 	// configured to handle requests with a path that starts with "/".
 	http.Handle("/", &app.Handler{
 		Name:        "Hello",
-		Description: "An Hello World! example",
+		Description: "An Hello World! example222",
+	})
+	http.HandleFunc("/test", func(http.ResponseWriter, *http.Request) {
+		err1 := os.WriteFile("ContextualStateChart/TrieTree/output.txt", []byte(myTest), 0644)
+		if err1 != nil {
+			panic(err1)
+		}
+
 	})
 
 	if err := http.ListenAndServe(":3000", nil); err != nil {

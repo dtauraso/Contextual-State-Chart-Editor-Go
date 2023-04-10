@@ -3,6 +3,7 @@ package TrieTree
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 	"testing"
 )
@@ -92,6 +93,11 @@ func TestTrieTree(t *testing.T) {
 
 		})
 	}
+	err1 := os.WriteFile("output.txt", []byte("test"), 0644)
+	if err1 != nil {
+		panic(err1)
+	}
+
 }
 
 func assertCorrectMessage(t testing.TB, got, want string) {
