@@ -44,7 +44,7 @@ type myCompo struct {
 	Data   []string
 }
 
-var myTest = "test pass 3"
+var myTest = "test pass 4"
 
 // func (c *myCompo) Render() app.UI {
 // 	return app.Div().Text(c.Number)
@@ -87,6 +87,8 @@ func (c *myCompo) x() app.UI {
 func (c *myCompo) Render() app.UI {
 	return app.Div().Body(
 		app.P().Text(c.Number),
+		app.P().Text(myTest),
+
 		c.x(),
 	).OnClick(c.customTrigger)
 }
