@@ -4,14 +4,14 @@ type NamesTrie struct {
 	NamePartTree map[string]int `json:"NextNamePartTree"`
 	StateID      int            `json:"StateID",omitempty`
 }
-type InsertParameters struct {
+type InputParameters struct {
 	Name    []string
 	StateID int
 }
 
 type TrieTree []NamesTrie
 
-func (trieTree TrieTree) Insert(input InsertParameters) TrieTree {
+func (trieTree TrieTree) Insert(input InputParameters) TrieTree {
 	name := input.Name
 	namesTrie := trieTree
 	stateID := input.StateID
@@ -55,4 +55,8 @@ func (trieTree TrieTree) Insert(input InsertParameters) TrieTree {
 
 	return namesTrie
 
+}
+
+func (trieTree TrieTree) Search(input InputParameters) TrieTree {
+	return TrieTree{}
 }
