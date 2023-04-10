@@ -8,17 +8,18 @@ import (
 )
 
 type GotWant struct {
-	got  InsertNameParameters
+	got  InsertParameters
 	want string
 }
 
 func TestTrieTree(t *testing.T) {
 
+	fmt.Println("Test Insert")
 	testParameters := []GotWant{
-		{got: InsertNameParameters{Name: []string{"test"}, StateID: 0}, want: "[{\"NextNamePartTree\":{\"test\":1},\"StateID\":0},{\"NextNamePartTree\":null,\"StateID\":-1}]"},
-		{got: InsertNameParameters{Name: []string{"test", "test2"}, StateID: 1}, want: "[{\"NextNamePartTree\":{\"test\":1},\"StateID\":0},{\"NextNamePartTree\":{\"test2\":2},\"StateID\":-1},{\"NextNamePartTree\":null,\"StateID\":1}]"},
-		{got: InsertNameParameters{Name: []string{"test", "test2", "test3"}, StateID: 2}, want: "[{\"NextNamePartTree\":{\"test\":1},\"StateID\":0},{\"NextNamePartTree\":{\"test2\":2},\"StateID\":-1},{\"NextNamePartTree\":{\"test3\":3},\"StateID\":1},{\"NextNamePartTree\":null,\"StateID\":2}]"},
-		{got: InsertNameParameters{Name: []string{"testx", "test2", "test3"}, StateID: 3}, want: "[{\"NextNamePartTree\":{\"test\":1,\"testx\":4},\"StateID\":0},{\"NextNamePartTree\":{\"test2\":2},\"StateID\":-1},{\"NextNamePartTree\":{\"test3\":3},\"StateID\":1},{\"NextNamePartTree\":null,\"StateID\":2},{\"NextNamePartTree\":{\"test2\":5},\"StateID\":-1},{\"NextNamePartTree\":{\"test3\":6},\"StateID\":-1},{\"NextNamePartTree\":null,\"StateID\":3}]"},
+		{got: InsertParameters{Name: []string{"test"}, StateID: 0}, want: "[{\"NextNamePartTree\":{\"test\":1},\"StateID\":0},{\"NextNamePartTree\":null,\"StateID\":-1}]"},
+		{got: InsertParameters{Name: []string{"test", "test2"}, StateID: 1}, want: "[{\"NextNamePartTree\":{\"test\":1},\"StateID\":0},{\"NextNamePartTree\":{\"test2\":2},\"StateID\":-1},{\"NextNamePartTree\":null,\"StateID\":1}]"},
+		{got: InsertParameters{Name: []string{"test", "test2", "test3"}, StateID: 2}, want: "[{\"NextNamePartTree\":{\"test\":1},\"StateID\":0},{\"NextNamePartTree\":{\"test2\":2},\"StateID\":-1},{\"NextNamePartTree\":{\"test3\":3},\"StateID\":1},{\"NextNamePartTree\":null,\"StateID\":2}]"},
+		{got: InsertParameters{Name: []string{"testx", "test2", "test3"}, StateID: 3}, want: "[{\"NextNamePartTree\":{\"test\":1,\"testx\":4},\"StateID\":0},{\"NextNamePartTree\":{\"test2\":2},\"StateID\":-1},{\"NextNamePartTree\":{\"test3\":3},\"StateID\":1},{\"NextNamePartTree\":null,\"StateID\":2},{\"NextNamePartTree\":{\"test2\":5},\"StateID\":-1},{\"NextNamePartTree\":{\"test3\":6},\"StateID\":-1},{\"NextNamePartTree\":null,\"StateID\":3}]"},
 	}
 	namesTrie := TrieTree{}
 
@@ -31,7 +32,7 @@ func TestTrieTree(t *testing.T) {
 
 		t.Run(fmt.Sprintf("insert [%s] -> %d", strings.Join(name, " "), stateID), func(t *testing.T) {
 
-			namesTrie = namesTrie.InsertName(InsertNameParameters{Name: name, StateID: stateID})
+			namesTrie = namesTrie.Insert(InsertParameters{Name: name, StateID: stateID})
 			got, _ := json.Marshal(namesTrie)
 
 			assertCorrectMessage(t, string(got), want)

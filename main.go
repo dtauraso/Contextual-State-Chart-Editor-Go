@@ -55,10 +55,10 @@ func main() {
 
 	// namesTrie := tt.TrieTree{}
 	// namesTrie = tt.TrieTree.
-	// 	InsertName(namesTrie, tt.InsertNameParameters{Name: []string{"test"}, StateID: 0}).
-	// 	InsertName(tt.InsertNameParameters{Name: []string{"test", "test2"}, StateID: 1}).
-	// 	InsertName(tt.InsertNameParameters{Name: []string{"test", "test2", "test3"}, StateID: 2}).
-	// 	InsertName(tt.InsertNameParameters{Name: []string{"testx", "test2", "test3"}, StateID: 3})
+	// 	Insert(namesTrie, tt.InsertParameters{Name: []string{"test"}, StateID: 0}).
+	// 	Insert(tt.InsertParameters{Name: []string{"test", "test2"}, StateID: 1}).
+	// 	Insert(tt.InsertParameters{Name: []string{"test", "test2", "test3"}, StateID: 2}).
+	// 	Insert(tt.InsertParameters{Name: []string{"testx", "test2", "test3"}, StateID: 3})
 	// fmt.Println(namesTrie)
 
 	// TrieTree.search([]string{"test"}) = 0
