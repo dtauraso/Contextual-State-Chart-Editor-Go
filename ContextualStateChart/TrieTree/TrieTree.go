@@ -57,6 +57,6 @@ func (trieTree TrieTree) Insert(input InputParameters) TrieTree {
 
 }
 
-func (trieTree TrieTree) Search(input InputParameters) TrieTree {
+func (trieTree TrieTree) Search(input []string) TrieTree {
 	return TrieTree{}
 }
