@@ -14,6 +14,7 @@ type IStateNamePartTree struct {
 type IState struct {
 	FunctionCode        func(csc.Graph) bool
 	EdgeKinds           map[string]IEdges
+	Parents             []string
 	Children            map[string]IStateNamePartTree
 	HaveStartChildren   bool
 	Variable            any

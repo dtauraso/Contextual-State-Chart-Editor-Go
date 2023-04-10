@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
@@ -29,8 +30,58 @@ func TestState(state x.IState) {
 // IEEE Software Blog_ Your Local Coffee Shop Performs Resource Scaling.pdf
 // The Render method is where the component appearance is defined. Here, a
 // "Hello World!" is displayed as a heading.
-func (h *hello) Render() app.UI {
-	return app.H1().Text("Hello World!!")
+// func (h *hello) Render() app.UI {
+// 	return app.Div().Body(
+// 		app.H1().Text("Hello World!!"),
+// 		app.H1().Text("Hello World2!!"))
+
+// }
+type myCompo struct {
+	app.Compo
+
+	Number int
+	Data   []string
+}
+
+// func (c *myCompo) Render() app.UI {
+// 	return app.Div().Text(c.Number)
+// }
+
+func (c *myCompo) customTrigger(ctx app.Context, e app.Event) {
+	c.Number = rand.Intn(42)
+	if c.Number < 30 {
+		c.Data = []string{
+			"test 1",
+			"test 2",
+			"test 3",
+			"test 4",
+		}
+	} else {
+		c.Data = []string{
+			"test x 1",
+			"test x 2",
+		}
+	}
+
+	c.Update() // Manual updated trigger
+}
+
+func (c *myCompo) x() app.UI {
+	return app.Ul().Body(
+		app.Range(c.Data).Slice(func(i int) app.UI {
+			return app.Li().Text(c.Data[i])
+		}),
+	)
+}
+func (c *myCompo) Render() app.UI {
+	return app.Div().Body(
+		app.P().Text(c.Number),
+		c.x(),
+	).OnClick(c.customTrigger)
+}
+
+func (c *myCompo) onClick(ctx app.Context, e app.Event) {
+	fmt.Println("onClick is called")
 }
 
 // The main function is the entry point where the app is configured and started.
@@ -55,10 +106,10 @@ func main() {
 
 	// namesTrie := tt.TrieTree{}
 	// namesTrie = tt.TrieTree.
-	// 	Insert(namesTrie, tt.InputParameters{Name: []string{"test"}, StateID: 0}).
-	// 	Insert(tt.InputParameters{Name: []string{"test", "test2"}, StateID: 1}).
-	// 	Insert(tt.InputParameters{Name: []string{"test", "test2", "test3"}, StateID: 2}).
-	// 	Insert(tt.InputParameters{Name: []string{"testx", "test2", "test3"}, StateID: 3})
+	// 	Insert(namesTrie, tt.InsertParameters{Name: []string{"test"}, StateID: 0}).
+	// 	Insert(tt.InsertParameters{Name: []string{"test", "test2"}, StateID: 1}).
+	// 	Insert(tt.InsertParameters{Name: []string{"test", "test2", "test3"}, StateID: 2}).
+	// 	Insert(tt.InsertParameters{Name: []string{"testx", "test2", "test3"}, StateID: 3})
 	// fmt.Println(namesTrie)
 
 	// TrieTree.search([]string{"test"}) = 0
@@ -94,7 +145,7 @@ func main() {
 	//
 	// This is done by calling the Route() function,  which tells go-app what
 	// component to display for a given path, on both client and server-side.
-	app.Route("/", &hello{})
+	app.Route("/", &myCompo{})
 
 	// Once the routes set up, the next thing to do is to either launch the app
 	// or the server that serves the app.
