@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"os"
 
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
@@ -44,7 +45,7 @@ type myCompo struct {
 	Data   []string
 }
 
-var myTest = "test pass 4"
+var myTest = "test post pass"
 
 // func (c *myCompo) Render() app.UI {
 // 	return app.Div().Text(c.Number)
@@ -74,6 +75,7 @@ func (c *myCompo) customTrigger(ctx app.Context, e app.Event) {
 	// if err1 != nil {
 	// 	panic(err1)
 	// }
+	http.PostForm("/test", url.Values{"key": {"value"}, "test": {myTest}})
 	c.Update() // Manual updated trigger
 }
 
@@ -183,13 +185,16 @@ func main() {
 		Name:        "Hello",
 		Description: "An Hello World! example222",
 	})
-	http.HandleFunc("/test", func(http.ResponseWriter, *http.Request) {
-		err1 := os.WriteFile("ContextualStateChart/TrieTree/output.txt", []byte(myTest), 0644)
+	// not using client updated version of myTest
+	http.HandleFunc("/test", func(rw http.ResponseWriter, r *http.Request) {
+		x := r.FormValue("test")
+		err1 := os.WriteFile("ContextualStateChart/TrieTree/output.txt", []byte(x), 0644)
 		if err1 != nil {
 			panic(err1)
 		}
 
 	})
+	// http.Post()
 
 	if err := http.ListenAndServe(":3000", nil); err != nil {
 		log.Fatal(err)
