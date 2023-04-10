@@ -55,16 +55,16 @@ func TestTrieTree(t *testing.T) {
 
 	for i := 0; i < len(searchTestParameters); i++ {
 
-		name := searchTestParameters[i].got
+		got := searchTestParameters[i].got
 
 		want := searchTestParameters[i].want
 
-		t.Run(fmt.Sprintf("Search [%s] -> %s", strings.Join(name, " "), want), func(t *testing.T) {
+		t.Run(fmt.Sprintf("Search [%s] -> %s", strings.Join(got, " "), want), func(t *testing.T) {
 
-			namesTrie = namesTrie.Search(name)
-			got, _ := json.Marshal(namesTrie)
+			namesTrie = namesTrie.Search(got)
+			gotMarshaled, _ := json.Marshal(namesTrie)
 
-			assertCorrectMessage(t, string(got), want)
+			assertCorrectMessage(t, string(gotMarshaled), want)
 
 		})
 	}
