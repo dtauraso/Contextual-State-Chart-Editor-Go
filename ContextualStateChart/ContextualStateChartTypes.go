@@ -4,8 +4,8 @@ type Graph struct {
 }
 
 type Value struct {
-	IntValue    int    `json:"intValue,omitempty"`
-	StringValue string `json:"stringValue,omitempty"`
+	IntValue    int    `json:"IntValue,omitempty"`
+	StringValue string `json:"StringValue,omitempty"`
 }
 
 type Edges struct {
