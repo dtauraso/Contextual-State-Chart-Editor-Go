@@ -6,6 +6,7 @@ type Graph struct {
 type Value struct {
 	IntValue    int    `json:"IntValue,omitempty"`
 	StringValue string `json:"StringValue,omitempty"`
+	TypeName    string `json:"TypeName"`
 }
 
 type Edges struct {
