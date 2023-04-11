@@ -7,6 +7,14 @@ type Value struct {
 	IntValue    int    `json:"intValue,omitempty"`
 	StringValue string `json:"stringValue,omitempty"`
 }
+
+type Edges struct {
+	Edges       [][]string
+	AreParallel bool
+}
+
+// Parents: NDParentStateName -> ID
+// MapValues: 1D string -> ID
 type State struct {
 	ID                  int              `json:"ID"`
 	Name                []string         `json:"name"`
@@ -18,14 +26,6 @@ type State struct {
 	Value               Value            `json:"Value,omitempty"`
 	ArrayValues         []int            `json:"arrayValues,omitempty"`
 	MapValues           map[string]int   `json:"mapValues,omitempty"`
-	LockedByStates      map[string]bool  `json:"LockedByStates,omitempty"`
+	LockedByStates      map[int]bool     `json:"LockedByStates,omitempty"`
 	LockedByStatesCount int              `json:"LockedByStatesCount,omitempty"`
-}
-type Edges struct {
-	Edges       [][]string
-	AreParallel bool
-}
-type IDatabase struct {
-	Array []any
-	Map   map[string]any
 }
