@@ -13,46 +13,31 @@ Children
             {"Sip coffee"}
         AreParallel: true
     
-    "Dig up money": {
-        State: IState{
-            FunctionCode: u.ReturnTrue,
-            EdgeKinds: map[string]IEdges{
-                "Next": {
-                    Edges: [][]string{
-                        {"Put away change"},
-                    },
-                    AreParallel: true,
-                },
-            },
-            HaveStartChildren:   false,
-            LockedByStates:      map[string]bool{"Compute Price": true},
-            LockedByStatesCount: 1,
-        },
-    },
-    "Put away change": {
-        State: IState{
-            FunctionCode:        u.ReturnTrue,
-            LockedByStates:      map[string]bool{"Compute change": true},
-            LockedByStatesCount: 1,
-        },
-    },
-    "Sip coffee": {
-        State: IState{
-            FunctionCode:        u.ReturnTrue,
-            LockedByStates:      map[string]bool{"Output buffer": true},
-            LockedByStatesCount: 1,
-        },
-    },
-},
-Variables: map[string]any{"drink": "frap choco"},
-}},
-"Barista": {
-State: IState{
-FunctionCode: u.ReturnTrue,
-},
-},
-},
-}
+    Name: "Dig up money"
+    FunctionCode: ReturnTrue,
+    Next
+        Edges:
+            {"Put away change"}
+        AreParallel: true
+    LockedByStates:      {"Compute Price": true}
+    LockedByStatesCount: 1
+
+    Name: "Put away change"
+    FunctionCode:        ReturnTrue
+    LockedByStates:      {"Compute change": true}
+    LockedByStatesCount: 1
+
+    Name: "Sip coffee"
+    FunctionCode:        ReturnTrue
+    LockedByStates:      {"Output buffer": true}
+    LockedByStatesCount: 1
+
+
+Variables: {"drink": "frap choco"}
+
+Name: "Barista"
+FunctionCode: ReturnTrue
+
 
 var Cashier = IStateNamePartTree{
 State: IState{
