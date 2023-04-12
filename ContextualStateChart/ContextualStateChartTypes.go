@@ -4,6 +4,7 @@ type Graph struct {
 }
 
 type Value struct {
+	BoolValue   bool   `json:"BoolValue,omitempty"`
 	IntValue    int    `json:"IntValue,omitempty"`
 	StringValue string `json:"StringValue,omitempty"`
 	TypeName    string `json:"TypeName"`
@@ -35,7 +36,7 @@ type State struct {
 	Parents             map[string]int   `json:"Parents,omitempty"`
 	StartChildren       []int            `json:"StartChildren,omitempty"`
 	HaveStartChildren   bool             `json:"HaveStartChildren,omitempty"`
-	Value               Value            `json:"Value,omitempty"`
+	Value               *Value           `json:"Value,omitempty"`
 	ArrayValues         []int            `json:"ArrayValues,omitempty"`
 	MapValues           map[string]int   `json:"MapValues,omitempty"`
 	LockedByStates      map[int]bool     `json:"LockedByStates,omitempty"`
