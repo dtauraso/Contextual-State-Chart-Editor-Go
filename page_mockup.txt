@@ -1,5 +1,5 @@
 
-Name: "Cashier"
+Name: "Customer|Cashier"
 FunctionCode: ReturnTrue
 StartChildren
     Edges:       {"Place order"}
@@ -39,321 +39,134 @@ Name: "Barista"
 FunctionCode: ReturnTrue
 
 
-var Cashier = IStateNamePartTree{
-State: IState{
-FunctionCode: u.ReturnTrue,
-EdgeKinds: map[string]IEdges{
-"StartChildren": {
-Edges: [][]string{
-    {"Take order", "from customer"},
-},
-AreParallel: true,
-},
-},
-HaveStartChildren: true,
-Children: map[string]IStateNamePartTree{
-"Take order": {
-NPT: map[string]IStateNamePartTree{
-    "from customer": {
-        State: IState{
-            FunctionCode: u.ReturnTrue,
-            EdgeKinds: map[string]IEdges{
-                "Next": {
-                    Edges: [][]string{
-                        {"Compute Price"},
-                    },
-                    AreParallel: false,
-                },
-            },
-            HaveStartChildren:   false,
-            LockedByStates:      map[string]bool{"Place order": true},
-            LockedByStatesCount: 1,
-        },
-    }},
-},
-"Compute Price": {
-State: IState{
-    FunctionCode: u.ReturnTrue,
-    EdgeKinds: map[string]IEdges{
-        "Next": {
-            Edges: [][]string{
-                {"Compute change"},
-            },
-            AreParallel: true,
-        },
-    },
-    HaveStartChildren: false,
-},
-},
-"Compute change": {
-State: IState{
-    FunctionCode: u.ReturnTrue,
-    EdgeKinds: map[string]IEdges{
-        "Next": {
-            Edges: [][]string{
-                {"No change"},
-            },
-            AreParallel: false,
-        },
-    },
-    HaveStartChildren:   false,
-    LockedByStates:      map[string]bool{"Dig up money": true},
-    LockedByStatesCount: 1,
-},
-},
-"No change": {
-State: IState{
-    FunctionCode: u.ReturnTrue,
-},
-},
-},
-Variables: map[string]any{
-"currentOrder": 23456,
-"price":        0,
-},
-},
-}
+Name: "Cashier"
+FunctionCode: ReturnTrue,
+StartChildren
+    Edges
+        {"Take order", "from customer"}
+    AreParallel: true,
+Children
+    Name: "Take order|from customer"
+    FunctionCode: ReturnTrue,
+    Next
+        Edges
+            {"Compute Price"}
+        AreParallel: false
+    LockedByStates:      {"Place order": true}
+    LockedByStatesCount: 1
 
-var Barista = IStateNamePartTree{
-State: IState{
-FunctionCode: u.ReturnTrue,
-EdgeKinds: map[string]IEdges{
-"StartChildren": {
-Edges: [][]string{
+    Name: "Compute Price"
+    FunctionCode: ReturnTrue,
+    Next
+        Edges
+            {"Compute change"}
+            AreParallel: true
+
+    Name: "Compute change"
+    FunctionCode: ReturnTrue,
+    Next
+        Edges
+            {"No change"}
+        AreParallel: false
+    LockedByStates:      {"Dig up money": true}
+    LockedByStatesCount: 1
+
+    Name: "No change"
+    FunctionCode: ReturnTrue
+
+Variables:
+    "currentOrder": 23456
+    "price":        0
+
+Name: Barista
+FunctionCode: ReturnTrue
+StartChildren
     {"Make drink"},
-},
-AreParallel: true,
-},
-},
-HaveStartChildren: true,
-Children: map[string]IStateNamePartTree{
-"Make drink": {
-State: IState{
-    FunctionCode: u.ReturnTrue,
-    EdgeKinds: map[string]IEdges{
-        "Next": {
-            Edges: [][]string{
-                {"Output buffer"},
-            },
-            AreParallel: false,
-        },
-    },
-    HaveStartChildren: false,
-},
-},
-"Output buffer": {
-State: IState{
-    FunctionCode: u.ReturnTrue,
-    EdgeKinds: map[string]IEdges{
-        "Next": {
-            Edges: [][]string{},
-        },
-    },
-    HaveStartChildren: false,
-},
-},
-},
-},
-}
-var StateTree = map[string]IStateNamePartTree{
-"machine": {
-NPT: map[string]IStateNamePartTree{
-"StarbucksMachine": {
-State: IState{
-    FunctionCode: u.ReturnTrue,
-    EdgeKinds: map[string]IEdges{
-        "StartChildren": {
-            Edges: [][]string{
-                {"Register"},
-                {"Barista"},
-            },
+    AreParallel: true,
+Children:
+    Name: "Make drink"
+    FunctionCode: ReturnTrue,
+    Next:
+        {"Output buffer"},
+        AreParallel: false,
+
+    Name: "Output buffer"
+    FunctionCode: ReturnTrue,
+Name: "machine|StarbucksMachine"
+FunctionCode: ReturnTrue,
+StartChildren
+    Edges
+        {"Register"},
+        {"Barista"},
+    AreParallel: true,
+Children:
+    Name: "Register"
+    FunctionCode: ReturnTrue,
+    StartChildren
+        Edges
+            {"Customer", "Cashier"},
+            {"Cashier"},
             AreParallel: true,
-        },
-    },
-    HaveStartChildren: true,
-    Children: map[string]IStateNamePartTree{
-        "Register": {
-            State: IState{
-                FunctionCode: u.ReturnTrue,
-                EdgeKinds: map[string]IEdges{
-                    "StartChildren": {
-                        Edges: [][]string{
-                            {"Customer", "Cashier"},
-                            {"Cashier"},
-                        },
-                        AreParallel: true,
-                    },
-                    "Next": {
-                        Edges: [][]string{
-                            {"Customer", "Barista"},
-                        },
-                        AreParallel: false,
-                    },
-                },
-                HaveStartChildren: true,
-                Children: map[string]IStateNamePartTree{
-                    "Customer": Customer,
-                    "Cashier":  Cashier,
-                },
-                Variables: map[string]any{
-                    "drinkPrice": 0,
-                    "change":     0,
-                },
-            },
-        },
-        "Barista": Barista,
-    },
-    Variables: map[string]any{
-        "orderQueue":   []string{},
-        "drinkOrder":   []string{},
-        "outputBuffer": []string{},
-    },
-    Database: map[string]IStateNamePartTree{
-        "names": {
+    Next
+        Edges
+            {"Customer", "Barista"},
+            AreParallel: false,
+ 
+    Children:
+        "Customer"
+        "Cashier"
+    Variables:
+        "drinkPrice": 0
+        "change":     0
+
+    "Barista"
+
+Variables:
+    "orderQueue":   []string{}
+    "drinkOrder":   []string{}
+    "outputBuffer": []string{}
+
+Database
+    Name: "names"
+    MapValues
+        Name: "Pistachio"
+            Next
+                {"Pistachio ID"},
+
+        Name: "Dark Caramel Sauce"
+        MapValues
+            Name: "flavor"
+                MapValues
+                    "Sauces"
+                        Next
+                            {"Dark Caramel Sauce", "flavor", "Sauces"},
+
+        "size": {
             NPT: map[string]IStateNamePartTree{
-                "Pistachio": {
+                "options": {
                     State: IState{
                         EdgeKinds: map[string]IEdges{
                             "Next": {
                                 Edges: [][]string{
-                                    {"Pistachio ID"},
+                                    {"size", "options"},
                                 },
                             },
                         },
                     },
                 },
-                "Dark Caramel Sauce": {
+            },
+        },
+        "Chocolate Cream Cold Foam": {
+            NPT: map[string]IStateNamePartTree{
+                "toppings": {
                     NPT: map[string]IStateNamePartTree{
-                        "flavor": {
-                            NPT: map[string]IStateNamePartTree{
-                                "Sauces": {
-                                    State: IState{
-                                        EdgeKinds: map[string]IEdges{
-                                            "Next": {
-                                                Edges: [][]string{
-                                                    {"Dark Caramel Sauce", "flavor", "Sauces"},
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-                "size": {
-                    NPT: map[string]IStateNamePartTree{
-                        "options": {
+                        "cold foam": {
                             State: IState{
                                 EdgeKinds: map[string]IEdges{
                                     "Next": {
                                         Edges: [][]string{
-                                            {"size", "options"},
+                                            {"Chocolate Cream Cold Foam", "toppings", "cold foam"},
                                         },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-                "Chocolate Cream Cold Foam": {
-                    NPT: map[string]IStateNamePartTree{
-                        "toppings": {
-                            NPT: map[string]IStateNamePartTree{
-                                "cold foam": {
-                                    State: IState{
-                                        EdgeKinds: map[string]IEdges{
-                                            "Next": {
-                                                Edges: [][]string{
-                                                    {"Chocolate Cream Cold Foam", "toppings", "cold foam"},
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        },
-        "prices": {},
-        "options": {
-            DataTable: IDatabase{
-                Array: []any{
-                    "size",
-                    "flavors",
-                    "toppings",
-                },
-            },
-        },
-        "sizes": {
-            DataTable: IDatabase{
-                Map: map[string]any{
-                    "large":  3,
-                    "grande": 2,
-                    "vente":  0,
-                },
-            },
-        },
-        "flavors": {
-            NPT: map[string]IStateNamePartTree{
-                "Sauces": {
-                    DataTable: IDatabase{
-                        Array: []any{
-                            "Dark Caramel Sauce",
-                            "Mocha Sauce",
-                        },
-                    },
-                },
-                "syrups": {
-                    DataTable: IDatabase{
-                        Array: []any{
-                            "Brown Sugar Syrup",
-                            "Caramel Syrup",
-                        },
-                    },
-                },
-            },
-        },
-        "toppings": {
-            NPT: map[string]IStateNamePartTree{
-                "cold foam": {
-                    DataTable: IDatabase{
-                        Map: map[string]any{
-                            "value":    "Chocolate Cream Cold Foam",
-                            "servings": 5,
-                            "price":    1,
-                        },
-                    },
-                },
-            },
-        },
-        "drinks": {
-            State: IState{
-                EdgeKinds: map[string]IEdges{
-                    "Next": {
-                        Edges: [][]string{
-                            {"Pistachio ID"},
-                        },
-                    },
-                },
-            },
-        },
-        "Pistachio ID": {
-            State: IState{
-                Database: map[string]IStateNamePartTree{
-                    "name": {
-                        State: IState{
-                            Variable: "Pistachio",
-                        },
-                    },
-                    "sizes": {
-                        State: IState{
-                            EdgeKinds: map[string]IEdges{
-                                "Next": {
-                                    Edges: [][]string{
-                                        {"id of sizes state"},
                                     },
                                 },
                             },
@@ -363,6 +176,93 @@ State: IState{
             },
         },
     },
+},
+    "prices": {},
+    "options": {
+        DataTable: IDatabase{
+            Array: []any{
+                "size",
+                "flavors",
+                "toppings",
+            },
+        },
+    },
+    "sizes": {
+        DataTable: IDatabase{
+            Map: map[string]any{
+                "large":  3,
+                "grande": 2,
+                "vente":  0,
+            },
+        },
+    },
+    "flavors": {
+        NPT: map[string]IStateNamePartTree{
+            "Sauces": {
+                DataTable: IDatabase{
+                    Array: []any{
+                        "Dark Caramel Sauce",
+                        "Mocha Sauce",
+                    },
+                },
+            },
+            "syrups": {
+                DataTable: IDatabase{
+                    Array: []any{
+                        "Brown Sugar Syrup",
+                        "Caramel Syrup",
+                    },
+                },
+            },
+        },
+    },
+    "toppings": {
+        NPT: map[string]IStateNamePartTree{
+            "cold foam": {
+                DataTable: IDatabase{
+                    Map: map[string]any{
+                        "value":    "Chocolate Cream Cold Foam",
+                        "servings": 5,
+                        "price":    1,
+                    },
+                },
+            },
+        },
+    },
+    "drinks": {
+        State: IState{
+            EdgeKinds: map[string]IEdges{
+                "Next": {
+                    Edges: [][]string{
+                        {"Pistachio ID"},
+                    },
+                },
+            },
+        },
+    },
+    "Pistachio ID": {
+        State: IState{
+            Database: map[string]IStateNamePartTree{
+                "name": {
+                    State: IState{
+                        Variable: "Pistachio",
+                    },
+                },
+                "sizes": {
+                    State: IState{
+                        EdgeKinds: map[string]IEdges{
+                            "Next": {
+                                Edges: [][]string{
+                                    {"id of sizes state"},
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+},
 
 
 
