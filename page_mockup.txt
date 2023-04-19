@@ -33,7 +33,7 @@ Children
     LockedByStatesCount: 1
 
 
-Variables: {"drink": "frap choco"}
+ArrayValues: {"drink": "frap choco"}
 
 Name: "Barista"
 FunctionCode: ReturnTrue
@@ -74,7 +74,7 @@ Children
     Name: "No change"
     FunctionCode: ReturnTrue
 
-Variables:
+ArrayValues:
     "currentOrder": 23456
     "price":        0
 
@@ -115,120 +115,78 @@ Children:
     Children:
         "Customer"
         "Cashier"
-    Variables:
+    ArrayValues:
         "drinkPrice": 0
         "change":     0
 
     "Barista"
 
-Variables:
+MapValues:
     "orderQueue":   []string{}
     "drinkOrder":   []string{}
     "outputBuffer": []string{}
 
-Database
+Name: "machine"
+MapValues
     Name: "names"
     MapValues
         Name: "Pistachio"
             Next
                 {"Pistachio ID"},
 
-        Name: "Dark Caramel Sauce"
+        "Dark Caramel Sauce"
         MapValues
             Name: "flavor"
                 MapValues
-                    "Sauces"
+                    Name: "Sauces"
                         Next
                             {"Dark Caramel Sauce", "flavor", "Sauces"},
 
-        "size": {
-            NPT: map[string]IStateNamePartTree{
-                "options": {
-                    State: IState{
-                        EdgeKinds: map[string]IEdges{
-                            "Next": {
-                                Edges: [][]string{
-                                    {"size", "options"},
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        },
-        "Chocolate Cream Cold Foam": {
-            NPT: map[string]IStateNamePartTree{
-                "toppings": {
-                    NPT: map[string]IStateNamePartTree{
-                        "cold foam": {
-                            State: IState{
-                                EdgeKinds: map[string]IEdges{
-                                    "Next": {
-                                        Edges: [][]string{
-                                            {"Chocolate Cream Cold Foam", "toppings", "cold foam"},
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        },
-    },
-},
-    "prices": {},
-    "options": {
-        DataTable: IDatabase{
-            Array: []any{
-                "size",
-                "flavors",
-                "toppings",
-            },
-        },
-    },
-    "sizes": {
-        DataTable: IDatabase{
-            Map: map[string]any{
-                "large":  3,
-                "grande": 2,
-                "vente":  0,
-            },
-        },
-    },
-    "flavors": {
-        NPT: map[string]IStateNamePartTree{
-            "Sauces": {
-                DataTable: IDatabase{
-                    Array: []any{
-                        "Dark Caramel Sauce",
-                        "Mocha Sauce",
-                    },
-                },
-            },
-            "syrups": {
-                DataTable: IDatabase{
-                    Array: []any{
-                        "Brown Sugar Syrup",
-                        "Caramel Syrup",
-                    },
-                },
-            },
-        },
-    },
-    "toppings": {
-        NPT: map[string]IStateNamePartTree{
-            "cold foam": {
-                DataTable: IDatabase{
-                    Map: map[string]any{
-                        "value":    "Chocolate Cream Cold Foam",
-                        "servings": 5,
-                        "price":    1,
-                    },
-                },
-            },
-        },
-    },
+        Name: "size"
+        MapValues
+            "options"
+                Next
+                    {"size", "options"},
+
+        Name: "Chocolate Cream Cold Foam"
+        MapValues
+            Name: "toppings"
+                MapValues
+                    Name: "cold foam": {
+                        Next
+                                {"Chocolate Cream Cold Foam", "toppings", "cold foam"},
+                                       
+    Name: "options"
+        ArrayValues
+            {"size",
+            "flavors",
+            "toppings"}
+
+    Name: "sizes"
+        MapValues
+            "large":  3,
+            "grande": 2,
+            "vente":  0,
+
+    Name: "flavors"
+    MapValues
+        Name: "Sauces"
+            ArrayValues
+                "Dark Caramel Sauce",
+                "Mocha Sauce",
+
+        Name: "syrups"
+            ArrayValues
+                "Brown Sugar Syrup",
+                "Caramel Syrup",
+
+    Name: "toppings"
+    MapValues
+        "cold foam": {
+            MapValues
+                    "value":    "Chocolate Cream Cold Foam",
+                    "servings": 5,
+                    "price":    1,
     "drinks": {
         State: IState{
             EdgeKinds: map[string]IEdges{
