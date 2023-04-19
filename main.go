@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"math/rand"
@@ -75,7 +76,9 @@ func (c *myCompo) customTrigger(ctx app.Context, e app.Event) {
 	// if err1 != nil {
 	// 	panic(err1)
 	// }
-	http.PostForm("/test", url.Values{"key": {"value"}, "test": {myTest}})
+	output := url.Values{"key": {"value"}, "test": {myTest}}
+	output.Add("id", "0")
+	http.PostForm("/test", output)
 	c.Update() // Manual updated trigger
 }
 
@@ -187,8 +190,15 @@ func main() {
 	})
 	// not using client updated version of myTest
 	http.HandleFunc("/test", func(rw http.ResponseWriter, r *http.Request) {
+		var output = map[string]string{}
 		x := r.FormValue("test")
-		err1 := os.WriteFile("ContextualStateChart/TrieTree/output.txt", []byte(x), 0644)
+		output["test"] = x
+		output["id"] = r.FormValue("id")
+		binaryOutput, err := json.Marshal(output)
+		if err != nil {
+			panic(err)
+		}
+		err1 := os.WriteFile("ContextualStateChart/TrieTree/output.txt", []byte(binaryOutput), 0644)
 		if err1 != nil {
 			panic(err1)
 		}
