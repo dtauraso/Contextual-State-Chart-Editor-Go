@@ -1,97 +1,3 @@
-
-Name: "Customer|Cashier"
-FunctionCode: ReturnTrue
-StartChildren
-    Edges:       {"Place order"}
-    AreParallel: false
-Children
-    Name: "Place order"
-    FunctionCode: ReturnTrue,
-    Next
-        Edges
-            {"Dig up money"}
-            {"Sip coffee"}
-        AreParallel: true
-    
-    Name: "Dig up money"
-    FunctionCode: ReturnTrue,
-    Next
-        Edges:
-            {"Put away change"}
-        AreParallel: true
-    LockedByStates:      {"Compute Price": true}
-    LockedByStatesCount: 1
-
-    Name: "Put away change"
-    FunctionCode:        ReturnTrue
-    LockedByStates:      {"Compute change": true}
-    LockedByStatesCount: 1
-
-    Name: "Sip coffee"
-    FunctionCode:        ReturnTrue
-    LockedByStates:      {"Output buffer": true}
-    LockedByStatesCount: 1
-
-
-ArrayValues: {"drink": "frap choco"}
-
-Name: "Barista"
-FunctionCode: ReturnTrue
-
-
-Name: "Cashier"
-FunctionCode: ReturnTrue,
-StartChildren
-    Edges
-        {"Take order", "from customer"}
-    AreParallel: true,
-Children
-    Name: "Take order|from customer"
-    FunctionCode: ReturnTrue,
-    Next
-        Edges
-            {"Compute Price"}
-        AreParallel: false
-    LockedByStates:      {"Place order": true}
-    LockedByStatesCount: 1
-
-    Name: "Compute Price"
-    FunctionCode: ReturnTrue,
-    Next
-        Edges
-            {"Compute change"}
-            AreParallel: true
-
-    Name: "Compute change"
-    FunctionCode: ReturnTrue,
-    Next
-        Edges
-            {"No change"}
-        AreParallel: false
-    LockedByStates:      {"Dig up money": true}
-    LockedByStatesCount: 1
-
-    Name: "No change"
-    FunctionCode: ReturnTrue
-
-ArrayValues:
-    "currentOrder": 23456
-    "price":        0
-
-Name: Barista
-FunctionCode: ReturnTrue
-StartChildren
-    {"Make drink"},
-    AreParallel: true,
-Children:
-    Name: "Make drink"
-    FunctionCode: ReturnTrue,
-    Next:
-        {"Output buffer"},
-        AreParallel: false,
-
-    Name: "Output buffer"
-    FunctionCode: ReturnTrue,
 Name: "machine|StarbucksMachine"
 FunctionCode: ReturnTrue,
 StartChildren
@@ -113,13 +19,102 @@ Children:
             AreParallel: false,
  
     Children:
-        "Customer"
-        "Cashier"
+        Name: "Customer|Cashier"
+        FunctionCode: ReturnTrue
+        StartChildren
+            Edges:       {"Place order"}
+            AreParallel: false
+        Children
+            Name: "Place order"
+            FunctionCode: ReturnTrue,
+            Next
+                Edges
+                    {"Dig up money"}
+                    {"Sip coffee"}
+                AreParallel: true
+            
+            Name: "Dig up money"
+            FunctionCode: ReturnTrue,
+            Next
+                Edges:
+                    {"Put away change"}
+                AreParallel: true
+            LockedByStates:      {"Compute Price": true}
+            LockedByStatesCount: 1
+
+            Name: "Put away change"
+            FunctionCode:        ReturnTrue
+            LockedByStates:      {"Compute change": true}
+            LockedByStatesCount: 1
+
+            Name: "Sip coffee"
+            FunctionCode:        ReturnTrue
+            LockedByStates:      {"Output buffer": true}
+            LockedByStatesCount: 1
+
+
+        ArrayValues: {"drink": "frap choco"}
+
+        Name: "Customer|Barista"
+        FunctionCode: ReturnTrue
+        
+        Name: "Cashier"
+        FunctionCode: ReturnTrue,
+        StartChildren
+            Edges
+                {"Take order", "from customer"}
+            AreParallel: true,
+        Children
+            Name: "Take order|from customer"
+            FunctionCode: ReturnTrue,
+            Next
+                Edges
+                    {"Compute Price"}
+                AreParallel: false
+            LockedByStates:      {"Place order": true}
+            LockedByStatesCount: 1
+
+            Name: "Compute Price"
+            FunctionCode: ReturnTrue,
+            Next
+                Edges
+                    {"Compute change"}
+                    AreParallel: true
+
+            Name: "Compute change"
+            FunctionCode: ReturnTrue,
+            Next
+                Edges
+                    {"No change"}
+                AreParallel: false
+            LockedByStates:      {"Dig up money": true}
+            LockedByStatesCount: 1
+
+            Name: "No change"
+            FunctionCode: ReturnTrue
+
+        ArrayValues:
+            "currentOrder": 23456
+            "price":        0
+
     ArrayValues:
         "drinkPrice": 0
         "change":     0
 
-    "Barista"
+    Name: Barista
+    FunctionCode: ReturnTrue
+    StartChildren
+        {"Make drink"},
+        AreParallel: true,
+    Children:
+        Name: "Make drink"
+        FunctionCode: ReturnTrue,
+        Next:
+            {"Output buffer"},
+            AreParallel: false,
+
+        Name: "Output buffer"
+        FunctionCode: ReturnTrue,
 
 MapValues:
     "orderQueue":   []string{}
