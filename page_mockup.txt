@@ -126,30 +126,30 @@ MapValues
     Name: "names"
     MapValues
         Name: "Pistachio"
-            Next
-                {"Pistachio ID"},
+        Next
+            {"Pistachio ID"},
 
         "Dark Caramel Sauce"
         MapValues
             Name: "flavor"
                 MapValues
                     Name: "Sauces"
-                        Next
-                            {"Dark Caramel Sauce", "flavor", "Sauces"},
+                    Next
+                        {"Dark Caramel Sauce", "flavor", "Sauces"},
 
         Name: "size"
         MapValues
-            "options"
-                Next
-                    {"size", "options"},
+            Name: "options"
+            Next
+                {"size", "options"},
 
         Name: "Chocolate Cream Cold Foam"
         MapValues
             Name: "toppings"
                 MapValues
-                    Name: "cold foam": {
-                        Next
-                                {"Chocolate Cream Cold Foam", "toppings", "cold foam"},
+                    Name: "cold foam"
+                    Next
+                        {"Chocolate Cream Cold Foam", "toppings", "cold foam"},
                                        
     Name: "options"
         ArrayValues
