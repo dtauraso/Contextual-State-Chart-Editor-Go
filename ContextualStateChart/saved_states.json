@@ -1,0 +1,193 @@
+Name: "machine|StarbucksMachine"
+FunctionCode: ReturnTrue,
+StartChildren
+    Edges
+        {"Register"},
+        {"Barista"},
+    AreParallel: true,
+Children:
+    Name: "Register"
+    FunctionCode: ReturnTrue,
+    StartChildren
+        Edges
+            {"Customer", "Cashier"},
+            {"Cashier"},
+            AreParallel: true,
+    Next
+        Edges
+            {"Customer", "Barista"},
+            AreParallel: false,
+ 
+    Children:
+        Name: "Customer|Cashier"
+        FunctionCode: ReturnTrue
+        StartChildren
+            Edges:       {"Place order"}
+            AreParallel: false
+        Children
+            Name: "Place order"
+            FunctionCode: ReturnTrue,
+            Next
+                Edges
+                    {"Dig up money"}
+                    {"Sip coffee"}
+                AreParallel: true
+            
+            Name: "Dig up money"
+            FunctionCode: ReturnTrue,
+            Next
+                Edges:
+                    {"Put away change"}
+                AreParallel: true
+            LockedByStates:      {"Compute Price": true}
+            LockedByStatesCount: 1
+
+            Name: "Put away change"
+            FunctionCode:        ReturnTrue
+            LockedByStates:      {"Compute change": true}
+            LockedByStatesCount: 1
+
+            Name: "Sip coffee"
+            FunctionCode:        ReturnTrue
+            LockedByStates:      {"Output buffer": true}
+            LockedByStatesCount: 1
+
+
+        ArrayValues: {"drink": "frap choco"}
+
+        Name: "Customer|Barista"
+        FunctionCode: ReturnTrue
+        
+        Name: "Cashier"
+        FunctionCode: ReturnTrue,
+        StartChildren
+            Edges
+                {"Take order", "from customer"}
+            AreParallel: true,
+        Children
+            Name: "Take order|from customer"
+            FunctionCode: ReturnTrue,
+            Next
+                Edges
+                    {"Compute Price"}
+                AreParallel: false
+            LockedByStates:      {"Place order": true}
+            LockedByStatesCount: 1
+
+            Name: "Compute Price"
+            FunctionCode: ReturnTrue,
+            Next
+                Edges
+                    {"Compute change"}
+                    AreParallel: true
+
+            Name: "Compute change"
+            FunctionCode: ReturnTrue,
+            Next
+                Edges
+                    {"No change"}
+                AreParallel: false
+            LockedByStates:      {"Dig up money": true}
+            LockedByStatesCount: 1
+
+            Name: "No change"
+            FunctionCode: ReturnTrue
+
+        ArrayValues:
+            "currentOrder": 23456
+            "price":        0
+
+    ArrayValues:
+        "drinkPrice": 0
+        "change":     0
+
+    Name: Barista
+    FunctionCode: ReturnTrue
+    StartChildren
+        {"Make drink"},
+        AreParallel: true,
+    Children:
+        Name: "Make drink"
+        FunctionCode: ReturnTrue,
+        Next:
+            {"Output buffer"},
+            AreParallel: false,
+
+        Name: "Output buffer"
+        FunctionCode: ReturnTrue,
+
+MapValues:
+    "orderQueue":   []string{}
+    "drinkOrder":   []string{}
+    "outputBuffer": []string{}
+
+Name: "machine"
+MapValues
+    Name: "names"
+    MapValues
+        Name: "Pistachio"
+        Next
+            {"Pistachio ID"},
+
+        "Dark Caramel Sauce"
+        MapValues
+            Name: "flavor"
+                MapValues
+                    Name: "Sauces"
+                    Next
+                        {"Dark Caramel Sauce", "flavor", "Sauces"},
+
+        Name: "size"
+        MapValues
+            Name: "options"
+            Next
+                {"size", "options"},
+
+        Name: "Chocolate Cream Cold Foam"
+        MapValues
+            Name: "toppings"
+                MapValues
+                    Name: "cold foam"
+                    Next
+                        {"Chocolate Cream Cold Foam", "toppings", "cold foam"},
+                                       
+    Name: "options"
+        ArrayValues
+            {"size",
+            "flavors",
+            "toppings"}
+
+    Name: "sizes"
+        MapValues
+            "large":  3,
+            "grande": 2,
+            "vente":  0,
+
+    Name: "flavors"
+    MapValues
+        Name: "Sauces"
+            ArrayValues
+                "Dark Caramel Sauce",
+                "Mocha Sauce",
+
+        Name: "syrups"
+            ArrayValues
+                "Brown Sugar Syrup",
+                "Caramel Syrup",
+
+    Name: "toppings"
+    MapValues
+        "cold foam"
+            MapValues
+                    "value":    "Chocolate Cream Cold Foam",
+                    "servings": 5,
+                    "price":    1,
+    Name: "drinks"
+    Next
+            {"Pistachio ID"},
+    Name: "Pistachio ID"
+        MapValues
+            "name": "Pistachio"
+            Name: "sizes"
+            Next
+                {"id of sizes state"},
