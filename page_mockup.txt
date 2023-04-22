@@ -177,45 +177,17 @@ MapValues
 
     Name: "toppings"
     MapValues
-        "cold foam": {
+        "cold foam"
             MapValues
                     "value":    "Chocolate Cream Cold Foam",
                     "servings": 5,
                     "price":    1,
-    "drinks": {
-        State: IState{
-            EdgeKinds: map[string]IEdges{
-                "Next": {
-                    Edges: [][]string{
-                        {"Pistachio ID"},
-                    },
-                },
-            },
-        },
-    },
-    "Pistachio ID": {
-        State: IState{
-            Database: map[string]IStateNamePartTree{
-                "name": {
-                    State: IState{
-                        Variable: "Pistachio",
-                    },
-                },
-                "sizes": {
-                    State: IState{
-                        EdgeKinds: map[string]IEdges{
-                            "Next": {
-                                Edges: [][]string{
-                                    {"id of sizes state"},
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        },
-    },
-},
-
-
-
+    Name: "drinks"
+    Next
+            {"Pistachio ID"},
+    Name: "Pistachio ID"
+        MapValues
+            "name": "Pistachio"
+            Name: "sizes"
+            Next
+                {"id of sizes state"},
