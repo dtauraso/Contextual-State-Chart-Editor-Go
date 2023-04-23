@@ -11,7 +11,7 @@ type Value struct {
 }
 
 type Edges struct {
-	Edges       [][]string
+	Edges       []int
 	AreParallel bool
 }
 
@@ -34,8 +34,6 @@ type State struct {
 	FunctionCode        func(Graph) bool `json:"FunctionCode,omitempty"`
 	EdgeKinds           map[string]Edges `json:"EdgeKinds,omitempty"`
 	Parents             map[string]int   `json:"Parents,omitempty"`
-	StartChildren       []int            `json:"StartChildren,omitempty"`
-	HaveStartChildren   bool             `json:"HaveStartChildren,omitempty"`
 	Value               *Value           `json:"Value,omitempty"`
 	ArrayValues         []int            `json:"ArrayValues,omitempty"`
 	MapValues           map[string]int   `json:"MapValues,omitempty"`
