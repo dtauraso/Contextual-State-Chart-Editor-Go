@@ -22,7 +22,8 @@
     "Name": ["Customer", "Cashier"],
     "FunctionCode": "ReturnTrue",
     "EdgeKinds": {
-        "StartChildren": {"Edges": [6], "AreParallel": false}}
+        "StartChildren": {"Edges": [6], "AreParallel": false}},
+    "ArrayValues": [14]
 
     },
     {
@@ -31,35 +32,45 @@
     "Name": ["Place order"],
     "FunctionCode": "ReturnTrue",
     "Edgekinds": {
-        "Next": {"Edges": [7, 9], "AreParallel": true}
+        "Next": {"Edges": [7, 9], "AreParallel": true}}
+    },
+    {
+    "Parents": {"7": 3},
+    "ID": 7,
+    "Name": ["Dig up money"],
+    "FunctionCode": "ReturnTrue",
+    "EdgeKinds" : {
+        "Next": {"Edges": [8], "AreParallel": true}},
+    "LockedByStates": {"11": true},
+    "LockedByStatesCount": 1
+    },
+    {
+    "Parents": {"8": 3},
+    "ID": 8,
+    "Name": ["Put away change"],
+    "FunctionCode": "ReturnTrue",
+    "LockedByStates": {"12": true},
+    "LockedByStatesCount": 1
+    },
+    {
+    "Parents": {"9": 3},
+    "ID": 9,
+    "Name": ["Sip coffee"],
+    "FunctionCode": "ReturnTrue",
+    "LockedByStates": {"16": true},
+    "LockedByStatesCount": 1
+    },
+    {
+    "Parents": {"14": 3},
+    "ID": 14,
+    "Name": ["drink"],
+    "Value": {
+        "StringValue": "frap choco",
+        "TypeName": "string"
     }
     }
 
 ]
-
-        Children
-            
-            Name: "Dig up money" (id 7)
-            FunctionCode: ReturnTrue,
-            Next
-                Edges:
-                    {"Put away change"}
-                AreParallel: true
-            LockedByStates:      {"Compute Price": true}
-            LockedByStatesCount: 1
-
-            Name: "Put away change" (id 8)
-            FunctionCode:        ReturnTrue
-            LockedByStates:      {"Compute change": true}
-            LockedByStatesCount: 1
-
-            Name: "Sip coffee" (id 9)
-            FunctionCode:        ReturnTrue
-            LockedByStates:      {"Output buffer": true}
-            LockedByStatesCount: 1
-
-
-        ArrayValues: {"drink": "frap choco"}
 
         Name: "Customer|Barista" (id 5)
         FunctionCode: ReturnTrue
@@ -71,7 +82,7 @@
                 {"Take order", "from customer"}
             AreParallel: true,
         Children
-            Name: "Take order|from customer"
+            Name: "Take order|from customer" (id 10)
             FunctionCode: ReturnTrue,
             Next
                 Edges
@@ -80,14 +91,14 @@
             LockedByStates:      {"Place order": true}
             LockedByStatesCount: 1
 
-            Name: "Compute Price"
+            Name: "Compute Price" (id 11)
             FunctionCode: ReturnTrue,
             Next
                 Edges
                     {"Compute change"}
                     AreParallel: true
 
-            Name: "Compute change"
+            Name: "Compute change" (id 12)
             FunctionCode: ReturnTrue,
             Next
                 Edges
@@ -96,7 +107,7 @@
             LockedByStates:      {"Dig up money": true}
             LockedByStatesCount: 1
 
-            Name: "No change"
+            Name: "No change" (id 13)
             FunctionCode: ReturnTrue
 
         ArrayValues:
@@ -113,13 +124,13 @@
         {"Make drink"},
         AreParallel: true,
     Children:
-        Name: "Make drink"
+        Name: "Make drink"  (id 15)
         FunctionCode: ReturnTrue,
         Next:
             {"Output buffer"},
             AreParallel: false,
 
-        Name: "Output buffer"
+        Name: "Output buffer" (id 16)
         FunctionCode: ReturnTrue,
 
 MapValues:

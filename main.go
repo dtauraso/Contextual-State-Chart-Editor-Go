@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"math/rand"
 	"net/http"
@@ -48,6 +49,8 @@ type myCompo struct {
 
 var myTest = "test post pass"
 
+var getPasses []string
+
 // func (c *myCompo) Render() app.UI {
 // 	return app.Div().Text(c.Number)
 // }
@@ -79,6 +82,20 @@ func (c *myCompo) customTrigger(ctx app.Context, e app.Event) {
 	output := url.Values{"key": {"value"}, "test": {myTest}}
 	output.Add("id", "0")
 	http.PostForm("/test", output)
+	res, err := http.Get("/myGet")
+	if err != nil {
+		panic(err)
+	}
+	defer res.Body.Close()
+	body, err2 := io.ReadAll(res.Body)
+	if err2 != nil {
+
+		panic(err2)
+	}
+	err3 := json.Unmarshal(body, &getPasses)
+	if err3 != nil {
+		panic(err3)
+	}
 	c.Update() // Manual updated trigger
 }
 
@@ -93,6 +110,7 @@ func (c *myCompo) Render() app.UI {
 	return app.Div().Body(
 		app.P().Text(c.Number),
 		app.P().Text(myTest),
+		app.P().Text(getPasses),
 
 		c.x(),
 	).OnClick(c.customTrigger)
@@ -204,6 +222,15 @@ func main() {
 		}
 
 	})
+	http.HandleFunc("/myGet", func(rw http.ResponseWriter, r *http.Request) {
+		file, err := os.ReadFile("ContextualStateChart/TrieTree/input.json")
+		if err != nil {
+			panic(err)
+		}
+		rw.Write(file)
+
+	})
+
 	// http.Post()
 
 	if err := http.ListenAndServe(":3000", nil); err != nil {
