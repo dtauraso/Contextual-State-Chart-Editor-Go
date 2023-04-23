@@ -82,7 +82,7 @@
     "Edgekinds": {
         "StartChildren": {"Edges": [10], "AreParallel": true}}
     },
-    {"Parents": {"10": 1},
+    {"Parents": {"10": 4},
     "ID": 10,
     "Name": ["Take order", "from customer"],
     "FunctionCode": "ReturnTrue",
