@@ -66,30 +66,33 @@
     "Name": ["drink"],
     "Value": {
         "StringValue": "frap choco",
-        "TypeName": "string"
-    }
-    }
-
+        "TypeName": "string"}
+    },
+    {
+    "Parents": {"5": 1},
+    "ID": 5,
+    "Name": ["Customer", "Barista"],
+    "FunctionCode": "ReturnTrue"
+    },
+    {
+    "Parents": {"4": 1},
+    "ID": 4,
+    "Name": ["Cashier"],
+    "FunctionCode": "ReturnTrue",
+    "Edgekinds": {
+        "StartChildren": {"Edges": [10], "AreParallel": true}}
+    },
+    {"Parents": {"10": 1},
+    "ID": 10,
+    "Name": ["Take order", "from customer"],
+    "FunctionCode": "ReturnTrue",
+    "EdgeKinds" : {
+        "Next": {"Edges": [11], "AreParallel": false}},
+    "LockedByStates": {"6": true},
+    "LockedByStatesCount": 1}
 ]
 
-        Name: "Customer|Barista" (id 5)
-        FunctionCode: ReturnTrue
-        
-        Name: "Cashier" (id 4)
-        FunctionCode: ReturnTrue,
-        StartChildren
-            Edges
-                {"Take order", "from customer"}
-            AreParallel: true,
         Children
-            Name: "Take order|from customer" (id 10)
-            FunctionCode: ReturnTrue,
-            Next
-                Edges
-                    {"Compute Price"}
-                AreParallel: false
-            LockedByStates:      {"Place order": true}
-            LockedByStatesCount: 1
 
             Name: "Compute Price" (id 11)
             FunctionCode: ReturnTrue,
