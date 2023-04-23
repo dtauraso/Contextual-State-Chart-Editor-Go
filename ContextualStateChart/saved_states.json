@@ -12,41 +12,34 @@
     "ID": 1,
     "Name": ["Register"],
     "FunctionCode": "ReturnTrue",
-    
-    "StartChildren": [3, 4],
-    "AreParallel": true,
-    "Next": [5]
-}
+    "EdgeKinds": {
+        "StartChildren": {"Edges": [3, 4], "AreParallel": true},
+        "Next": {"Edges": [5], "AreParallel": false}}
+    },
+    {
+    "Parents": {"3": 1},
+    "ID": 3,
+    "Name": ["Customer", "Cashier"],
+    "FunctionCode": "ReturnTrue",
+    "EdgeKinds": {
+        "StartChildren": {"Edges": [6], "AreParallel": false}}
+
+    },
+    {
+    "Parents": {"6": 3},
+    "ID": 6,
+    "Name": ["Place order"],
+    "FunctionCode": "ReturnTrue",
+    "Edgekinds": {
+        "Next": {"Edges": [7, 9], "AreParallel": true}
+    }
+    }
+
 ]
 
-    Name: "Register" (id 1)
-    FunctionCode: ReturnTrue,
-    StartChildren
-        Edges
-            {"Customer", "Cashier"},
-            {"Cashier"},
-            AreParallel: true,
-    Next
-        Edges
-            {"Customer", "Barista"},
-            AreParallel: false,
- 
-    Children:
-        Name: "Customer|Cashier" (id 3)
-        FunctionCode: ReturnTrue
-        StartChildren
-            Edges:       {"Place order"}
-            AreParallel: false
         Children
-            Name: "Place order"
-            FunctionCode: ReturnTrue,
-            Next
-                Edges
-                    {"Dig up money"}
-                    {"Sip coffee"}
-                AreParallel: true
             
-            Name: "Dig up money"
+            Name: "Dig up money" (id 7)
             FunctionCode: ReturnTrue,
             Next
                 Edges:
@@ -55,12 +48,12 @@
             LockedByStates:      {"Compute Price": true}
             LockedByStatesCount: 1
 
-            Name: "Put away change"
+            Name: "Put away change" (id 8)
             FunctionCode:        ReturnTrue
             LockedByStates:      {"Compute change": true}
             LockedByStatesCount: 1
 
-            Name: "Sip coffee"
+            Name: "Sip coffee" (id 9)
             FunctionCode:        ReturnTrue
             LockedByStates:      {"Output buffer": true}
             LockedByStatesCount: 1
