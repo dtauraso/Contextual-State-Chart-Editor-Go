@@ -116,6 +116,40 @@ func (c *myCompo) Render() app.UI {
 	).OnClick(c.customTrigger)
 }
 
+/*
+Indent
+
+	EdgeKinds
+		StartChldren
+			state
+				Edges
+					state
+				AreParallel
+					state
+
+	MapValues
+
+		Children
+			state
+				ArrayValues
+					state
+
+states[curr["EdgeKinds"]["StartChildren"]]
+->indent
+->states[curr["Edges"]]
+
+states[curr["EdgeKinds"]["StartChildren"]]
+->indent
+->states[curr["AreParallel"]]
+
+EdgeKinds, StartChildren, indent,
+[{Edges: {indent: [edges]}}, AreParallel]
+
+states[curr["MapValues"]["Children"]]
+->indent
+->states[curr["ArrayValues"]]
+MapValues, Children, indent, ArrayValues
+*/
 func (c *myCompo) onClick(ctx app.Context, e app.Event) {
 	fmt.Println("onClick is called")
 }
