@@ -5,7 +5,13 @@
     "Name": ["machine", "StarbucksMachine"],
     "FunctionCode": "ReturnTrue",
     "EdgeKinds": {
-        "StartChildren": {"Edges": [1, 2], "AreParallel": true}}    
+        "StartChildren": {"Edges": [1, 2], "AreParallel": true}},
+    "MapValues": {
+        "orderQueue":   [],
+        "drinkOrder":   [],
+        "outputBuffer": []
+    
+    }  
     },
     {
     "Parents": {"1": 0},
@@ -87,8 +93,7 @@
         "StartChildren": {"Edges": [10], "AreParallel": true}},
     "MapValues": {
         "currentOrder": 15,
-        "price": 16
-}
+        "price": 16}
     },
     {"Parents": {"10": 4},
     "ID": 10,
@@ -153,70 +158,84 @@
     "Value": {
         "IntValue": 0,
         "TypeName": "int"}
+    },
+    {
+    "Parents": {"2": 0},
+    "ID": 2,
+    "Name": ["Barista"],
+    "FunctionCode": "ReturnTrue",
+    "Edgekinds": {
+        "StartChildren": {"Edges": [19], "AreParallel": true}}
+    },
+    {
+    "Parents": {"19": 2},
+    "ID": 19,
+    "Name": ["Make drink"],
+    "FunctionCode": "ReturnTrue",
+    "Edgekinds": {
+        "Next": {"Edges": [20], "AreParallel": false}}
+    },
+    {
+    "Parents": {"20": 2},
+    "ID": 20,
+    "Name": ["Output buffer"],
+    "FunctionCode": "ReturnTrue",
+    "Edgekinds": {
+        "Next": {"Edges": [20], "AreParallel": false}}
+    },
+    {
+    "Parents": {"21": -1},
+    "Name": "machine",
+    "MapValues": {
+        "names": 22,
+        "options": 32,
+        "sizes": 36
+    }
     }
 
 ]
-    Name: Barista (id 2)
-    FunctionCode: ReturnTrue
-    StartChildren
-        {"Make drink"},
-        AreParallel: true,
-    Children:
-        Name: "Make drink"  (id 19)
-        FunctionCode: ReturnTrue,
-        Next:
-            {"Output buffer"},
-            AreParallel: false,
 
-        Name: "Output buffer" (id 20)
-        FunctionCode: ReturnTrue,
-
-MapValues:
-    "orderQueue":   []string{}
-    "drinkOrder":   []string{}
-    "outputBuffer": []string{}
-
-Name: "machine"
+Name: "machine" 21
 MapValues
-    Name: "names"
+    Name: "names" 22
     MapValues
-        Name: "Pistachio"
+        Name: "Pistachio" 23
         Next
             {"Pistachio ID"},
 
-        "Dark Caramel Sauce"
+        "Dark Caramel Sauce" 24
         MapValues
-            Name: "flavor"
+            Name: "flavor" 25
                 MapValues
-                    Name: "Sauces"
+                    Name: "Sauces" 26
                     Next
                         {"Dark Caramel Sauce", "flavor", "Sauces"},
 
-        Name: "size"
+        Name: "size" 27
         MapValues
-            Name: "options"
+            Name: "options" 28
             Next
                 {"size", "options"},
 
-        Name: "Chocolate Cream Cold Foam"
+        Name: "Chocolate Cream Cold Foam" 29
         MapValues
-            Name: "toppings"
+            Name: "toppings" 30
                 MapValues
-                    Name: "cold foam"
+                    Name: "cold foam" 31
                     Next
                         {"Chocolate Cream Cold Foam", "toppings", "cold foam"},
                                        
-    Name: "options"
+    Name: "options" 32
         ArrayValues
-            {"size",
-            "flavors",
-            "toppings"}
+            {"size", 33
+            "flavors", 34
+            "toppings"} 35
 
-    Name: "sizes"
+    Name: "sizes" 36
         MapValues
-            "large":  3,
-            "grande": 2,
-            "vente":  0,
+            "large":  3, 37
+            "grande": 2, 38
+            "vente":  0, 39
 
     Name: "flavors"
     MapValues
