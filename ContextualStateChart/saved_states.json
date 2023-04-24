@@ -14,7 +14,11 @@
     "FunctionCode": "ReturnTrue",
     "EdgeKinds": {
         "StartChildren": {"Edges": [3, 4], "AreParallel": true},
-        "Next": {"Edges": [5], "AreParallel": false}}
+        "Next": {"Edges": [5], "AreParallel": false}},
+    "MapValues": {
+        "drinkPrice": 17,
+        "change":     18
+    }
     },
     {
     "Parents": {"3": 1},
@@ -23,7 +27,7 @@
     "FunctionCode": "ReturnTrue",
     "EdgeKinds": {
         "StartChildren": {"Edges": [6], "AreParallel": false}},
-    "ArrayValues": [14]
+    "MapValues": {"drink":14}
 
     },
     {
@@ -80,7 +84,11 @@
     "Name": ["Cashier"],
     "FunctionCode": "ReturnTrue",
     "Edgekinds": {
-        "StartChildren": {"Edges": [10], "AreParallel": true}}
+        "StartChildren": {"Edges": [10], "AreParallel": true}},
+    "MapValues": {
+        "currentOrder": 15,
+        "price": 16
+}
     },
     {"Parents": {"10": 4},
     "ID": 10,
@@ -89,51 +97,78 @@
     "EdgeKinds" : {
         "Next": {"Edges": [11], "AreParallel": false}},
     "LockedByStates": {"6": true},
-    "LockedByStatesCount": 1}
+    "LockedByStatesCount": 1
+    },
+    {
+    "Parents": {"11": 4},
+    "ID": 11,
+    "Name": ["Compute Price"],
+    "FunctionCode": "ReturnTrue",
+    "Edgekinds": {
+        "StartChildren": {"Edges": [12], "AreParallel": true}}
+    },
+    {"Parents": {"12": 4},
+    "ID": 12,
+    "Name": ["Compute change"],
+    "FunctionCode": "ReturnTrue",
+    "EdgeKinds" : {
+        "Next": {"Edges": [13], "AreParallel": false}},
+    "LockedByStates": {"7": true},
+    "LockedByStatesCount": 1
+    },
+    {
+    "Parents": {"13": 4},
+    "ID": 13,
+    "Name": ["No change"],
+    "FunctionCode": "ReturnTrue"
+    },
+    {
+    "Parents": {"15": 4},
+    "ID": 15,
+    "Name": ["currentOrder"],
+    "Value": {
+        "IntValue": 23456,
+        "TypeName": "int"}
+    },
+    {
+    "Parents": {"16": 4},
+    "ID": 16,
+    "Name": ["price"],
+    "Value": {
+        "IntValue": 0,
+        "TypeName": "int"}
+    },
+    {
+    "Parents": {"17": 1},
+    "ID": 17,
+    "Name": ["drinkPrice"],
+    "Value": {
+        "IntValue": 0,
+        "TypeName": "int"}
+    },
+    {
+    "Parents": {"18": 1},
+    "ID": 18,
+    "Name": ["change"],
+    "Value": {
+        "IntValue": 0,
+        "TypeName": "int"}
+    }
+
 ]
-
-        Children
-
-            Name: "Compute Price" (id 11)
-            FunctionCode: ReturnTrue,
-            Next
-                Edges
-                    {"Compute change"}
-                    AreParallel: true
-
-            Name: "Compute change" (id 12)
-            FunctionCode: ReturnTrue,
-            Next
-                Edges
-                    {"No change"}
-                AreParallel: false
-            LockedByStates:      {"Dig up money": true}
-            LockedByStatesCount: 1
-
-            Name: "No change" (id 13)
-            FunctionCode: ReturnTrue
-
-        ArrayValues:
-            "currentOrder": 23456
-            "price":        0
-
-    ArrayValues:
-        "drinkPrice": 0
-        "change":     0
-
     Name: Barista (id 2)
     FunctionCode: ReturnTrue
     StartChildren
         {"Make drink"},
         AreParallel: true,
     Children:
-        Name: "Make drink"  (id 15)
+        Name: "Make drink"  (id 19)
         FunctionCode: ReturnTrue,
         Next:
             {"Output buffer"},
             AreParallel: false,
 
-        Name: "Output buffer" (id 16)
+        Name: "Output buffer" (id 20)
         FunctionCode: ReturnTrue,
 
 MapValues:
