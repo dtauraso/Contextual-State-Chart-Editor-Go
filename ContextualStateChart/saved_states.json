@@ -189,9 +189,29 @@
     "MapValues": {
         "names": 22,
         "options": 32,
-        "sizes": 36
-    }
-    }
+        "sizes": 36,
+        "flavors": 40,
+        "toppings": 47,
+        "drinks": 52,
+        "Pistachio": 53}
+    },
+    {
+    "Parents": {"22": 21},
+    "ID": 22,
+    "Name": ["names"],
+    "MapValues": {
+        "Pistachio": 23,
+        "Dark Caramel Sauce": 24,
+        "size": 27,
+        "Chocolate Cream Cold Foam": 29}
+    },
+    {
+    "Parents": {"23": 22},
+    "ID": 23,
+    "Name": ["Pistachio"],
+    "Next": {"Edges": [53]}
+}
+
 
 ]
 
@@ -237,31 +257,31 @@ MapValues
             "grande": 2, 38
             "vente":  0, 39
 
-    Name: "flavors"
+    Name: "flavors" 40
     MapValues
-        Name: "Sauces"
+        Name: "Sauces" 41
             ArrayValues
-                "Dark Caramel Sauce",
-                "Mocha Sauce",
+                "Dark Caramel Sauce", 42
+                "Mocha Sauce", 43
 
-        Name: "syrups"
+        Name: "syrups" 44
             ArrayValues
-                "Brown Sugar Syrup",
-                "Caramel Syrup",
+                "Brown Sugar Syrup", 45
+                "Caramel Syrup", 46
 
-    Name: "toppings"
+    Name: "toppings" 47
     MapValues
-        "cold foam"
+        "cold foam" 48
             MapValues
-                    "value":    "Chocolate Cream Cold Foam",
-                    "servings": 5,
-                    "price":    1,
-    Name: "drinks"
+                    "value":    "Chocolate Cream Cold Foam", 49
+                    "servings": 5, 50
+                    "price":    1, 51
+    Name: "drinks" 52
     Next
             {"Pistachio ID"},
-    Name: "Pistachio ID"
+    Name: "Pistachio ID" 53
         MapValues
-            "name": "Pistachio"
+            "name": "Pistachio" 54
             Name: "sizes"
             Next
                 {"id of sizes state"},
