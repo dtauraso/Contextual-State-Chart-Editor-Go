@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"os"
 
+	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
@@ -50,6 +51,7 @@ type myCompo struct {
 var myTest = "test post pass"
 
 var getPasses []string
+var savedStates []t.State
 
 // func (c *myCompo) Render() app.UI {
 // 	return app.Div().Text(c.Number)
@@ -92,10 +94,12 @@ func (c *myCompo) customTrigger(ctx app.Context, e app.Event) {
 
 		panic(err2)
 	}
-	err3 := json.Unmarshal(body, &getPasses)
+	err3 := json.Unmarshal(body, &savedStates)
 	if err3 != nil {
 		panic(err3)
 	}
+	fmt.Println(savedStates)
+
 	c.Update() // Manual updated trigger
 }
 
@@ -111,6 +115,7 @@ func (c *myCompo) Render() app.UI {
 		app.P().Text(c.Number),
 		app.P().Text(myTest),
 		app.P().Text(getPasses),
+		app.P().Text(savedStates),
 
 		c.x(),
 	).OnClick(c.customTrigger)
@@ -257,7 +262,7 @@ func main() {
 
 	})
 	http.HandleFunc("/myGet", func(rw http.ResponseWriter, r *http.Request) {
-		file, err := os.ReadFile("ContextualStateChart/TrieTree/input.json")
+		file, err := os.ReadFile("ContextualStateChart/saved_states.json")
 		if err != nil {
 			panic(err)
 		}

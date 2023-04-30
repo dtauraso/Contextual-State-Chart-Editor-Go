@@ -183,7 +183,7 @@
     },
     {
     "Parents": {"21": -1},
-    "Name": "machine",
+    "Name": ["machine"],
     "MapValues": {
         "names": 22,
         "options": 32,

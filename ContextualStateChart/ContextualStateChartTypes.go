@@ -31,13 +31,13 @@ ND name -> map of string keys -> ID's
 type State struct {
 	ID                  int              `json:"ID"`
 	Name                []string         `json:"Name"`
-	FunctionCode        func(Graph) bool `json:"FunctionCode,omitempty"`
+	FunctionCode        string           `json:"FunctionCode,omitempty"`
 	EdgeKinds           map[string]Edges `json:"EdgeKinds,omitempty"`
 	Parents             map[string]int   `json:"Parents,omitempty"`
-	Value               *Value           `json:"Value,omitempty"`
+	Value               Value            `json:"Value,omitempty"`
 	ArrayValues         []int            `json:"ArrayValues,omitempty"`
-	MapValues           map[string]int   `json:"MapValues,omitempty"`
-	LockedByStates      map[int]bool     `json:"LockedByStates,omitempty"`
+	MapValues           map[string]any   `json:"MapValues,omitempty"`
+	LockedByStates      map[string]bool  `json:"LockedByStates,omitempty"`
 	LockedByStatesCount int              `json:"LockedByStatesCount,omitempty"`
 }
 type State2 struct {
