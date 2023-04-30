@@ -12,6 +12,7 @@ import (
 
 	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
+	a "github.com/dtauraso/Contextual-State-Chart-Editor-Go/UI"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
 
@@ -220,8 +221,8 @@ func main() {
 	//
 	// This is done by calling the Route() function,  which tells go-app what
 	// component to display for a given path, on both client and server-side.
-	app.Route("/", &myCompo{})
-
+	// app.Route("/", &myCompo{})
+	app.Route("/", &a.AppComponent{})
 	// Once the routes set up, the next thing to do is to either launch the app
 	// or the server that serves the app.
 	//
@@ -245,7 +246,6 @@ func main() {
 		Name:        "Hello",
 		Description: "An Hello World! example222",
 	})
-	// not using client updated version of myTest
 	http.HandleFunc("/test", func(rw http.ResponseWriter, r *http.Request) {
 		var output = map[string]string{}
 		x := r.FormValue("test")
