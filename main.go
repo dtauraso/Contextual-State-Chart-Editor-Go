@@ -3,15 +3,15 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io"
+	// "io"
 	"log"
-	"math/rand"
+	// "math/rand"
 	"net/http"
-	"net/url"
+	// "net/url"
 	"os"
 
-	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/SavedStates"
-	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
+	// t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/SavedStates"
+	// x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	a "github.com/dtauraso/Contextual-State-Chart-Editor-Go/UI"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
@@ -28,9 +28,9 @@ type person struct {
 	age  int
 }
 
-func TestState(state x.IState) {
-	fmt.Println(state)
-}
+// func TestState(state x.IState) {
+// 	fmt.Println(state)
+// }
 
 // IEEE_Software_Design_2PC.pdf
 // IEEE Software Blog_ Your Local Coffee Shop Performs Resource Scaling.pdf
@@ -57,51 +57,51 @@ var getPasses []string
 // 	return app.Div().Text(c.Number)
 // }
 
-func (c *myCompo) customTrigger(ctx app.Context, e app.Event) {
-	c.Number = rand.Intn(42)
-	if c.Number < 30 {
-		myTest = "test 2"
-	} else {
-		c.Data = []string{
-			"test x 1",
-			"test x 2",
-		}
-	}
-	// fo, err := os.Create("output.txt")
-	// if err != nil {
-	// 	panic(err)
-	// }
+// func (c *myCompo) customTrigger(ctx app.Context, e app.Event) {
+// 	c.Number = rand.Intn(42)
+// 	if c.Number < 30 {
+// 		myTest = "test 2"
+// 	} else {
+// 		c.Data = []string{
+// 			"test x 1",
+// 			"test x 2",
+// 		}
+// 	}
+// 	// fo, err := os.Create("output.txt")
+// 	// if err != nil {
+// 	// 	panic(err)
+// 	// }
 
-	// defer func() {
-	// 	if err := fo.Close(); err != nil {
-	// 		panic(err)
-	// 	}
-	// }()
-	// err1 := os.WriteFile("output.txt", []byte("test"), 0644)
-	// if err1 != nil {
-	// 	panic(err1)
-	// }
-	output := url.Values{"key": {"value"}, "test": {myTest}}
-	output.Add("id", "0")
-	http.PostForm("/test", output)
-	res, err := http.Get("/myGet")
-	if err != nil {
-		panic(err)
-	}
-	defer res.Body.Close()
-	body, err2 := io.ReadAll(res.Body)
-	if err2 != nil {
+// 	// defer func() {
+// 	// 	if err := fo.Close(); err != nil {
+// 	// 		panic(err)
+// 	// 	}
+// 	// }()
+// 	// err1 := os.WriteFile("output.txt", []byte("test"), 0644)
+// 	// if err1 != nil {
+// 	// 	panic(err1)
+// 	// }
+// 	output := url.Values{"key": {"value"}, "test": {myTest}}
+// 	output.Add("id", "0")
+// 	http.PostForm("/test", output)
+// 	res, err := http.Get("/myGet")
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	defer res.Body.Close()
+// 	body, err2 := io.ReadAll(res.Body)
+// 	if err2 != nil {
 
-		panic(err2)
-	}
-	err3 := json.Unmarshal(body, &t.SavedStates)
-	if err3 != nil {
-		panic(err3)
-	}
-	fmt.Println(t.SavedStates)
+// 		panic(err2)
+// 	}
+// 	err3 := json.Unmarshal(body, &t.SavedStates)
+// 	if err3 != nil {
+// 		panic(err3)
+// 	}
+// 	fmt.Println(t.SavedStates)
 
-	c.Update() // Manual updated trigger
-}
+// 	c.Update() // Manual updated trigger
+// }
 
 func (c *myCompo) x() app.UI {
 	return app.Ul().Body(
@@ -110,16 +110,17 @@ func (c *myCompo) x() app.UI {
 		}),
 	)
 }
-func (c *myCompo) Render() app.UI {
-	return app.Div().Body(
-		app.P().Text(c.Number),
-		app.P().Text(myTest),
-		app.P().Text(getPasses),
-		app.P().Text(t.SavedStates),
 
-		c.x(),
-	).OnClick(c.customTrigger)
-}
+// func (c *myCompo) Render() app.UI {
+// 	return app.Div().Body(
+// 		app.P().Text(c.Number),
+// 		app.P().Text(myTest),
+// 		app.P().Text(getPasses),
+// 		app.P().Text(t.SavedStates),
+
+// 		c.x(),
+// 	).OnClick(c.customTrigger)
+// }
 
 /*
 Indent
@@ -261,14 +262,14 @@ func main() {
 
 	})
 	http.HandleFunc("/save", func(rw http.ResponseWriter, r *http.Request) {
-		err1 := os.WriteFile("ContextualStateChart/saved_states.json", []byte(r.FormValue("test")), 0644)
+		err1 := os.WriteFile(fmt.Sprintf("ContextualStateChart/StateArray/state_%s.json", r.FormValue("fileID")), []byte(r.FormValue("test")), 0644)
 		if err1 != nil {
 			panic(err1)
 		}
 
 	})
 	http.HandleFunc("/load", func(rw http.ResponseWriter, r *http.Request) {
-		file, err := os.ReadFile("ContextualStateChart/saved_states.json")
+		file, err := os.ReadFile(fmt.Sprintf("ContextualStateChart/StateArray/state_%s.json", r.FormValue("id")))
 		if err != nil {
 			panic(err)
 		}

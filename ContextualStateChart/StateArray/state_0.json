@@ -1,0 +1,17 @@
+{
+    "ID": 0,
+    "ArrayValues": [
+        2,
+        3
+    ],
+    "MapValues": {
+        "FunctionName": 4,
+        "Name": 0,
+        "Parents": 60,
+        "StartChildren": 5,
+        "Value": 70,
+        "drinkOrder": 80,
+        "orderQueue": 90,
+        "outputBuffer": 100
+    }
+}
