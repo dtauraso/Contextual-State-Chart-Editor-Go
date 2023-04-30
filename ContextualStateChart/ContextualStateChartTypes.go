@@ -40,3 +40,13 @@ type State struct {
 	LockedByStates      map[int]bool     `json:"LockedByStates,omitempty"`
 	LockedByStatesCount int              `json:"LockedByStatesCount,omitempty"`
 }
+type State2 struct {
+	ID           int                    `json:"ID"`
+	Name         []string               `json:"Name"`
+	FunctionCode func(StateID int) bool `json:"FunctionCode,omitempty"`
+	BoolValue    bool                   `json:"BoolValue,omitempty"`
+	IntValue     int                    `json:"IntValue,omitempty"`
+	StringValue  string                 `json:"StringValue,omitempty"`
+	ArrayValues  []int                  `json:"ArrayValues,omitempty"`
+	MapValues    map[string]int         `json:"MapValues,omitempty"`
+}
