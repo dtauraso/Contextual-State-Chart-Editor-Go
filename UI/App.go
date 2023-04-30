@@ -39,7 +39,7 @@ type Hello struct {
 }
 
 func (c *Hello) customTrigger(ctx app.Context, e app.Event) {
-	res, err := http.Get("/myGet")
+	res, err := http.Get("/load")
 	if err != nil {
 		panic(err)
 	}
@@ -69,7 +69,7 @@ func save() app.UI {
 	if err != nil {
 		panic(err)
 	}
-	output := url.Values{"key": {"value"}, "test": {string(binaryOutput)}}
+	output := url.Values{"test": {string(binaryOutput)}}
 	http.PostForm("/save", output)
 	return nil
 }

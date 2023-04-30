@@ -261,14 +261,13 @@ func main() {
 
 	})
 	http.HandleFunc("/save", func(rw http.ResponseWriter, r *http.Request) {
-
 		err1 := os.WriteFile("ContextualStateChart/saved_states.json", []byte(r.FormValue("test")), 0644)
 		if err1 != nil {
 			panic(err1)
 		}
 
 	})
-	http.HandleFunc("/myGet", func(rw http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/load", func(rw http.ResponseWriter, r *http.Request) {
 		file, err := os.ReadFile("ContextualStateChart/saved_states.json")
 		if err != nil {
 			panic(err)
