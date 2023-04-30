@@ -63,7 +63,6 @@ func save() app.UI {
 	if len(ss.SavedStates) == 0 {
 		return nil
 	}
-	fmt.Println("save me")
 
 	ss.SavedStates[0].Name[0] = ss.Name
 	binaryOutput, err := json.Marshal(ss.SavedStates)
