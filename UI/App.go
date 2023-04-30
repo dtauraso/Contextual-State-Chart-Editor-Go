@@ -101,8 +101,6 @@ func (c *Hello) customTrigger(ctx app.Context, e app.Event) {
 }
 
 func save() app.UI {
-	// fmt.Print(ss.SavedState, reflect.DeepEqual(ss.SavedState, t.State{0, false, 0, "", []int{}, map[string]int{}}))
-	// fmt.Print(ss.SavedState, reflect.ValueOf(ss.SavedState).IsZero())
 
 	if reflect.ValueOf(ss.SavedState).IsZero() {
 		return nil
