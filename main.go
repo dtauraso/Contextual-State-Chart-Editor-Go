@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"os"
 
-	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
+	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/SavedStates"
 	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	a "github.com/dtauraso/Contextual-State-Chart-Editor-Go/UI"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
@@ -52,7 +52,6 @@ type myCompo struct {
 var myTest = "test post pass"
 
 var getPasses []string
-var savedStates []t.State
 
 // func (c *myCompo) Render() app.UI {
 // 	return app.Div().Text(c.Number)
@@ -95,11 +94,11 @@ func (c *myCompo) customTrigger(ctx app.Context, e app.Event) {
 
 		panic(err2)
 	}
-	err3 := json.Unmarshal(body, &savedStates)
+	err3 := json.Unmarshal(body, &t.SavedStates)
 	if err3 != nil {
 		panic(err3)
 	}
-	fmt.Println(savedStates)
+	fmt.Println(t.SavedStates)
 
 	c.Update() // Manual updated trigger
 }
@@ -116,7 +115,7 @@ func (c *myCompo) Render() app.UI {
 		app.P().Text(c.Number),
 		app.P().Text(myTest),
 		app.P().Text(getPasses),
-		app.P().Text(savedStates),
+		app.P().Text(t.SavedStates),
 
 		c.x(),
 	).OnClick(c.customTrigger)
@@ -222,7 +221,7 @@ func main() {
 	// This is done by calling the Route() function,  which tells go-app what
 	// component to display for a given path, on both client and server-side.
 	// app.Route("/", &myCompo{})
-	app.Route("/", &a.AppComponent{})
+	app.Route("/", &a.Hello{})
 	// Once the routes set up, the next thing to do is to either launch the app
 	// or the server that serves the app.
 	//
