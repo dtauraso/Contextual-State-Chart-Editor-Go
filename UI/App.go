@@ -10,7 +10,7 @@ import (
 	// "net/url"
 	// "os"
 	"encoding/json"
-	"fmt"
+	// "fmt"
 
 	// "fmt"
 	"reflect"
@@ -107,7 +107,6 @@ func save() app.UI {
 	}
 
 	ss.SavedStates[2].StringValue = ss.Name
-	fmt.Println(ss.SavedStates[2])
 	binaryOutput, err := json.Marshal(ss.SavedStates[2])
 	if err != nil {
 		panic(err)

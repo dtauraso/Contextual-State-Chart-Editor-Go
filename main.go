@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"path/filepath"
+
 	// "io"
 	"log"
 	// "math/rand"
@@ -269,6 +271,13 @@ func main() {
 
 	})
 	http.HandleFunc("/load", func(rw http.ResponseWriter, r *http.Request) {
+		dirPath := "ContextualStateChart/StateArray"
+		matches, err := filepath.Glob(filepath.Join(dirPath, "state_*.json"))
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Number of files in %s: %d\n", dirPath, len(matches))
+
 		file, err := os.ReadFile(fmt.Sprintf("ContextualStateChart/StateArray/state_%s.json", r.FormValue("id")))
 		if err != nil {
 			panic(err)
