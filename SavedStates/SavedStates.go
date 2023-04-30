@@ -5,3 +5,4 @@ import (
 )
 
 var SavedStates []t.State
+var Name string

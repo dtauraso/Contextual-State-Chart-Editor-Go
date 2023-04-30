@@ -10,12 +10,14 @@ import (
 	// "net/url"
 	// "os"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 
 	ss "github.com/dtauraso/Contextual-State-Chart-Editor-Go/SavedStates"
 
-	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
+	// t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
 	// x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
@@ -51,22 +53,35 @@ func (c *Hello) customTrigger(ctx app.Context, e app.Event) {
 	if err3 != nil {
 		panic(err3)
 	}
+	ss.Name = ss.SavedStates[0].Name[0]
+
 	c.Update() // Manual updated trigger
 
 }
-func testName(stuff []t.State) string {
-	if len(stuff) == 0 {
-		return "name not available"
+
+func save() app.UI {
+	if len(ss.SavedStates) == 0 {
+		return nil
 	}
-	return stuff[0].Name[0]
+	fmt.Println("save me")
+
+	ss.SavedStates[0].Name[0] = ss.Name
+	binaryOutput, err := json.Marshal(ss.SavedStates)
+	if err != nil {
+		panic(err)
+	}
+	output := url.Values{"key": {"value"}, "test": {string(binaryOutput)}}
+	http.PostForm("/save", output)
+	return nil
 }
 func (h *Hello) Render() app.UI {
 
 	return app.Div().Body(
 		app.H1().Body(
 			app.Text("Hello, "),
-			app.If(h.name != "",
-				app.Text(h.name),
+			app.If(ss.Name != "",
+				app.Text(ss.Name),
+				save(),
 			).Else(
 				app.Text("World!"),
 			),
@@ -74,10 +89,10 @@ func (h *Hello) Render() app.UI {
 		app.P().Body(
 			app.Input().
 				Type("text").
-				Value(h.name).
-				Placeholder(testName(ss.SavedStates)).
+				Value(ss.Name).
+				Placeholder("enter state name").
 				AutoFocus(true).
-				OnChange(h.ValueTo(&h.name)),
+				OnChange(h.ValueTo(&ss.Name)),
 		).OnClick(h.customTrigger),
 	)
 }
