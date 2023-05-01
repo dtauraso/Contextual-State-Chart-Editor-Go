@@ -3,15 +3,19 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io"
-	"log"
-	"math/rand"
-	"net/http"
-	"net/url"
-	"os"
+	"path/filepath"
+	"sort"
+	"sync"
 
+	// "io"
+	"log"
+	// "math/rand"
+	"net/http"
+	// "net/url"
 	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
-	x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
+	// ss "github.com/dtauraso/Contextual-State-Chart-Editor-Go/SavedStates"
+	"os"
+	// x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	a "github.com/dtauraso/Contextual-State-Chart-Editor-Go/UI"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
@@ -28,9 +32,9 @@ type person struct {
 	age  int
 }
 
-func TestState(state x.IState) {
-	fmt.Println(state)
-}
+// func TestState(state x.IState) {
+// 	fmt.Println(state)
+// }
 
 // IEEE_Software_Design_2PC.pdf
 // IEEE Software Blog_ Your Local Coffee Shop Performs Resource Scaling.pdf
@@ -52,57 +56,56 @@ type myCompo struct {
 var myTest = "test post pass"
 
 var getPasses []string
-var savedStates []t.State
 
 // func (c *myCompo) Render() app.UI {
 // 	return app.Div().Text(c.Number)
 // }
 
-func (c *myCompo) customTrigger(ctx app.Context, e app.Event) {
-	c.Number = rand.Intn(42)
-	if c.Number < 30 {
-		myTest = "test 2"
-	} else {
-		c.Data = []string{
-			"test x 1",
-			"test x 2",
-		}
-	}
-	// fo, err := os.Create("output.txt")
-	// if err != nil {
-	// 	panic(err)
-	// }
+// func (c *myCompo) customTrigger(ctx app.Context, e app.Event) {
+// 	c.Number = rand.Intn(42)
+// 	if c.Number < 30 {
+// 		myTest = "test 2"
+// 	} else {
+// 		c.Data = []string{
+// 			"test x 1",
+// 			"test x 2",
+// 		}
+// 	}
+// 	// fo, err := os.Create("output.txt")
+// 	// if err != nil {
+// 	// 	panic(err)
+// 	// }
 
-	// defer func() {
-	// 	if err := fo.Close(); err != nil {
-	// 		panic(err)
-	// 	}
-	// }()
-	// err1 := os.WriteFile("output.txt", []byte("test"), 0644)
-	// if err1 != nil {
-	// 	panic(err1)
-	// }
-	output := url.Values{"key": {"value"}, "test": {myTest}}
-	output.Add("id", "0")
-	http.PostForm("/test", output)
-	res, err := http.Get("/myGet")
-	if err != nil {
-		panic(err)
-	}
-	defer res.Body.Close()
-	body, err2 := io.ReadAll(res.Body)
-	if err2 != nil {
+// 	// defer func() {
+// 	// 	if err := fo.Close(); err != nil {
+// 	// 		panic(err)
+// 	// 	}
+// 	// }()
+// 	// err1 := os.WriteFile("output.txt", []byte("test"), 0644)
+// 	// if err1 != nil {
+// 	// 	panic(err1)
+// 	// }
+// 	output := url.Values{"key": {"value"}, "test": {myTest}}
+// 	output.Add("id", "0")
+// 	http.PostForm("/test", output)
+// 	res, err := http.Get("/myGet")
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	defer res.Body.Close()
+// 	body, err2 := io.ReadAll(res.Body)
+// 	if err2 != nil {
 
-		panic(err2)
-	}
-	err3 := json.Unmarshal(body, &savedStates)
-	if err3 != nil {
-		panic(err3)
-	}
-	fmt.Println(savedStates)
+// 		panic(err2)
+// 	}
+// 	err3 := json.Unmarshal(body, &t.SavedStates)
+// 	if err3 != nil {
+// 		panic(err3)
+// 	}
+// 	fmt.Println(t.SavedStates)
 
-	c.Update() // Manual updated trigger
-}
+// 	c.Update() // Manual updated trigger
+// }
 
 func (c *myCompo) x() app.UI {
 	return app.Ul().Body(
@@ -111,16 +114,17 @@ func (c *myCompo) x() app.UI {
 		}),
 	)
 }
-func (c *myCompo) Render() app.UI {
-	return app.Div().Body(
-		app.P().Text(c.Number),
-		app.P().Text(myTest),
-		app.P().Text(getPasses),
-		app.P().Text(savedStates),
 
-		c.x(),
-	).OnClick(c.customTrigger)
-}
+// func (c *myCompo) Render() app.UI {
+// 	return app.Div().Body(
+// 		app.P().Text(c.Number),
+// 		app.P().Text(myTest),
+// 		app.P().Text(getPasses),
+// 		app.P().Text(t.SavedStates),
+
+// 		c.x(),
+// 	).OnClick(c.customTrigger)
+// }
 
 /*
 Indent
@@ -222,7 +226,7 @@ func main() {
 	// This is done by calling the Route() function,  which tells go-app what
 	// component to display for a given path, on both client and server-side.
 	// app.Route("/", &myCompo{})
-	app.Route("/", &a.AppComponent{})
+	app.Route("/", &a.Hello{})
 	// Once the routes set up, the next thing to do is to either launch the app
 	// or the server that serves the app.
 	//
@@ -261,18 +265,51 @@ func main() {
 		}
 
 	})
-	http.HandleFunc("/myGet", func(rw http.ResponseWriter, r *http.Request) {
-		file, err := os.ReadFile("ContextualStateChart/saved_states.json")
-		if err != nil {
-			panic(err)
+	http.HandleFunc("/save", func(rw http.ResponseWriter, r *http.Request) {
+		fileName := fmt.Sprintf("ContextualStateChart/StateArray/state_%s.json", r.FormValue("fileID"))
+		err1 := os.WriteFile(fileName, []byte(r.FormValue("state")), 0644)
+		if err1 != nil {
+			panic(err1)
 		}
-		rw.Write(file)
 
 	})
+	http.HandleFunc("/loadAllStates", func(rw http.ResponseWriter, r *http.Request) {
+		dirPath := "ContextualStateChart/StateArray"
+		matches, err := filepath.Glob(filepath.Join(dirPath, "state_*.json"))
+		if err != nil {
+			log.Fatal(err)
+		}
+		var files []t.State
+		var wg sync.WaitGroup
+		for i := 0; i < len(matches); i++ {
+			wg.Add(1)
+			go getFile(i, &files, &wg)
+		}
+		wg.Wait()
+		sort.Slice(files, func(i, j int) bool {
+			return files[i].ID < files[j].ID
+		})
+		returnFiles, _ := json.Marshal(files)
+		rw.Write(returnFiles)
 
-	// http.Post()
+	})
 
 	if err := http.ListenAndServe(":3000", nil); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func getFile(i int, files *[]t.State, wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	file, err := os.ReadFile(fmt.Sprintf("ContextualStateChart/StateArray/state_%d.json", i))
+	if err != nil {
+		panic(err)
+	}
+	var fileJson t.State
+	err2 := json.Unmarshal(file, &fileJson)
+	if err2 != nil {
+		panic(err2)
+	}
+	*files = append(*files, fileJson)
 }

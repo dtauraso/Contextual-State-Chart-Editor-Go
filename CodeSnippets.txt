@@ -1,0 +1,3 @@
+// if reflect.ValueOf(ss.SavedState).IsZero() {
+// 	return nil
+// }
