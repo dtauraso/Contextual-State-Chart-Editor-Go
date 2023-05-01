@@ -70,12 +70,12 @@ func (c *Hello) customTrigger(ctx app.Context, e app.Event) {
 	c.Update() // Manual updated trigger
 
 }
-func ID()                                                       {}
-func Name()                                                     {}
-func FunctionName()                                             {}
-func StartChildren()                                            {}
-func Edges(edgeNames [][]string, areParallel t.State) []t.State { return []t.State{} }
-func AreParallel(areParallel bool) t.State                      { return t.State{} }
+func ID()                                  {}
+func Name()                                {}
+func FunctionName()                        {}
+func StartChildren()                       {}
+func Edges(edgeNames [][]string) []t.State { return []t.State{} }
+func AreParallel(areParallel bool) t.State { return t.State{} }
 
 func save() app.UI {
 
