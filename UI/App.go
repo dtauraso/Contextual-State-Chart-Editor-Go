@@ -10,6 +10,7 @@ import (
 	// "net/url"
 	// "os"
 	"encoding/json"
+	// "reflect"
 	// "fmt"
 	// "fmt"
 
@@ -26,7 +27,7 @@ import (
 
 	ss "github.com/dtauraso/Contextual-State-Chart-Editor-Go/SavedStates"
 
-	// t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
+	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
 	// x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
@@ -65,10 +66,16 @@ func (c *Hello) customTrigger(ctx app.Context, e app.Event) {
 	}
 
 	ss.Name = string(ss.SavedStates[2].StringValue)
-
+	// json-style to go struct functions
 	c.Update() // Manual updated trigger
 
 }
+func ID()                                  {}
+func Name()                                {}
+func FunctionName()                        {}
+func StartChildren()                       {}
+func Edges()                               {}
+func AreParallel(areParallel bool) t.State { return t.State{} }
 
 func save() app.UI {
 
