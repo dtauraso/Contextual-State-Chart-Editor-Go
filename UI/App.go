@@ -85,6 +85,7 @@ func save() app.UI {
 	http.PostForm("/save", output)
 	return nil
 }
+
 func (h *Hello) Render() app.UI {
 
 	return app.Div().Body(
@@ -106,4 +107,14 @@ func (h *Hello) Render() app.UI {
 				OnChange(h.ValueTo(&ss.Name)),
 		).OnClick(h.customTrigger),
 	)
+}
+
+// basic structure for displaying 1 state
+type StateComponent struct {
+	app.Compo
+	StateID int
+}
+
+func (sc *StateComponent) StateComponent() app.UI {
+	return nil
 }
