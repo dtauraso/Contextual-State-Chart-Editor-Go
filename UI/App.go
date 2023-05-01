@@ -11,9 +11,10 @@ import (
 	// "os"
 	"encoding/json"
 	// "fmt"
+	// "fmt"
 
 	// "fmt"
-	"reflect"
+	// "reflect"
 	// "strconv"
 
 	// "fmt"
@@ -48,7 +49,7 @@ type Hello struct {
 
 func (c *Hello) customTrigger(ctx app.Context, e app.Event) {
 
-	res, err := http.Get("/load?id=0")
+	res, err := http.Get("/loadAllStates")
 	if err != nil {
 		panic(err)
 	}
@@ -58,41 +59,10 @@ func (c *Hello) customTrigger(ctx app.Context, e app.Event) {
 
 		panic(err2)
 	}
-	err3 := json.Unmarshal(body, &ss.SavedState)
+	err3 := json.Unmarshal(body, &ss.SavedStates)
 	if err3 != nil {
 		panic(err3)
 	}
-
-	ss.SavedStates = append(ss.SavedStates, ss.SavedState)
-	res2, err4 := http.Get("/load?id=1")
-	if err4 != nil {
-		panic(err4)
-	}
-	defer res2.Body.Close()
-	body2, err5 := io.ReadAll(res2.Body)
-	if err5 != nil {
-		panic(err5)
-	}
-	err6 := json.Unmarshal(body2, &ss.SavedState2)
-	if err6 != nil {
-		panic(err6)
-	}
-	ss.SavedStates = append(ss.SavedStates, ss.SavedState2)
-
-	res3, err7 := http.Get("/load?id=2")
-	if err7 != nil {
-		panic(err7)
-	}
-	defer res3.Body.Close()
-	body3, err8 := io.ReadAll(res3.Body)
-	if err8 != nil {
-		panic(err8)
-	}
-	err9 := json.Unmarshal(body3, &ss.SavedState3)
-	if err9 != nil {
-		panic(err9)
-	}
-	ss.SavedStates = append(ss.SavedStates, ss.SavedState3)
 
 	ss.Name = string(ss.SavedStates[2].StringValue)
 
@@ -102,7 +72,7 @@ func (c *Hello) customTrigger(ctx app.Context, e app.Event) {
 
 func save() app.UI {
 
-	if reflect.ValueOf(ss.SavedState).IsZero() {
+	if len(ss.SavedStates) == 0 {
 		return nil
 	}
 
@@ -111,7 +81,7 @@ func save() app.UI {
 	if err != nil {
 		panic(err)
 	}
-	output := url.Values{"test": {string(binaryOutput)}, "fileID": {"2"}}
+	output := url.Values{"state": {string(binaryOutput)}, "fileID": {"2"}}
 	http.PostForm("/save", output)
 	return nil
 }

@@ -4,15 +4,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"path/filepath"
+	"sort"
+	"sync"
 
 	// "io"
 	"log"
 	// "math/rand"
 	"net/http"
 	// "net/url"
+	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
+	// ss "github.com/dtauraso/Contextual-State-Chart-Editor-Go/SavedStates"
 	"os"
-
-	// t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/SavedStates"
 	// x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	a "github.com/dtauraso/Contextual-State-Chart-Editor-Go/UI"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
@@ -264,31 +266,50 @@ func main() {
 
 	})
 	http.HandleFunc("/save", func(rw http.ResponseWriter, r *http.Request) {
-		err1 := os.WriteFile(fmt.Sprintf("ContextualStateChart/StateArray/state_%s.json", r.FormValue("fileID")), []byte(r.FormValue("test")), 0644)
+		fileName := fmt.Sprintf("ContextualStateChart/StateArray/state_%s.json", r.FormValue("fileID"))
+		err1 := os.WriteFile(fileName, []byte(r.FormValue("state")), 0644)
 		if err1 != nil {
 			panic(err1)
 		}
 
 	})
-	http.HandleFunc("/load", func(rw http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/loadAllStates", func(rw http.ResponseWriter, r *http.Request) {
 		dirPath := "ContextualStateChart/StateArray"
 		matches, err := filepath.Glob(filepath.Join(dirPath, "state_*.json"))
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("Number of files in %s: %d\n", dirPath, len(matches))
-
-		file, err := os.ReadFile(fmt.Sprintf("ContextualStateChart/StateArray/state_%s.json", r.FormValue("id")))
-		if err != nil {
-			panic(err)
+		var files []t.State
+		var wg sync.WaitGroup
+		for i := 0; i < len(matches); i++ {
+			wg.Add(1)
+			go getFile(i, &files, &wg)
 		}
-		rw.Write(file)
+		wg.Wait()
+		sort.Slice(files, func(i, j int) bool {
+			return files[i].ID < files[j].ID
+		})
+		returnFiles, _ := json.Marshal(files)
+		rw.Write(returnFiles)
 
 	})
-
-	// http.Post()
 
 	if err := http.ListenAndServe(":3000", nil); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func getFile(i int, files *[]t.State, wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	file, err := os.ReadFile(fmt.Sprintf("ContextualStateChart/StateArray/state_%d.json", i))
+	if err != nil {
+		panic(err)
+	}
+	var fileJson t.State
+	err2 := json.Unmarshal(file, &fileJson)
+	if err2 != nil {
+		panic(err2)
+	}
+	*files = append(*files, fileJson)
 }
