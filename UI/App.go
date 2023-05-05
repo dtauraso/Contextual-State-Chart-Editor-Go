@@ -191,9 +191,8 @@ func (sc *StateComponent) StateComponent() app.UI {
 									OnChange(func(ctx app.Context, e app.Event) {
 										ss.Name = ctx.JSSrc().Get("value").String()
 										sc.editActive3 = false
-
+										sc.saveData()
 									})),
-							sc.saveData(),
 						).Else(
 
 							app.Ul().Style("padding-left", "1rem").
