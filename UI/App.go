@@ -115,6 +115,19 @@ type StateComponent struct {
 	StateID int
 }
 
+func (sc *StateComponent) Render() app.UI {
+	return sc.StateComponent()
+}
 func (sc *StateComponent) StateComponent() app.UI {
-	return nil
+	return app.Div().Body(
+		app.Ul().Body(
+			app.Li().
+				Style("list-style", "none").
+				Text("list element"),
+			app.Ul().Body(
+				app.Li().Style("list-style", "none").Text("test"),
+				app.Ul().Body(
+					app.Li().Style("list-style", "none").Text("test 2"))),
+		),
+	)
 }
