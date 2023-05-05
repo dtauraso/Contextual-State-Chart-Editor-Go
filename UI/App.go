@@ -192,12 +192,16 @@ func (sc *StateComponent) StateComponent() app.UI {
 										ss.Name = ctx.JSSrc().Get("value").String()
 										sc.editActive3 = false
 										sc.saveData()
-									})),
+									}).
+									Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6))),
 						).Else(
 
 							app.Ul().Style("padding-left", "1rem").
+								Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)).
 								Body(
-									app.Li().Style("list-style", "none").Text(ss.Name)).
+									app.Li().Style("list-style", "none").
+										Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)).
+										Text(ss.Name)).
 								OnClick(func(ctx app.Context, e app.Event) { sc.UpdateEditFlag(3) }),
 						),
 					),
