@@ -266,7 +266,7 @@ func main() {
 
 	})
 	http.HandleFunc("/save", func(rw http.ResponseWriter, r *http.Request) {
-		fileName := fmt.Sprintf("ContextualStateChart/StateArray/state_%s.json", r.FormValue("fileID"))
+		fileName := fmt.Sprintf("ContextualStateChart/StateArray/%s.json", r.FormValue("fileID"))
 		err1 := os.WriteFile(fileName, []byte(r.FormValue("state")), 0644)
 		if err1 != nil {
 			panic(err1)
@@ -275,7 +275,7 @@ func main() {
 	})
 	http.HandleFunc("/loadAllStates", func(rw http.ResponseWriter, r *http.Request) {
 		dirPath := "ContextualStateChart/StateArray"
-		matches, err := filepath.Glob(filepath.Join(dirPath, "state_*.json"))
+		matches, err := filepath.Glob(filepath.Join(dirPath, "*.json"))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -302,7 +302,7 @@ func main() {
 func getFile(i int, files *[]t.State, wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	file, err := os.ReadFile(fmt.Sprintf("ContextualStateChart/StateArray/state_%d.json", i))
+	file, err := os.ReadFile(fmt.Sprintf("ContextualStateChart/StateArray/%d.json", i))
 	if err != nil {
 		panic(err)
 	}
