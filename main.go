@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"path/filepath"
-	"sort"
-	"sync"
+	// "sort"
+	"strconv"
 
 	// "io"
 	"log"
@@ -273,23 +273,37 @@ func main() {
 		}
 
 	})
+
 	http.HandleFunc("/loadAllStates", func(rw http.ResponseWriter, r *http.Request) {
 		dirPath := "ContextualStateChart/StateArray"
 		matches, err := filepath.Glob(filepath.Join(dirPath, "*.json"))
 		if err != nil {
 			log.Fatal(err)
 		}
-		var files []t.State
-		var wg sync.WaitGroup
+		myMap := make(map[string]t.State)
+		fileChan := make(chan File)
+
 		for i := 0; i < len(matches); i++ {
-			wg.Add(1)
-			go getFile(i, &files, &wg)
+			go func(i int) {
+				file, err := os.ReadFile(fmt.Sprintf("ContextualStateChart/StateArray/%d.json", i))
+				if err != nil {
+					panic(err)
+				}
+				var fileJson t.State
+				err2 := json.Unmarshal(file, &fileJson)
+				if err2 != nil {
+					panic(err2)
+				}
+				fileChan <- File{key: strconv.Itoa(fileJson.ID), value: fileJson}
+			}(i)
+
 		}
-		wg.Wait()
-		sort.Slice(files, func(i, j int) bool {
-			return files[i].ID < files[j].ID
-		})
-		returnFiles, _ := json.Marshal(files)
+		for i := 0; i < len(matches); i++ {
+			file := <-fileChan
+			myMap[file.key] = file.value
+		}
+
+		returnFiles, _ := json.Marshal(myMap)
 		rw.Write(returnFiles)
 
 	})
@@ -299,17 +313,7 @@ func main() {
 	}
 }
 
-func getFile(i int, files *[]t.State, wg *sync.WaitGroup) {
-	defer wg.Done()
-
-	file, err := os.ReadFile(fmt.Sprintf("ContextualStateChart/StateArray/%d.json", i))
-	if err != nil {
-		panic(err)
-	}
-	var fileJson t.State
-	err2 := json.Unmarshal(file, &fileJson)
-	if err2 != nil {
-		panic(err2)
-	}
-	*files = append(*files, fileJson)
+type File struct {
+	key   string
+	value t.State
 }

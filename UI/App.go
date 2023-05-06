@@ -11,6 +11,7 @@ import (
 	// "os"
 	"encoding/json"
 	"fmt"
+	"reflect"
 
 	// "time"
 	// "fmt"
@@ -29,7 +30,7 @@ import (
 
 	ss "github.com/dtauraso/Contextual-State-Chart-Editor-Go/SavedStates"
 
-	// t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
+	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
 	// x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
@@ -136,12 +137,12 @@ func (sc *StateComponent) OnMount(ctx app.Context) {
 
 		panic(err2)
 	}
-	err3 := json.Unmarshal(body, &ss.SavedStates)
+	err3 := json.Unmarshal(body, &ss.SavedStates2)
 	if err3 != nil {
 		panic(err3)
 	}
 
-	ss.Name = string(ss.SavedStates[2].StringValue)
+	ss.Name = string(ss.SavedStates2["2"].StringValue)
 	sc.editActive1 = false
 	sc.editActive2 = false
 	sc.editActive3 = false
@@ -153,24 +154,32 @@ func (sc *StateComponent) UpdateEditFlag(flagID int) {
 
 }
 
+// func updateMapStruct(myMap map[string]any)
 func (sc *StateComponent) saveData() app.UI {
 
-	if len(ss.SavedStates) == 0 {
+	if reflect.DeepEqual(ss.SavedStates2, reflect.ValueOf(ss.SavedStates2).IsZero()) {
 		return nil
 	}
-
-	ss.SavedStates[2].StringValue = ss.Name
-	binaryOutput, err := json.Marshal(ss.SavedStates[2])
+	t.SaveString(ss.SavedStates2, "2", ss.Name)
+	// if entry, ok := ss.SavedStates2["2"]; ok {
+	// 	entry.StringValue = ss.Name
+	// 	ss.SavedStates2["2"] = entry
+	// }
+	// ss.SavedStates2["2"].StringValue(ss.Name)
+	// ss.SavedStates2["2"].StringValue = ss.Name
+	fmt.Println(ss.SavedStates2["2"])
+	binaryOutput, err := json.Marshal(ss.SavedStates2["2"])
 	if err != nil {
 		panic(err)
 	}
+
 	output := url.Values{"state": {string(binaryOutput)}, "fileID": {"2"}}
 	http.PostForm("/save", output)
 	return nil
 }
 func (sc *StateComponent) StateComponent() app.UI {
-	fmt.Println(ss.SavedStates)
-	fmt.Println("editActive3", sc.editActive3)
+	// fmt.Println(ss.SavedStates)
+	// fmt.Println("editActive3", sc.editActive3)
 
 	return app.Div().Body(
 		app.Ul().Style("padding-left", "1rem").

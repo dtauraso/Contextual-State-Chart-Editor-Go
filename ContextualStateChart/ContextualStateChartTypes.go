@@ -22,3 +22,10 @@ type State struct {
 	ArrayValues []int          `json:"ArrayValues,omitempty"`
 	MapValues   map[string]int `json:"MapValues,omitempty"`
 }
+
+func SaveString(s map[string]State, key string, newString string) {
+	if entry, ok := s[key]; ok {
+		entry.StringValue = newString
+		s[key] = entry
+	}
+}
