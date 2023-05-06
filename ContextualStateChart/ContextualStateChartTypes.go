@@ -45,6 +45,25 @@ MapValueString("testKey", "testValue")
 	},
 
 }
+
+MapValue("testKey", MapValueString("testKey2", "testValue2"))
+
+{
+
+	0: {
+		id: 0
+		MapValues:{"testKey": 1}
+	},
+	1: {
+		id: 1
+		MapValues:{"testKey2": 2}
+	},
+	2: {
+		id: 2
+		StringValue:"testValue2"
+	},
+
+}
 */
 func MapValueString(key string, value string) map[int]State {
 	return nil
