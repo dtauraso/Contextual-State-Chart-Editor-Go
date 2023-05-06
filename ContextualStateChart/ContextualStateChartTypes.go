@@ -116,23 +116,23 @@ ArrayValues(ArrayValues("test1", "test2"), ArrayValues("test3"))
 
 	0: {
 		id: 0
-		ArrayValues: [1, 2]
+		ArrayValues: [1, 4]
 
 	},
 	1: {
 		id: 1
-		ArrayValues: [3, 4]
-	},
-	3: {
-		id: 3
-		StringValue:"test1"
-	},
-	4: {
-		id: 4
-		StringValue:"test2"
+		ArrayValues: [2, 3]
 	},
 	2: {
 		id: 2
+		StringValue:"test1"
+	},
+	3: {
+		id: 3
+		StringValue:"test2"
+	},
+	4: {
+		id: 4
 		ArrayValues: [5]
 	},
 	5: {
