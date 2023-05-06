@@ -141,6 +141,28 @@ ArrayValues(ArrayValues("test1", "test2"), ArrayValues("test3"))
 	},
 
 }
+
+MapValue("testKey", ArrayValues("test1", "test2"))
+
+{
+
+	0: {
+		id: 0
+		MapValues:{"testKey": 1}
+	},
+	1: {
+		id: 1
+		ArrayValues: [2, 3]
+	},
+	2: {
+		id: 2
+		StringValue:"test1"
+	},
+	3: {
+		id: 3
+		StringValue:"test2"
+	},
+	}
 */
 func MapValueString(key string, value string) map[int]State {
 	return nil
