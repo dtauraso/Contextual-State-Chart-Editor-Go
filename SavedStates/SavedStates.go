@@ -9,6 +9,6 @@ var SavedState2 t.State
 var SavedState3 t.State
 
 var SavedStates []t.State
-var SavedStates2 map[string]t.State
+var SavedStates2 map[int]t.State
 
 var Name string

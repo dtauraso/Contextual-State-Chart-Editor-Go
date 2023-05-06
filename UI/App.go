@@ -142,7 +142,7 @@ func (sc *StateComponent) OnMount(ctx app.Context) {
 		panic(err3)
 	}
 
-	ss.Name = string(ss.SavedStates2["2"].StringValue)
+	ss.Name = string(ss.SavedStates2[2].StringValue)
 	sc.editActive1 = false
 	sc.editActive2 = false
 	sc.editActive3 = false
@@ -154,21 +154,13 @@ func (sc *StateComponent) UpdateEditFlag(flagID int) {
 
 }
 
-// func updateMapStruct(myMap map[string]any)
 func (sc *StateComponent) saveData() app.UI {
 
 	if reflect.DeepEqual(ss.SavedStates2, reflect.ValueOf(ss.SavedStates2).IsZero()) {
 		return nil
 	}
-	t.SaveString(ss.SavedStates2, "2", ss.Name)
-	// if entry, ok := ss.SavedStates2["2"]; ok {
-	// 	entry.StringValue = ss.Name
-	// 	ss.SavedStates2["2"] = entry
-	// }
-	// ss.SavedStates2["2"].StringValue(ss.Name)
-	// ss.SavedStates2["2"].StringValue = ss.Name
-	fmt.Println(ss.SavedStates2["2"])
-	binaryOutput, err := json.Marshal(ss.SavedStates2["2"])
+	t.SaveString(ss.SavedStates2, 2, ss.Name)
+	binaryOutput, err := json.Marshal(ss.SavedStates2[2])
 	if err != nil {
 		panic(err)
 	}
@@ -178,8 +170,6 @@ func (sc *StateComponent) saveData() app.UI {
 	return nil
 }
 func (sc *StateComponent) StateComponent() app.UI {
-	// fmt.Println(ss.SavedStates)
-	// fmt.Println("editActive3", sc.editActive3)
 
 	return app.Div().Body(
 		app.Ul().Style("padding-left", "1rem").

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"path/filepath"
 	// "sort"
-	"strconv"
+	// "strconv"
 
 	// "io"
 	"log"
@@ -280,7 +280,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		myMap := make(map[string]t.State)
+		myMap := make(map[int]t.State)
 		fileChan := make(chan File)
 
 		for i := 0; i < len(matches); i++ {
@@ -294,7 +294,7 @@ func main() {
 				if err2 != nil {
 					panic(err2)
 				}
-				fileChan <- File{key: strconv.Itoa(fileJson.ID), value: fileJson}
+				fileChan <- File{key: fileJson.ID, value: fileJson}
 			}(i)
 
 		}
@@ -314,6 +314,6 @@ func main() {
 }
 
 type File struct {
-	key   string
+	key   int
 	value t.State
 }
