@@ -19,7 +19,6 @@ type State struct {
 	BoolValue   bool           `json:"BoolValue,omitempty"`
 	IntValue    int            `json:"IntValue,omitempty"`
 	StringValue string         `json:"StringValue,omitempty"`
-	ArrayValues []int          `json:"ArrayValues,omitempty"`
 	MapValues   map[string]int `json:"MapValues,omitempty"`
 }
 
