@@ -30,6 +30,22 @@ func SaveString(s map[int]State, key int, newString string) {
 	}
 }
 
+/*
+MapValueString("testKey", "testValue")
+
+{
+
+	0: {
+		id: 0
+		MapValues:{"testKey": 1}
+	},
+	1: {
+		id: 1
+		StringValue:"testValue"
+	},
+
+}
+*/
 func MapValueString(key string, value string) map[int]State {
 	return nil
 }
