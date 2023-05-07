@@ -120,29 +120,3 @@ func ArrayValue(elements ...any) map[int]State {
 	return states
 
 }
-
-/*
-
-
-MapValue("testKey", ArrayValues("test1", "test2"))
-
-{
-
-	0: {
-		id: 0
-		MapValues:{"testKey": 1}
-	},
-	1: {
-		id: 1
-		MapValues: {"0": 2, "1": 3}
-	},
-	2: {
-		id: 2
-		StringValue:"test1"
-	},
-	3: {
-		id: 3
-		StringValue:"test2"
-	},
-	}
-*/
