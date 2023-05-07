@@ -46,7 +46,8 @@ func MapValueString(key, value string) map[int]State {
 func MapValue(key string, value map[int]State) map[int]State {
 	states := make(map[int]State)
 	states[0] = State{ID: 0, MapValues: map[string]int{key: 1}}
-	states = addStates(states, value)
+
+	states, _ = addStates(states, value, 1)
 
 	return states
 }
@@ -64,23 +65,23 @@ func ArrayValueStrings(strings ...string) map[int]State {
 	}
 	return states
 }
-func addStates(states, newStates map[int]State) map[int]State {
-	i := 1
+func addStates(states, newStates map[int]State, newIndex int) (map[int]State, int) {
+	// newIndex := 1
 	for key := 0; key < len(newStates); key++ {
 		value := newStates[key]
 		if !reflect.ValueOf(value.MapValues).IsZero() {
 			newMapValues := make(map[string]int)
 			for key2, value2 := range value.MapValues {
-				newMapValues[key2] = value2 + (i - key)
+				newMapValues[key2] = value2 + (newIndex - key)
 			}
-			states[i] = State{ID: i, MapValues: newMapValues}
+			states[newIndex] = State{ID: newIndex, MapValues: newMapValues}
 		} else if !reflect.ValueOf(value.StringValue).IsZero() {
-			states[i] = State{ID: i, StringValue: value.StringValue}
+			states[newIndex] = State{ID: newIndex, StringValue: value.StringValue}
 		}
 
-		i++
+		newIndex++
 	}
-	return states
+	return states, newIndex
 }
 func ArrayValue(elements ...any) map[int]State {
 	fmt.Println("ArrayValue")
@@ -90,39 +91,22 @@ func ArrayValue(elements ...any) map[int]State {
 	for i := 0; i < len(elements); i++ {
 		arrayMapValues[strconv.Itoa(i)] = i + 1
 	}
-	// fmt.Println(elements...)
 	states[0] = State{ID: 0, MapValues: arrayMapValues}
-	// for j = 0; j < len(elements)
-	// i and j are on different tracks
-	// edge for second index is being set from the input parameter position instead of the expected index
-	// in the return map
-	for i, element := range elements {
+
+	newIndex := 1
+	for i := 0; i < len(elements); i++ {
+
+		element := elements[i]
 		myString, okString := element.(string)
 
-		if okString /*reflect.TypeOf(element).Name() == "string"*/ {
-			states[i+1] = State{ID: i + 1, StringValue: myString}
+		if okString {
+			states[newIndex] = State{ID: newIndex, StringValue: myString}
+			newIndex++
 
 		}
 		myStates, okStates := element.(map[int]State)
 		if okStates {
-			j := 1
-			// fmt.Println(myStates)
-			for key := 0; key < len(myStates); key++ {
-				value := myStates[key]
-				fmt.Println(value)
-
-				if !reflect.ValueOf(value.MapValues).IsZero() {
-					newMapValues := make(map[string]int)
-					for key2, value2 := range value.MapValues {
-						newMapValues[key2] = value2 + (j - key)
-					}
-					states[j] = State{ID: j, MapValues: newMapValues}
-				} else if !reflect.ValueOf(value.StringValue).IsZero() {
-					states[j] = State{ID: j, StringValue: value.StringValue}
-				}
-
-				j++
-			}
+			states, newIndex = addStates(states, myStates, newIndex)
 		}
 
 	}
@@ -134,12 +118,13 @@ func ArrayValue(elements ...any) map[int]State {
 	3:{3 false 0 test2 map[]}
 	4:{4 false 0 test3 map[]}
 	5:{5 false 0 test4 map[]}],*/
-	/* got 	  map[
+	/* got 	  got got map[
 	0:{0 false 0  map[0:1 1:2]}
 	1:{1 false 0  map[0:2 1:3 2:4]}
-	2:{2 false 0 test4 map[]}
+	2:{2 false 0 test1 map[]}
 	3:{3 false 0 test2 map[]}
-	4:{4 false 0 test3 map[]}]*/
+	4:{4 false 0 test3 map[]}
+	5:{5 false 0 test4 map[]}]*/
 }
 
 /*
