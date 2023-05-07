@@ -2,6 +2,7 @@ package ContextualStateChartTypes
 
 import (
 	// "fmt"
+	"fmt"
 	"reflect"
 	"strconv"
 )
@@ -45,21 +46,7 @@ func MapValueString(key, value string) map[int]State {
 func MapValue(key string, value map[int]State) map[int]State {
 	states := make(map[int]State)
 	states[0] = State{ID: 0, MapValues: map[string]int{key: 1}}
-	i := 1
-	for key := 0; key < len(value); key++ {
-		value := value[key]
-		if !reflect.ValueOf(value.MapValues).IsZero() {
-			newMapValues := make(map[string]int)
-			for key2, value2 := range value.MapValues {
-				newMapValues[key2] = value2 + (i - key)
-			}
-			states[i] = State{ID: i, MapValues: newMapValues}
-		} else if !reflect.ValueOf(value.StringValue).IsZero() {
-			states[i] = State{ID: i, StringValue: value.StringValue}
-		}
-
-		i++
-	}
+	states = addStates(states, value)
 
 	return states
 }
@@ -76,6 +63,83 @@ func ArrayValueStrings(strings ...string) map[int]State {
 		states[i+1] = State{ID: i + 1, StringValue: myString}
 	}
 	return states
+}
+func addStates(states, newStates map[int]State) map[int]State {
+	i := 1
+	for key := 0; key < len(newStates); key++ {
+		value := newStates[key]
+		if !reflect.ValueOf(value.MapValues).IsZero() {
+			newMapValues := make(map[string]int)
+			for key2, value2 := range value.MapValues {
+				newMapValues[key2] = value2 + (i - key)
+			}
+			states[i] = State{ID: i, MapValues: newMapValues}
+		} else if !reflect.ValueOf(value.StringValue).IsZero() {
+			states[i] = State{ID: i, StringValue: value.StringValue}
+		}
+
+		i++
+	}
+	return states
+}
+func ArrayValue(elements ...any) map[int]State {
+	fmt.Println("ArrayValue")
+	states := make(map[int]State)
+	arrayMapValues := make(map[string]int)
+
+	for i := 0; i < len(elements); i++ {
+		arrayMapValues[strconv.Itoa(i)] = i + 1
+	}
+	// fmt.Println(elements...)
+	states[0] = State{ID: 0, MapValues: arrayMapValues}
+	// for j = 0; j < len(elements)
+	// i and j are on different tracks
+	// edge for second index is being set from the input parameter position instead of the expected index
+	// in the return map
+	for i, element := range elements {
+		myString, okString := element.(string)
+
+		if okString /*reflect.TypeOf(element).Name() == "string"*/ {
+			states[i+1] = State{ID: i + 1, StringValue: myString}
+
+		}
+		myStates, okStates := element.(map[int]State)
+		if okStates {
+			j := 1
+			// fmt.Println(myStates)
+			for key := 0; key < len(myStates); key++ {
+				value := myStates[key]
+				fmt.Println(value)
+
+				if !reflect.ValueOf(value.MapValues).IsZero() {
+					newMapValues := make(map[string]int)
+					for key2, value2 := range value.MapValues {
+						newMapValues[key2] = value2 + (j - key)
+					}
+					states[j] = State{ID: j, MapValues: newMapValues}
+				} else if !reflect.ValueOf(value.StringValue).IsZero() {
+					states[j] = State{ID: j, StringValue: value.StringValue}
+				}
+
+				j++
+			}
+		}
+
+	}
+	return states
+	/* wanted map[
+	0:{0 false 0  map[0:1 1:5]}
+	1:{1 false 0  map[0:2 1:3 2:4]}
+	2:{2 false 0 test1 map[]}
+	3:{3 false 0 test2 map[]}
+	4:{4 false 0 test3 map[]}
+	5:{5 false 0 test4 map[]}],*/
+	/* got 	  map[
+	0:{0 false 0  map[0:1 1:2]}
+	1:{1 false 0  map[0:2 1:3 2:4]}
+	2:{2 false 0 test4 map[]}
+	3:{3 false 0 test2 map[]}
+	4:{4 false 0 test3 map[]}]*/
 }
 
 /*
