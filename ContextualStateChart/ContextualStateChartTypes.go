@@ -3,6 +3,7 @@ package ContextualStateChartTypes
 import (
 	// "fmt"
 	"reflect"
+	"strconv"
 )
 
 // Parents: NDParentStateName -> ID
@@ -63,67 +64,21 @@ func MapValue(key string, value map[int]State) map[int]State {
 	return states
 }
 
+func ArrayValueStrings(strings ...string) map[int]State {
+	states := make(map[int]State)
+	arrayMapValues := make(map[string]int)
+
+	for i := 0; i < len(strings); i++ {
+		arrayMapValues[strconv.Itoa(i)] = i + 1
+	}
+	states[0] = State{ID: 0, MapValues: arrayMapValues}
+	for i, myString := range strings {
+		states[i+1] = State{ID: i + 1, StringValue: myString}
+	}
+	return states
+}
+
 /*
-MapValueString("testKey", "testValue")
-
-{
-
-	0: {
-		id: 0
-		MapValues:{"testKey": 1}
-	},
-	1: {
-		id: 1
-		StringValue:"testValue"
-	},
-
-}
-
-MapValue("testKey", MapValueString("testKey2", "testValue2"))
-
-{
-
-	0: {
-		id: 0
-		MapValues:{"testKey": 1}
-	},
-	1: {
-		id: 1
-		MapValues:{"testKey2": 2}
-	},
-	2: {
-		id: 2
-		StringValue:"testValue2"
-	},
-
-}
-
-ArrayValues("test1", "test2", "test3")
-
-{
-
-	0: {
-		id: 0
-		MapValues: {
-			"0": 1,
-			"1": 2,
-			"2": 3
-		}
-	},
-	1: {
-		id: 1
-		StringValue:"test1"
-	},
-	2: {
-		id: 2
-		StringValue:"test2"
-	},
-	3: {
-		id: 3
-		StringValue:"test3"
-	},
-
-}
 
 ArrayValues(ArrayValues("test1", "test2"))
 {
