@@ -1,5 +1,10 @@
 package ContextualStateChartTypes
 
+import (
+	// "fmt"
+	"reflect"
+)
+
 // Parents: NDParentStateName -> ID
 // MapValues: 1D string -> ID
 /*
@@ -27,6 +32,35 @@ func SaveString(s map[int]State, key int, newString string) {
 		entry.StringValue = newString
 		s[key] = entry
 	}
+}
+
+func MapValueString(key, value string) map[int]State {
+	states := make(map[int]State)
+	states[0] = State{ID: 0, MapValues: map[string]int{key: 1}}
+	states[1] = State{ID: 1, StringValue: value}
+	return states
+}
+
+func MapValue(key string, value map[int]State) map[int]State {
+	states := make(map[int]State)
+	states[0] = State{ID: 0, MapValues: map[string]int{key: 1}}
+	i := 1
+	for key, value := range value {
+		if !reflect.ValueOf(value.MapValues).IsZero() {
+			newMapValues := make(map[string]int)
+			for key2, value2 := range value.MapValues {
+				newMapValues[key2] = value2 + (i - key)
+			}
+			states[i] = State{ID: i, MapValues: newMapValues}
+		} else if !reflect.ValueOf(value.StringValue).IsZero() {
+			states[i] = State{ID: i, StringValue: value.StringValue}
+		}
+
+		i++
+	}
+	return states
+	// want map[0:{0 false 0  map[testKey:1]} 1:{1 false 0  map[testKey2:2]} 2:{2 false 0  map[testKey3:3]} 3:{3 false 0 testValue4 map[]}]
+	// got  map[0:{0 false 0  map[testKey:1]} 1:{1 false 0 testValue4 map[]} 2:{2 false 0  map[testKey2:3]} 3:{3 false 0  map[testKey3:4]}]
 }
 
 /*
@@ -70,7 +104,11 @@ ArrayValues("test1", "test2", "test3")
 
 	0: {
 		id: 0
-		ArrayValues: [1, 2, 3]
+		MapValues: {
+			"0": 1,
+			"1": 2,
+			"2": 3
+		}
 	},
 	1: {
 		id: 1
@@ -92,12 +130,12 @@ ArrayValues(ArrayValues("test1", "test2"))
 
 	0: {
 		id: 0
-		ArrayValues: [1]
+		MapValues: {"0": 1}
 
 	},
 	1: {
 		id: 1
-		ArrayValues: [2, 3]
+		MapValues: {"0": 2, "1": 3}
 	},
 	2: {
 		id: 2
@@ -115,12 +153,12 @@ ArrayValues(ArrayValues("test1", "test2"), ArrayValues("test3"))
 
 	0: {
 		id: 0
-		ArrayValues: [1, 4]
+		MapValues: {"0": 1, "1": 4}
 
 	},
 	1: {
 		id: 1
-		ArrayValues: [2, 3]
+		MapValues: {"0": 2, "1": 3}
 	},
 	2: {
 		id: 2
@@ -132,7 +170,7 @@ ArrayValues(ArrayValues("test1", "test2"), ArrayValues("test3"))
 	},
 	4: {
 		id: 4
-		ArrayValues: [5]
+		MapValues: {"0": 5}
 	},
 	5: {
 		id: 5
@@ -151,7 +189,7 @@ MapValue("testKey", ArrayValues("test1", "test2"))
 	},
 	1: {
 		id: 1
-		ArrayValues: [2, 3]
+		MapValues: {"0": 2, "1": 3}
 	},
 	2: {
 		id: 2
@@ -163,6 +201,3 @@ MapValue("testKey", ArrayValues("test1", "test2"))
 	},
 	}
 */
-func MapValueString(key string, value string) map[int]State {
-	return nil
-}
