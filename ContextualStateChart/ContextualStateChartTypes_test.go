@@ -187,3 +187,45 @@ func TestArrayValues3(t *testing.T) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
 }
+
+func TestArrayValues4(t *testing.T) {
+
+	want := map[int]State{
+
+		0: {
+			ID: 0,
+			MapValues: map[string]int{
+				"0": 1,
+				"1": 2},
+		},
+		1: {
+			ID:          1,
+			StringValue: "test4",
+		},
+		2: {
+			ID: 2,
+			MapValues: map[string]int{
+				"0": 3,
+				"1": 4,
+				"2": 5},
+		},
+		3: {
+			ID:          3,
+			StringValue: "test1",
+		},
+		4: {
+			ID:          4,
+			StringValue: "test2",
+		},
+		5: {
+			ID:          5,
+			StringValue: "test3",
+		},
+	}
+
+	got := ArrayValue("test4", ArrayValueStrings("test1", "test2", "test3"))
+
+	if !reflect.DeepEqual(want, got) {
+		t.Fatalf("wanted %v, got %v", want, got)
+	}
+}

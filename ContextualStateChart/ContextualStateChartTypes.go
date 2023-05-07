@@ -1,8 +1,6 @@
 package ContextualStateChartTypes
 
 import (
-	// "fmt"
-	"fmt"
 	"reflect"
 	"strconv"
 )
@@ -84,12 +82,22 @@ func addStates(states, newStates map[int]State, newIndex int) (map[int]State, in
 	return states, newIndex
 }
 func ArrayValue(elements ...any) map[int]State {
-	fmt.Println("ArrayValue")
 	states := make(map[int]State)
-	arrayMapValues := make(map[string]int)
+	arrayMapValues := map[string]int{"0": 1}
 
-	for i := 0; i < len(elements); i++ {
-		arrayMapValues[strconv.Itoa(i)] = i + 1
+	for i := 1; i < len(elements); i++ {
+
+		newIndex := strconv.Itoa(i)
+
+		prevElement := elements[i-1]
+		_, okString := prevElement.(string)
+		if okString {
+			arrayMapValues[newIndex] = i + 1
+		}
+		myStates, okStates := prevElement.(map[int]State)
+		if okStates {
+			arrayMapValues[newIndex] = i + len(myStates)
+		}
 	}
 	states[0] = State{ID: 0, MapValues: arrayMapValues}
 
@@ -102,7 +110,6 @@ func ArrayValue(elements ...any) map[int]State {
 		if okString {
 			states[newIndex] = State{ID: newIndex, StringValue: myString}
 			newIndex++
-
 		}
 		myStates, okStates := element.(map[int]State)
 		if okStates {
@@ -111,77 +118,11 @@ func ArrayValue(elements ...any) map[int]State {
 
 	}
 	return states
-	/* wanted map[
-	0:{0 false 0  map[0:1 1:5]}
-	1:{1 false 0  map[0:2 1:3 2:4]}
-	2:{2 false 0 test1 map[]}
-	3:{3 false 0 test2 map[]}
-	4:{4 false 0 test3 map[]}
-	5:{5 false 0 test4 map[]}],*/
-	/* got 	  got got map[
-	0:{0 false 0  map[0:1 1:2]}
-	1:{1 false 0  map[0:2 1:3 2:4]}
-	2:{2 false 0 test1 map[]}
-	3:{3 false 0 test2 map[]}
-	4:{4 false 0 test3 map[]}
-	5:{5 false 0 test4 map[]}]*/
+
 }
 
 /*
 
-ArrayValues(ArrayValues("test1", "test2"))
-{
-
-	0: {
-		id: 0
-		MapValues: {"0": 1}
-
-	},
-	1: {
-		id: 1
-		MapValues: {"0": 2, "1": 3}
-	},
-	2: {
-		id: 2
-		StringValue:"test1"
-	},
-	3: {
-		id: 3
-		StringValue:"test2"
-	},
-
-}
-ArrayValues(ArrayValues("test1", "test2"), ArrayValues("test3"))
-
-{
-
-	0: {
-		id: 0
-		MapValues: {"0": 1, "1": 4}
-
-	},
-	1: {
-		id: 1
-		MapValues: {"0": 2, "1": 3}
-	},
-	2: {
-		id: 2
-		StringValue:"test1"
-	},
-	3: {
-		id: 3
-		StringValue:"test2"
-	},
-	4: {
-		id: 4
-		MapValues: {"0": 5}
-	},
-	5: {
-		id: 5
-		StringValue:"test3"
-	},
-
-}
 
 MapValue("testKey", ArrayValues("test1", "test2"))
 
