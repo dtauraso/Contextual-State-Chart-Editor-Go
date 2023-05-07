@@ -45,7 +45,8 @@ func MapValue(key string, value map[int]State) map[int]State {
 	states := make(map[int]State)
 	states[0] = State{ID: 0, MapValues: map[string]int{key: 1}}
 	i := 1
-	for key, value := range value {
+	for key := 0; key < len(value); key++ {
+		value := value[key]
 		if !reflect.ValueOf(value.MapValues).IsZero() {
 			newMapValues := make(map[string]int)
 			for key2, value2 := range value.MapValues {
@@ -58,9 +59,8 @@ func MapValue(key string, value map[int]State) map[int]State {
 
 		i++
 	}
+
 	return states
-	// want map[0:{0 false 0  map[testKey:1]} 1:{1 false 0  map[testKey2:2]} 2:{2 false 0  map[testKey3:3]} 3:{3 false 0 testValue4 map[]}]
-	// got  map[0:{0 false 0  map[testKey:1]} 1:{1 false 0 testValue4 map[]} 2:{2 false 0  map[testKey2:3]} 3:{3 false 0  map[testKey3:4]}]
 }
 
 /*
