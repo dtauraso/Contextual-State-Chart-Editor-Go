@@ -64,7 +64,7 @@ func ArrayValueStrings(strings ...string) map[int]State {
 	return states
 }
 func addStates(states, newStates map[int]State, newIndex int) (map[int]State, int) {
-	// newIndex := 1
+
 	for key := 0; key < len(newStates); key++ {
 		value := newStates[key]
 		if !reflect.ValueOf(value.MapValues).IsZero() {
