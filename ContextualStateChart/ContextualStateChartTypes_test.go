@@ -265,7 +265,7 @@ func TestState(t *testing.T) {
 					MapValueString("FunctionCode", "ReturnTrue"),
 					MapValue("Name2", ArrayValueStrings("I am a test", "StarbucksMachine")),
 					MapValueString("FunctionCode2", "ReturnTrue"))),
-			MapValue("test2",
+			MapValue("test",
 				CollectMaps(
 					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
 					MapValueString("FunctionCode", "ReturnTrue"),

@@ -1,6 +1,7 @@
 package ContextualStateChartTypes
 
 import (
+	"fmt"
 	"reflect"
 	"strconv"
 )
@@ -145,7 +146,8 @@ func CollectMaps(elements ...any) map[int]State {
 		element, _ := elements[i].(map[int]State)
 		firstKey := getFirstKey(element[0].MapValues)
 		if newIndex == firstKey {
-			panic("map keys must be unique")
+			fmt.Println("map keys must be unique")
+			return nil
 		}
 		newIndex = firstKey
 
