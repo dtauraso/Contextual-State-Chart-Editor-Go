@@ -122,26 +122,32 @@ func ArrayValue(elements ...any) map[int]State {
 
 }
 
-func getKeys(mapValues map[string]int) []string {
+func getFirstKey(mapValues map[string]int) string {
 
 	keys := make([]string, 0, len(mapValues))
 	for key := range mapValues {
 		keys = append(keys, key)
 	}
-	return keys
+	return keys[0]
 }
 
 func convertIntToString(myInt int) string {
 	return strconv.Itoa(myInt)
 }
-func CollectMaps(elements ...map[int]State) map[int]State {
+
+func CollectMaps(elements ...any) map[int]State {
 	states := make(map[int]State)
 	// each element[0] can only have 1 key
 	arrayMapValues := map[string]int{"0": 1}
-
+	var newIndex string
 	for i := 1; i < len(elements); i++ {
 
-		newIndex := strconv.Itoa(i)
+		element, _ := elements[i].(map[int]State)
+		firstKey := getFirstKey(element[0].MapValues)
+		if newIndex == firstKey {
+			panic("map keys must be unique")
+		}
+		newIndex = firstKey
 
 		prevElement := elements[i-1]
 		_, okString := prevElement.(string)
