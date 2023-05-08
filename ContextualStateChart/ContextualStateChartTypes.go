@@ -122,9 +122,21 @@ func ArrayValue(elements ...any) map[int]State {
 
 }
 
+func getKeys(mapValues map[string]int) []string {
+
+	keys := make([]string, 0, len(mapValues))
+	for key := range mapValues {
+		keys = append(keys, key)
+	}
+	return keys
+}
+
+func convertIntToString(myInt int) string {
+	return strconv.Itoa(myInt)
+}
 func CollectMaps(elements ...map[int]State) map[int]State {
 	states := make(map[int]State)
-	mapValues := make(map[string]int)
+	// each element[0] can only have 1 key
 	arrayMapValues := map[string]int{"0": 1}
 
 	for i := 1; i < len(elements); i++ {

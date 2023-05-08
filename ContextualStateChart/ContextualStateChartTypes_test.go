@@ -53,8 +53,11 @@ func TestMapValue2(t *testing.T) {
 	want := map[int]State{
 
 		0: {
-			ID:        0,
-			MapValues: map[string]int{"testKey": 1},
+			ID: 0,
+			MapValues: map[string]int{
+				"testKey":  1,
+				"testKey2": 10,
+				"testKey3": 11},
 		},
 		1: {
 			ID:        1,
@@ -259,8 +262,20 @@ func TestState(t *testing.T) {
 
 	got :=
 		CollectMaps(
-			MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
-			MapValueString("FunctionCode", "ReturnTrue"))
+			MapValue("test",
+				CollectMaps(
+					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
+					MapValueString("FunctionCode", "ReturnTrue"),
+					MapValue("Name2", ArrayValueStrings("I am a test", "StarbucksMachine")),
+					MapValueString("FunctionCode2", "ReturnTrue"))),
+			MapValue("test",
+				CollectMaps(
+					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
+					MapValueString("FunctionCode", "ReturnTrue"),
+					MapValue("Name2", ArrayValueStrings("I am a test", "StarbucksMachine")),
+					MapValueString("FunctionCode2", "ReturnTrue"))),
+		)
+
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
