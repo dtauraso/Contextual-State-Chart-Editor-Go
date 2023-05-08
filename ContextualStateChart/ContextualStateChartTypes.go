@@ -65,6 +65,7 @@ func ArrayValueStrings(strings ...string) map[int]State {
 }
 func addStates(states, newStates map[int]State, newIndex int) (map[int]State, int) {
 
+	// visiting keys in ascending order for offset formula to work
 	for key := 0; key < len(newStates); key++ {
 		value := newStates[key]
 		if !reflect.ValueOf(value.MapValues).IsZero() {
@@ -83,6 +84,47 @@ func addStates(states, newStates map[int]State, newIndex int) (map[int]State, in
 }
 func ArrayValue(elements ...any) map[int]State {
 	states := make(map[int]State)
+	arrayMapValues := map[string]int{"0": 1}
+
+	for i := 1; i < len(elements); i++ {
+
+		newIndex := strconv.Itoa(i)
+
+		prevElement := elements[i-1]
+		_, okString := prevElement.(string)
+		if okString {
+			arrayMapValues[newIndex] = i + 1
+		}
+		myStates, okStates := prevElement.(map[int]State)
+		if okStates {
+			arrayMapValues[newIndex] = i + len(myStates)
+		}
+	}
+	states[0] = State{ID: 0, MapValues: arrayMapValues}
+
+	newIndex := 1
+	for i := 0; i < len(elements); i++ {
+
+		element := elements[i]
+		myString, okString := element.(string)
+
+		if okString {
+			states[newIndex] = State{ID: newIndex, StringValue: myString}
+			newIndex++
+		}
+		myStates, okStates := element.(map[int]State)
+		if okStates {
+			states, newIndex = addStates(states, myStates, newIndex)
+		}
+
+	}
+	return states
+
+}
+
+func CollectMaps(elements map[int]State) map[int]State {
+	states := make(map[int]State)
+	mapValues := make(map[string]int)
 	arrayMapValues := map[string]int{"0": 1}
 
 	for i := 1; i < len(elements); i++ {

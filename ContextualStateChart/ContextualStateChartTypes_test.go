@@ -253,3 +253,13 @@ func TestArrayValues4(t *testing.T) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
 }
+
+// func TestState(t *testing.T) {
+// 	want := nil
+
+// 	got :=
+// 		MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine"))
+// 	if !reflect.DeepEqual(want, got) {
+// 		t.Fatalf("wanted %v, got %v", want, got)
+// 	}
+// }
