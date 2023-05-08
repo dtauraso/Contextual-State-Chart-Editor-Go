@@ -254,12 +254,14 @@ func TestArrayValues4(t *testing.T) {
 	}
 }
 
-// func TestState(t *testing.T) {
-// 	want := nil
+func TestState(t *testing.T) {
+	want := nil
 
-// 	got :=
-// 		MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine"))
-// 	if !reflect.DeepEqual(want, got) {
-// 		t.Fatalf("wanted %v, got %v", want, got)
-// 	}
-// }
+	got :=
+		CollectMaps(
+			MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
+			MapValueString("FunctionCode", "ReturnTrue"))
+	if !reflect.DeepEqual(want, got) {
+		t.Fatalf("wanted %v, got %v", want, got)
+	}
+}

@@ -122,7 +122,7 @@ func ArrayValue(elements ...any) map[int]State {
 
 }
 
-func CollectMaps(elements map[int]State) map[int]State {
+func CollectMaps(elements ...map[int]State) map[int]State {
 	states := make(map[int]State)
 	mapValues := make(map[string]int)
 	arrayMapValues := map[string]int{"0": 1}
