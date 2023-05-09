@@ -1,7 +1,7 @@
 package ContextualStateChartTypes
 
 import (
-	"fmt"
+	// "fmt"
 	"reflect"
 	"strconv"
 )
@@ -86,39 +86,7 @@ func addStates(states, newStates map[int]State, newIndex int) (map[int]State, in
 func ArrayValue(elements ...any) map[int]State {
 	states := make(map[int]State)
 	arrayMapValues := map[string]int{"0": 1}
-
-	for i := 1; i < len(elements); i++ {
-
-		newIndex := strconv.Itoa(i)
-
-		prevElement := elements[i-1]
-		_, okString := prevElement.(string)
-		if okString {
-			arrayMapValues[newIndex] = i + 1
-		}
-		myStates, okStates := prevElement.(map[int]State)
-		if okStates {
-			arrayMapValues[newIndex] = i + len(myStates)
-		}
-	}
-	states[0] = State{ID: 0, MapValues: arrayMapValues}
-
-	newIndex := 1
-	for i := 0; i < len(elements); i++ {
-
-		element := elements[i]
-		myString, okString := element.(string)
-
-		if okString {
-			states[newIndex] = State{ID: newIndex, StringValue: myString}
-			newIndex++
-		}
-		myStates, okStates := element.(map[int]State)
-		if okStates {
-			states, newIndex = addStates(states, myStates, newIndex)
-		}
-
-	}
+	states = AddNewEntry(arrayMapValues, states, arrayTest1, elements...)
 	return states
 
 }
@@ -132,37 +100,38 @@ func getFirstKey(mapValues map[string]int) string {
 	return keys[0]
 }
 
-func convertIntToString(myInt int) string {
-	return strconv.Itoa(myInt)
+func arrayTest1(i int, elements ...any) string {
+	return strconv.Itoa(i)
 }
+func mapTest1(i int, elements ...any) string {
+	element, _ := elements[i].(map[int]State)
+	return getFirstKey(element[0].MapValues)
 
-func CollectMaps(elements ...any) map[int]State {
-	states := make(map[int]State)
-	// each element[0] can only have 1 key
-	firstElement, _ := elements[0].(map[int]State)
-	firstKey1 := getFirstKey(firstElement[0].MapValues)
-
-	arrayMapValues := map[string]int{firstKey1: 1}
+}
+func AddNewEntry(
+	values map[string]int,
+	states map[int]State,
+	getNewIndex func(int, ...any) string,
+	elements ...any) map[int]State {
+	// add new entry
 	var newIndex string
 	for i := 1; i < len(elements); i++ {
 
-		element, _ := elements[i].(map[int]State)
-		firstKey := getFirstKey(element[0].MapValues)
-		if newIndex == firstKey {
-			fmt.Println("map keys must be unique")
-			return nil
-		}
-		newIndex = firstKey
+		newIndex = getNewIndex(i, elements...)
 
 		prevElement := elements[i-1]
-
+		_, okString := prevElement.(string)
+		if okString {
+			values[newIndex] = i + 1
+		}
 		myStates, okStates := prevElement.(map[int]State)
 		if okStates {
-			arrayMapValues[newIndex] = i + len(myStates)
+			values[newIndex] = i + len(myStates)
 		}
 	}
-	states[0] = State{ID: 0, MapValues: arrayMapValues}
+	states[0] = State{ID: 0, MapValues: values}
 
+	// copy over elements to states
 	newIndex2 := 1
 	for i := 0; i < len(elements); i++ {
 
@@ -179,6 +148,16 @@ func CollectMaps(elements ...any) map[int]State {
 		}
 
 	}
+	return states
+}
+func CollectMaps(elements ...any) map[int]State {
+	states := make(map[int]State)
+	// each element[0] can only have 1 key
+	firstElement, _ := elements[0].(map[int]State)
+	firstKey1 := getFirstKey(firstElement[0].MapValues)
+
+	mapValues := map[string]int{firstKey1: 1}
+	states = AddNewEntry(mapValues, states, mapTest1, elements...)
 	return states
 
 }
