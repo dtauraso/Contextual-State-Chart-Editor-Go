@@ -255,25 +255,72 @@ func TestArrayValues4(t *testing.T) {
 }
 
 func TestState(t *testing.T) {
-	want := nil
+	want := map[int]State{
+		0: {
+			ID: 0,
+			MapValues: map[string]int{
+				"Name":         1,
+				"FunctionCode": 5},
+		},
+		1: {
+			ID:        1,
+			MapValues: map[string]int{"Name": 2},
+		},
+		2: {
+			ID: 2,
+			MapValues: map[string]int{
+				"0": 3,
+				"1": 4,
+			},
+		},
+		3: {
+			ID:          3,
+			StringValue: "I am a test",
+		},
+		4: {
+			ID:          4,
+			StringValue: "StarbucksMachine",
+		},
+		5: {
+			ID:        5,
+			MapValues: map[string]int{"FunctionCode": 6},
+		},
+		6: {
+			ID:          6,
+			StringValue: "ReturnTrue",
+		},
+	}
 
 	got :=
 		CollectMaps(
-			MapValue("test",
-				CollectMaps(
-					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
-					MapValueString("FunctionCode", "ReturnTrue"),
-					MapValue("Name2", ArrayValueStrings("I am a test", "StarbucksMachine")),
-					MapValueString("FunctionCode2", "ReturnTrue"))),
-			MapValue("test",
-				CollectMaps(
-					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
-					MapValueString("FunctionCode", "ReturnTrue"),
-					MapValue("Name2", ArrayValueStrings("I am a test", "StarbucksMachine")),
-					MapValueString("FunctionCode2", "ReturnTrue"))),
-		)
+			MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
+			MapValueString("FunctionCode", "ReturnTrue"))
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
 }
+
+// func TestState2(t *testing.T) {
+// 	want := nil
+
+// 	got :=
+// 		CollectMaps(
+// 			MapValue("test",
+// 				CollectMaps(
+// 					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
+// 					MapValueString("FunctionCode", "ReturnTrue"),
+// 					MapValue("Name2", ArrayValueStrings("I am a test", "StarbucksMachine")),
+// 					MapValueString("FunctionCode2", "ReturnTrue"))),
+// 			MapValue("test",
+// 				CollectMaps(
+// 					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
+// 					MapValueString("FunctionCode", "ReturnTrue"),
+// 					MapValue("Name2", ArrayValueStrings("I am a test", "StarbucksMachine")),
+// 					MapValueString("FunctionCode2", "ReturnTrue"))),
+// 		)
+
+// 	if !reflect.DeepEqual(want, got) {
+// 		t.Fatalf("wanted %v, got %v", want, got)
+// 	}
+// }

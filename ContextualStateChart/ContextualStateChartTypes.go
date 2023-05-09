@@ -139,7 +139,10 @@ func convertIntToString(myInt int) string {
 func CollectMaps(elements ...any) map[int]State {
 	states := make(map[int]State)
 	// each element[0] can only have 1 key
-	arrayMapValues := map[string]int{"0": 1}
+	firstElement, _ := elements[0].(map[int]State)
+	firstKey1 := getFirstKey(firstElement[0].MapValues)
+
+	arrayMapValues := map[string]int{firstKey1: 1}
 	var newIndex string
 	for i := 1; i < len(elements); i++ {
 
@@ -152,10 +155,7 @@ func CollectMaps(elements ...any) map[int]State {
 		newIndex = firstKey
 
 		prevElement := elements[i-1]
-		_, okString := prevElement.(string)
-		if okString {
-			arrayMapValues[newIndex] = i + 1
-		}
+
 		myStates, okStates := prevElement.(map[int]State)
 		if okStates {
 			arrayMapValues[newIndex] = i + len(myStates)
@@ -163,19 +163,19 @@ func CollectMaps(elements ...any) map[int]State {
 	}
 	states[0] = State{ID: 0, MapValues: arrayMapValues}
 
-	newIndex := 1
+	newIndex2 := 1
 	for i := 0; i < len(elements); i++ {
 
 		element := elements[i]
 		myString, okString := element.(string)
 
 		if okString {
-			states[newIndex] = State{ID: newIndex, StringValue: myString}
-			newIndex++
+			states[newIndex2] = State{ID: newIndex2, StringValue: myString}
+			newIndex2++
 		}
 		myStates, okStates := element.(map[int]State)
 		if okStates {
-			states, newIndex = addStates(states, myStates, newIndex)
+			states, newIndex2 = addStates(states, myStates, newIndex2)
 		}
 
 	}
