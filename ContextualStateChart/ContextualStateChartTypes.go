@@ -2,6 +2,7 @@ package ContextualStateChartTypes
 
 import (
 	// "fmt"
+	// "fmt"
 	"reflect"
 	"strconv"
 )
@@ -113,8 +114,10 @@ func AddNewEntry(
 	states map[int]State,
 	getNewIndex func(int, ...any) string,
 	elements ...any) map[int]State {
+
 	// add new entry
 	var newIndex string
+	j := 1
 	for i := 1; i < len(elements); i++ {
 
 		newIndex = getNewIndex(i, elements...)
@@ -122,11 +125,13 @@ func AddNewEntry(
 		prevElement := elements[i-1]
 		_, okString := prevElement.(string)
 		if okString {
-			values[newIndex] = i + 1
+			values[newIndex] = j + 1
+			j += 1
 		}
 		myStates, okStates := prevElement.(map[int]State)
 		if okStates {
-			values[newIndex] = i + len(myStates)
+			values[newIndex] = j + len(myStates)
+			j += len(myStates)
 		}
 	}
 	states[0] = State{ID: 0, MapValues: values}
@@ -159,5 +164,31 @@ func CollectMaps(elements ...any) map[int]State {
 	mapValues := map[string]int{firstKey1: 1}
 	states = AddNewEntry(mapValues, states, mapTest1, elements...)
 	return states
+
+	/*
+		wanted map[
+			0:{0 false 0  map[FunctionCode:5 FunctionCode2:7 Name:1]}
+			1:{1 false 0  map[Name:2]}
+			2:{2 false 0  map[0:3 1:4]}
+			3:{3 false 0 I am a test map[]}
+			4:{4 false 0 StarbucksMachine map[]}
+			5:{5 false 0  map[FunctionCode:6]}
+			6:{6 false 0 ReturnTrue map[]}
+			7:{7 false 0  map[FunctionCode2:8]}
+			8:{8 false 0 ReturnTrue map[]}]
+
+		got map[
+			0:{0 false 0  map[FunctionCode:5 FunctionCode2:4 Name:1]}
+			1:{1 false 0  map[Name:2]}
+			2:{2 false 0  map[0:3 1:4]}
+			3:{3 false 0 I am a test map[]}
+			4:{4 false 0 StarbucksMachine map[]}
+			5:{5 false 0  map[FunctionCode:6]}
+			6:{6 false 0 ReturnTrue map[]}
+			7:{7 false 0  map[FunctionCode2:8]}
+			8:{8 false 0 ReturnTrue map[]}]
+
+
+	*/
 
 }
