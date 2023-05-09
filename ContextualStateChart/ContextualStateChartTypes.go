@@ -165,30 +165,4 @@ func CollectMaps(elements ...any) map[int]State {
 	states = AddNewEntry(mapValues, states, mapTest1, elements...)
 	return states
 
-	/*
-		wanted map[
-			0:{0 false 0  map[FunctionCode:5 FunctionCode2:7 Name:1]}
-			1:{1 false 0  map[Name:2]}
-			2:{2 false 0  map[0:3 1:4]}
-			3:{3 false 0 I am a test map[]}
-			4:{4 false 0 StarbucksMachine map[]}
-			5:{5 false 0  map[FunctionCode:6]}
-			6:{6 false 0 ReturnTrue map[]}
-			7:{7 false 0  map[FunctionCode2:8]}
-			8:{8 false 0 ReturnTrue map[]}]
-
-		got map[
-			0:{0 false 0  map[FunctionCode:5 FunctionCode2:4 Name:1]}
-			1:{1 false 0  map[Name:2]}
-			2:{2 false 0  map[0:3 1:4]}
-			3:{3 false 0 I am a test map[]}
-			4:{4 false 0 StarbucksMachine map[]}
-			5:{5 false 0  map[FunctionCode:6]}
-			6:{6 false 0 ReturnTrue map[]}
-			7:{7 false 0  map[FunctionCode2:8]}
-			8:{8 false 0 ReturnTrue map[]}]
-
-
-	*/
-
 }
