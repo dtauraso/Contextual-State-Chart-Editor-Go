@@ -254,7 +254,7 @@ func TestArrayValues4(t *testing.T) {
 	}
 }
 
-func TestState(t *testing.T) {
+func TestCollectMaps(t *testing.T) {
 	want := map[int]State{
 		0: {
 			ID: 0,
@@ -311,7 +311,7 @@ func TestState(t *testing.T) {
 	}
 }
 
-func TestState2(t *testing.T) {
+func TestCollectMaps2(t *testing.T) {
 	want := map[int]State{
 		0: {ID: 0, MapValues: map[string]int{"test": 1, "test2": 11}},
 		1: {ID: 1, MapValues: map[string]int{"test": 2}},
