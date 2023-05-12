@@ -311,26 +311,112 @@ func TestState(t *testing.T) {
 	}
 }
 
-// func TestState2(t *testing.T) {
-// 	want := nil
+func TestState2(t *testing.T) {
+	want := map[int]State{
+		0: {ID: 0, MapValues: map[string]int{"test": 1, "test2": 11}},
+		1: {ID: 1, MapValues: map[string]int{"test": 2}},
+		2: {
+			ID: 2,
+			MapValues: map[string]int{
+				"Name":          3,
+				"FunctionCode":  7,
+				"FunctionCode2": 9},
+		},
+		3: {
+			ID:        3,
+			MapValues: map[string]int{"Name": 4},
+		},
+		4: {
+			ID: 4,
+			MapValues: map[string]int{
+				"0": 5,
+				"1": 6,
+			},
+		},
+		5: {
+			ID:          5,
+			StringValue: "I am a test",
+		},
+		6: {
+			ID:          6,
+			StringValue: "StarbucksMachine",
+		},
+		7: {
+			ID:        7,
+			MapValues: map[string]int{"FunctionCode": 8},
+		},
+		8: {
+			ID:          8,
+			StringValue: "ReturnTrue",
+		},
+		9: {
+			ID:        9,
+			MapValues: map[string]int{"FunctionCode2": 10},
+		},
+		10: {
+			ID:          10,
+			StringValue: "ReturnTrue",
+		},
 
-// 	got :=
-// 		CollectMaps(
-// 			MapValue("test",
-// 				CollectMaps(
-// 					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
-// 					MapValueString("FunctionCode", "ReturnTrue"),
-// 					MapValue("Name2", ArrayValueStrings("I am a test", "StarbucksMachine")),
-// 					MapValueString("FunctionCode2", "ReturnTrue"))),
-// 			MapValue("test",
-// 				CollectMaps(
-// 					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
-// 					MapValueString("FunctionCode", "ReturnTrue"),
-// 					MapValue("Name2", ArrayValueStrings("I am a test", "StarbucksMachine")),
-// 					MapValueString("FunctionCode2", "ReturnTrue"))),
-// 		)
+		11: {ID: 11, MapValues: map[string]int{"test2": 12}},
+		12: {
+			ID: 12,
+			MapValues: map[string]int{
+				"Name":          13,
+				"FunctionCode":  17,
+				"FunctionCode2": 19},
+		},
+		13: {
+			ID:        13,
+			MapValues: map[string]int{"Name": 14},
+		},
+		14: {
+			ID: 14,
+			MapValues: map[string]int{
+				"0": 15,
+				"1": 16,
+			},
+		},
+		15: {
+			ID:          15,
+			StringValue: "I am a test",
+		},
+		16: {
+			ID:          16,
+			StringValue: "StarbucksMachine",
+		},
+		17: {
+			ID:        17,
+			MapValues: map[string]int{"FunctionCode": 18},
+		},
+		18: {
+			ID:          18,
+			StringValue: "ReturnTrue",
+		},
+		19: {
+			ID:        19,
+			MapValues: map[string]int{"FunctionCode2": 20},
+		},
+		20: {
+			ID:          20,
+			StringValue: "ReturnTrue",
+		},
+	}
 
-// 	if !reflect.DeepEqual(want, got) {
-// 		t.Fatalf("wanted %v, got %v", want, got)
-// 	}
-// }
+	got :=
+		CollectMaps(
+			MapValue("test",
+				CollectMaps(
+					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
+					MapValueString("FunctionCode", "ReturnTrue"),
+					MapValueString("FunctionCode2", "ReturnTrue"))),
+			MapValue("test2",
+				CollectMaps(
+					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
+					MapValueString("FunctionCode", "ReturnTrue"),
+					MapValueString("FunctionCode2", "ReturnTrue"))))
+
+	if !reflect.DeepEqual(want, got) {
+		t.Fatalf("wanted %v, got %v", want, got)
+	}
+}
