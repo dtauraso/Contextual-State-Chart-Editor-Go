@@ -423,49 +423,16 @@ func TestCollectMaps2(t *testing.T) {
 
 func TestState(t *testing.T) {
 	want := map[int]State{
-		0: {
-			ID: 0,
+		0: {ID: 0,
 			MapValues: map[string]int{
-				"Name":          1,
-				"FunctionCode":  5,
-				"FunctionCode2": 7},
-		},
-		1: {
-			ID:        1,
-			MapValues: map[string]int{"Name": 2},
-		},
-		2: {
-			ID: 2,
-			MapValues: map[string]int{
-				"0": 3,
-				"1": 4,
-			},
-		},
-		3: {
-			ID:          3,
-			StringValue: "I am a test",
-		},
-		4: {
-			ID:          4,
-			StringValue: "StarbucksMachine",
-		},
-		5: {
-			ID:        5,
-			MapValues: map[string]int{"FunctionCode": 6},
-		},
-		6: {
-			ID:          6,
-			StringValue: "ReturnTrue",
-		},
-		7: {
-			ID:        7,
-			MapValues: map[string]int{"FunctionCode2": 8},
-		},
-		8: {
-			ID:          8,
-			StringValue: "ReturnTrue",
-		},
-	}
+				"parents":             1,
+				"Name":                20,
+				"FunctionCode":        30,
+				"StartChildren":       40,
+				"Next":                50,
+				"Values":              60,
+				"LockedByStates":      70,
+				"LockedByStatesCount": 80}}}
 
 	got :=
 		CollectMaps(
@@ -492,6 +459,10 @@ func TestState(t *testing.T) {
 					MapValueString("drinkOrder", ""),
 					MapValueString("orderQueue", ""),
 					MapValueString("outputBuffer", ""))),
+			MapValue("LockedByStates",
+				CollectMaps(
+					MapValueString("11", "true"))),
+			MapValueString("LockedByStatesCount", "1"),
 		)
 
 	if !reflect.DeepEqual(want, got) {
