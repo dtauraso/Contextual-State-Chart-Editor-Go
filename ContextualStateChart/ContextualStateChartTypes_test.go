@@ -420,3 +420,81 @@ func TestCollectMaps2(t *testing.T) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
 }
+
+func TestState(t *testing.T) {
+	want := map[int]State{
+		0: {
+			ID: 0,
+			MapValues: map[string]int{
+				"Name":          1,
+				"FunctionCode":  5,
+				"FunctionCode2": 7},
+		},
+		1: {
+			ID:        1,
+			MapValues: map[string]int{"Name": 2},
+		},
+		2: {
+			ID: 2,
+			MapValues: map[string]int{
+				"0": 3,
+				"1": 4,
+			},
+		},
+		3: {
+			ID:          3,
+			StringValue: "I am a test",
+		},
+		4: {
+			ID:          4,
+			StringValue: "StarbucksMachine",
+		},
+		5: {
+			ID:        5,
+			MapValues: map[string]int{"FunctionCode": 6},
+		},
+		6: {
+			ID:          6,
+			StringValue: "ReturnTrue",
+		},
+		7: {
+			ID:        7,
+			MapValues: map[string]int{"FunctionCode2": 8},
+		},
+		8: {
+			ID:          8,
+			StringValue: "ReturnTrue",
+		},
+	}
+
+	got :=
+		CollectMaps(
+			MapValue("parents", MapValueString("0", "-1")),
+			MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
+			MapValueString("FunctionCode", "ReturnTrue"),
+			MapValue("StartChildren",
+				CollectMaps(
+					MapValue("Edges",
+						ArrayValue(
+							ArrayValue("state1 name1", "state1 name2"),
+							ArrayValue("state2 name1", "state2 name2"))),
+					MapValueString("AreParallel", "true")),
+			),
+			MapValue("Next",
+				CollectMaps(
+					MapValue("Edges",
+						ArrayValue(
+							ArrayValue("state1 name1", "state1 name2"),
+							ArrayValue("state2 name1", "state2 name2"))),
+					MapValueString("AreParallel", "true"))),
+			MapValue("Values",
+				CollectMaps(
+					MapValueString("drinkOrder", ""),
+					MapValueString("orderQueue", ""),
+					MapValueString("outputBuffer", ""))),
+		)
+
+	if !reflect.DeepEqual(want, got) {
+		t.Fatalf("wanted %v, got %v", want, got)
+	}
+}
