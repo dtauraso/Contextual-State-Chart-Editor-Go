@@ -65,18 +65,25 @@ func ArrayValueStrings(strings ...string) map[int]State {
 	}
 	return states
 }
+
+func doesAttributeExist(state State, attributeName string) bool {
+	_, ok := reflect.TypeOf(state).FieldByName(attributeName)
+	return ok
+}
 func addStates(states, newStates map[int]State, newIndex int) (map[int]State, int) {
 
 	// visiting keys in ascending order for offset formula to work
 	for key := 0; key < len(newStates); key++ {
 		value := newStates[key]
+
+		// all state entries have MapValues == map[] unless MapValues has non-zero data
 		if !reflect.ValueOf(value.MapValues).IsZero() {
 			newMapValues := make(map[string]int)
 			for key2, value2 := range value.MapValues {
 				newMapValues[key2] = value2 + (newIndex - key)
 			}
 			states[newIndex] = State{ID: newIndex, MapValues: newMapValues}
-		} else if !reflect.ValueOf(value.StringValue).IsZero() {
+		} else if doesAttributeExist(value, "StringValue") {
 			states[newIndex] = State{ID: newIndex, StringValue: value.StringValue}
 		}
 

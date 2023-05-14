@@ -427,14 +427,15 @@ func TestState(t *testing.T) {
 		// CollectMaps(
 		0: {ID: 0,
 			MapValues: map[string]int{
-				"parents":             1,
-				"Name":                4,
 				"FunctionCode":        8,
+				"LockedByStates":      42,
+				"LockedByStatesCount": 46,
+				"Name":                4,
+				"Next":                22,
 				"StartChildren":       10,
-				"Next":                23,
-				"Values":              -1,
-				"LockedByStates":      -1,
-				"LockedByStatesCount": -1}},
+				"Values":              34,
+				"parents":             1,
+			}},
 
 		// MapValue("parents", MapValueString("0", "-1"))
 		1: {ID: 1, MapValues: map[string]int{"parents": 2}},
@@ -455,78 +456,91 @@ func TestState(t *testing.T) {
 		10: {ID: 10, MapValues: map[string]int{"StartChildren": 11}},
 
 		// CollectMaps(
-		11: {ID: 11, MapValues: map[string]int{"Edges": 12, "AreParallel": 21}},
+		11: {ID: 11, MapValues: map[string]int{"AreParallel": 20, "Edges": 12}}, // problem
 
 		// MapValue("Edges",
 		12: {ID: 12, MapValues: map[string]int{"Edges": 13}},
 
 		// ArrayValue(
-		13: {ID: 13, MapValues: map[string]int{"0": 14}},
-		14: {ID: 14, MapValues: map[string]int{"0": 15, "1": 18}},
+		13: {ID: 13, MapValues: map[string]int{"0": 14, "1": 17}},
 
 		// ArrayValue("state1 name1", "state1 name2")
-		15: {ID: 15, MapValues: map[string]int{"0": 16, "1": 17}},
-		16: {ID: 16, StringValue: "state1 name1"},
-		17: {ID: 17, StringValue: "state1 name2"},
+		14: {ID: 14, MapValues: map[string]int{"0": 15, "1": 16}},
+		15: {ID: 15, StringValue: "state1 name1"},
+		16: {ID: 16, StringValue: "state1 name2"},
 
 		// ArrayValue("state2 name1", "state2 name2"))
-		18: {ID: 18, MapValues: map[string]int{"0": 19, "1": 20}},
-		19: {ID: 19, StringValue: "state1 name1"},
-		20: {ID: 20, StringValue: "state1 name2"},
+		17: {ID: 17, MapValues: map[string]int{"0": 18, "1": 19}},
+		18: {ID: 18, StringValue: "state2 name1"},
+		19: {ID: 19, StringValue: "state2 name2"},
 
 		// MapValueString("AreParallel", "true"))
-		21: {ID: 21, MapValues: map[string]int{"AreParallel": 22}},
-		22: {ID: 22, StringValue: "true"},
+		20: {ID: 20, MapValues: map[string]int{"AreParallel": 21}},
+		21: {ID: 21, StringValue: "true"},
 
 		/////////
 
 		/////////
 		// MapValue("Next",
-		23: {ID: 23, MapValues: map[string]int{"Next": 24}},
+		22: {ID: 22, MapValues: map[string]int{"Next": 23}},
 
 		// CollectMaps(
-		24: {ID: 24, MapValues: map[string]int{"Edges": 25, "AreParallel": 34}},
+		23: {ID: 23, MapValues: map[string]int{"AreParallel": 32, "Edges": 24}}, // problem
 
 		// MapValue("Edges",
-		25: {ID: 25, MapValues: map[string]int{"Edges": 26}},
+		24: {ID: 24, MapValues: map[string]int{"Edges": 25}},
 
 		// ArrayValue(
-		26: {ID: 26, MapValues: map[string]int{"0": 27}},
-		27: {ID: 27, MapValues: map[string]int{"0": 28, "1": 31}},
+		25: {ID: 25, MapValues: map[string]int{"0": 26, "1": 29}},
 
 		// ArrayValue("state1 name1", "state1 name2")
-		28: {ID: 28, MapValues: map[string]int{"0": 29, "1": 30}},
-		29: {ID: 29, StringValue: "state1 name1"},
-		30: {ID: 30, StringValue: "state1 name2"},
+		26: {ID: 26, MapValues: map[string]int{"0": 27, "1": 28}},
+		27: {ID: 27, StringValue: "state1 name1"},
+		28: {ID: 28, StringValue: "state1 name2"},
 
 		// ArrayValue("state2 name1", "state2 name2"))
-		31: {ID: 31, MapValues: map[string]int{"0": 32, "1": 33}},
-		32: {ID: 32, StringValue: "state1 name1"},
-		33: {ID: 33, StringValue: "state1 name2"},
+		29: {ID: 29, MapValues: map[string]int{"0": 30, "1": 31}},
+		30: {ID: 30, StringValue: "state2 name1"},
+		31: {ID: 31, StringValue: "state2 name2"},
 
 		// MapValueString("AreParallel", "true"))
-		34: {ID: 34, MapValues: map[string]int{"AreParallel": 35}},
-		35: {ID: 35, StringValue: "true"},
+		32: {ID: 32, MapValues: map[string]int{"AreParallel": 33}},
+		33: {ID: 33, StringValue: "true"},
 
 		// MapValue("Values",
-		36: {ID: 36, MapValues: map[string]int{"Values": 37}},
+		34: {ID: 34, MapValues: map[string]int{"Values": 35}},
 
 		// CollectMaps(
-		37: {ID: 37, MapValues: map[string]int{
-			"drinkOrder":   38,
-			"orderQueue":   40,
-			"outputBuffer": 42}},
+		35: {ID: 35, MapValues: map[string]int{
+			"drinkOrder":   36,
+			"orderQueue":   38,
+			"outputBuffer": 40}},
 
 		// MapValueString("drinkOrder", "")
-		38: {ID: 38, MapValues: map[string]int{"drinkOrder": 39}},
-		39: {ID: 39, StringValue: ""},
+		36: {ID: 36, MapValues: map[string]int{"drinkOrder": 37}},
+		37: {ID: 37, StringValue: ""},
 
 		// MapValueString("orderQueue", "")
-		40: {ID: 40, MapValues: map[string]int{"orderQueue": 41}},
-		41: {ID: 41, StringValue: ""},
+		38: {ID: 38, MapValues: map[string]int{"orderQueue": 39}}, // not in result
+		39: {ID: 39, StringValue: ""},
 
 		// MapValueString("outputBuffer", "")
+		40: {ID: 40, MapValues: map[string]int{"outputBuffer": 41}}, // not in result
+		41: {ID: 41, StringValue: ""},
 
+		// MapValue("LockedByStates",
+		42: {ID: 42, MapValues: map[string]int{"LockedByStates": 43}},
+
+		// CollectMaps(
+		43: {ID: 43, MapValues: map[string]int{"11": 44}},
+
+		// MapValueString("11", "true"))),
+		44: {ID: 44, MapValues: map[string]int{"11": 45}},
+		45: {ID: 45, StringValue: "true"},
+
+		// MapValueString("LockedByStatesCount", "1")
+		46: {ID: 46, MapValues: map[string]int{"LockedByStatesCount": 47}},
+		47: {ID: 47, StringValue: "1"},
 	}
 
 	got :=
@@ -551,13 +565,13 @@ func TestState(t *testing.T) {
 					MapValueString("AreParallel", "true"))), /* recorded */
 			MapValue("Values", /* recorded */
 				CollectMaps( /* recorded */
-					MapValueString("drinkOrder", ""), /* recorded */
-					MapValueString("orderQueue", ""),
-					MapValueString("outputBuffer", ""))),
-			MapValue("LockedByStates",
-				CollectMaps(
-					MapValueString("11", "true"))),
-			MapValueString("LockedByStatesCount", "1"),
+					MapValueString("drinkOrder", ""),     /* recorded */
+					MapValueString("orderQueue", ""),     /* recorded */ // failed
+					MapValueString("outputBuffer", ""))), /* recorded */ // failed
+			MapValue("LockedByStates", /* recorded */
+				CollectMaps( /* recorded */
+					MapValueString("11", "true"))), /* recorded */
+			MapValueString("LockedByStatesCount", "1"), /* recorded */
 		)
 
 	if !reflect.DeepEqual(want, got) {
