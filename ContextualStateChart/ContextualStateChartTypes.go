@@ -116,8 +116,9 @@ func addStates(states, newStates map[int]State, newIndex int) (map[int]State, in
 		value := newStates[key]
 		if value.TypeValueSet == "MapValues" {
 			newMapValues := make(map[string]int)
+			offset := newIndex - key
 			for key2, value2 := range value.MapValues {
-				newMapValues[key2] = value2 + (newIndex - key)
+				newMapValues[key2] = value2 + offset
 			}
 			states[newIndex] = State{ID: newIndex, MapValues: newMapValues, TypeValueSet: "MapValues"}
 
