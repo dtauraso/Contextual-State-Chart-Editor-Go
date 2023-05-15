@@ -180,13 +180,12 @@ func AddNewEntry(
 		_, okInt := prevElement.(int)
 
 		_, okBool := prevElement.(bool)
+		myStates, okStates := prevElement.(map[int]State)
 
 		if okString || okInt || okBool {
 			values[newIndex] = j + 1
 			j += 1
-		}
-		myStates, okStates := prevElement.(map[int]State)
-		if okStates {
+		} else if okStates {
 			values[newIndex] = j + len(myStates)
 			j += len(myStates)
 		}
