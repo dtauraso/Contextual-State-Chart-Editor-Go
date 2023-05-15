@@ -722,8 +722,8 @@ func TestStateExistance(t *testing.T) {
 			TypeValueSet: "MapValues"},
 		2: {ID: 2, MapValues: map[string]int{"0": 3},
 			TypeValueSet: "MapValues"},
-		3: {ID: 3, StringValue: "-1",
-			TypeValueSet: "StringValue"},
+		3: {ID: 3, IntValue: -1,
+			TypeValueSet: "IntValue"},
 
 		// MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine"))
 		4: {ID: 4, MapValues: map[string]int{"Name": 5},
@@ -776,8 +776,8 @@ func TestStateExistance(t *testing.T) {
 		// MapValueString("AreParallel", "true"))
 		20: {ID: 20, MapValues: map[string]int{"AreParallel": 21},
 			TypeValueSet: "MapValues"},
-		21: {ID: 21, StringValue: "true",
-			TypeValueSet: "StringValue"},
+		21: {ID: 21, BoolValue: true,
+			TypeValueSet: "BoolValue"},
 
 		/////////
 
@@ -817,8 +817,8 @@ func TestStateExistance(t *testing.T) {
 		// MapValueString("AreParallel", "true"))
 		32: {ID: 32, MapValues: map[string]int{"AreParallel": 33},
 			TypeValueSet: "MapValues"},
-		33: {ID: 33, StringValue: "true",
-			TypeValueSet: "StringValue"},
+		33: {ID: 33, BoolValue: true,
+			TypeValueSet: "BoolValue"},
 
 		// MapValue("Values",
 		34: {ID: 34, MapValues: map[string]int{"Values": 35},
@@ -860,19 +860,19 @@ func TestStateExistance(t *testing.T) {
 		// MapValueString("11", "true"))),
 		44: {ID: 44, MapValues: map[string]int{"11": 45},
 			TypeValueSet: "MapValues"},
-		45: {ID: 45, StringValue: "true",
-			TypeValueSet: "StringValue"},
+		45: {ID: 45, BoolValue: true,
+			TypeValueSet: "BoolValue"},
 
 		// MapValueString("LockedByStatesCount", "1")
 		46: {ID: 46, MapValues: map[string]int{"LockedByStatesCount": 47},
 			TypeValueSet: "MapValues"},
-		47: {ID: 47, StringValue: "1",
-			TypeValueSet: "StringValue"},
+		47: {ID: 47, IntValue: 1,
+			TypeValueSet: "IntValue"},
 	}
 
 	got :=
 		CollectMaps( /* recorded */
-			MapValue("parents", MapValueString("0", "-1")),                         /* recorded */
+			MapValue("parents", MapValueInt("0", -1)),                              /* recorded */
 			MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")), /* recorded */
 			MapValueString("FunctionCode", "ReturnTrue"),                           /* recorded */
 			MapValue("StartChildren", /* recorded */
@@ -881,7 +881,7 @@ func TestStateExistance(t *testing.T) {
 						ArrayValue( /* recorded */
 							ArrayValue("state1 name1", "state1 name2"),   /* recorded */
 							ArrayValue("state2 name1", "state2 name2"))), /* recorded */
-					MapValueString("AreParallel", "true")), /* recorded */
+					MapValueBool("AreParallel", true)), /* recorded */
 			),
 			MapValue("Next", /* recorded */
 				CollectMaps( /* recorded */
@@ -889,7 +889,7 @@ func TestStateExistance(t *testing.T) {
 						ArrayValue( /* recorded */
 							ArrayValue("state1 name1", "state1 name2"),   /* recorded */
 							ArrayValue("state2 name1", "state2 name2"))), /* recorded */
-					MapValueString("AreParallel", "true"))), /* recorded */
+					MapValueBool("AreParallel", true))), /* recorded */
 			MapValue("Values", /* recorded */
 				CollectMaps( /* recorded */
 					MapValueString("drinkOrder", ""),     /* recorded */
@@ -897,8 +897,8 @@ func TestStateExistance(t *testing.T) {
 					MapValueString("outputBuffer", ""))), /* recorded */ // failed
 			MapValue("LockedByStates", /* recorded */
 				CollectMaps( /* recorded */
-					MapValueString("11", "true"))), /* recorded */
-			MapValueString("LockedByStatesCount", "1"), /* recorded */
+					MapValueBool("11", true))), /* recorded */
+			MapValueInt("LockedByStatesCount", 1), /* recorded */
 		)
 
 	if !reflect.DeepEqual(want, got) {
