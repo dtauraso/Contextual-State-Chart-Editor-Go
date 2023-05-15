@@ -135,6 +135,10 @@ func addStates(states, newStates map[int]State, newIndex int) (map[int]State, in
 }
 func ArrayValue(elements ...any) map[int]State {
 	states := make(map[int]State)
+	if len(elements) == 0 {
+		states[0] = State{ID: 0, MapValues: map[string]int{}, TypeValueSet: "MapValues"}
+		return states
+	}
 	arrayMapValues := map[string]int{"0": 1}
 	states = AddNewEntry(arrayMapValues, states, arrayTest1, elements...)
 	return states

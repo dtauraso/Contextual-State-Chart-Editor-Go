@@ -834,20 +834,20 @@ func TestStateExistance(t *testing.T) {
 		// MapValueString("drinkOrder", "")
 		36: {ID: 36, MapValues: map[string]int{"drinkOrder": 37},
 			TypeValueSet: "MapValues"},
-		37: {ID: 37, StringValue: "",
-			TypeValueSet: "StringValue"},
+		37: {ID: 37, MapValues: map[string]int{},
+			TypeValueSet: "MapValues"},
 
 		// MapValueString("orderQueue", "")
 		38: {ID: 38, MapValues: map[string]int{"orderQueue": 39},
 			TypeValueSet: "MapValues"},
-		39: {ID: 39, StringValue: "",
-			TypeValueSet: "StringValue"},
+		39: {ID: 39, MapValues: map[string]int{},
+			TypeValueSet: "MapValues"},
 
 		// MapValueString("outputBuffer", "")
 		40: {ID: 40, MapValues: map[string]int{"outputBuffer": 41},
 			TypeValueSet: "MapValues"},
-		41: {ID: 41, StringValue: "",
-			TypeValueSet: "StringValue"},
+		41: {ID: 41, MapValues: map[string]int{},
+			TypeValueSet: "MapValues"},
 
 		// MapValue("LockedByStates",
 		42: {ID: 42, MapValues: map[string]int{"LockedByStates": 43},
@@ -892,9 +892,10 @@ func TestStateExistance(t *testing.T) {
 					MapValueBool("AreParallel", true))), /* recorded */
 			MapValue("Values", /* recorded */
 				CollectMaps( /* recorded */
-					MapValueString("drinkOrder", ""),     /* recorded */
-					MapValueString("orderQueue", ""),     /* recorded */ // failed
-					MapValueString("outputBuffer", ""))), /* recorded */ // failed
+					MapValue("drinkOrder", ArrayValue()), /* recorded */
+					MapValue("orderQueue", ArrayValue()), /* recorded */
+					MapValue("outputBuffer", ArrayValue()))), /* recorded */
+
 			MapValue("LockedByStates", /* recorded */
 				CollectMaps( /* recorded */
 					MapValueBool("11", true))), /* recorded */
