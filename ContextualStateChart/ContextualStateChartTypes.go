@@ -65,7 +65,7 @@ func MapValue(key string, value map[int]State) map[int]State {
 	states := make(map[int]State)
 	states[0] = State{ID: 0, MapValues: map[string]int{key: 1}, TypeValueSet: "MapValues"}
 
-	states, _ = addStates(states, value, 1, 0, 1)
+	states, _ = addStates(states, value, 1)
 
 	return states
 }
@@ -111,19 +111,15 @@ func ArrayValueBools(bools ...bool) map[int]State {
 	return states
 }
 
-func addStates(states, newStates map[int]State, newIndex int, elementStartingIndex int, elementCount int) (map[int]State, int) {
+func addStates(states, newStates map[int]State, newIndex int) (map[int]State, int) {
 	// fmt.Println("addStates")
 	// fmt.Println(elementStartingIndex, elementCount)
 	// visiting keys in ascending order for offset formula to work
-	for key := elementStartingIndex; key < len(newStates); key++ {
+	for key := 0; key < len(newStates); key++ {
 		value := newStates[key]
 		if value.TypeValueSet == "MapValues" {
 			newMapValues := make(map[string]int)
-			// if elementStartingIndex == 0
-			// no skips
-			// if elementStartingIndex == 1
-			// skip over elementCount items as they will not be included
-			offset := newIndex - key // - (elementStartingIndex * elementCount)
+			offset := newIndex - key
 			for key2, value2 := range value.MapValues {
 				newMapValues[key2] = value2 + offset
 			}
@@ -194,18 +190,7 @@ func AddNewEntry(
 		if okString || okInt || okBool {
 			offset = 1
 		} else if okStates {
-			// if elementStartingIndex == 1 {
-			// 	myCurrentStates, okMyCurrentStates := elements[i].(map[int]State)
-			// 	if okMyCurrentStates {
-			// 		// messes up current flow
-			// 		values[newIndex] = myCurrentStates[0].MapValues[newIndex]
-			// 	}
-
-			// } else {
-
-			// }
 			offset = len(myStates)
-
 		}
 		values[newIndex] = j + offset
 		j += offset
@@ -232,7 +217,7 @@ func AddNewEntry(
 			states[newIndex2] = State{ID: newIndex2, BoolValue: myBool, TypeValueSet: "BoolValue"}
 			newIndex2++
 		} else if okStates {
-			states, newIndex2 = addStates(states, myStates, newIndex2, elementStartingIndex, len(elements))
+			states, newIndex2 = addStates(states, myStates, newIndex2)
 		}
 
 	}
