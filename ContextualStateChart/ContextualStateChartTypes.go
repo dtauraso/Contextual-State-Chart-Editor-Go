@@ -194,7 +194,6 @@ func AddNewEntry(
 		if okString || okInt || okBool {
 			offset = 1
 		} else if okStates {
-			// 
 			// if elementStartingIndex == 1 {
 			// 	myCurrentStates, okMyCurrentStates := elements[i].(map[int]State)
 			// 	if okMyCurrentStates {
@@ -255,4 +254,9 @@ func CollectMaps(elements ...any) map[int]State {
 	// fmt.Println(states)
 	return states
 
+}
+func CollectMaps2(elements ...any) map[int]State {
+	// 0, 2, 4 element ids are strings
+	// 1, 3, 5 element ids are values (bool, int, string, states)
+	return nil
 }

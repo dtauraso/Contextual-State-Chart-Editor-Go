@@ -553,6 +553,13 @@ func TestCollectMaps(t *testing.T) {
 		},
 	}
 
+	/*
+		CollectMaps2(
+			"Name", ArrayValueStrings("I am a test", "StarbucksMachine"),
+			"FunctionCode", "ReturnTrue",
+			"FunctionCode2", "ReturnTrue")
+
+	*/
 	got :=
 		CollectMaps(
 			MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
