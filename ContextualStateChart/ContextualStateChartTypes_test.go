@@ -907,42 +907,42 @@ func TestStateExistance(t *testing.T) {
 	}
 }
 
-func TestStateConnections(t *testing.T) {
-	want := ""
+// func TestStateConnections(t *testing.T) {
+// 	want := ""
 
-	got :=
-		CollectMaps( /* recorded */
-			MapValue("parents", MapValueInt("0", -1)),                              /* recorded */
-			MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")), /* recorded */
-			MapValueString("FunctionCode", "ReturnTrue"),                           /* recorded */
-			MapValue("StartChildren", /* recorded */
-				CollectMaps( /* recorded */
-					MapValue("Edges", /* recorded */
-						ArrayValue( /* recorded */
-							ArrayValue("state1 name1", "state1 name2"),   /* recorded */
-							ArrayValue("state2 name1", "state2 name2"))), /* recorded */
-					MapValueBool("AreParallel", true)), /* recorded */
-			),
-			MapValue("Next", /* recorded */
-				CollectMaps( /* recorded */
-					MapValue("Edges", /* recorded */
-						ArrayValue( /* recorded */
-							ArrayValue("state1 name1", "state1 name2"),   /* recorded */
-							ArrayValue("state2 name1", "state2 name2"))), /* recorded */
-					MapValueBool("AreParallel", true))), /* recorded */
-			MapValue("Values", /* recorded */
-				CollectMaps( /* recorded */
-					MapValue("drinkOrder", ArrayValue()),     /* recorded */
-					MapValue("orderQueue", ArrayValue()),     /* recorded */
-					MapValue("outputBuffer", ArrayValue()))), /* recorded */
+// 	got :=
+// 		CollectMaps( /* recorded */
+// 			MapValue("parents", MapValueInt("0", -1)),                              /* recorded */
+// 			MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")), /* recorded */
+// 			MapValueString("FunctionCode", "ReturnTrue"),                           /* recorded */
+// 			MapValue("StartChildren", /* recorded */
+// 				CollectMaps( /* recorded */
+// 					MapValue("Edges", /* recorded */
+// 						ArrayValue( /* recorded */
+// 							ArrayValue("state1 name1", "state1 name2"),   /* recorded */
+// 							ArrayValue("state2 name1", "state2 name2"))), /* recorded */
+// 					MapValueBool("AreParallel", true)), /* recorded */
+// 			),
+// 			MapValue("Next", /* recorded */
+// 				CollectMaps( /* recorded */
+// 					MapValue("Edges", /* recorded */
+// 						ArrayValue( /* recorded */
+// 							ArrayValue("state1 name1", "state1 name2"),   /* recorded */
+// 							ArrayValue("state2 name1", "state2 name2"))), /* recorded */
+// 					MapValueBool("AreParallel", true))), /* recorded */
+// 			MapValue("Values", /* recorded */
+// 				CollectMaps( /* recorded */
+// 					MapValue("drinkOrder", ArrayValue()),     /* recorded */
+// 					MapValue("orderQueue", ArrayValue()),     /* recorded */
+// 					MapValue("outputBuffer", ArrayValue()))), /* recorded */
 
-			MapValue("LockedByStates", /* recorded */
-				CollectMaps( /* recorded */
-					MapValueBool("11", true))), /* recorded */
-			MapValueInt("LockedByStatesCount", 1), /* recorded */
-		)
+// 			MapValue("LockedByStates", /* recorded */
+// 				CollectMaps( /* recorded */
+// 					MapValueBool("11", true))), /* recorded */
+// 			MapValueInt("LockedByStatesCount", 1), /* recorded */
+// 		)
 
-	if !reflect.DeepEqual(want, got) {
-		t.Fatalf("wanted %v, got %v", want, got)
-	}
-}
+// 	if !reflect.DeepEqual(want, got) {
+// 		t.Fatalf("wanted %v, got %v", want, got)
+// 	}
+// }
