@@ -112,8 +112,7 @@ func ArrayValueBools(bools ...bool) map[int]State {
 }
 
 func addStates(states, newStates map[int]State, newIndex int) (map[int]State, int) {
-	// fmt.Println("addStates")
-	// fmt.Println(elementStartingIndex, elementCount)
+
 	// visiting keys in ascending order for offset formula to work
 	for key := 0; key < len(newStates); key++ {
 		value := newStates[key]
@@ -203,18 +202,20 @@ func AddNewEntry(
 	for i := 0; i < len(elements); i++ {
 
 		element := elements[i]
-		myStates, okStates := element.(map[int]State)
-		myString, okString := element.(string)
-		myInt, okInt := element.(int)
 		myBool, okBool := element.(bool)
-		if okString {
-			states[newIndex2] = State{ID: newIndex2, StringValue: myString, TypeValueSet: "StringValue"}
+		myInt, okInt := element.(int)
+
+		myString, okString := element.(string)
+		myStates, okStates := element.(map[int]State)
+
+		if okBool {
+			states[newIndex2] = State{ID: newIndex2, BoolValue: myBool, TypeValueSet: "BoolValue"}
 			newIndex2++
 		} else if okInt {
 			states[newIndex2] = State{ID: newIndex2, IntValue: myInt, TypeValueSet: "IntValue"}
 			newIndex2++
-		} else if okBool {
-			states[newIndex2] = State{ID: newIndex2, BoolValue: myBool, TypeValueSet: "BoolValue"}
+		} else if okString {
+			states[newIndex2] = State{ID: newIndex2, StringValue: myString, TypeValueSet: "StringValue"}
 			newIndex2++
 		} else if okStates {
 			states, newIndex2 = addStates(states, myStates, newIndex2)
@@ -224,19 +225,14 @@ func AddNewEntry(
 	return states
 }
 func CollectMaps(elements ...any) map[int]State {
-	// fmt.Println("CollectMaps")
-	// fmt.Println(elements...)
+
 	states := make(map[int]State)
 	// each element[0] can only have 1 key
 	firstElement, _ := elements[0].(map[int]State)
 	firstKey1 := getFirstKey(firstElement[0].MapValues)
-	// store each key from element to new node
-	// link each key directly to the value
+
 	mapValues := map[string]int{firstKey1: 1}
 	states = AddNewEntry(mapValues, states, mapTest1, 1, elements...)
-	// fmt.Println("states")
-
-	// fmt.Println(states)
 	return states
 
 }
