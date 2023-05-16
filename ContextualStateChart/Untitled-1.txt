@@ -1,0 +1,6 @@
+StartChildren.Edges.Edges[0][0] = state1 name1
+Edges[0][0]= state1 name1
+
+Next.AreParallel.AreParallel = true
+
+Values.drinkOrder.drinkOrder = []

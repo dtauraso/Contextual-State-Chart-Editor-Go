@@ -224,7 +224,8 @@ func CollectMaps(elements ...any) map[int]State {
 	// each element[0] can only have 1 key
 	firstElement, _ := elements[0].(map[int]State)
 	firstKey1 := getFirstKey(firstElement[0].MapValues)
-
+	// store each key from element to new node
+	// link each key directly to the value
 	mapValues := map[string]int{firstKey1: 1}
 	states = AddNewEntry(mapValues, states, mapTest1, elements...)
 	return states
