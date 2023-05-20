@@ -180,11 +180,11 @@ func AddNewEntry(
 		newIndex = getNewIndex(i, elements...)
 
 		prevElement := elements[i-1]
-		_, okString := prevElement.(string)
-		_, okInt := prevElement.(int)
-
 		_, okBool := prevElement.(bool)
+		_, okInt := prevElement.(int)
+		_, okString := prevElement.(string)
 		myStates, okStates := prevElement.(map[int]State)
+
 		var offset int
 		if okString || okInt || okBool {
 			offset = 1
@@ -239,5 +239,44 @@ func CollectMaps(elements ...any) map[int]State {
 func CollectMaps2(elements ...any) map[int]State {
 	// 0, 2, 4 element ids are strings
 	// 1, 3, 5 element ids are values (bool, int, string, states)
-	return nil
+	if len(elements)%2 != 0 {
+		return nil
+	}
+	mapValues := make(map[string]int)
+	states := make(map[int]State)
+
+	j := 1
+	for i := 0; i < len(elements); i += 2 {
+		myString, _ := elements[i].(string)
+		mapValues[myString] = j
+
+		myElement := elements[i+1]
+		myBoolValue, okBoolValue := myElement.(bool)
+		myIntValue, okIntValue := myElement.(int)
+		myStringValue, okStringValue := myElement.(string)
+		myStatesValue, okStatesValue := myElement.(map[int]State)
+
+		if okBoolValue {
+			states[j] = State{ID: j, BoolValue: myBoolValue, TypeValueSet: "BoolValue"}
+		} else if okIntValue {
+			states[j] = State{ID: j, IntValue: myIntValue, TypeValueSet: "IntValue"}
+		} else if okStringValue {
+			states[j] = State{ID: j, StringValue: myStringValue, TypeValueSet: "StringValue"}
+		} else if okStatesValue {
+			states, _ = addStates(states, myStatesValue, j)
+
+		}
+		var offset int
+		if okBoolValue || okIntValue || okStringValue {
+			offset = 1
+		} else if okStatesValue {
+			offset = len(myStatesValue)
+		}
+
+		j += offset
+
+	}
+	states[0] = State{ID: 0, MapValues: mapValues, TypeValueSet: "MapValues"}
+
+	return states
 }

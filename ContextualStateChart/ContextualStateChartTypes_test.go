@@ -504,68 +504,45 @@ func TestCollectMaps(t *testing.T) {
 			ID: 0,
 			MapValues: map[string]int{
 				"Name":          1,
-				"FunctionCode":  5,
-				"FunctionCode2": 7},
+				"FunctionCode":  4,
+				"FunctionCode2": 5},
 			TypeValueSet: "MapValues",
 		},
 		1: {
-			ID:           1,
-			MapValues:    map[string]int{"Name": 2},
-			TypeValueSet: "MapValues",
-		},
-		2: {
-			ID: 2,
+			ID: 1,
 			MapValues: map[string]int{
-				"0": 3,
-				"1": 4,
+				"0": 2,
+				"1": 3,
 			},
 			TypeValueSet: "MapValues",
 		},
+		2: {
+			ID:           2,
+			StringValue:  "I am a test",
+			TypeValueSet: "StringValue",
+		},
 		3: {
 			ID:           3,
-			StringValue:  "I am a test",
+			StringValue:  "StarbucksMachine",
 			TypeValueSet: "StringValue",
 		},
 		4: {
 			ID:           4,
-			StringValue:  "StarbucksMachine",
+			StringValue:  "ReturnTrue",
 			TypeValueSet: "StringValue",
 		},
 		5: {
 			ID:           5,
-			MapValues:    map[string]int{"FunctionCode": 6},
-			TypeValueSet: "MapValues",
-		},
-		6: {
-			ID:           6,
-			StringValue:  "ReturnTrue",
-			TypeValueSet: "StringValue",
-		},
-		7: {
-			ID:           7,
-			MapValues:    map[string]int{"FunctionCode2": 8},
-			TypeValueSet: "MapValues",
-		},
-		8: {
-			ID:           8,
 			StringValue:  "ReturnTrue",
 			TypeValueSet: "StringValue",
 		},
 	}
 
-	/*
+	got :=
 		CollectMaps2(
 			"Name", ArrayValueStrings("I am a test", "StarbucksMachine"),
 			"FunctionCode", "ReturnTrue",
 			"FunctionCode2", "ReturnTrue")
-
-	*/
-	got :=
-		CollectMaps(
-			MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
-			MapValueString("FunctionCode", "ReturnTrue"),
-			MapValueString("FunctionCode2", "ReturnTrue"))
-
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
