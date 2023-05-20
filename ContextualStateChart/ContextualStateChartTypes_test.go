@@ -551,133 +551,94 @@ func TestCollectMaps(t *testing.T) {
 func TestCollectMaps2(t *testing.T) {
 	want := map[int]State{
 		0: {ID: 0,
-			MapValues:    map[string]int{"test": 1, "test2": 11},
+			MapValues:    map[string]int{"test": 1, "test2": 7},
 			TypeValueSet: "MapValues"},
-		1: {ID: 1,
-			MapValues:    map[string]int{"test": 2},
-			TypeValueSet: "MapValues"},
+		1: {
+			ID: 1,
+			MapValues: map[string]int{
+				"Name":          2,
+				"FunctionCode":  5,
+				"FunctionCode2": 6},
+			TypeValueSet: "MapValues",
+		},
 		2: {
 			ID: 2,
 			MapValues: map[string]int{
-				"Name":          3,
-				"FunctionCode":  7,
-				"FunctionCode2": 9},
+				"0": 3,
+				"1": 4,
+			},
 			TypeValueSet: "MapValues",
 		},
 		3: {
 			ID:           3,
-			MapValues:    map[string]int{"Name": 4},
-			TypeValueSet: "MapValues",
+			StringValue:  "I am a test",
+			TypeValueSet: "StringValue",
 		},
 		4: {
-			ID: 4,
-			MapValues: map[string]int{
-				"0": 5,
-				"1": 6,
-			},
-			TypeValueSet: "MapValues",
+			ID:           4,
+			StringValue:  "StarbucksMachine",
+			TypeValueSet: "StringValue",
 		},
 		5: {
 			ID:           5,
-			StringValue:  "I am a test",
+			StringValue:  "ReturnTrue",
 			TypeValueSet: "StringValue",
 		},
 		6: {
 			ID:           6,
-			StringValue:  "StarbucksMachine",
+			StringValue:  "ReturnTrue",
 			TypeValueSet: "StringValue",
 		},
 		7: {
-			ID:           7,
-			MapValues:    map[string]int{"FunctionCode": 8},
+			ID: 7,
+			MapValues: map[string]int{
+				"Name":          8,
+				"FunctionCode":  11,
+				"FunctionCode2": 12},
 			TypeValueSet: "MapValues",
 		},
 		8: {
-			ID:           8,
-			StringValue:  "ReturnTrue",
-			TypeValueSet: "StringValue",
-		},
-		9: {
-			ID:           9,
-			MapValues:    map[string]int{"FunctionCode2": 10},
-			TypeValueSet: "MapValues",
-		},
-		10: {
-			ID:           10,
-			StringValue:  "ReturnTrue",
-			TypeValueSet: "StringValue",
-		},
-
-		11: {
-			ID:           11,
-			MapValues:    map[string]int{"test2": 12},
-			TypeValueSet: "MapValues",
-		},
-		12: {
-			ID: 12,
+			ID: 8,
 			MapValues: map[string]int{
-				"Name":          13,
-				"FunctionCode":  17,
-				"FunctionCode2": 19},
-			TypeValueSet: "MapValues",
-		},
-		13: {
-			ID:           13,
-			MapValues:    map[string]int{"Name": 14},
-			TypeValueSet: "MapValues",
-		},
-		14: {
-			ID: 14,
-			MapValues: map[string]int{
-				"0": 15,
-				"1": 16,
+				"0": 9,
+				"1": 10,
 			},
 			TypeValueSet: "MapValues",
 		},
-		15: {
-			ID:           15,
+		9: {
+			ID:           9,
 			StringValue:  "I am a test",
 			TypeValueSet: "StringValue",
 		},
-		16: {
-			ID:           16,
+		10: {
+			ID:           10,
 			StringValue:  "StarbucksMachine",
 			TypeValueSet: "StringValue",
 		},
-		17: {
-			ID:           17,
-			MapValues:    map[string]int{"FunctionCode": 18},
-			TypeValueSet: "MapValues",
-		},
-		18: {
-			ID:           18,
+		11: {
+			ID:           11,
 			StringValue:  "ReturnTrue",
 			TypeValueSet: "StringValue",
 		},
-		19: {
-			ID:           19,
-			MapValues:    map[string]int{"FunctionCode2": 20},
-			TypeValueSet: "MapValues",
-		},
-		20: {
-			ID:           20,
+		12: {
+			ID:           12,
 			StringValue:  "ReturnTrue",
 			TypeValueSet: "StringValue",
 		},
 	}
 
 	got :=
-		CollectMaps(
-			MapValue("test",
-				CollectMaps(
-					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
-					MapValueString("FunctionCode", "ReturnTrue"),
-					MapValueString("FunctionCode2", "ReturnTrue"))),
-			MapValue("test2",
-				CollectMaps(
-					MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")),
-					MapValueString("FunctionCode", "ReturnTrue"),
-					MapValueString("FunctionCode2", "ReturnTrue"))))
+		CollectMaps2(
+			"test",
+			CollectMaps2(
+				"Name", ArrayValueStrings("I am a test", "StarbucksMachine"),
+				"FunctionCode", "ReturnTrue",
+				"FunctionCode2", "ReturnTrue"),
+			"test2",
+			CollectMaps2(
+				"Name", ArrayValueStrings("I am a test", "StarbucksMachine"),
+				"FunctionCode", "ReturnTrue",
+				"FunctionCode2", "ReturnTrue"))
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -687,203 +648,159 @@ func TestCollectMaps2(t *testing.T) {
 func TestStateExistance(t *testing.T) {
 	want := map[int]State{
 
-		// CollectMaps(
+		// CollectMaps2(
 		0: {ID: 0,
 			MapValues: map[string]int{
-				"FunctionCode":        8,
-				"LockedByStates":      42,
-				"LockedByStatesCount": 46,
-				"Name":                4,
-				"Next":                22,
-				"StartChildren":       10,
-				"Values":              34,
+				"FunctionCode":        6,
+				"LockedByStates":      29,
+				"LockedByStatesCount": 31,
+				"Name":                3,
+				"Next":                16,
+				"StartChildren":       7,
+				"Values":              25,
 				"parents":             1,
 			},
 			TypeValueSet: "MapValues"},
 
-		// MapValue("parents", MapValueString("0", "-1"))
-		1: {ID: 1, MapValues: map[string]int{"parents": 2},
+		// "parents", CollectMaps2("0", "-1")
+		1: {ID: 1, MapValues: map[string]int{"0": 2},
 			TypeValueSet: "MapValues"},
-		2: {ID: 2, MapValues: map[string]int{"0": 3},
-			TypeValueSet: "MapValues"},
-		3: {ID: 3, IntValue: -1,
+		2: {ID: 2, IntValue: -1,
 			TypeValueSet: "IntValue"},
 
-		// MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine"))
-		4: {ID: 4, MapValues: map[string]int{"Name": 5},
+		// "Name", ArrayValueStrings("I am a test", "StarbucksMachine")
+		3: {ID: 3, MapValues: map[string]int{"0": 4, "1": 5},
 			TypeValueSet: "MapValues"},
-		5: {ID: 5, MapValues: map[string]int{"0": 6, "1": 7},
-			TypeValueSet: "MapValues"},
-		6: {ID: 6, StringValue: "I am a test",
+		4: {ID: 4, StringValue: "I am a test",
 			TypeValueSet: "StringValue"},
-		7: {ID: 7, StringValue: "StarbucksMachine",
+		5: {ID: 5, StringValue: "StarbucksMachine",
 			TypeValueSet: "StringValue"},
 
-		// MapValueString("FunctionCode", "ReturnTrue"
-		8: {ID: 8, MapValues: map[string]int{"FunctionCode": 9},
-			TypeValueSet: "MapValues"},
-		9: {ID: 9, StringValue: "ReturnTrue",
+		// "FunctionCode", "ReturnTrue"
+		6: {ID: 6, StringValue: "ReturnTrue",
 			TypeValueSet: "StringValue"},
 
-		// MapValue("StartChildren",
-		10: {ID: 10, MapValues: map[string]int{"StartChildren": 11},
+		// "StartChildren",
+		// CollectMaps2(
+		7: {ID: 7, MapValues: map[string]int{"AreParallel": 15, "Edges": 8},
 			TypeValueSet: "MapValues"},
 
-		// CollectMaps(
-		11: {ID: 11, MapValues: map[string]int{"AreParallel": 20, "Edges": 12},
-			TypeValueSet: "MapValues"},
-
-		// MapValue("Edges",
-		12: {ID: 12, MapValues: map[string]int{"Edges": 13},
-			TypeValueSet: "MapValues"},
-
+		// "Edges",
 		// ArrayValue(
-		13: {ID: 13, MapValues: map[string]int{"0": 14, "1": 17},
+		8: {ID: 8, MapValues: map[string]int{"0": 9, "1": 12},
 			TypeValueSet: "MapValues"},
 
 		// ArrayValue("state1 name1", "state1 name2")
-		14: {ID: 14, MapValues: map[string]int{"0": 15, "1": 16},
+		9: {ID: 9, MapValues: map[string]int{"0": 10, "1": 11},
 			TypeValueSet: "MapValues"},
-		15: {ID: 15, StringValue: "state1 name1",
+		10: {ID: 10, StringValue: "state1 name1",
 			TypeValueSet: "StringValue"},
-		16: {ID: 16, StringValue: "state1 name2",
+		11: {ID: 11, StringValue: "state1 name2",
 			TypeValueSet: "StringValue"},
 
 		// ArrayValue("state2 name1", "state2 name2"))
-		17: {ID: 17, MapValues: map[string]int{"0": 18, "1": 19},
+		12: {ID: 12, MapValues: map[string]int{"0": 13, "1": 14},
 			TypeValueSet: "MapValues"},
-		18: {ID: 18, StringValue: "state2 name1",
+		13: {ID: 13, StringValue: "state2 name1",
 			TypeValueSet: "StringValue"},
-		19: {ID: 19, StringValue: "state2 name2",
+		14: {ID: 14, StringValue: "state2 name2",
 			TypeValueSet: "StringValue"},
 
-		// MapValueString("AreParallel", "true"))
-		20: {ID: 20, MapValues: map[string]int{"AreParallel": 21},
-			TypeValueSet: "MapValues"},
-		21: {ID: 21, BoolValue: true,
+		// "AreParallel", "true")
+		15: {ID: 15, BoolValue: true,
 			TypeValueSet: "BoolValue"},
 
 		/////////
 
 		/////////
-		// MapValue("Next",
-		22: {ID: 22, MapValues: map[string]int{"Next": 23},
+		// "Next",
+		// CollectMaps2(
+		16: {ID: 16, MapValues: map[string]int{"AreParallel": 24, "Edges": 17},
 			TypeValueSet: "MapValues"},
 
-		// CollectMaps(
-		23: {ID: 23, MapValues: map[string]int{"AreParallel": 32, "Edges": 24},
-			TypeValueSet: "MapValues"},
-
-		// MapValue("Edges",
-		24: {ID: 24, MapValues: map[string]int{"Edges": 25},
-			TypeValueSet: "MapValues"},
-
+		// "Edges",
 		// ArrayValue(
-		25: {ID: 25, MapValues: map[string]int{"0": 26, "1": 29},
+		17: {ID: 17, MapValues: map[string]int{"0": 18, "1": 21},
 			TypeValueSet: "MapValues"},
 
 		// ArrayValue("state1 name1", "state1 name2")
-		26: {ID: 26, MapValues: map[string]int{"0": 27, "1": 28},
+		18: {ID: 18, MapValues: map[string]int{"0": 19, "1": 20},
 			TypeValueSet: "MapValues"},
-		27: {ID: 27, StringValue: "state1 name1",
+		19: {ID: 19, StringValue: "state1 name1",
 			TypeValueSet: "StringValue"},
-		28: {ID: 28, StringValue: "state1 name2",
+		20: {ID: 20, StringValue: "state1 name2",
 			TypeValueSet: "StringValue"},
 
 		// ArrayValue("state2 name1", "state2 name2"))
-		29: {ID: 29, MapValues: map[string]int{"0": 30, "1": 31},
+		21: {ID: 21, MapValues: map[string]int{"0": 22, "1": 23},
 			TypeValueSet: "MapValues"},
-		30: {ID: 30, StringValue: "state2 name1",
+		22: {ID: 22, StringValue: "state2 name1",
 			TypeValueSet: "StringValue"},
-		31: {ID: 31, StringValue: "state2 name2",
+		23: {ID: 23, StringValue: "state2 name2",
 			TypeValueSet: "StringValue"},
 
-		// MapValueString("AreParallel", "true"))
-		32: {ID: 32, MapValues: map[string]int{"AreParallel": 33},
-			TypeValueSet: "MapValues"},
-		33: {ID: 33, BoolValue: true,
+		// "AreParallel", "true")
+		24: {ID: 24, BoolValue: true,
 			TypeValueSet: "BoolValue"},
 
-		// MapValue("Values",
-		34: {ID: 34, MapValues: map[string]int{"Values": 35},
+		// "Values",
+		// CollectMaps2(
+		25: {ID: 25, MapValues: map[string]int{
+			"drinkOrder":   26,
+			"orderQueue":   27,
+			"outputBuffer": 28},
 			TypeValueSet: "MapValues"},
 
-		// CollectMaps(
-		35: {ID: 35, MapValues: map[string]int{
-			"drinkOrder":   36,
-			"orderQueue":   38,
-			"outputBuffer": 40},
+		// "drinkOrder", ArrayValue()
+		26: {ID: 26, MapValues: map[string]int{},
 			TypeValueSet: "MapValues"},
 
-		// MapValueString("drinkOrder", ArrayValue())
-		36: {ID: 36, MapValues: map[string]int{"drinkOrder": 37},
-			TypeValueSet: "MapValues"},
-		37: {ID: 37, MapValues: map[string]int{},
+		// "orderQueue", ArrayValue()
+		27: {ID: 27, MapValues: map[string]int{},
 			TypeValueSet: "MapValues"},
 
-		// MapValueString("orderQueue", ArrayValue())
-		38: {ID: 38, MapValues: map[string]int{"orderQueue": 39},
-			TypeValueSet: "MapValues"},
-		39: {ID: 39, MapValues: map[string]int{},
+		// "outputBuffer", ArrayValue()
+		28: {ID: 28, MapValues: map[string]int{},
 			TypeValueSet: "MapValues"},
 
-		// MapValueString("outputBuffer", ArrayValue())
-		40: {ID: 40, MapValues: map[string]int{"outputBuffer": 41},
-			TypeValueSet: "MapValues"},
-		41: {ID: 41, MapValues: map[string]int{},
-			TypeValueSet: "MapValues"},
-
-		// MapValue("LockedByStates",
-		42: {ID: 42, MapValues: map[string]int{"LockedByStates": 43},
+		// "LockedByStates",
+		// CollectMaps2(
+		29: {ID: 29, MapValues: map[string]int{"11": 30},
 			TypeValueSet: "MapValues"},
 
-		// CollectMaps(
-		43: {ID: 43, MapValues: map[string]int{"11": 44},
-			TypeValueSet: "MapValues"},
-
-		// MapValueString("11", "true"))),
-		44: {ID: 44, MapValues: map[string]int{"11": 45},
-			TypeValueSet: "MapValues"},
-		45: {ID: 45, BoolValue: true,
+		// "11", "true"),
+		30: {ID: 30, BoolValue: true,
 			TypeValueSet: "BoolValue"},
 
-		// MapValueString("LockedByStatesCount", "1")
-		46: {ID: 46, MapValues: map[string]int{"LockedByStatesCount": 47},
-			TypeValueSet: "MapValues"},
-		47: {ID: 47, IntValue: 1,
+		// "LockedByStatesCount", "1"
+		31: {ID: 31, IntValue: 1,
 			TypeValueSet: "IntValue"},
 	}
 
 	got :=
-		CollectMaps( /* recorded */
-			MapValue("parents", MapValueInt("0", -1)),                              /* recorded */
-			MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")), /* recorded */
-			MapValueString("FunctionCode", "ReturnTrue"),                           /* recorded */
-			MapValue("StartChildren", /* recorded */
-				CollectMaps( /* recorded */
-					MapValue("Edges", /* recorded */
-						ArrayValue( /* recorded */
-							ArrayValue("state1 name1", "state1 name2"),   /* recorded */
-							ArrayValue("state2 name1", "state2 name2"))), /* recorded */
-					MapValueBool("AreParallel", true)), /* recorded */
-			),
-			MapValue("Next", /* recorded */
-				CollectMaps( /* recorded */
-					MapValue("Edges", /* recorded */
-						ArrayValue( /* recorded */
-							ArrayValue("state1 name1", "state1 name2"),   /* recorded */
-							ArrayValue("state2 name1", "state2 name2"))), /* recorded */
-					MapValueBool("AreParallel", true))), /* recorded */
-			MapValue("Values", /* recorded */
-				CollectMaps( /* recorded */
-					MapValue("drinkOrder", ArrayValue()),     /* recorded */
-					MapValue("orderQueue", ArrayValue()),     /* recorded */
-					MapValue("outputBuffer", ArrayValue()))), /* recorded */
-
-			MapValue("LockedByStates", /* recorded */
-				CollectMaps( /* recorded */
-					MapValueBool("11", true))), /* recorded */
-			MapValueInt("LockedByStatesCount", 1), /* recorded */
+		CollectMaps2(
+			"parents", CollectMaps2("0", -1),
+			"Name", ArrayValueStrings("I am a test", "StarbucksMachine"),
+			"FunctionCode", "ReturnTrue",
+			"StartChildren", CollectMaps2(
+				"Edges",
+				ArrayValue(
+					ArrayValue("state1 name1", "state1 name2"),
+					ArrayValue("state2 name1", "state2 name2")),
+				"AreParallel", true),
+			"Next", CollectMaps2(
+				"Edges",
+				ArrayValue(
+					ArrayValue("state1 name1", "state1 name2"),
+					ArrayValue("state2 name1", "state2 name2")),
+				"AreParallel", true),
+			"Values", CollectMaps2(
+				"drinkOrder", ArrayValue(),
+				"orderQueue", ArrayValue(),
+				"outputBuffer", ArrayValue()),
+			"LockedByStates", CollectMaps2(
+				"11", true),
+			"LockedByStatesCount", 1,
 		)
 
 	if !reflect.DeepEqual(want, got) {
