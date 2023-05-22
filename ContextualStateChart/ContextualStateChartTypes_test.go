@@ -20,7 +20,7 @@ func TestMapValueString(t *testing.T) {
 		},
 	}
 
-	got := MapValueString("testKey", "testValue")
+	got := CollectMaps("testKey", "testValue")
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
@@ -41,7 +41,7 @@ func TestMapValueInt(t *testing.T) {
 		},
 	}
 
-	got := MapValueInt("testKey", 0)
+	got := CollectMaps("testKey", 0)
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
@@ -62,7 +62,7 @@ func TestMapValueBool(t *testing.T) {
 		},
 	}
 
-	got := MapValueBool("testKey", false)
+	got := CollectMaps("testKey", false)
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
@@ -88,7 +88,7 @@ func TestMapValue(t *testing.T) {
 		},
 	}
 
-	got := MapValue("testKey", MapValueString("testKey2", "testValue2"))
+	got := CollectMaps("testKey", CollectMaps("testKey2", "testValue2"))
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -125,7 +125,7 @@ func TestMapValue2(t *testing.T) {
 		},
 	}
 
-	got := MapValue("testKey", ArrayValue("test1", 0, false))
+	got := CollectMaps("testKey", ArrayValue("test1", 0, false))
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -153,7 +153,7 @@ func TestMapValue3(t *testing.T) {
 		},
 	}
 
-	got := MapValue("testKey", MapValueString("testKey2", "testValue2"))
+	got := CollectMaps("testKey", CollectMaps("testKey2", "testValue2"))
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -180,7 +180,7 @@ func TestMapValue4(t *testing.T) {
 		},
 	}
 
-	got := MapValue("testKey", MapValueInt("testKey2", 0))
+	got := CollectMaps("testKey", CollectMaps("testKey2", 0))
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -207,7 +207,7 @@ func TestMapValue5(t *testing.T) {
 		},
 	}
 
-	got := MapValue("testKey", MapValueBool("testKey2", false))
+	got := CollectMaps("testKey", CollectMaps("testKey2", false))
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -242,7 +242,7 @@ func TestArrayValues(t *testing.T) {
 		},
 	}
 
-	got := ArrayValueStrings("test1", "test2", "test3")
+	got := ArrayValue("test1", "test2", "test3")
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -277,7 +277,7 @@ func TestArrayValuesInts(t *testing.T) {
 		},
 	}
 
-	got := ArrayValueInts(0, 1, 2)
+	got := ArrayValue(0, 1, 2)
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -312,7 +312,7 @@ func TestArrayValuesBools(t *testing.T) {
 		},
 	}
 
-	got := ArrayValueBools(false, true, false)
+	got := ArrayValue(false, true, false)
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -354,7 +354,7 @@ func TestArrayValues2(t *testing.T) {
 		},
 	}
 
-	got := ArrayValue(ArrayValueStrings("test1", "test2", "test3"))
+	got := ArrayValue(ArrayValue("test1", "test2", "test3"))
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -395,7 +395,7 @@ func TestArrayValues2Ints(t *testing.T) {
 		},
 	}
 
-	got := ArrayValue(ArrayValueInts(0, 1, 2))
+	got := ArrayValue(ArrayValue(0, 1, 2))
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -443,7 +443,7 @@ func TestArrayValues3(t *testing.T) {
 		},
 	}
 
-	got := ArrayValue(ArrayValueStrings("test1", "test2", "test3"), "test4")
+	got := ArrayValue(ArrayValue("test1", "test2", "test3"), "test4")
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -491,7 +491,7 @@ func TestArrayValues4(t *testing.T) {
 		},
 	}
 
-	got := ArrayValue("test4", ArrayValueStrings("test1", "test2", "test3"))
+	got := ArrayValue("test4", ArrayValue("test1", "test2", "test3"))
 
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("wanted %v, got %v", want, got)
@@ -539,8 +539,8 @@ func TestCollectMaps(t *testing.T) {
 	}
 
 	got :=
-		CollectMaps2(
-			"Name", ArrayValueStrings("I am a test", "StarbucksMachine"),
+		CollectMaps(
+			"Name", ArrayValue("I am a test", "StarbucksMachine"),
 			"FunctionCode", "ReturnTrue",
 			"FunctionCode2", "ReturnTrue")
 	if !reflect.DeepEqual(want, got) {
@@ -628,15 +628,15 @@ func TestCollectMaps2(t *testing.T) {
 	}
 
 	got :=
-		CollectMaps2(
+		CollectMaps(
 			"test",
-			CollectMaps2(
-				"Name", ArrayValueStrings("I am a test", "StarbucksMachine"),
+			CollectMaps(
+				"Name", ArrayValue("I am a test", "StarbucksMachine"),
 				"FunctionCode", "ReturnTrue",
 				"FunctionCode2", "ReturnTrue"),
 			"test2",
-			CollectMaps2(
-				"Name", ArrayValueStrings("I am a test", "StarbucksMachine"),
+			CollectMaps(
+				"Name", ArrayValue("I am a test", "StarbucksMachine"),
 				"FunctionCode", "ReturnTrue",
 				"FunctionCode2", "ReturnTrue"))
 
@@ -648,7 +648,7 @@ func TestCollectMaps2(t *testing.T) {
 func TestStateExistance(t *testing.T) {
 	want := map[int]State{
 
-		// CollectMaps2(
+		// CollectMaps(
 		0: {ID: 0,
 			MapValues: map[string]int{
 				"FunctionCode":        6,
@@ -662,7 +662,7 @@ func TestStateExistance(t *testing.T) {
 			},
 			TypeValueSet: "MapValues"},
 
-		// "parents", CollectMaps2("0", "-1")
+		// "parents", CollectMaps("0", "-1")
 		1: {ID: 1, MapValues: map[string]int{"0": 2},
 			TypeValueSet: "MapValues"},
 		2: {ID: 2, IntValue: -1,
@@ -681,7 +681,7 @@ func TestStateExistance(t *testing.T) {
 			TypeValueSet: "StringValue"},
 
 		// "StartChildren",
-		// CollectMaps2(
+		// CollectMaps(
 		7: {ID: 7, MapValues: map[string]int{"AreParallel": 15, "Edges": 8},
 			TypeValueSet: "MapValues"},
 
@@ -714,7 +714,7 @@ func TestStateExistance(t *testing.T) {
 
 		/////////
 		// "Next",
-		// CollectMaps2(
+		// CollectMaps(
 		16: {ID: 16, MapValues: map[string]int{"AreParallel": 24, "Edges": 17},
 			TypeValueSet: "MapValues"},
 
@@ -744,7 +744,7 @@ func TestStateExistance(t *testing.T) {
 			TypeValueSet: "BoolValue"},
 
 		// "Values",
-		// CollectMaps2(
+		// CollectMaps(
 		25: {ID: 25, MapValues: map[string]int{
 			"drinkOrder":   26,
 			"orderQueue":   27,
@@ -764,7 +764,7 @@ func TestStateExistance(t *testing.T) {
 			TypeValueSet: "MapValues"},
 
 		// "LockedByStates",
-		// CollectMaps2(
+		// CollectMaps(
 		29: {ID: 29, MapValues: map[string]int{"11": 30},
 			TypeValueSet: "MapValues"},
 
@@ -778,27 +778,25 @@ func TestStateExistance(t *testing.T) {
 	}
 
 	got :=
-		CollectMaps2(
-			"parents", CollectMaps2("0", -1),
-			"Name", ArrayValueStrings("I am a test", "StarbucksMachine"),
+		CollectMaps(
+			"parents", CollectMaps("0", -1),
+			"Name", ArrayValue("I am a test", "StarbucksMachine"),
 			"FunctionCode", "ReturnTrue",
-			"StartChildren", CollectMaps2(
-				"Edges",
-				ArrayValue(
+			"StartChildren", CollectMaps(
+				"Edges", ArrayValue(
 					ArrayValue("state1 name1", "state1 name2"),
 					ArrayValue("state2 name1", "state2 name2")),
 				"AreParallel", true),
-			"Next", CollectMaps2(
-				"Edges",
-				ArrayValue(
+			"Next", CollectMaps(
+				"Edges", ArrayValue(
 					ArrayValue("state1 name1", "state1 name2"),
 					ArrayValue("state2 name1", "state2 name2")),
 				"AreParallel", true),
-			"Values", CollectMaps2(
+			"Values", CollectMaps(
 				"drinkOrder", ArrayValue(),
 				"orderQueue", ArrayValue(),
 				"outputBuffer", ArrayValue()),
-			"LockedByStates", CollectMaps2(
+			"LockedByStates", CollectMaps(
 				"11", true),
 			"LockedByStatesCount", 1,
 		)

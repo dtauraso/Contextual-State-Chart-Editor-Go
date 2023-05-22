@@ -39,78 +39,6 @@ func SaveString(s map[int]State, key int, newString string) {
 		s[key] = entry
 	}
 }
-
-func MapValueString(key, value string) map[int]State {
-	states := make(map[int]State)
-	states[0] = State{ID: 0, MapValues: map[string]int{key: 1}, TypeValueSet: "MapValues"}
-	states[1] = State{ID: 1, StringValue: value, TypeValueSet: "StringValue"}
-	return states
-}
-
-func MapValueInt(key string, value int) map[int]State {
-	states := make(map[int]State)
-	states[0] = State{ID: 0, MapValues: map[string]int{key: 1}, TypeValueSet: "MapValues"}
-	states[1] = State{ID: 1, IntValue: value, TypeValueSet: "IntValue"}
-	return states
-}
-
-func MapValueBool(key string, value bool) map[int]State {
-	states := make(map[int]State)
-	states[0] = State{ID: 0, MapValues: map[string]int{key: 1}, TypeValueSet: "MapValues"}
-	states[1] = State{ID: 1, BoolValue: value, TypeValueSet: "BoolValue"}
-	return states
-}
-
-func MapValue(key string, value map[int]State) map[int]State {
-	states := make(map[int]State)
-	states[0] = State{ID: 0, MapValues: map[string]int{key: 1}, TypeValueSet: "MapValues"}
-
-	states, _ = addStates(states, value, 1)
-
-	return states
-}
-
-func ArrayValueStrings(strings ...string) map[int]State {
-	states := make(map[int]State)
-	arrayMapValues := make(map[string]int)
-
-	for i := 0; i < len(strings); i++ {
-		arrayMapValues[strconv.Itoa(i)] = i + 1
-	}
-	states[0] = State{ID: 0, MapValues: arrayMapValues, TypeValueSet: "MapValues"}
-	for i, myString := range strings {
-		states[i+1] = State{ID: i + 1, StringValue: myString, TypeValueSet: "StringValue"}
-	}
-	return states
-}
-
-func ArrayValueInts(ints ...int) map[int]State {
-	states := make(map[int]State)
-	arrayMapValues := make(map[string]int)
-
-	for i := 0; i < len(ints); i++ {
-		arrayMapValues[strconv.Itoa(i)] = i + 1
-	}
-	states[0] = State{ID: 0, MapValues: arrayMapValues, TypeValueSet: "MapValues"}
-	for i, myInt := range ints {
-		states[i+1] = State{ID: i + 1, IntValue: myInt, TypeValueSet: "IntValue"}
-	}
-	return states
-}
-func ArrayValueBools(bools ...bool) map[int]State {
-	states := make(map[int]State)
-	arrayMapValues := make(map[string]int)
-
-	for i := 0; i < len(bools); i++ {
-		arrayMapValues[strconv.Itoa(i)] = i + 1
-	}
-	states[0] = State{ID: 0, MapValues: arrayMapValues, TypeValueSet: "MapValues"}
-	for i, myBool := range bools {
-		states[i+1] = State{ID: i + 1, BoolValue: myBool, TypeValueSet: "BoolValue"}
-	}
-	return states
-}
-
 func addStates(states, newStates map[int]State, newIndex int) (map[int]State, int) {
 
 	// visiting keys in ascending order for offset formula to work
@@ -135,35 +63,6 @@ func addStates(states, newStates map[int]State, newIndex int) (map[int]State, in
 		newIndex++
 	}
 	return states, newIndex
-}
-func ArrayValue(elements ...any) map[int]State {
-	states := make(map[int]State)
-	if len(elements) == 0 {
-		states[0] = State{ID: 0, MapValues: map[string]int{}, TypeValueSet: "MapValues"}
-		return states
-	}
-	arrayMapValues := map[string]int{"0": 1}
-	states = AddNewEntry(arrayMapValues, states, arrayTest1, 0, elements...)
-	return states
-
-}
-
-func getFirstKey(mapValues map[string]int) string {
-
-	keys := make([]string, 0, len(mapValues))
-	for key := range mapValues {
-		keys = append(keys, key)
-	}
-	return keys[0]
-}
-
-func arrayTest1(i int, elements ...any) string {
-	return strconv.Itoa(i)
-}
-func mapTest1(i int, elements ...any) string {
-	element, _ := elements[i].(map[int]State)
-	return getFirstKey(element[0].MapValues)
-
 }
 func AddNewEntry(
 	values map[string]int,
@@ -224,19 +123,41 @@ func AddNewEntry(
 	}
 	return states
 }
-func CollectMaps(elements ...any) map[int]State {
 
+func ArrayValue(elements ...any) map[int]State {
 	states := make(map[int]State)
-	// each element[0] can only have 1 key
-	firstElement, _ := elements[0].(map[int]State)
-	firstKey1 := getFirstKey(firstElement[0].MapValues)
-
-	mapValues := map[string]int{firstKey1: 1}
-	states = AddNewEntry(mapValues, states, mapTest1, 1, elements...)
+	if len(elements) == 0 {
+		states[0] = State{ID: 0, MapValues: map[string]int{}, TypeValueSet: "MapValues"}
+		return states
+	}
+	arrayMapValues := map[string]int{"0": 1}
+	states = AddNewEntry(arrayMapValues, states, arrayTest1, 0, elements...)
 	return states
 
 }
-func CollectMaps2(elements ...any) map[int]State {
+
+func getFirstKey(mapValues map[string]int) string {
+
+	keys := make([]string, 0, len(mapValues))
+	for key := range mapValues {
+		keys = append(keys, key)
+	}
+	return keys[0]
+}
+
+func arrayTest1(i int, elements ...any) string {
+	return strconv.Itoa(i)
+}
+func mapTest1(i int, elements ...any) string {
+	element, _ := elements[i].(map[int]State)
+	return getFirstKey(element[0].MapValues)
+
+}
+func ArrayValue2(elements ...any) map[int]State {
+	return nil
+}
+
+func CollectMaps(elements ...any) map[int]State {
 	// 0, 2, 4 element ids are strings
 	// 1, 3, 5 element ids are values (bool, int, string, states)
 	if len(elements)%2 != 0 {
