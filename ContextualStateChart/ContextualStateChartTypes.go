@@ -30,6 +30,9 @@ type State struct {
 	IntValue     int            `json:"IntValue,omitempty"`
 	StringValue  string         `json:"StringValue,omitempty"`
 	MapValues    map[string]int `json:"MapValues,omitempty"`
+	Channel      chan State     `json:"Channel,omitempty"`
+	ChannelWrite chan<- State   `json:"ChannelWrite,omitempty"`
+	ChannelRead  <-chan State   `json:"ChannelRead,omitempty"`
 	TypeValueSet string         `json:"TypeValueSet"`
 }
 
@@ -145,4 +148,10 @@ func CollectMaps(elements ...any) map[int]State {
 		mapGetNewIndex,
 		mapGetValueIndex,
 		elements...)
+}
+func makeString(states map[int]State, indents string) string {
+	return ""
+}
+func convertToTree(states map[int]State) string {
+	return ""
 }
