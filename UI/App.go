@@ -173,6 +173,7 @@ func (sc *StateComponent) StateComponent() app.UI {
 
 	return app.Div().Body(
 		app.Ul().Style("padding-left", "1rem").
+			Style("margin-left", "45rem").
 			Body(
 				app.Li().
 					Style("list-style", "none").

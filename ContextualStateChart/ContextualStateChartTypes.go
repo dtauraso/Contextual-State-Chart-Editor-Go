@@ -7,6 +7,7 @@ import (
 	// "fmt"
 	// "fmt"
 	// "fmt"
+	"fmt"
 	"strconv"
 )
 
@@ -149,9 +150,22 @@ func CollectMaps(elements ...any) map[int]State {
 		mapGetValueIndex,
 		elements...)
 }
-func makeString(states map[int]State, indents string) string {
+func makeString(states map[int]State, currentState int, indents, currentString string) string {
+
+	myState := states[currentState]
+	typeName := myState.TypeValueSet
+	if typeName == "BoolValue" || typeName == "IntValue" || typeName == "StringValue" {
+
+		if typeName == "BoolValue" {
+			return fmt.Sprintf("%t", myState.BoolValue)
+		} else if typeName == "IntValue" {
+			return fmt.Sprintf("%t", myState.IntValue)
+		} else if typeName == "StringValue" {
+			return fmt.Sprintf("%t", myState.StringValue)
+		}
+	}
 	return ""
 }
 func convertToTree(states map[int]State) string {
-	return ""
+	return makeString(states, 0, "", "")
 }
