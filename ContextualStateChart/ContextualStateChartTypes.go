@@ -159,12 +159,17 @@ func makeString(states map[int]State, currentState int, indents, currentString s
 		if typeName == "BoolValue" {
 			return fmt.Sprintf("%t", myState.BoolValue)
 		} else if typeName == "IntValue" {
-			return fmt.Sprintf("%t", myState.IntValue)
+			return fmt.Sprintf("%d", myState.IntValue)
 		} else if typeName == "StringValue" {
-			return fmt.Sprintf("%t", myState.StringValue)
+			return myState.StringValue
+		}
+	} else if typeName == "MapValues" {
+		for key, value := range myState.MapValues {
+			currentString += "\n" + indents + key + ": "
+			currentString += makeString(states, value, indents+"    ", currentString)
 		}
 	}
-	return ""
+	return currentString
 }
 func convertToTree(states map[int]State) string {
 	return makeString(states, 0, "", "")

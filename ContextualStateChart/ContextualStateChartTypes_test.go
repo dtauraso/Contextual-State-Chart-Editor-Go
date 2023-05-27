@@ -1,6 +1,7 @@
 package ContextualStateChartTypes
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -806,42 +807,70 @@ func TestStateExistance(t *testing.T) {
 	}
 }
 
-// func TestStateConnections(t *testing.T) {
-// 	want := ""
+func TestStateConnections(t *testing.T) {
+	want := ""
 
-// 	got :=
-// 		CollectMaps( /* recorded */
-// 			MapValue("parents", MapValueInt("0", -1)),                              /* recorded */
-// 			MapValue("Name", ArrayValueStrings("I am a test", "StarbucksMachine")), /* recorded */
-// 			MapValueString("FunctionCode", "ReturnTrue"),                           /* recorded */
-// 			MapValue("StartChildren", /* recorded */
-// 				CollectMaps( /* recorded */
-// 					MapValue("Edges", /* recorded */
-// 						ArrayValue( /* recorded */
-// 							ArrayValue("state1 name1", "state1 name2"),   /* recorded */
-// 							ArrayValue("state2 name1", "state2 name2"))), /* recorded */
-// 					MapValueBool("AreParallel", true)), /* recorded */
-// 			),
-// 			MapValue("Next", /* recorded */
-// 				CollectMaps( /* recorded */
-// 					MapValue("Edges", /* recorded */
-// 						ArrayValue( /* recorded */
-// 							ArrayValue("state1 name1", "state1 name2"),   /* recorded */
-// 							ArrayValue("state2 name1", "state2 name2"))), /* recorded */
-// 					MapValueBool("AreParallel", true))), /* recorded */
-// 			MapValue("Values", /* recorded */
-// 				CollectMaps( /* recorded */
-// 					MapValue("drinkOrder", ArrayValue()),     /* recorded */
-// 					MapValue("orderQueue", ArrayValue()),     /* recorded */
-// 					MapValue("outputBuffer", ArrayValue()))), /* recorded */
+	got :=
+		CollectMaps(
+			"parents", CollectMaps("0", -1),
+			"Name", ArrayValue("I am a test", "StarbucksMachine"),
+			"FunctionCode", "ReturnTrue",
+			"StartChildren", CollectMaps(
+				"Edges", ArrayValue(
+					ArrayValue("state1 name1", "state1 name2"),
+					ArrayValue("state2 name1", "state2 name2")),
+				"AreParallel", true),
+			"Next", CollectMaps(
+				"Edges", ArrayValue(
+					ArrayValue("state1 name1", "state1 name2"),
+					ArrayValue("state2 name1", "state2 name2")),
+				"AreParallel", true),
+			"Values", CollectMaps(
+				"drinkOrder", ArrayValue(),
+				"orderQueue", ArrayValue(),
+				"outputBuffer", ArrayValue()),
+			"LockedByStates", CollectMaps(
+				"11", true),
+			"LockedByStatesCount", 1,
+		)
+	/*
 
-// 			MapValue("LockedByStates", /* recorded */
-// 				CollectMaps( /* recorded */
-// 					MapValueBool("11", true))), /* recorded */
-// 			MapValueInt("LockedByStatesCount", 1), /* recorded */
-// 		)
-
-// 	if !reflect.DeepEqual(want, got) {
-// 		t.Fatalf("wanted %v, got %v", want, got)
-// 	}
-// }
+		got map[
+			0:{0 false 0  map[FunctionCode:6 LockedByStates:29 LockedByStatesCount:31 Name:3 Next:16 StartChildren:7 Values:25 parents:1] <nil> <nil> <nil> MapValues}
+			1:{1 false 0  map[0:2] <nil> <nil> <nil> MapValues}
+			2:{2 false -1  map[] <nil> <nil> <nil> IntValue}
+			3:{3 false 0  map[0:4 1:5] <nil> <nil> <nil> MapValues}
+			4:{4 false 0 I am a test map[] <nil> <nil> <nil> StringValue}
+			5:{5 false 0 StarbucksMachine map[] <nil> <nil> <nil> StringValue}
+			6:{6 false 0 ReturnTrue map[] <nil> <nil> <nil> StringValue}
+			7:{7 false 0  map[AreParallel:15 Edges:8] <nil> <nil> <nil> MapValues}
+			8:{8 false 0  map[0:9 1:12] <nil> <nil> <nil> MapValues}
+			9:{9 false 0  map[0:10 1:11] <nil> <nil> <nil> MapValues}
+			10:{10 false 0 state1 name1 map[] <nil> <nil> <nil> StringValue}
+			11:{11 false 0 state1 name2 map[] <nil> <nil> <nil> StringValue}
+			12:{12 false 0  map[0:13 1:14] <nil> <nil> <nil> MapValues}
+			13:{13 false 0 state2 name1 map[] <nil> <nil> <nil> StringValue}
+			14:{14 false 0 state2 name2 map[] <nil> <nil> <nil> StringValue}
+			15:{15 true 0  map[] <nil> <nil> <nil> BoolValue}
+			16:{16 false 0  map[AreParallel:24 Edges:17] <nil> <nil> <nil> MapValues}
+			17:{17 false 0  map[0:18 1:21] <nil> <nil> <nil> MapValues}
+			18:{18 false 0  map[0:19 1:20] <nil> <nil> <nil> MapValues}
+			19:{19 false 0 state1 name1 map[] <nil> <nil> <nil> StringValue}
+			20:{20 false 0 state1 name2 map[] <nil> <nil> <nil> StringValue}
+			21:{21 false 0  map[0:22 1:23] <nil> <nil> <nil> MapValues}
+			22:{22 false 0 state2 name1 map[] <nil> <nil> <nil> StringValue}
+			23:{23 false 0 state2 name2 map[] <nil> <nil> <nil> StringValue}
+			24:{24 true 0  map[] <nil> <nil> <nil> BoolValue}
+			25:{25 false 0  map[drinkOrder:26 orderQueue:27 outputBuffer:28] <nil> <nil> <nil> MapValues}
+			26:{26 false 0  map[] <nil> <nil> <nil> MapValues}
+			27:{27 false 0  map[] <nil> <nil> <nil> MapValues}
+			28:{28 false 0  map[] <nil> <nil> <nil> MapValues}
+			29:{29 false 0  map[11:30] <nil> <nil> <nil> MapValues}
+			30:{30 true 0  map[] <nil> <nil> <nil> BoolValue}
+			31:{31 false 1  map[] <nil> <nil> <nil> IntValue}]
+	*/
+	fmt.Print(convertToTree(got))
+	if !reflect.DeepEqual(want, got) {
+		t.Fatalf("wanted %v, got %v", want, got)
+	}
+}
