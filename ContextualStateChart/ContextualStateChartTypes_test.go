@@ -8,7 +8,7 @@ import (
 
 func TestMapValueString(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 		0: {
 			ID:           0,
 			MapValues:    map[string]int{"testKey": 1},
@@ -29,7 +29,7 @@ func TestMapValueString(t *testing.T) {
 
 func TestMapValueInt(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 		0: {
 			ID:           0,
 			MapValues:    map[string]int{"testKey": 1},
@@ -50,7 +50,7 @@ func TestMapValueInt(t *testing.T) {
 
 func TestMapValueBool(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 		0: {
 			ID:           0,
 			MapValues:    map[string]int{"testKey": 1},
@@ -70,7 +70,7 @@ func TestMapValueBool(t *testing.T) {
 }
 func TestMapValue(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID:           0,
@@ -97,7 +97,7 @@ func TestMapValue(t *testing.T) {
 }
 func TestMapValue2(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID:           0,
@@ -135,7 +135,7 @@ func TestMapValue2(t *testing.T) {
 
 func TestMapValue3(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID:           0,
@@ -162,7 +162,7 @@ func TestMapValue3(t *testing.T) {
 }
 func TestMapValue4(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID:           0,
@@ -189,7 +189,7 @@ func TestMapValue4(t *testing.T) {
 }
 func TestMapValue5(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID:           0,
@@ -216,7 +216,7 @@ func TestMapValue5(t *testing.T) {
 }
 func TestArrayValues(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID: 0,
@@ -251,7 +251,7 @@ func TestArrayValues(t *testing.T) {
 }
 func TestArrayValuesInts(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID: 0,
@@ -286,7 +286,7 @@ func TestArrayValuesInts(t *testing.T) {
 }
 func TestArrayValuesBools(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID: 0,
@@ -322,7 +322,7 @@ func TestArrayValuesBools(t *testing.T) {
 
 func TestArrayValues2(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID: 0,
@@ -363,7 +363,7 @@ func TestArrayValues2(t *testing.T) {
 }
 func TestArrayValues2Ints(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID: 0,
@@ -405,7 +405,7 @@ func TestArrayValues2Ints(t *testing.T) {
 
 func TestArrayValues3(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID: 0,
@@ -453,7 +453,7 @@ func TestArrayValues3(t *testing.T) {
 
 func TestArrayValues4(t *testing.T) {
 
-	want := map[int]State{
+	want := map[int]Atom{
 
 		0: {
 			ID: 0,
@@ -500,7 +500,7 @@ func TestArrayValues4(t *testing.T) {
 }
 
 func TestCollectMaps(t *testing.T) {
-	want := map[int]State{
+	want := map[int]Atom{
 		0: {
 			ID: 0,
 			MapValues: map[string]int{
@@ -550,7 +550,7 @@ func TestCollectMaps(t *testing.T) {
 }
 
 func TestCollectMaps2(t *testing.T) {
-	want := map[int]State{
+	want := map[int]Atom{
 		0: {ID: 0,
 			MapValues:    map[string]int{"test": 1, "test2": 7},
 			TypeValueSet: "MapValues"},
@@ -647,7 +647,7 @@ func TestCollectMaps2(t *testing.T) {
 }
 
 func TestStateExistance(t *testing.T) {
-	want := map[int]State{
+	want := map[int]Atom{
 
 		// CollectMaps(
 		0: {ID: 0,

@@ -280,7 +280,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		myMap := make(map[int]t.State)
+		myMap := make(map[int]t.Atom)
 		fileChan := make(chan File)
 
 		for i := 0; i < len(matches); i++ {
@@ -289,7 +289,7 @@ func main() {
 				if err != nil {
 					panic(err)
 				}
-				var fileJson t.State
+				var fileJson t.Atom
 				err2 := json.Unmarshal(file, &fileJson)
 				if err2 != nil {
 					panic(err2)
@@ -315,5 +315,5 @@ func main() {
 
 type File struct {
 	key   int
-	value t.State
+	value t.Atom
 }

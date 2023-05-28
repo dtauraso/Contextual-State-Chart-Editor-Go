@@ -7,7 +7,7 @@ package StarbucksTree
 
 // type IStateNamePartTree struct {
 // 	NPT       map[string]IStateNamePartTree
-// 	State     IState
+// 	Atom     IState
 // 	DataTable IDatabase
 // }
 
@@ -36,7 +36,7 @@ package StarbucksTree
 // var Customer = IStateNamePartTree{
 // 	NPT: map[string]IStateNamePartTree{
 // 		"Cashier": {
-// 			State: IState{
+// 			Atom: IState{
 // 				FunctionCode: u.ReturnTrue,
 // 				EdgeKinds: map[string]IEdges{
 // 					"StartChildren": {
@@ -47,7 +47,7 @@ package StarbucksTree
 // 				HaveStartChildren: true,
 // 				Children: map[string]IStateNamePartTree{
 // 					"Place order": {
-// 						State: IState{
+// 						Atom: IState{
 // 							FunctionCode: u.ReturnTrue,
 // 							EdgeKinds: map[string]IEdges{
 // 								"Next": {
@@ -62,7 +62,7 @@ package StarbucksTree
 // 						},
 // 					},
 // 					"Dig up money": {
-// 						State: IState{
+// 						Atom: IState{
 // 							FunctionCode: u.ReturnTrue,
 // 							EdgeKinds: map[string]IEdges{
 // 								"Next": {
@@ -78,14 +78,14 @@ package StarbucksTree
 // 						},
 // 					},
 // 					"Put away change": {
-// 						State: IState{
+// 						Atom: IState{
 // 							FunctionCode:        u.ReturnTrue,
 // 							LockedByStates:      map[string]bool{"Compute change": true},
 // 							LockedByStatesCount: 1,
 // 						},
 // 					},
 // 					"Sip coffee": {
-// 						State: IState{
+// 						Atom: IState{
 // 							FunctionCode:        u.ReturnTrue,
 // 							LockedByStates:      map[string]bool{"Output buffer": true},
 // 							LockedByStatesCount: 1,
@@ -95,7 +95,7 @@ package StarbucksTree
 // 				Variables: map[string]any{"drink": "frap choco"},
 // 			}},
 // 		"Barista": {
-// 			State: IState{
+// 			Atom: IState{
 // 				FunctionCode: u.ReturnTrue,
 // 			},
 // 		},
@@ -103,7 +103,7 @@ package StarbucksTree
 // }
 
 // var Cashier = IStateNamePartTree{
-// 	State: IState{
+// 	Atom: IState{
 // 		FunctionCode: u.ReturnTrue,
 // 		EdgeKinds: map[string]IEdges{
 // 			"StartChildren": {
@@ -118,7 +118,7 @@ package StarbucksTree
 // 			"Take order": {
 // 				NPT: map[string]IStateNamePartTree{
 // 					"from customer": {
-// 						State: IState{
+// 						Atom: IState{
 // 							FunctionCode: u.ReturnTrue,
 // 							EdgeKinds: map[string]IEdges{
 // 								"Next": {
@@ -135,7 +135,7 @@ package StarbucksTree
 // 					}},
 // 			},
 // 			"Compute Price": {
-// 				State: IState{
+// 				Atom: IState{
 // 					FunctionCode: u.ReturnTrue,
 // 					EdgeKinds: map[string]IEdges{
 // 						"Next": {
@@ -149,7 +149,7 @@ package StarbucksTree
 // 				},
 // 			},
 // 			"Compute change": {
-// 				State: IState{
+// 				Atom: IState{
 // 					FunctionCode: u.ReturnTrue,
 // 					EdgeKinds: map[string]IEdges{
 // 						"Next": {
@@ -165,7 +165,7 @@ package StarbucksTree
 // 				},
 // 			},
 // 			"No change": {
-// 				State: IState{
+// 				Atom: IState{
 // 					FunctionCode: u.ReturnTrue,
 // 				},
 // 			},
@@ -178,7 +178,7 @@ package StarbucksTree
 // }
 
 // var Barista = IStateNamePartTree{
-// 	State: IState{
+// 	Atom: IState{
 // 		FunctionCode: u.ReturnTrue,
 // 		EdgeKinds: map[string]IEdges{
 // 			"StartChildren": {
@@ -191,7 +191,7 @@ package StarbucksTree
 // 		HaveStartChildren: true,
 // 		Children: map[string]IStateNamePartTree{
 // 			"Make drink": {
-// 				State: IState{
+// 				Atom: IState{
 // 					FunctionCode: u.ReturnTrue,
 // 					EdgeKinds: map[string]IEdges{
 // 						"Next": {
@@ -205,7 +205,7 @@ package StarbucksTree
 // 				},
 // 			},
 // 			"Output buffer": {
-// 				State: IState{
+// 				Atom: IState{
 // 					FunctionCode: u.ReturnTrue,
 // 					EdgeKinds: map[string]IEdges{
 // 						"Next": {
@@ -222,7 +222,7 @@ package StarbucksTree
 // 	"machine": {
 // 		NPT: map[string]IStateNamePartTree{
 // 			"StarbucksMachine": {
-// 				State: IState{
+// 				Atom: IState{
 // 					FunctionCode: u.ReturnTrue,
 // 					EdgeKinds: map[string]IEdges{
 // 						"StartChildren": {
@@ -236,7 +236,7 @@ package StarbucksTree
 // 					HaveStartChildren: true,
 // 					Children: map[string]IStateNamePartTree{
 // 						"Register": {
-// 							State: IState{
+// 							Atom: IState{
 // 								FunctionCode: u.ReturnTrue,
 // 								EdgeKinds: map[string]IEdges{
 // 									"StartChildren": {
@@ -275,7 +275,7 @@ package StarbucksTree
 // 						"names": {
 // 							NPT: map[string]IStateNamePartTree{
 // 								"Pistachio": {
-// 									State: IState{
+// 									Atom: IState{
 // 										EdgeKinds: map[string]IEdges{
 // 											"Next": {
 // 												Edges: [][]string{
@@ -290,7 +290,7 @@ package StarbucksTree
 // 										"flavor": {
 // 											NPT: map[string]IStateNamePartTree{
 // 												"Sauces": {
-// 													State: IState{
+// 													Atom: IState{
 // 														EdgeKinds: map[string]IEdges{
 // 															"Next": {
 // 																Edges: [][]string{
@@ -307,7 +307,7 @@ package StarbucksTree
 // 								"size": {
 // 									NPT: map[string]IStateNamePartTree{
 // 										"options": {
-// 											State: IState{
+// 											Atom: IState{
 // 												EdgeKinds: map[string]IEdges{
 // 													"Next": {
 // 														Edges: [][]string{
@@ -324,7 +324,7 @@ package StarbucksTree
 // 										"toppings": {
 // 											NPT: map[string]IStateNamePartTree{
 // 												"cold foam": {
-// 													State: IState{
+// 													Atom: IState{
 // 														EdgeKinds: map[string]IEdges{
 // 															"Next": {
 // 																Edges: [][]string{
@@ -393,7 +393,7 @@ package StarbucksTree
 // 							},
 // 						},
 // 						"drinks": {
-// 							State: IState{
+// 							Atom: IState{
 // 								EdgeKinds: map[string]IEdges{
 // 									"Next": {
 // 										Edges: [][]string{
@@ -404,19 +404,19 @@ package StarbucksTree
 // 							},
 // 						},
 // 						"Pistachio ID": {
-// 							State: IState{
+// 							Atom: IState{
 // 								Database: map[string]IStateNamePartTree{
 // 									"name": {
-// 										State: IState{
+// 										Atom: IState{
 // 											Variable: "Pistachio",
 // 										},
 // 									},
 // 									"sizes": {
-// 										State: IState{
+// 										Atom: IState{
 // 											EdgeKinds: map[string]IEdges{
 // 												"Next": {
 // 													Edges: [][]string{
-// 														{"id of sizes state"},
+// 														{"id of sizes Atom"},
 // 													},
 // 												},
 // 											},

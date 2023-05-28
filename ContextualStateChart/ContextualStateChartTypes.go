@@ -26,30 +26,30 @@ ND name -> array of ID's
 ND name -> map of string keys -> ID's
 */
 
-type State struct {
+type Atom struct {
 	ID           int            `json:"ID"`
 	BoolValue    bool           `json:"BoolValue,omitempty"`
 	IntValue     int            `json:"IntValue,omitempty"`
 	StringValue  string         `json:"StringValue,omitempty"`
 	MapValues    map[string]int `json:"MapValues,omitempty"`
-	Channel      chan State     `json:"Channel,omitempty"`
-	ChannelWrite chan<- State   `json:"ChannelWrite,omitempty"`
-	ChannelRead  <-chan State   `json:"ChannelRead,omitempty"`
+	Channel      chan Atom      `json:"Channel,omitempty"`
+	ChannelWrite chan<- Atom    `json:"ChannelWrite,omitempty"`
+	ChannelRead  <-chan Atom    `json:"ChannelRead,omitempty"`
 	TypeValueSet string         `json:"TypeValueSet"`
 }
 type Graph struct {
-	states     map[int]State
+	states     map[int]Atom
 	deletedIDs []int
 }
 
-func SaveString(s map[int]State, key int, newString string) {
+func SaveString(s map[int]Atom, key int, newString string) {
 	if entry, ok := s[key]; ok {
 		entry.StringValue = newString
 		entry.TypeValueSet = "StringValue"
 		s[key] = entry
 	}
 }
-func addStates(states, newStates map[int]State, newIndex int) map[int]State {
+func addStates(states, newStates map[int]Atom, newIndex int) map[int]Atom {
 
 	// visiting keys in ascending order for offset formula to work
 	for key := 0; key < len(newStates); key++ {
@@ -60,14 +60,14 @@ func addStates(states, newStates map[int]State, newIndex int) map[int]State {
 			for key2, value2 := range value.MapValues {
 				newMapValues[key2] = value2 + offset
 			}
-			states[newIndex] = State{ID: newIndex, MapValues: newMapValues, TypeValueSet: "MapValues"}
+			states[newIndex] = Atom{ID: newIndex, MapValues: newMapValues, TypeValueSet: "MapValues"}
 
 		} else if value.TypeValueSet == "BoolValue" {
-			states[newIndex] = State{ID: newIndex, BoolValue: value.BoolValue, TypeValueSet: "BoolValue"}
+			states[newIndex] = Atom{ID: newIndex, BoolValue: value.BoolValue, TypeValueSet: "BoolValue"}
 		} else if value.TypeValueSet == "IntValue" {
-			states[newIndex] = State{ID: newIndex, IntValue: value.IntValue, TypeValueSet: "IntValue"}
+			states[newIndex] = Atom{ID: newIndex, IntValue: value.IntValue, TypeValueSet: "IntValue"}
 		} else if value.TypeValueSet == "StringValue" {
-			states[newIndex] = State{ID: newIndex, StringValue: value.StringValue, TypeValueSet: "StringValue"}
+			states[newIndex] = Atom{ID: newIndex, StringValue: value.StringValue, TypeValueSet: "StringValue"}
 		}
 
 		newIndex++
@@ -95,10 +95,10 @@ func addEntries(
 	step int,
 	getNewIndex func(int, ...any) string,
 	valueIndex func(int) int,
-	elements ...any) map[int]State {
+	elements ...any) map[int]Atom {
 
 	mapValues := make(map[string]int)
-	states := make(map[int]State)
+	states := make(map[int]Atom)
 
 	j := 1
 	for i := 0; i < len(elements); i += step {
@@ -109,14 +109,14 @@ func addEntries(
 		myBoolValue, okBoolValue := myElement.(bool)
 		myIntValue, okIntValue := myElement.(int)
 		myStringValue, okStringValue := myElement.(string)
-		myStatesValue, okStatesValue := myElement.(map[int]State)
+		myStatesValue, okStatesValue := myElement.(map[int]Atom)
 
 		if okBoolValue {
-			states[j] = State{ID: j, BoolValue: myBoolValue, TypeValueSet: "BoolValue"}
+			states[j] = Atom{ID: j, BoolValue: myBoolValue, TypeValueSet: "BoolValue"}
 		} else if okIntValue {
-			states[j] = State{ID: j, IntValue: myIntValue, TypeValueSet: "IntValue"}
+			states[j] = Atom{ID: j, IntValue: myIntValue, TypeValueSet: "IntValue"}
 		} else if okStringValue {
-			states[j] = State{ID: j, StringValue: myStringValue, TypeValueSet: "StringValue"}
+			states[j] = Atom{ID: j, StringValue: myStringValue, TypeValueSet: "StringValue"}
 		} else if okStatesValue {
 			states = addStates(states, myStatesValue, j)
 
@@ -131,10 +131,10 @@ func addEntries(
 		j += offset
 
 	}
-	states[0] = State{ID: 0, MapValues: mapValues, TypeValueSet: "MapValues"}
+	states[0] = Atom{ID: 0, MapValues: mapValues, TypeValueSet: "MapValues"}
 	return states
 }
-func ArrayValue(elements ...any) map[int]State {
+func ArrayValue(elements ...any) map[int]Atom {
 
 	return addEntries(
 		1,
@@ -143,7 +143,7 @@ func ArrayValue(elements ...any) map[int]State {
 		elements...)
 }
 
-func CollectMaps(elements ...any) map[int]State {
+func CollectMaps(elements ...any) map[int]Atom {
 	// 0, 2, 4 element ids are strings
 	// 1, 3, 5 element ids are values (bool, int, string, states)
 	if len(elements)%2 != 0 {
@@ -155,7 +155,7 @@ func CollectMaps(elements ...any) map[int]State {
 		mapGetValueIndex,
 		elements...)
 }
-func makeString(states map[int]State, currentState int, indents, currentString string) []string {
+func makeString(states map[int]Atom, currentState int, indents, currentString string) []string {
 
 	myState := states[currentState]
 	typeName := myState.TypeValueSet
@@ -184,6 +184,6 @@ func makeString(states map[int]State, currentState int, indents, currentString s
 	}
 	return myArray
 }
-func convertToTree(states map[int]State) []string {
+func convertToTree(states map[int]Atom) []string {
 	return makeString(states, 0, "", "")
 }

@@ -85,7 +85,7 @@ func save() app.UI {
 	if err != nil {
 		panic(err)
 	}
-	output := url.Values{"state": {string(binaryOutput)}, "fileID": {"2"}}
+	output := url.Values{"Atom": {string(binaryOutput)}, "fileID": {"2"}}
 	http.PostForm("/save", output)
 	return nil
 }
@@ -106,14 +106,14 @@ func (h *Hello) Render() app.UI {
 			app.Input().
 				Type("text").
 				Value(ss.Name).
-				Placeholder("enter state name").
+				Placeholder("enter Atom name").
 				AutoFocus(true).
 				OnChange(h.ValueTo(&ss.Name)),
 		).OnClick(h.customTrigger),
 	)
 }
 
-// basic structure for displaying 1 state
+// basic structure for displaying 1 Atom
 type StateComponent struct {
 	app.Compo
 	StateID     int
@@ -165,7 +165,7 @@ func (sc *StateComponent) saveData() app.UI {
 		panic(err)
 	}
 
-	output := url.Values{"state": {string(binaryOutput)}, "fileID": {"2"}}
+	output := url.Values{"Atom": {string(binaryOutput)}, "fileID": {"2"}}
 	http.PostForm("/save", output)
 	return nil
 }
@@ -186,7 +186,7 @@ func (sc *StateComponent) StateComponent() app.UI {
 								app.Input().
 									Type("text").
 									Value(ss.Name).
-									Placeholder("enter state name").
+									Placeholder("enter Atom name").
 									AutoFocus(true).
 									OnChange(func(ctx app.Context, e app.Event) {
 										ss.Name = ctx.JSSrc().Get("value").String()
