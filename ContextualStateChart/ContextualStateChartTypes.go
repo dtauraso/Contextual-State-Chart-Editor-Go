@@ -37,6 +37,10 @@ type State struct {
 	ChannelRead  <-chan State   `json:"ChannelRead,omitempty"`
 	TypeValueSet string         `json:"TypeValueSet"`
 }
+type Graph struct {
+	states     []State
+	deletedIDs []int
+}
 
 func SaveString(s map[int]State, key int, newString string) {
 	if entry, ok := s[key]; ok {
