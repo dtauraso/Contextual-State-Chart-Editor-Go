@@ -38,7 +38,7 @@ type State struct {
 	TypeValueSet string         `json:"TypeValueSet"`
 }
 type Graph struct {
-	states     []State
+	states     map[int]State
 	deletedIDs []int
 }
 
