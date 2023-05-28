@@ -8,6 +8,7 @@ import (
 	// "fmt"
 	// "fmt"
 	"fmt"
+	"sort"
 	"strconv"
 )
 
@@ -150,27 +151,35 @@ func CollectMaps(elements ...any) map[int]State {
 		mapGetValueIndex,
 		elements...)
 }
-func makeString(states map[int]State, currentState int, indents, currentString string) string {
+func makeString(states map[int]State, currentState int, indents, currentString string) []string {
 
 	myState := states[currentState]
 	typeName := myState.TypeValueSet
-	if typeName == "BoolValue" || typeName == "IntValue" || typeName == "StringValue" {
+	myArray := make([]string, 0, 1)
 
+	if typeName == "BoolValue" || typeName == "IntValue" || typeName == "StringValue" {
 		if typeName == "BoolValue" {
-			return fmt.Sprintf("%t", myState.BoolValue)
+			myArray = append(myArray, fmt.Sprintf("|%s%t|", indents, myState.BoolValue))
 		} else if typeName == "IntValue" {
-			return fmt.Sprintf("%d", myState.IntValue)
+			myArray = append(myArray, fmt.Sprintf("|%s%d|", indents, myState.IntValue))
 		} else if typeName == "StringValue" {
-			return myState.StringValue
+			myArray = append(myArray, "|"+indents+myState.StringValue+"|")
 		}
+		return myArray
 	} else if typeName == "MapValues" {
-		for key, value := range myState.MapValues {
-			currentString += "\n" + indents + key + ": "
-			currentString += makeString(states, value, indents+"    ", currentString)
+		keys := make([]string, 0, len(myState.MapValues))
+		for key1 := range myState.MapValues {
+			keys = append(keys, key1)
+		}
+		sort.Strings(keys)
+		for _, key := range keys {
+			value := myState.MapValues[key]
+			myArray = append(myArray, "|"+indents+key+": |")
+			myArray = append(myArray, makeString(states, value, indents+"    ", "")...)
 		}
 	}
-	return currentString
+	return myArray
 }
-func convertToTree(states map[int]State) string {
+func convertToTree(states map[int]State) []string {
 	return makeString(states, 0, "", "")
 }
