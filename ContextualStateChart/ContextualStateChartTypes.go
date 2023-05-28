@@ -37,10 +37,6 @@ type Atom struct {
 	ChannelRead  <-chan Atom    `json:"ChannelRead,omitempty"`
 	TypeValueSet string         `json:"TypeValueSet"`
 }
-type Graph struct {
-	states     map[int]Atom
-	deletedIDs []int
-}
 
 func SaveString(s map[int]Atom, key int, newString string) {
 	if entry, ok := s[key]; ok {
@@ -186,4 +182,9 @@ func makeString(states map[int]Atom, currentState int, indents, currentString st
 }
 func convertToTree(states map[int]Atom) []string {
 	return makeString(states, 0, "", "")
+}
+
+type Graph struct {
+	states     map[int]Atom
+	deletedIDs []int
 }
