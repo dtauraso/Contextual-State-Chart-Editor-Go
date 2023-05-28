@@ -188,3 +188,7 @@ type Graph struct {
 	states     map[int]Atom
 	deletedIDs []int
 }
+
+func (g *Graph) AddState(state map[int]Atom) int {
+	return 0
+}
