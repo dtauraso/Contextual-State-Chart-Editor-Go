@@ -886,3 +886,29 @@ func TestStateConnections(t *testing.T) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
 }
+
+func TestAddStates(t *testing.T) {
+	t.Run("0 prior states before adding", func(t *testing.T) {
+		myGraph := Graph{States: map[int]Atom{}, DeletedIDs: []int{}}
+		firstIDWant := 0
+
+		firstIDGot := myGraph.AddState(ArrayValue("I am a test", "StarbucksMachine"))
+
+		if firstIDWant != firstIDGot {
+			t.Fatalf("wanted %v, got %v", firstIDWant, firstIDGot)
+		}
+	})
+
+	t.Run("3 prior states before adding", func(t *testing.T) {
+		myGraph := Graph{States: map[int]Atom{}, DeletedIDs: []int{}}
+		firstIDWant := 4
+
+		firstGraph := ArrayValue("I am a test", "StarbucksMachine", "test")
+		myGraph.AddState(firstGraph)
+		firstIDGot := myGraph.AddState(ArrayValue("I am a test", "StarbucksMachine"))
+
+		if firstIDWant != firstIDGot {
+			t.Fatalf("wanted %v, got %v", firstIDWant, firstIDGot)
+		}
+	})
+}

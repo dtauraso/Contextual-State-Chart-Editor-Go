@@ -185,10 +185,19 @@ func convertToTree(states map[int]Atom) []string {
 }
 
 type Graph struct {
-	states     map[int]Atom
-	deletedIDs []int
+	States     map[int]Atom
+	DeletedIDs []int
+}
+
+func (g *Graph) AddStateHelper(state map[int]Atom, i int) int {
+	g.States = addStates(g.States, state, i)
+	return len(g.States) - len(state)
+
 }
 
 func (g *Graph) AddState(state map[int]Atom) int {
-	return 0
+	if len(g.States) == 0 {
+		return g.AddStateHelper(state, 0)
+	}
+	return g.AddStateHelper(state, len(g.States))
 }
