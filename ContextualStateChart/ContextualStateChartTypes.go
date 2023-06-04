@@ -189,8 +189,8 @@ type Graph struct {
 	DeletedIDs []int
 }
 
-func (g *Graph) AddStateHelper(state map[int]Atom, i int) int {
-	g.States = addStates(g.States, state, i)
+func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) int {
+	g.States = addStates(g.States, state, newIndex)
 	return len(g.States) - len(state)
 
 }
