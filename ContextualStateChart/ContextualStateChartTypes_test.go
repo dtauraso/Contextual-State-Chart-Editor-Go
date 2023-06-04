@@ -889,7 +889,7 @@ func TestStateConnections(t *testing.T) {
 
 func TestAddStates(t *testing.T) {
 	t.Run("0 prior states before adding", func(t *testing.T) {
-		myGraph := Graph{States: map[int]Atom{}, DeletedIDs: []int{}}
+		myGraph := Graph{States: map[int]Atom{}}
 		firstIDWant := 0
 
 		firstIDGot := myGraph.AddState(ArrayValue("I am a test", "StarbucksMachine"))
@@ -900,7 +900,7 @@ func TestAddStates(t *testing.T) {
 	})
 
 	t.Run("3 prior states before adding", func(t *testing.T) {
-		myGraph := Graph{States: map[int]Atom{}, DeletedIDs: []int{}}
+		myGraph := Graph{States: map[int]Atom{}}
 		firstIDWant := 4
 
 		firstGraph := ArrayValue("I am a test", "StarbucksMachine", "test")
