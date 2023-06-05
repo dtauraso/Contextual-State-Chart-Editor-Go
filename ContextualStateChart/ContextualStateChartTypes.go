@@ -203,7 +203,7 @@ func (g *Graph) AddState(state map[int]Atom) int {
 
 func (g *Graph) GetAtom(startAtom int, path []string) (int, []string) {
 	if len(path) == 0 {
-		return startAtom, nil
+		return startAtom, []string{}
 	}
 	tracker := startAtom
 	pathFound := []string{}
@@ -217,5 +217,5 @@ func (g *Graph) GetAtom(startAtom int, path []string) (int, []string) {
 
 		tracker = nextEdge
 	}
-	return tracker, nil
+	return tracker, []string{}
 }
