@@ -948,4 +948,15 @@ func TestGetAtom(t *testing.T) {
 			t.Fatalf("wanted %v%v, got %v%v", want, errorWant, got, errorGot)
 		}
 	})
+	t.Run("path exists and has length 1", func(t *testing.T) {
+
+		id1, idError := myGraph.getAtom(0, []string{"test"})
+
+		want := 1
+		got, errorGot := id1, idError
+
+		if want != got || nil != errorGot {
+			t.Fatalf("wanted %vnil, got %v%v", want, got, errorGot)
+		}
+	})
 }
