@@ -7,7 +7,6 @@ import (
 	// "fmt"
 	// "fmt"
 	// "fmt"
-	"errors"
 	"fmt"
 	"sort"
 	"strconv"
@@ -212,7 +211,7 @@ func (g *Graph) GetAtom(startAtom int, path []string) (int, []string) {
 		currentBranch := path[i]
 		nextEdge, ok := g.States[tracker].MapValues[currentBranch]
 		if !ok {
-			return -1, pathFound
+			return tracker, pathFound
 		}
 		pathFound = append(pathFound, currentBranch)
 
