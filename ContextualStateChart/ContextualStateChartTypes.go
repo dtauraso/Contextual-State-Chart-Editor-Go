@@ -202,18 +202,19 @@ func (g *Graph) AddState(state map[int]Atom) int {
 	return g.AddStateHelper(state, len(g.States))
 }
 
-func (g *Graph) GetAtom(startAtom int, path []string) (int, error) {
+func (g *Graph) GetAtom(startAtom int, path []string) (int, []string) {
 	if len(path) == 0 {
 		return startAtom, nil
 	}
 	tracker := startAtom
-	pathFound := ""
+	pathFound := []string{}
 	for i := 0; i < len(path); i++ {
-		nextEdge, ok := g.States[tracker].MapValues[path[i]]
+		currentBranch := path[i]
+		nextEdge, ok := g.States[tracker].MapValues[currentBranch]
 		if !ok {
-			return -1, errors.New(pathFound + "|" + path[i] + "|")
+			return -1, pathFound
 		}
-		pathFound += path[i] + ", "
+		pathFound = append(pathFound, currentBranch)
 
 		tracker = nextEdge
 	}
