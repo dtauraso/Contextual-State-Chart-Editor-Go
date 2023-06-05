@@ -202,7 +202,7 @@ func (g *Graph) AddState(state map[int]Atom) int {
 	return g.AddStateHelper(state, len(g.States))
 }
 
-func (g *Graph) getAtom(startAtom int, path []string) (int, error) {
+func (g *Graph) GetAtom(startAtom int, path []string) (int, error) {
 	if len(path) == 0 {
 		return startAtom, nil
 	}

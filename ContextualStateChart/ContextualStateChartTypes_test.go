@@ -928,7 +928,7 @@ func TestGetAtom(t *testing.T) {
 			"FunctionCode2", "ReturnTrue"))}
 	t.Run("path has length == 0", func(t *testing.T) {
 
-		id1, _ := myGraph.getAtom(0, []string{})
+		id1, _ := myGraph.GetAtom(0, []string{})
 
 		want := 0
 		got := id1
@@ -939,7 +939,7 @@ func TestGetAtom(t *testing.T) {
 
 	t.Run("path does not exist", func(t *testing.T) {
 
-		id1, idError := myGraph.getAtom(0, []string{"not there"})
+		id1, idError := myGraph.GetAtom(0, []string{"not there"})
 
 		want, errorWant := -1, errors.New("|not there|")
 		got, errorGot := id1, idError
@@ -950,7 +950,7 @@ func TestGetAtom(t *testing.T) {
 	})
 	t.Run("path exists and has length 1", func(t *testing.T) {
 
-		id1, idError := myGraph.getAtom(0, []string{"test"})
+		id1, idError := myGraph.GetAtom(0, []string{"test"})
 
 		want := 1
 		got, errorGot := id1, idError
@@ -962,7 +962,7 @@ func TestGetAtom(t *testing.T) {
 
 	t.Run("path exists and has length 2", func(t *testing.T) {
 
-		id1, idError := myGraph.getAtom(0, []string{"test", "Name"})
+		id1, idError := myGraph.GetAtom(0, []string{"test", "Name"})
 
 		want := 2
 		got, errorGot := id1, idError
@@ -974,7 +974,7 @@ func TestGetAtom(t *testing.T) {
 
 	t.Run("path exists and has length 3", func(t *testing.T) {
 
-		id1, idError := myGraph.getAtom(0, []string{"test", "Name", "0"})
+		id1, idError := myGraph.GetAtom(0, []string{"test", "Name", "0"})
 
 		want := 3
 		got, errorGot := id1, idError
