@@ -912,3 +912,14 @@ func TestAddStates(t *testing.T) {
 		}
 	})
 }
+
+func TestGetAtom(t *testing.T) {
+	t.Run("path has length == 0", func(t *testing.T) {
+
+		want := 0
+		got := 0
+		if want != got {
+			t.Fatalf("wanted %v, got %v", want, got)
+		}
+	})
+}

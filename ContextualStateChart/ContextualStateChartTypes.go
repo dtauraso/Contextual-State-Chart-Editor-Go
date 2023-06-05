@@ -7,6 +7,7 @@ import (
 	// "fmt"
 	// "fmt"
 	// "fmt"
+	"errors"
 	"fmt"
 	"sort"
 	"strconv"
@@ -199,4 +200,22 @@ func (g *Graph) AddState(state map[int]Atom) int {
 		return g.AddStateHelper(state, 0)
 	}
 	return g.AddStateHelper(state, len(g.States))
+}
+
+func (g *Graph) getAtom(startAtom int, path []string) (int, error) {
+	if len(path) == 0 {
+		return startAtom, nil
+	}
+	tracker := startAtom
+	pathFound := ""
+	for i := 0; i < len(path); i++ {
+		nextEdge, ok := g.States[tracker].MapValues[path[i]]
+		if !ok {
+			return -1, errors.New(pathFound + "| " + path[i])
+		}
+		pathFound += ", " + path[i]
+
+		tracker = nextEdge
+	}
+	return tracker, nil
 }
