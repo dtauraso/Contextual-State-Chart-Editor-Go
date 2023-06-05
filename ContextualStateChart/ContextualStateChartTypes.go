@@ -211,9 +211,9 @@ func (g *Graph) getAtom(startAtom int, path []string) (int, error) {
 	for i := 0; i < len(path); i++ {
 		nextEdge, ok := g.States[tracker].MapValues[path[i]]
 		if !ok {
-			return -1, errors.New(pathFound + "| " + path[i])
+			return -1, errors.New(pathFound + "|" + path[i] + "|")
 		}
-		pathFound += ", " + path[i]
+		pathFound += path[i] + ", "
 
 		tracker = nextEdge
 	}

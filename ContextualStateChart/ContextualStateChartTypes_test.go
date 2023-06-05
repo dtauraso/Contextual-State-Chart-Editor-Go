@@ -2,6 +2,7 @@ package ContextualStateChartTypes
 
 import (
 	// "fmt"
+	"errors"
 	"reflect"
 	"testing"
 )
@@ -914,12 +915,37 @@ func TestAddStates(t *testing.T) {
 }
 
 func TestGetAtom(t *testing.T) {
+	myGraph := Graph{States: CollectMaps(
+		"test",
+		CollectMaps(
+			"Name", ArrayValue("I am a test", "StarbucksMachine"),
+			"FunctionCode", "ReturnTrue",
+			"FunctionCode2", "ReturnTrue"),
+		"test2",
+		CollectMaps(
+			"Name", ArrayValue("I am a test", "StarbucksMachine"),
+			"FunctionCode", "ReturnTrue",
+			"FunctionCode2", "ReturnTrue"))}
 	t.Run("path has length == 0", func(t *testing.T) {
 
+		id1, _ := myGraph.getAtom(0, []string{})
+
 		want := 0
-		got := 0
+		got := id1
 		if want != got {
 			t.Fatalf("wanted %v, got %v", want, got)
+		}
+	})
+
+	t.Run("path does not exist", func(t *testing.T) {
+
+		id1, idError := myGraph.getAtom(0, []string{"not there"})
+
+		want, errorWant := -1, errors.New("|not there|")
+		got, errorGot := id1, idError
+
+		if want != got || errorWant.Error() != errorGot.Error() {
+			t.Fatalf("wanted %v%v, got %v%v", want, errorWant, got, errorGot)
 		}
 	})
 }
