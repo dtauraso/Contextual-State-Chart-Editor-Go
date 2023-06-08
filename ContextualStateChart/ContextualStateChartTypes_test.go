@@ -2,7 +2,7 @@ package ContextualStateChartTypes
 
 import (
 	// "fmt"
-	"errors"
+	// "errors"
 	"reflect"
 	"testing"
 )
@@ -928,59 +928,77 @@ func TestGetAtom(t *testing.T) {
 			"FunctionCode2", "ReturnTrue"))}
 	t.Run("path has length == 0", func(t *testing.T) {
 
-		id1, _ := myGraph.GetAtom(0, []string{})
+		id1, path1 := myGraph.GetAtom(0, []string{})
 
-		want := 0
-		got := id1
-		if want != got {
-			t.Fatalf("wanted %v, got %v", want, got)
+		wantId := 0
+		wantPath := []string{}
+		gotId := id1
+		gotPath := path1
+		if wantId != gotId || !reflect.DeepEqual(wantPath, gotPath) {
+			t.Fatalf("wanted |%v||%v|, got |%v||%v|", wantId, wantPath, gotId, gotPath)
 		}
 	})
 
-	t.Run("path does not exist", func(t *testing.T) {
+	t.Run("path does not exist 1", func(t *testing.T) {
 
-		id1, idError := myGraph.GetAtom(0, []string{"not there"})
+		id1, path1 := myGraph.GetAtom(0, []string{"not there"})
 
-		want, errorWant := -1, errors.New("|not there|")
-		got, errorGot := id1, idError
+		wantId := 0
+		wantPath := []string{}
+		gotId := id1
+		gotPath := path1
+		if wantId != gotId || !reflect.DeepEqual(wantPath, gotPath) {
+			t.Fatalf("wanted |%v||%v|, got |%v||%v|", wantId, wantPath, gotId, gotPath)
+		}
+	})
+	t.Run("path does not exist 2", func(t *testing.T) {
 
-		if want != got || errorWant.Error() != errorGot.Error() {
-			t.Fatalf("wanted %v%v, got %v%v", want, errorWant, got, errorGot)
+		id1, path1 := myGraph.GetAtom(0, []string{"test", "not there"})
+
+		wantId := 1
+		wantPath := []string{"test"}
+		gotId := id1
+		gotPath := path1
+		if wantId != gotId || !reflect.DeepEqual(wantPath, gotPath) {
+			t.Fatalf("wanted |%v||%v|, got |%v||%v|", wantId, wantPath, gotId, gotPath)
 		}
 	})
 	t.Run("path exists and has length 1", func(t *testing.T) {
 
-		id1, idError := myGraph.GetAtom(0, []string{"test"})
+		id1, path1 := myGraph.GetAtom(0, []string{"test"})
 
-		want := 1
-		got, errorGot := id1, idError
-
-		if want != got || nil != errorGot {
-			t.Fatalf("wanted %vnil, got %v%v", want, got, errorGot)
+		wantId := 1
+		wantPath := []string{}
+		gotId := id1
+		gotPath := path1
+		if wantId != gotId || !reflect.DeepEqual(wantPath, gotPath) {
+			t.Fatalf("wanted |%v||%v|, got |%v||%v|", wantId, wantPath, gotId, gotPath)
 		}
 	})
 
 	t.Run("path exists and has length 2", func(t *testing.T) {
 
-		id1, idError := myGraph.GetAtom(0, []string{"test", "Name"})
+		id1, path1 := myGraph.GetAtom(0, []string{"test", "Name"})
 
-		want := 2
-		got, errorGot := id1, idError
-
-		if want != got || nil != errorGot {
-			t.Fatalf("wanted %vnil, got %v%v", want, got, errorGot)
+		wantId := 2
+		wantPath := []string{}
+		gotId := id1
+		gotPath := path1
+		if wantId != gotId || !reflect.DeepEqual(wantPath, gotPath) {
+			t.Fatalf("wanted |%v||%v|, got |%v||%v|", wantId, wantPath, gotId, gotPath)
 		}
 	})
 
 	t.Run("path exists and has length 3", func(t *testing.T) {
 
-		id1, idError := myGraph.GetAtom(0, []string{"test", "Name", "0"})
+		id1, path1 := myGraph.GetAtom(0, []string{"test", "Name", "0"})
 
-		want := 3
-		got, errorGot := id1, idError
-
-		if want != got || nil != errorGot {
-			t.Fatalf("wanted %vnil, got %v%v", want, got, errorGot)
+		wantId := 3
+		wantPath := []string{}
+		gotId := id1
+		gotPath := path1
+		if wantId != gotId || !reflect.DeepEqual(wantPath, gotPath) {
+			t.Fatalf("wanted |%v||%v|, got |%v||%v|", wantId, wantPath, gotId, gotPath)
 		}
 	})
 }

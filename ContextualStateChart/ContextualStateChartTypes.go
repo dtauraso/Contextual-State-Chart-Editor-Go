@@ -205,6 +205,7 @@ func (g *Graph) GetAtom(startAtom int, path []string) (int, []string) {
 	if len(path) == 0 {
 		return startAtom, []string{}
 	}
+
 	tracker := startAtom
 	pathFound := []string{}
 	for i := 0; i < len(path); i++ {
