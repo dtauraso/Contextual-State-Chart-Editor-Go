@@ -12,11 +12,11 @@ import (
 	// "math/rand"
 	"net/http"
 	// "net/url"
-	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
+	t "Contextual-State-Chart-Editor-Go/ContextualStateChart"
 	// ss "github.com/dtauraso/Contextual-State-Chart-Editor-Go/SavedStates"
 	"os"
 	// x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
-	a "github.com/dtauraso/Contextual-State-Chart-Editor-Go/UI"
+	a "Contextual-State-Chart-Editor-Go/UI"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
 

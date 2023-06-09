@@ -28,9 +28,9 @@ import (
 
 	// "net/url"
 
-	ss "github.com/dtauraso/Contextual-State-Chart-Editor-Go/SavedStates"
+	ss "Contextual-State-Chart-Editor-Go/SavedStates"
 
-	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
+	t "Contextual-State-Chart-Editor-Go/ContextualStateChart"
 	// x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )

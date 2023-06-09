@@ -1,7 +1,7 @@
 package SavedStates
 
 import (
-	t "github.com/dtauraso/Contextual-State-Chart-Editor-Go/ContextualStateChart"
+	t "Contextual-State-Chart-Editor-Go/ContextualStateChart"
 )
 
 var SavedState t.Atom

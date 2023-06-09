@@ -1002,3 +1002,51 @@ func TestGetAtom(t *testing.T) {
 		}
 	})
 }
+
+func TestTrieTreeInit(t *testing.T) {
+	want := map[int]Atom{
+		0: {
+			ID: 0,
+			MapValues: map[string]int{
+				"data structure ID's": 1,
+			},
+			TypeValueSet: "MapValues",
+		},
+		1: {
+			ID: 1,
+			MapValues: map[string]int{
+				"trie tree": 2,
+			},
+			TypeValueSet: "MapValues",
+		},
+		2: {
+			ID:           2,
+			IntValue:     3,
+			TypeValueSet: "IntValue",
+		},
+		3: {
+			ID:           3,
+			StringValue:  "StarbucksMachine",
+			TypeValueSet: "StringValue",
+		},
+		4: {
+			ID:           4,
+			StringValue:  "ReturnTrue",
+			TypeValueSet: "StringValue",
+		},
+		5: {
+			ID:           5,
+			StringValue:  "ReturnTrue",
+			TypeValueSet: "StringValue",
+		},
+	}
+
+	got :=
+		CollectMaps(
+			"Name", ArrayValue("I am a test", "StarbucksMachine"),
+			"FunctionCode", "ReturnTrue",
+			"FunctionCode2", "ReturnTrue")
+	if !reflect.DeepEqual(want, got) {
+		t.Fatalf("wanted %v, got %v", want, got)
+	}
+}
