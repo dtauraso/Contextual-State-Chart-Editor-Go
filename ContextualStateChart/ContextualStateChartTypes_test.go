@@ -930,7 +930,7 @@ func TestGetAtom(t *testing.T) {
 
 		id1, path1 := myGraph.GetAtom(0, []string{})
 
-		wantId := 0
+		wantId := -1
 		wantPath := []string{}
 		gotId := id1
 		gotPath := path1
@@ -1005,7 +1005,7 @@ func TestGetAtom(t *testing.T) {
 
 func TestTrieTreeInit(t *testing.T) {
 	t.Run("no 'data structure ID's'", func(t *testing.T) {
-		want := map[int]Atom{
+		want := Graph{States: map[int]Atom{
 			0: {
 				ID: 0,
 				MapValues: map[string]int{
@@ -1028,15 +1028,13 @@ func TestTrieTreeInit(t *testing.T) {
 			3: {
 				ID:           3,
 				MapValues:    map[string]int{},
-				TypeValueSet: "MapValue",
+				TypeValueSet: "MapValues",
 			},
-		}
+		}}
 
-		got :=
-			CollectMaps(
-				"Name", ArrayValue("I am a test", "StarbucksMachine"),
-				"FunctionCode", "ReturnTrue",
-				"FunctionCode2", "ReturnTrue")
+		got := Graph{States: map[int]Atom{}}
+		got.TrieTreeInit()
+
 		if !reflect.DeepEqual(want, got) {
 			t.Fatalf("wanted %v, got %v", want, got)
 		}

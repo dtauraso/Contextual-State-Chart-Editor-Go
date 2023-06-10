@@ -224,11 +224,11 @@ func (g *Graph) GetAtom(startAtom int, path []string) (atomID int, currentPath [
 
 func (g *Graph) TrieTreeInit() {
 	pathToDataStructureIDs := []string{"data structure ID's"}
-	dataStructureIDs, path := g.GetAtom(0, pathToDataStructureIDs)
+	_, path := g.GetAtom(0, pathToDataStructureIDs)
 	length := len(g.States)
 	var trieTreeStartIndex int
 	if len(path) == 0 {
-		trieTreeStartIndex = length + 2
+		trieTreeStartIndex = length + 3
 		g.AddState(
 			CollectMaps("data structure ID's",
 				CollectMaps("trie tree", trieTreeStartIndex)))
