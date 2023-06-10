@@ -45,7 +45,7 @@ func SaveString(s map[int]Atom, key int, newString string) {
 		s[key] = entry
 	}
 }
-func addStates(states, newStates map[int]Atom, newIndex int) map[int]Atom {
+func addStates(states, newStates map[int]Atom, newIndex int) (atoms map[int]Atom) {
 
 	// visiting keys in ascending order for offset formula to work
 	for key := 0; key < len(newStates); key++ {
@@ -71,19 +71,19 @@ func addStates(states, newStates map[int]Atom, newIndex int) map[int]Atom {
 	return states
 }
 
-func arrayGetNewIndex(i int, elements ...any) string {
+func arrayGetNewIndex(i int, elements ...any) (stringIndex string) {
 	return strconv.Itoa(i)
 }
-func mapGetNewIndex(i int, elements ...any) string {
+func mapGetNewIndex(i int, elements ...any) (stringIndex string) {
 	myString, _ := elements[i].(string)
 	return myString
 
 }
 
-func arrayGetValueIndex(i int) int {
+func arrayGetValueIndex(i int) (j int) {
 	return i
 }
-func mapGetValueIndex(i int) int {
+func mapGetValueIndex(i int) (j int) {
 	return i + 1
 }
 
@@ -91,7 +91,7 @@ func addEntries(
 	step int,
 	getNewIndex func(int, ...any) string,
 	valueIndex func(int) int,
-	elements ...any) map[int]Atom {
+	elements ...any) (Atoms map[int]Atom) {
 
 	mapValues := make(map[string]int)
 	states := make(map[int]Atom)
@@ -130,7 +130,7 @@ func addEntries(
 	states[0] = Atom{ID: 0, MapValues: mapValues, TypeValueSet: "MapValues"}
 	return states
 }
-func ArrayValue(elements ...any) map[int]Atom {
+func ArrayValue(elements ...any) (Atoms map[int]Atom) {
 
 	return addEntries(
 		1,
@@ -139,7 +139,7 @@ func ArrayValue(elements ...any) map[int]Atom {
 		elements...)
 }
 
-func CollectMaps(elements ...any) map[int]Atom {
+func CollectMaps(elements ...any) (Atoms map[int]Atom) {
 	// 0, 2, 4 element ids are strings
 	// 1, 3, 5 element ids are values (bool, int, string, states)
 	if len(elements)%2 != 0 {
@@ -151,7 +151,7 @@ func CollectMaps(elements ...any) map[int]Atom {
 		mapGetValueIndex,
 		elements...)
 }
-func makeString(states map[int]Atom, currentState int, indents, currentString string) []string {
+func makeString(states map[int]Atom, currentState int, indents, currentString string) (strings []string) {
 
 	myState := states[currentState]
 	typeName := myState.TypeValueSet
@@ -180,7 +180,7 @@ func makeString(states map[int]Atom, currentState int, indents, currentString st
 	}
 	return myArray
 }
-func convertToTree(states map[int]Atom) []string {
+func convertToTree(states map[int]Atom) (strings []string) {
 	return makeString(states, 0, "", "")
 }
 
@@ -188,20 +188,20 @@ type Graph struct {
 	States map[int]Atom
 }
 
-func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) int {
+func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) (stateID int) {
 	g.States = addStates(g.States, state, newIndex)
 	return len(g.States) - len(state)
 
 }
 
-func (g *Graph) AddState(state map[int]Atom) int {
+func (g *Graph) AddState(state map[int]Atom) (stateID int) {
 	if len(g.States) == 0 {
 		return g.AddStateHelper(state, 0)
 	}
 	return g.AddStateHelper(state, len(g.States))
 }
 
-func (g *Graph) GetAtom(startAtom int, path []string) (int, []string) {
+func (g *Graph) GetAtom(startAtom int, path []string) (atomID int, currentPath []string) {
 
 	if len(path) == 0 {
 		return -1, []string{}
@@ -231,7 +231,7 @@ func (g *Graph) GetAtom(startAtom int, path []string) (int, []string) {
 // 				CollectMaps("trie tree", len(g.States))))
 // 	}
 // }
-func (g *Graph) TrieTreeAdd(strings []string) int {
+func (g *Graph) TrieTreeAdd(strings []string) (newTrieTreeNodeID int) {
 
 	trieTreeID, _ := g.GetAtom(0, []string{"data structure ID's", "trie tree"})
 	ID, path := g.GetAtom(trieTreeID, strings)

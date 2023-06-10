@@ -286,6 +286,7 @@ func main() {
 		for i := 0; i < len(matches); i++ {
 			go func(i int) {
 				file, err := os.ReadFile(fmt.Sprintf("ContextualStateChart/StateArray/%d.json", i))
+
 				if err != nil {
 					panic(err)
 				}
