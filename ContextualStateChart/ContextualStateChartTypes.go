@@ -201,10 +201,17 @@ func (g *Graph) AddState(state map[int]Atom) (stateID int) {
 	return g.AddStateHelper(state, len(g.States))
 }
 
-func (g *Graph) GetAtom(startAtom int, path []string) (atomID int, currentPath []string) {
+const (
+	INPUT_ERROR = 0
+	NOT_FOUND   = 1
+	FOUND       = 2
+)
 
+func (g *Graph) GetAtom(startAtom int, path []string) (atomID int, currentPath []string, returnKind int) {
+
+	// no clear way to know if it was unable to find item
 	if len(path) == 0 {
-		return -1, []string{}
+		return -1, []string{}, INPUT_ERROR
 	}
 
 	tracker := startAtom
@@ -213,13 +220,13 @@ func (g *Graph) GetAtom(startAtom int, path []string) (atomID int, currentPath [
 		currentBranch := path[i]
 		nextEdge, ok := g.States[tracker].MapValues[currentBranch]
 		if !ok {
-			return tracker, pathFound
+			return tracker, pathFound, NOT_FOUND
 		}
 		pathFound = append(pathFound, currentBranch)
 
 		tracker = nextEdge
 	}
-	return tracker, []string{}
+	return tracker, []string{}, FOUND
 }
 func (g *Graph) InitMapValues(startIndex int) {
 	g.States[startIndex] = Atom{
@@ -229,11 +236,11 @@ func (g *Graph) InitMapValues(startIndex int) {
 }
 func (g *Graph) TrieTreeInit() {
 	pathToDataStructureIDs := []string{"data structure ID's"}
-	dataStructureIDsID, path1 := g.GetAtom(0, pathToDataStructureIDs)
+	dataStructureIDsID, _, returnKind1 := g.GetAtom(0, pathToDataStructureIDs)
 	length := len(g.States)
 	var trieTreeStartIndex int
 
-	if len(path1) == 0 {
+	if returnKind1 == NOT_FOUND {
 		trieTreeStartIndex = length + 3
 		g.AddState(
 			CollectMaps("data structure ID's",
@@ -242,8 +249,8 @@ func (g *Graph) TrieTreeInit() {
 		return
 	}
 	pathToTrieTreeID := []string{"trie tree"}
-	_, path2 := g.GetAtom(dataStructureIDsID, pathToTrieTreeID)
-	if len(path2) == 0 {
+	_, _, returnKind2 := g.GetAtom(dataStructureIDsID, pathToTrieTreeID)
+	if returnKind2 == NOT_FOUND {
 		trieTreeStartIndex = length + 2
 		g.AddState(
 			CollectMaps("trie tree", trieTreeStartIndex))
@@ -254,8 +261,8 @@ func (g *Graph) TrieTreeInit() {
 }
 func (g *Graph) TrieTreeAdd(strings []string) (newTrieTreeNodeID int) {
 
-	trieTreeID, _ := g.GetAtom(0, []string{"data structure ID's", "trie tree"})
-	ID, path := g.GetAtom(trieTreeID, strings)
+	trieTreeID, _, _ := g.GetAtom(0, []string{"data structure ID's", "trie tree"})
+	ID, path, _ := g.GetAtom(trieTreeID, strings)
 	// no match and first item
 
 	if ID == 0 {

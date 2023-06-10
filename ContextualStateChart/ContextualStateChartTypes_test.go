@@ -928,7 +928,7 @@ func TestGetAtom(t *testing.T) {
 			"FunctionCode2", "ReturnTrue"))}
 	t.Run("path has length == 0", func(t *testing.T) {
 
-		id1, path1 := myGraph.GetAtom(0, []string{})
+		id1, path1, _ := myGraph.GetAtom(0, []string{})
 
 		wantId := -1
 		wantPath := []string{}
@@ -941,7 +941,7 @@ func TestGetAtom(t *testing.T) {
 
 	t.Run("path does not exist 1", func(t *testing.T) {
 
-		id1, path1 := myGraph.GetAtom(0, []string{"not there"})
+		id1, path1, _ := myGraph.GetAtom(0, []string{"not there"})
 
 		wantId := 0
 		wantPath := []string{}
@@ -953,7 +953,7 @@ func TestGetAtom(t *testing.T) {
 	})
 	t.Run("path does not exist 2", func(t *testing.T) {
 
-		id1, path1 := myGraph.GetAtom(0, []string{"test", "not there"})
+		id1, path1, _ := myGraph.GetAtom(0, []string{"test", "not there"})
 
 		wantId := 1
 		wantPath := []string{"test"}
@@ -965,7 +965,7 @@ func TestGetAtom(t *testing.T) {
 	})
 	t.Run("path exists and has length 1", func(t *testing.T) {
 
-		id1, path1 := myGraph.GetAtom(0, []string{"test"})
+		id1, path1, _ := myGraph.GetAtom(0, []string{"test"})
 
 		wantId := 1
 		wantPath := []string{}
@@ -978,7 +978,7 @@ func TestGetAtom(t *testing.T) {
 
 	t.Run("path exists and has length 2", func(t *testing.T) {
 
-		id1, path1 := myGraph.GetAtom(0, []string{"test", "Name"})
+		id1, path1, _ := myGraph.GetAtom(0, []string{"test", "Name"})
 
 		wantId := 2
 		wantPath := []string{}
@@ -991,7 +991,7 @@ func TestGetAtom(t *testing.T) {
 
 	t.Run("path exists and has length 3", func(t *testing.T) {
 
-		id1, path1 := myGraph.GetAtom(0, []string{"test", "Name", "0"})
+		id1, path1, _ := myGraph.GetAtom(0, []string{"test", "Name", "0"})
 
 		wantId := 3
 		wantPath := []string{}
@@ -1034,6 +1034,28 @@ func TestTrieTreeInit(t *testing.T) {
 		want := myGraph
 
 		got := Graph{States: map[int]Atom{}}
+		got.TrieTreeInit()
+
+		if !reflect.DeepEqual(want, got) {
+			t.Fatalf("wanted %v, got %v", want, got)
+		}
+	})
+	t.Run("no 'trie tree'", func(t *testing.T) {
+		want := myGraph
+
+		got := Graph{States: map[int]Atom{
+			0: {
+				ID: 0,
+				MapValues: map[string]int{
+					"data structure ID's": 1,
+				},
+				TypeValueSet: "MapValues",
+			},
+			1: {
+				ID:           1,
+				MapValues:    map[string]int{},
+				TypeValueSet: "MapValues",
+			}}}
 		got.TrieTreeInit()
 
 		if !reflect.DeepEqual(want, got) {
