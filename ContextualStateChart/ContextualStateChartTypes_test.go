@@ -1004,33 +1004,34 @@ func TestGetAtom(t *testing.T) {
 }
 
 func TestTrieTreeInit(t *testing.T) {
+	myGraph := Graph{States: map[int]Atom{
+		0: {
+			ID: 0,
+			MapValues: map[string]int{
+				"data structure ID's": 1,
+			},
+			TypeValueSet: "MapValues",
+		},
+		1: {
+			ID: 1,
+			MapValues: map[string]int{
+				"trie tree": 2,
+			},
+			TypeValueSet: "MapValues",
+		},
+		2: {
+			ID:           2,
+			IntValue:     3,
+			TypeValueSet: "IntValue",
+		},
+		3: {
+			ID:           3,
+			MapValues:    map[string]int{},
+			TypeValueSet: "MapValues",
+		},
+	}}
 	t.Run("no 'data structure ID's'", func(t *testing.T) {
-		want := Graph{States: map[int]Atom{
-			0: {
-				ID: 0,
-				MapValues: map[string]int{
-					"data structure ID's": 1,
-				},
-				TypeValueSet: "MapValues",
-			},
-			1: {
-				ID: 1,
-				MapValues: map[string]int{
-					"trie tree": 2,
-				},
-				TypeValueSet: "MapValues",
-			},
-			2: {
-				ID:           2,
-				IntValue:     3,
-				TypeValueSet: "IntValue",
-			},
-			3: {
-				ID:           3,
-				MapValues:    map[string]int{},
-				TypeValueSet: "MapValues",
-			},
-		}}
+		want := myGraph
 
 		got := Graph{States: map[int]Atom{}}
 		got.TrieTreeInit()

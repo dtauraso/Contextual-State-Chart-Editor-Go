@@ -221,23 +221,35 @@ func (g *Graph) GetAtom(startAtom int, path []string) (atomID int, currentPath [
 	}
 	return tracker, []string{}
 }
-
+func (g *Graph) InitMapValues(startIndex int) {
+	g.States[startIndex] = Atom{
+		ID:           startIndex,
+		MapValues:    map[string]int{},
+		TypeValueSet: "MapValues"}
+}
 func (g *Graph) TrieTreeInit() {
 	pathToDataStructureIDs := []string{"data structure ID's"}
-	_, path := g.GetAtom(0, pathToDataStructureIDs)
+	dataStructureIDsID, path1 := g.GetAtom(0, pathToDataStructureIDs)
 	length := len(g.States)
 	var trieTreeStartIndex int
-	if len(path) == 0 {
+
+	if len(path1) == 0 {
 		trieTreeStartIndex = length + 3
 		g.AddState(
 			CollectMaps("data structure ID's",
 				CollectMaps("trie tree", trieTreeStartIndex)))
-
+		g.InitMapValues(trieTreeStartIndex)
+		return
 	}
-	g.States[trieTreeStartIndex] = Atom{
-		ID:           trieTreeStartIndex,
-		MapValues:    map[string]int{},
-		TypeValueSet: "MapValues"}
+	pathToTrieTreeID := []string{"trie tree"}
+	_, path2 := g.GetAtom(dataStructureIDsID, pathToTrieTreeID)
+	if len(path2) == 0 {
+		trieTreeStartIndex = length + 2
+		g.AddState(
+			CollectMaps("trie tree", trieTreeStartIndex))
+		g.InitMapValues(trieTreeStartIndex)
+		return
+	}
 
 }
 func (g *Graph) TrieTreeAdd(strings []string) (newTrieTreeNodeID int) {
