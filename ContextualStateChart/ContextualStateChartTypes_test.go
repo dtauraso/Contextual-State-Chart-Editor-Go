@@ -1003,6 +1003,19 @@ func TestGetAtom(t *testing.T) {
 	})
 }
 
+func TestUpdateAtom(t *testing.T) {
+	want := Graph{States: map[int]Atom{0: {ID: 0,
+		MapValues: map[string]int{"a": 2, "b": 3, "c": 4}}}}
+
+	got := Graph{States: map[int]Atom{0: {ID: 0,
+		MapValues: map[string]int{"a": 1, "b": 3}}}}
+	got.UpdateAtomMapValues(0, map[string]int{"a": 2, "c": 4})
+
+	if !reflect.DeepEqual(want, got) {
+		t.Fatalf("wanted %v, got %v", want, got)
+	}
+}
+
 func TestTrieTreeInit(t *testing.T) {
 	myGraph := Graph{States: map[int]Atom{
 		0: {

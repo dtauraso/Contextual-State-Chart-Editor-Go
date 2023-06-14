@@ -151,6 +151,7 @@ func CollectMaps(elements ...any) (Atoms map[int]Atom) {
 		mapGetValueIndex,
 		elements...)
 }
+
 func makeString(states map[int]Atom, currentState int, indents, currentString string) (strings []string) {
 
 	myState := states[currentState]
@@ -195,6 +196,7 @@ func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) (stateID int) {
 }
 
 func (g *Graph) AddState(state map[int]Atom) (stateID int) {
+	// state keys are[0, len(states))
 	if len(g.States) == 0 {
 		return g.AddStateHelper(state, 0)
 	}
@@ -228,6 +230,12 @@ func (g *Graph) GetAtom(startAtom int, path []string) (atomID int, currentPath [
 	}
 	return tracker, []string{}, FOUND
 }
+func (g *Graph) UpdateAtomMapValues(ID int, replacements map[string]int) {
+
+	for item := range replacements {
+		g.States[ID].MapValues[item] = replacements[item]
+	}
+}
 func (g *Graph) InitMapValues(startIndex int) {
 	g.States[startIndex] = Atom{
 		ID:           startIndex,
@@ -249,11 +257,16 @@ func (g *Graph) TrieTreeInit() {
 		return
 	}
 	pathToTrieTreeID := []string{"trie tree"}
-	_, _, returnKind2 := g.GetAtom(dataStructureIDsID, pathToTrieTreeID)
+	trieTreeID, _, returnKind2 := g.GetAtom(dataStructureIDsID, pathToTrieTreeID)
+
 	if returnKind2 == NOT_FOUND {
-		trieTreeStartIndex = length + 2
-		g.AddState(
-			CollectMaps("trie tree", trieTreeStartIndex))
+		trieTreeStartIndex = length + 1
+		g.UpdateAtomMapValues(trieTreeID, map[string]int{"trie tree": length})
+		g.States[length] = Atom{
+			ID:           length,
+			IntValue:     trieTreeStartIndex,
+			TypeValueSet: "IntValue"}
+
 		g.InitMapValues(trieTreeStartIndex)
 		return
 	}
