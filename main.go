@@ -267,7 +267,7 @@ func main() {
 	})
 	http.HandleFunc("/save", func(rw http.ResponseWriter, r *http.Request) {
 		fileName := fmt.Sprintf("ContextualStateChart/StateArray/%s.json", r.FormValue("fileID"))
-		err1 := os.WriteFile(fileName, []byte(r.FormValue("state")), 0644)
+		err1 := os.WriteFile(fileName, []byte(r.FormValue("Atom")), 0644)
 		if err1 != nil {
 			panic(err1)
 		}
