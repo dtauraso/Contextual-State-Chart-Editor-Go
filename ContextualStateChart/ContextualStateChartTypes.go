@@ -32,10 +32,20 @@ type Atom struct {
 	IntValue     int            `json:"IntValue,omitempty"`
 	StringValue  string         `json:"StringValue,omitempty"`
 	MapValues    map[string]int `json:"MapValues,omitempty"`
+	TypeValueSet string         `json:"TypeValueSet"`
+}
+
+type AtomChan struct {
+	ID           int            `json:"ID"`
+	BoolValue    bool           `json:"BoolValue,omitempty"`
+	IntValue     int            `json:"IntValue,omitempty"`
+	StringValue  string         `json:"StringValue,omitempty"`
+	MapValues    map[string]int `json:"MapValues,omitempty"`
 	Channel      chan Atom      `json:"Channel,omitempty"`
 	ChannelWrite chan<- Atom    `json:"ChannelWrite,omitempty"`
 	ChannelRead  <-chan Atom    `json:"ChannelRead,omitempty"`
-	TypeValueSet string         `json:"TypeValueSet"`
+
+	TypeValueSet string `json:"TypeValueSet"`
 }
 
 func SaveString(s map[int]Atom, key int, newString string) {
