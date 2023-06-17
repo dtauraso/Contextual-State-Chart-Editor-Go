@@ -4,7 +4,5 @@ github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+
 github.com/maxence-charriere/go-app/v9 v9.6.7 h1:t+wofnLjVsptBB7MNevsFymMYaMIX2hGjLdWgsIFgq4=
 github.com/maxence-charriere/go-app/v9 v9.6.7/go.mod h1:UlniES44R5JoD4HsjMNrAqWXSzyw0smM0Ox+QwnO/IE=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
-github.com/sa-/slicefunk v0.1.4 h1:fCgDllo0nYVywdREyJm53BQ5rfMW8pin57yNVpyPxNU=
-github.com/sa-/slicefunk v0.1.4/go.mod h1:k0abNpV9EW8LIPl2+Hc9RiKsojKmsUhNNGFyMpjMTCI=
 github.com/stretchr/testify v1.6.1 h1:hDPOHmpOpP40lSULcqw7IrRb/u7w6RpDC9399XyoNd0=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c h1:dUUwHk2QECo/6vqA44rthZ8ie2QXMNeKRTHCNY2nXvo=
