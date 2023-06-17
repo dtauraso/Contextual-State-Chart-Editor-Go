@@ -18,3 +18,22 @@ if the first nodeName matches the next item in input keep matching till entire p
 if first matches but doesn't get all the way through the graph it's a new path(starts with first match and ends at first mismatch) added onto the end.
 
 github.com/nsf/jsondiff
+
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+
+need both commands
+protoc -I=./ --go_out=./ chat.proto
+protoc --go-grpc_out=. chat.proto
+
+correct
+protoc --proto_path=. chat.proto --go_out=. --go-grpc_out=.
+
+https://sahansera.dev/building-grpc-server-go/
+
+https://github.com/grpc/grpc-go/blob/master/Documentation/server-reflection-tutorial.md
+
+https://stackoverflow.com/questions/69700899/grpc-error-about-missing-an-unimplemented-server-method
+
+https://github.com/grpc/grpc-go/archive/v1.41.0.zip
+
+grpcurl -plaintext localhost:3000 chat.ChatService.SayHello

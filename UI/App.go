@@ -132,12 +132,16 @@ func (sc *StateComponent) OnMount(ctx app.Context) {
 		panic(err)
 	}
 	defer res.Body.Close()
+	fmt.Println(res)
+	fmt.Println(res.Body)
 	body, err2 := io.ReadAll(res.Body)
+	fmt.Println(body, err2)
 	if err2 != nil {
 
 		panic(err2)
 	}
 	err3 := json.Unmarshal(body, &ss.SavedStates2)
+	fmt.Println(err3)
 	if err3 != nil {
 		panic(err3)
 	}

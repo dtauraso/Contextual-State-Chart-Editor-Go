@@ -3,7 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"net"
 	"path/filepath"
+
 	// "sort"
 	// "strconv"
 
@@ -17,7 +19,14 @@ import (
 	"os"
 	// x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	a "Contextual-State-Chart-Editor-Go/UI"
+
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
+
+	chat "Contextual-State-Chart-Editor-Go/chat"
+	// pb "Contextual-State-Chart-Editor-Go/helloworld/helloworld"
+	"golang.org/x/net/context"
+	grpc "google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 // hello is a component that displays a simple "Hello World!". A component is a
@@ -30,6 +39,16 @@ type hello struct {
 type person struct {
 	name string
 	age  int
+}
+type server struct {
+	chat.UnimplementedChatServiceServer
+	// chat.Server
+	// chat.ChatServiceServer
+}
+
+func (s *server) SayHello(ctx context.Context, message *chat.Message) (*chat.Message, error) {
+	log.Printf("Received message body from client: %s", message.Body)
+	return &chat.Message{Body: "Hello From the Server"}, nil
 }
 
 // func TestState(state x.IState) {
@@ -303,15 +322,32 @@ func main() {
 			file := <-fileChan
 			myMap[file.key] = file.value
 		}
-
-		returnFiles, _ := json.Marshal(myMap)
+		// fmt.Println(myMap)
+		returnFiles, err := json.Marshal(myMap)
+		// fmt.Println(returnFiles, err)
 		rw.Write(returnFiles)
 
 	})
-
-	if err := http.ListenAndServe(":3000", nil); err != nil {
-		log.Fatal(err)
+	// runs in browser
+	// if err := http.ListenAndServe(":9000", nil); err != nil {
+	// 	log.Fatal(err)
+	// }
+	lis, err := net.Listen("tcp", ":3000")
+	if err != nil {
+		log.Printf("Failed to listen on port 3000: %v", err)
 	}
+
+	// s := chat.Server{}
+	grpcServer := grpc.NewServer()
+
+	chat.RegisterChatServiceServer(grpcServer, &server{})
+	fmt.Printf("pass")
+
+	reflection.Register(grpcServer)
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Printf("Failed to serve grpc server over port 3000: %v", err)
+	}
+
 }
 
 type File struct {
