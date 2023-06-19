@@ -285,13 +285,20 @@ func (g *Graph) TrieTreeInit() {
 func (g *Graph) TrieTreeAdd(strings []string) (newTrieTreeNodeID int) {
 
 	trieTreeID, _, _ := g.GetAtom(0, []string{"data structure ID's", "trie tree"})
-	ID, path, _ := g.GetAtom(trieTreeID, strings)
-	// no match and first item
+	ID, path, returnKind := g.GetAtom(trieTreeID, strings)
 
-	if ID == 0 {
-		if len(path) == 0 {
-
+	if returnKind == NOT_FOUND {
+		newIDs := []int{}
+		length := len(g.States)
+		remainingPath := []string{}
+		for i := 0; i < len(strings)-len(path); i++ {
+			newIDs = append(newIDs, length+i)
+			remainingPath = append(remainingPath, strings[len(path)+i])
 		}
+	}
+	if returnKind == FOUND {
+		// if no id attribute
+		// 		add id attribute
 	}
 	return 0
 }
