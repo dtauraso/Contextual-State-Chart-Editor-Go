@@ -288,13 +288,41 @@ func (g *Graph) TrieTreeAdd(strings []string) (newTrieTreeNodeID int) {
 	ID, path, returnKind := g.GetAtom(trieTreeID, strings)
 
 	if returnKind == NOT_FOUND {
+		pathLength := len(path)
 		newIDs := []int{}
 		length := len(g.States)
 		remainingPath := []string{}
-		for i := 0; i < len(strings)-len(path); i++ {
+		remainingPathLength := len(strings) - pathLength
+		for i := 0; i < remainingPathLength; i++ {
 			newIDs = append(newIDs, length+i)
-			remainingPath = append(remainingPath, strings[len(path)+i])
+			remainingPath = append(remainingPath, strings[pathLength+i])
 		}
+		newIDs = append(newIDs,
+			length+remainingPathLength,
+			length+remainingPathLength+1)
+
+		remainingPath = append(remainingPath,
+			"ID",
+			"id")
+		g.States[ID].MapValues[strings[pathLength]] = newIDs[0]
+
+		for j := 0; j < len(newIDs); j++ {
+			if remainingPath[j] != "id" {
+				g.States[newIDs[j]] = Atom{
+					ID:           newIDs[j],
+					MapValues:    map[string]int{remainingPath[j]: newIDs[j+1]},
+					TypeValueSet: "MapValues",
+				}
+			} else {
+				g.States[newIDs[j]] = Atom{
+					ID:           newIDs[j],
+					IntValue:     len(g.States),
+					TypeValueSet: "IntValue",
+				}
+			}
+
+		}
+
 	}
 	if returnKind == FOUND {
 		// if no id attribute
