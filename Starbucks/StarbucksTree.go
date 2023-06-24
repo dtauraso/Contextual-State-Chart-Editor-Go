@@ -8,7 +8,7 @@ package StarbucksTree
 // type IStateNamePartTree struct {
 // 	NPT       map[string]IStateNamePartTree
 // 	Atom     IState
-// 	DataTable IDatabase
+// 	DataTable Idatabase
 // }
 
 // type IState struct {
@@ -24,7 +24,7 @@ package StarbucksTree
 // 	Database            map[string]IStateNamePartTree
 // }
 
-// type IDatabase struct {
+// type Idatabase struct {
 // 	Array []any
 // 	Map   map[string]any
 // }
@@ -279,7 +279,7 @@ package StarbucksTree
 // 										EdgeKinds: map[string]IEdges{
 // 											"Next": {
 // 												Edges: [][]string{
-// 													{"Pistachio ID"},
+// 													{"Pistachio Id"},
 // 												},
 // 											},
 // 										},
@@ -342,7 +342,7 @@ package StarbucksTree
 // 						},
 // 						"prices": {},
 // 						"options": {
-// 							DataTable: IDatabase{
+// 							DataTable: Idatabase{
 // 								Array: []any{
 // 									"size",
 // 									"flavors",
@@ -351,7 +351,7 @@ package StarbucksTree
 // 							},
 // 						},
 // 						"sizes": {
-// 							DataTable: IDatabase{
+// 							DataTable: Idatabase{
 // 								Map: map[string]any{
 // 									"large":  3,
 // 									"grande": 2,
@@ -362,7 +362,7 @@ package StarbucksTree
 // 						"flavors": {
 // 							NPT: map[string]IStateNamePartTree{
 // 								"Sauces": {
-// 									DataTable: IDatabase{
+// 									DataTable: Idatabase{
 // 										Array: []any{
 // 											"Dark Caramel Sauce",
 // 											"Mocha Sauce",
@@ -370,7 +370,7 @@ package StarbucksTree
 // 									},
 // 								},
 // 								"syrups": {
-// 									DataTable: IDatabase{
+// 									DataTable: Idatabase{
 // 										Array: []any{
 // 											"Brown Sugar Syrup",
 // 											"Caramel Syrup",
@@ -382,7 +382,7 @@ package StarbucksTree
 // 						"toppings": {
 // 							NPT: map[string]IStateNamePartTree{
 // 								"cold foam": {
-// 									DataTable: IDatabase{
+// 									DataTable: Idatabase{
 // 										Map: map[string]any{
 // 											"value":    "Chocolate Cream Cold Foam",
 // 											"servings": 5,
@@ -397,13 +397,13 @@ package StarbucksTree
 // 								EdgeKinds: map[string]IEdges{
 // 									"Next": {
 // 										Edges: [][]string{
-// 											{"Pistachio ID"},
+// 											{"Pistachio Id"},
 // 										},
 // 									},
 // 								},
 // 							},
 // 						},
-// 						"Pistachio ID": {
+// 						"Pistachio Id": {
 // 							Atom: IState{
 // 								Database: map[string]IStateNamePartTree{
 // 									"name": {

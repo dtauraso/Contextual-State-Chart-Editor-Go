@@ -85,7 +85,7 @@ func save() app.UI {
 	if err != nil {
 		panic(err)
 	}
-	output := url.Values{"Atom": {string(binaryOutput)}, "fileID": {"2"}}
+	output := url.Values{"Atom": {string(binaryOutput)}, "fileId": {"2"}}
 	http.PostForm("/save", output)
 	return nil
 }
@@ -116,7 +116,7 @@ func (h *Hello) Render() app.UI {
 // basic structure for displaying 1 Atom
 type StateComponent struct {
 	app.Compo
-	StateID     int
+	StateId     int
 	editActive1 bool
 	editActive2 bool
 	editActive3 bool
@@ -147,7 +147,7 @@ func (sc *StateComponent) OnMount(ctx app.Context) {
 	sc.editActive2 = false
 	sc.editActive3 = false
 }
-func (sc *StateComponent) UpdateEditFlag(flagID int) {
+func (sc *StateComponent) UpdateEditFlag(flagId int) {
 
 	sc.editActive3 = true
 	sc.Update() // Manual updated trigger
@@ -165,7 +165,7 @@ func (sc *StateComponent) saveData() app.UI {
 		panic(err)
 	}
 
-	output := url.Values{"Atom": {string(binaryOutput)}, "fileID": {"2"}}
+	output := url.Values{"Atom": {string(binaryOutput)}, "fileId": {"2"}}
 	http.PostForm("/save", output)
 	return nil
 }

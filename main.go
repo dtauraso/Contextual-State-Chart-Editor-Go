@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"path/filepath"
+
 	// "sort"
 	// "strconv"
 
@@ -17,6 +18,7 @@ import (
 	"os"
 	// x "github.com/dtauraso/Contextual-State-Chart-Editor-Go/Starbucks"
 	a "Contextual-State-Chart-Editor-Go/UI"
+
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
 
@@ -186,10 +188,10 @@ func main() {
 
 	// namesTrie := tt.TrieTree{}
 	// namesTrie = tt.TrieTree.
-	// 	Insert(namesTrie, tt.InsertParameters{Name: []string{"test"}, StateID: 0}).
-	// 	Insert(tt.InsertParameters{Name: []string{"test", "test2"}, StateID: 1}).
-	// 	Insert(tt.InsertParameters{Name: []string{"test", "test2", "test3"}, StateID: 2}).
-	// 	Insert(tt.InsertParameters{Name: []string{"testx", "test2", "test3"}, StateID: 3})
+	// 	Insert(namesTrie, tt.InsertParameters{Name: []string{"test"}, StateId: 0}).
+	// 	Insert(tt.InsertParameters{Name: []string{"test", "test2"}, StateId: 1}).
+	// 	Insert(tt.InsertParameters{Name: []string{"test", "test2", "test3"}, StateId: 2}).
+	// 	Insert(tt.InsertParameters{Name: []string{"testx", "test2", "test3"}, StateId: 3})
 	// fmt.Println(namesTrie)
 
 	// TrieTree.search([]string{"test"}) = 0
@@ -266,7 +268,7 @@ func main() {
 
 	})
 	http.HandleFunc("/save", func(rw http.ResponseWriter, r *http.Request) {
-		fileName := fmt.Sprintf("ContextualStateChart/StateArray/%s.json", r.FormValue("fileID"))
+		fileName := fmt.Sprintf("ContextualStateChart/StateArray/%s.json", r.FormValue("fileId"))
 		err1 := os.WriteFile(fileName, []byte(r.FormValue("Atom")), 0644)
 		if err1 != nil {
 			panic(err1)
@@ -295,7 +297,7 @@ func main() {
 				if err2 != nil {
 					panic(err2)
 				}
-				fileChan <- File{key: fileJson.ID, value: fileJson}
+				fileChan <- File{key: fileJson.Id, value: fileJson}
 			}(i)
 
 		}

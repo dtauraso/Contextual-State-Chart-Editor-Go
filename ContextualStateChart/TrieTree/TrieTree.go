@@ -2,18 +2,18 @@ package TrieTree
 
 type NamesTrie struct {
 	NamePartTree map[string]int `json:"NextNamePartTree"`
-	StateID      int            `json:"StateID",omitempty`
+	StateId      int            `json:"StateId",omitempty`
 }
 type InputParameters struct {
 	Name    []string
-	StateID int
+	StateId int
 }
 
 type TrieTree []NamesTrie
 
 func (trieTree TrieTree) Insert(input InputParameters) TrieTree {
 	name := input.Name
-	stateID := input.StateID
+	stateId := input.StateId
 
 	if len(name) == 0 {
 		return trieTree
@@ -21,8 +21,8 @@ func (trieTree TrieTree) Insert(input InputParameters) TrieTree {
 	if len(trieTree) == 0 {
 		namePart := name[0]
 
-		trieTree = append(trieTree, NamesTrie{NamePartTree: map[string]int{namePart: 1}, StateID: -1})
-		trieTree = append(trieTree, NamesTrie{StateID: stateID})
+		trieTree = append(trieTree, NamesTrie{NamePartTree: map[string]int{namePart: 1}, StateId: -1})
+		trieTree = append(trieTree, NamesTrie{StateId: stateId})
 
 		return trieTree
 	}
@@ -31,25 +31,25 @@ func (trieTree TrieTree) Insert(input InputParameters) TrieTree {
 
 	for i := 0; i < len(name); i++ {
 		namePart := name[i]
-		nextNameID, ok := trieTree[namesTracker].NamePartTree[namePart]
+		nextNameId, ok := trieTree[namesTracker].NamePartTree[namePart]
 
 		if !ok {
-			trieTree = append(trieTree, NamesTrie{StateID: -1})
-			nextNameID = len(trieTree) - 1
+			trieTree = append(trieTree, NamesTrie{StateId: -1})
+			nextNameId = len(trieTree) - 1
 
 			if trieTree[namesTracker].NamePartTree == nil {
-				trieTree[namesTracker].NamePartTree = map[string]int{namePart: nextNameID}
+				trieTree[namesTracker].NamePartTree = map[string]int{namePart: nextNameId}
 
 			} else {
-				trieTree[namesTracker].NamePartTree[namePart] = nextNameID
+				trieTree[namesTracker].NamePartTree[namePart] = nextNameId
 			}
 		}
-		namesTracker = nextNameID
+		namesTracker = nextNameId
 	}
 
 	// if item is new
-	if trieTree[namesTracker].StateID == -1 {
-		trieTree[namesTracker].StateID = stateID
+	if trieTree[namesTracker].StateId == -1 {
+		trieTree[namesTracker].StateId = stateId
 	}
 
 	return trieTree
@@ -64,13 +64,13 @@ func (trieTree TrieTree) Search(input []string) int {
 	namesTracker := 0
 	for i := 0; i < len(input); i++ {
 		namePart := input[i]
-		nextNameID, ok := trieTree[namesTracker].NamePartTree[namePart]
+		nextNameId, ok := trieTree[namesTracker].NamePartTree[namePart]
 		if !ok {
 			return -2
 		}
-		namesTracker = nextNameID
+		namesTracker = nextNameId
 	}
-	return trieTree[namesTracker].StateID
+	return trieTree[namesTracker].StateId
 }
 
 func (trieTree TrieTree) SearchInput(input []string) bool {

@@ -127,7 +127,7 @@ MapValues
     MapValues
         Name: "Pistachio"
         Next
-            {"Pistachio ID"},
+            {"Pistachio Id"},
 
         "Dark Caramel Sauce"
         MapValues
@@ -184,8 +184,8 @@ MapValues
                     "price":    1,
     Name: "drinks"
     Next
-            {"Pistachio ID"},
-    Name: "Pistachio ID"
+            {"Pistachio Id"},
+    Name: "Pistachio Id"
         MapValues
             "name": "Pistachio"
             Name: "sizes"

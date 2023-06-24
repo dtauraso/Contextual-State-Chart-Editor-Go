@@ -1,6 +1,6 @@
 [
     {
-        "ID": 0,
+        "Id": 0,
         "Name": [
             "I am a test",
             "StarbucksMachine"
@@ -28,7 +28,7 @@
         }
     },
     {
-        "ID": 1,
+        "Id": 1,
         "Name": [
             "Register"
         ],
@@ -60,7 +60,7 @@
         }
     },
     {
-        "ID": 3,
+        "Id": 3,
         "Name": [
             "Customer",
             "Cashier"
@@ -85,7 +85,7 @@
         }
     },
     {
-        "ID": 6,
+        "Id": 6,
         "Name": [
             "Place order"
         ],
@@ -107,7 +107,7 @@
         }
     },
     {
-        "ID": 7,
+        "Id": 7,
         "Name": [
             "Dig up money"
         ],
@@ -132,7 +132,7 @@
         "LockedByStatesCount": 1
     },
     {
-        "ID": 8,
+        "Id": 8,
         "Name": [
             "Put away change"
         ],
@@ -149,7 +149,7 @@
         "LockedByStatesCount": 1
     },
     {
-        "ID": 9,
+        "Id": 9,
         "Name": [
             "Sip coffee"
         ],
@@ -166,7 +166,7 @@
         "LockedByStatesCount": 1
     },
     {
-        "ID": 14,
+        "Id": 14,
         "Name": [
             "drink"
         ],
@@ -179,7 +179,7 @@
         }
     },
     {
-        "ID": 5,
+        "Id": 5,
         "Name": [
             "Customer",
             "Barista"
@@ -193,7 +193,7 @@
         }
     },
     {
-        "ID": 4,
+        "Id": 4,
         "Name": [
             "Cashier"
         ],
@@ -218,7 +218,7 @@
         }
     },
     {
-        "ID": 10,
+        "Id": 10,
         "Name": [
             "Take order",
             "from customer"
@@ -244,7 +244,7 @@
         "LockedByStatesCount": 1
     },
     {
-        "ID": 11,
+        "Id": 11,
         "Name": [
             "Compute Price"
         ],
@@ -265,7 +265,7 @@
         }
     },
     {
-        "ID": 12,
+        "Id": 12,
         "Name": [
             "Compute change"
         ],
@@ -290,7 +290,7 @@
         "LockedByStatesCount": 1
     },
     {
-        "ID": 13,
+        "Id": 13,
         "Name": [
             "No change"
         ],
@@ -303,7 +303,7 @@
         }
     },
     {
-        "ID": 15,
+        "Id": 15,
         "Name": [
             "currentOrder"
         ],
@@ -316,7 +316,7 @@
         }
     },
     {
-        "ID": 16,
+        "Id": 16,
         "Name": [
             "price"
         ],
@@ -328,7 +328,7 @@
         }
     },
     {
-        "ID": 17,
+        "Id": 17,
         "Name": [
             "drinkPrice"
         ],
@@ -340,7 +340,7 @@
         }
     },
     {
-        "ID": 18,
+        "Id": 18,
         "Name": [
             "change"
         ],
@@ -352,7 +352,7 @@
         }
     },
     {
-        "ID": 2,
+        "Id": 2,
         "Name": [
             "Barista"
         ],
@@ -373,7 +373,7 @@
         }
     },
     {
-        "ID": 19,
+        "Id": 19,
         "Name": [
             "Make drink"
         ],
@@ -394,7 +394,7 @@
         }
     },
     {
-        "ID": 20,
+        "Id": 20,
         "Name": [
             "Output buffer"
         ],
@@ -415,7 +415,7 @@
         }
     },
     {
-        "ID": 0,
+        "Id": 0,
         "Name": [
             "machine"
         ],
@@ -436,7 +436,7 @@
         }
     },
     {
-        "ID": 22,
+        "Id": 22,
         "Name": [
             "names"
         ],
@@ -454,7 +454,7 @@
         }
     },
     {
-        "ID": 23,
+        "Id": 23,
         "Name": [
             "Pistachio"
         ],
@@ -474,7 +474,7 @@
         }
     },
     {
-        "ID": 24,
+        "Id": 24,
         "Name": [
             "Dark Caramel Sauce"
         ],
@@ -489,7 +489,7 @@
         }
     },
     {
-        "ID": 25,
+        "Id": 25,
         "Name": [
             "flavor"
         ],
@@ -504,7 +504,7 @@
         }
     },
     {
-        "ID": 26,
+        "Id": 26,
         "Name": [
             "Sauces"
         ],
@@ -524,7 +524,7 @@
         }
     },
     {
-        "ID": 27,
+        "Id": 27,
         "Name": [
             "size"
         ],
@@ -539,7 +539,7 @@
         }
     },
     {
-        "ID": 28,
+        "Id": 28,
         "Name": [
             "options"
         ],
@@ -559,7 +559,7 @@
         }
     },
     {
-        "ID": 29,
+        "Id": 29,
         "Name": [
             "Chocolate Cream Cold Foam"
         ],
@@ -574,7 +574,7 @@
         }
     },
     {
-        "ID": 30,
+        "Id": 30,
         "Name": [
             "toppings"
         ],
@@ -589,7 +589,7 @@
         }
     },
     {
-        "ID": 31,
+        "Id": 31,
         "Name": [
             "cold foam"
         ],
@@ -609,7 +609,7 @@
         }
     },
     {
-        "ID": 32,
+        "Id": 32,
         "Name": [
             "options"
         ],
@@ -626,7 +626,7 @@
         }
     },
     {
-        "ID": 36,
+        "Id": 36,
         "Name": [
             "sizes"
         ],
@@ -643,7 +643,7 @@
         }
     },
     {
-        "ID": 40,
+        "Id": 40,
         "Name": [
             "flavors"
         ],
@@ -658,7 +658,7 @@
         }
     },
     {
-        "ID": 41,
+        "Id": 41,
         "Name": [
             "Sauces"
         ],
@@ -674,7 +674,7 @@
         }
     },
     {
-        "ID": 44,
+        "Id": 44,
         "Name": [
             "syrups"
         ],
@@ -690,7 +690,7 @@
         }
     },
     {
-        "ID": 47,
+        "Id": 47,
         "Name": [
             "toppings"
         ],
@@ -705,7 +705,7 @@
         }
     },
     {
-        "ID": 48,
+        "Id": 48,
         "Name": [
             "cold foam"
         ],
@@ -722,7 +722,7 @@
         }
     },
     {
-        "ID": 52,
+        "Id": 52,
         "Name": [
             "drinks"
         ],
@@ -742,7 +742,7 @@
         }
     },
     {
-        "ID": 53,
+        "Id": 53,
         "Name": [
             "Pistachio"
         ],
@@ -758,7 +758,7 @@
         }
     },
     {
-        "ID": 55,
+        "Id": 55,
         "Name": [
             "sizes"
         ],

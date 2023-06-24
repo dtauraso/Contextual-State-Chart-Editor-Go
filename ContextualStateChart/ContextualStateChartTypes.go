@@ -12,22 +12,22 @@ import (
 	"strconv"
 )
 
-// Parents: NDParentStateName -> ID
-// MapValues: 1D string -> ID
+// Parents: NDParentStateName -> Id
+// MapValues: 1D string -> Id
 /*
 local variable
 1D name -> primitive value
-1D name -> array of ID's
-1D name -> map of string keys -> ID's
+1D name -> array of Id's
+1D name -> map of string keys -> Id's
 
 database variable
 ND name -> primitive value
-ND name -> array of ID's
-ND name -> map of string keys -> ID's
+ND name -> array of Id's
+ND name -> map of string keys -> Id's
 */
 
 type Atom struct {
-	ID           int            `json:"ID"`
+	Id           int            `json:"Id"`
 	BoolValue    bool           `json:"BoolValue,omitempty"`
 	IntValue     int            `json:"IntValue,omitempty"`
 	StringValue  string         `json:"StringValue,omitempty"`
@@ -36,7 +36,7 @@ type Atom struct {
 }
 
 type AtomChan struct {
-	ID           int            `json:"ID"`
+	Id           int            `json:"Id"`
 	BoolValue    bool           `json:"BoolValue,omitempty"`
 	IntValue     int            `json:"IntValue,omitempty"`
 	StringValue  string         `json:"StringValue,omitempty"`
@@ -66,14 +66,14 @@ func addStates(states, newStates map[int]Atom, newIndex int) (atoms map[int]Atom
 			for key2, value2 := range value.MapValues {
 				newMapValues[key2] = value2 + offset
 			}
-			states[newIndex] = Atom{ID: newIndex, MapValues: newMapValues, TypeValueSet: "MapValues"}
+			states[newIndex] = Atom{Id: newIndex, MapValues: newMapValues, TypeValueSet: "MapValues"}
 
 		} else if value.TypeValueSet == "BoolValue" {
-			states[newIndex] = Atom{ID: newIndex, BoolValue: value.BoolValue, TypeValueSet: "BoolValue"}
+			states[newIndex] = Atom{Id: newIndex, BoolValue: value.BoolValue, TypeValueSet: "BoolValue"}
 		} else if value.TypeValueSet == "IntValue" {
-			states[newIndex] = Atom{ID: newIndex, IntValue: value.IntValue, TypeValueSet: "IntValue"}
+			states[newIndex] = Atom{Id: newIndex, IntValue: value.IntValue, TypeValueSet: "IntValue"}
 		} else if value.TypeValueSet == "StringValue" {
-			states[newIndex] = Atom{ID: newIndex, StringValue: value.StringValue, TypeValueSet: "StringValue"}
+			states[newIndex] = Atom{Id: newIndex, StringValue: value.StringValue, TypeValueSet: "StringValue"}
 		}
 
 		newIndex++
@@ -118,11 +118,11 @@ func addEntries(
 		myStatesValue, okStatesValue := myElement.(map[int]Atom)
 
 		if okBoolValue {
-			states[j] = Atom{ID: j, BoolValue: myBoolValue, TypeValueSet: "BoolValue"}
+			states[j] = Atom{Id: j, BoolValue: myBoolValue, TypeValueSet: "BoolValue"}
 		} else if okIntValue {
-			states[j] = Atom{ID: j, IntValue: myIntValue, TypeValueSet: "IntValue"}
+			states[j] = Atom{Id: j, IntValue: myIntValue, TypeValueSet: "IntValue"}
 		} else if okStringValue {
-			states[j] = Atom{ID: j, StringValue: myStringValue, TypeValueSet: "StringValue"}
+			states[j] = Atom{Id: j, StringValue: myStringValue, TypeValueSet: "StringValue"}
 		} else if okStatesValue {
 			states = addStates(states, myStatesValue, j)
 
@@ -137,7 +137,7 @@ func addEntries(
 		j += offset
 
 	}
-	states[0] = Atom{ID: 0, MapValues: mapValues, TypeValueSet: "MapValues"}
+	states[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues"}
 	return states
 }
 func ArrayValue(elements ...any) (Atoms map[int]Atom) {
@@ -199,13 +199,21 @@ type Graph struct {
 	States map[int]Atom
 }
 
-func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) (stateID int) {
+const (
+	DATA_STRUCTURE_IDS = "DataStructureIds"
+)
+
+func (g *Graph) InitGraph() {
+	g.AddState(
+		CollectMaps(DATA_STRUCTURE_IDS, CollectMaps("StateIds", 0)))
+}
+func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) (stateId int) {
 	g.States = addStates(g.States, state, newIndex)
 	return len(g.States) - len(state)
 
 }
 
-func (g *Graph) AddState(state map[int]Atom) (stateID int) {
+func (g *Graph) AddState(state map[int]Atom) (stateId int) {
 	// state keys are[0, len(states))
 	if len(g.States) == 0 {
 		return g.AddStateHelper(state, 0)
@@ -219,7 +227,7 @@ const (
 	FOUND       = 2
 )
 
-func (g *Graph) GetAtom(startAtom int, path []string) (atomID int, currentPath []string, returnKind int) {
+func (g *Graph) GetAtom(startAtom int, path []string) (atomId int, currentPath []string, returnKind int) {
 
 	// no clear way to know if it was unable to find item
 	if len(path) == 0 {
@@ -240,40 +248,40 @@ func (g *Graph) GetAtom(startAtom int, path []string) (atomID int, currentPath [
 	}
 	return tracker, []string{}, FOUND
 }
-func (g *Graph) UpdateAtomMapValues(ID int, replacements map[string]int) {
+func (g *Graph) UpdateAtomMapValues(Id int, replacements map[string]int) {
 
 	for item := range replacements {
-		g.States[ID].MapValues[item] = replacements[item]
+		g.States[Id].MapValues[item] = replacements[item]
 	}
 }
 func (g *Graph) InitMapValues(startIndex int) {
 	g.States[startIndex] = Atom{
-		ID:           startIndex,
+		Id:           startIndex,
 		MapValues:    map[string]int{},
 		TypeValueSet: "MapValues"}
 }
 func (g *Graph) TrieTreeInit() {
-	pathToDataStructureIDs := []string{"data structure ID's"}
-	dataStructureIDsID, _, returnKind1 := g.GetAtom(0, pathToDataStructureIDs)
+	pathToDataStructureIds := []string{DATA_STRUCTURE_IDS}
+	dataStructureIdsId, _, returnKind1 := g.GetAtom(0, pathToDataStructureIds)
 	length := len(g.States)
 	var trieTreeStartIndex int
 
 	if returnKind1 == NOT_FOUND {
 		trieTreeStartIndex = length + 3
 		g.AddState(
-			CollectMaps("data structure ID's",
+			CollectMaps(DATA_STRUCTURE_IDS,
 				CollectMaps("trie tree", trieTreeStartIndex)))
 		g.InitMapValues(trieTreeStartIndex)
 		return
 	}
-	pathToTrieTreeID := []string{"trie tree"}
-	trieTreeID, _, returnKind2 := g.GetAtom(dataStructureIDsID, pathToTrieTreeID)
+	pathToTrieTreeId := []string{"trie tree"}
+	trieTreeId, _, returnKind2 := g.GetAtom(dataStructureIdsId, pathToTrieTreeId)
 
 	if returnKind2 == NOT_FOUND {
 		trieTreeStartIndex = length + 1
-		g.UpdateAtomMapValues(trieTreeID, map[string]int{"trie tree": length})
+		g.UpdateAtomMapValues(trieTreeId, map[string]int{"trie tree": length})
 		g.States[length] = Atom{
-			ID:           length,
+			Id:           length,
 			IntValue:     trieTreeStartIndex,
 			TypeValueSet: "IntValue"}
 
@@ -282,41 +290,41 @@ func (g *Graph) TrieTreeInit() {
 	}
 
 }
-func (g *Graph) TrieTreeAdd(strings []string) (newTrieTreeNodeID int) {
+func (g *Graph) TrieTreeAdd(strings []string) (newTrieTreeNodeId int) {
 
-	trieTreeID, _, _ := g.GetAtom(0, []string{"data structure ID's", "trie tree"})
-	ID, path, returnKind := g.GetAtom(trieTreeID, strings)
+	trieTreeId, _, _ := g.GetAtom(0, []string{DATA_STRUCTURE_IDS, "trie tree"})
+	Id, path, returnKind := g.GetAtom(trieTreeId, strings)
 
 	if returnKind == NOT_FOUND {
 		pathLength := len(path)
-		newIDs := []int{}
+		newIds := []int{}
 		length := len(g.States)
 		remainingPath := []string{}
 		remainingPathLength := len(strings) - pathLength
 		for i := 0; i < remainingPathLength; i++ {
-			newIDs = append(newIDs, length+i)
+			newIds = append(newIds, length+i)
 			remainingPath = append(remainingPath, strings[pathLength+i])
 		}
-		newIDs = append(newIDs,
+		newIds = append(newIds,
 			length+remainingPathLength,
 			length+remainingPathLength+1)
 
 		remainingPath = append(remainingPath,
-			"ID",
+			"Id",
 			"id")
-		g.States[ID].MapValues[strings[pathLength]] = newIDs[0]
+		g.States[Id].MapValues[strings[pathLength]] = newIds[0]
 
-		for j := 0; j < len(newIDs); j++ {
+		for j := 0; j < len(newIds); j++ {
 			if remainingPath[j] != "id" {
-				g.States[newIDs[j]] = Atom{
-					ID:           newIDs[j],
-					MapValues:    map[string]int{remainingPath[j]: newIDs[j+1]},
+				g.States[newIds[j]] = Atom{
+					Id:           newIds[j],
+					MapValues:    map[string]int{remainingPath[j]: newIds[j+1]},
 					TypeValueSet: "MapValues",
 				}
 			} else {
-				g.States[newIDs[j]] = Atom{
-					ID:           newIDs[j],
-					IntValue:     len(g.States),
+				g.States[newIds[j]] = Atom{
+					Id:           newIds[j],
+					IntValue:     len(g.States), // add in separate state id tracker
 					TypeValueSet: "IntValue",
 				}
 			}

@@ -16,3 +16,4 @@ vendor/
 
 /web/app.wasm
 /contextual-state-chart-editor-go
+.idea/
