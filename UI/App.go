@@ -63,7 +63,7 @@ func (c *Hello) customTrigger(ctx app.Context, e app.Event) {
 
 		panic(err2)
 	}
-	err3 := json.Unmarshal(body, ss.SavedStates3)
+	err3 := json.Unmarshal(body, &ss.SavedStates)
 	if err3 != nil {
 		panic(err3)
 	}

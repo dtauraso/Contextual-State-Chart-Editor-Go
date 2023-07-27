@@ -306,8 +306,8 @@ func main() {
 			myMap[file.key] = file.value
 		}
 
-		returnFilesAddress, _ := json.Marshal(&myMap)
-		rw.Write(returnFilesAddress)
+		returnFiles, _ := json.Marshal(myMap)
+		rw.Write(returnFiles)
 
 	})
 
