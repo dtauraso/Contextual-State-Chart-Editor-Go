@@ -205,7 +205,7 @@ const (
 
 func (g *Graph) InitGraph() {
 	g.AddState(
-		CollectMaps(DATA_STRUCTURE_IDS, CollectMaps("StateIds", 0)))
+		CollectMaps(DATA_STRUCTURE_IDS, CollectMaps()))
 }
 func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) (stateId int) {
 	g.States = addStates(g.States, state, newIndex)
@@ -267,32 +267,32 @@ func (g *Graph) TrieTreeInit() {
 	var trieTreeStartIndex int
 
 	if returnKind1 == NOT_FOUND {
-		trieTreeStartIndex = length + 3
-		g.AddState(
-			CollectMaps(DATA_STRUCTURE_IDS,
-				CollectMaps("trie tree", trieTreeStartIndex)))
-		g.InitMapValues(trieTreeStartIndex)
+		// trieTreeStartIndex = length + 3
+		// g.AddState(
+		// 	CollectMaps(DATA_STRUCTURE_IDS,
+		// 		CollectMaps("trie tree", trieTreeStartIndex)))
+		// g.InitMapValues(trieTreeStartIndex)
 		return
 	}
 	pathToTrieTreeId := []string{"trie tree"}
-	trieTreeId, _, returnKind2 := g.GetAtom(dataStructureIdsId, pathToTrieTreeId)
+	_, _, returnKind2 := g.GetAtom(dataStructureIdsId, pathToTrieTreeId)
 
 	if returnKind2 == NOT_FOUND {
 		trieTreeStartIndex = length + 1
-		g.UpdateAtomMapValues(trieTreeId, map[string]int{"trie tree": length})
-		g.States[length] = Atom{
-			Id:           length,
-			IntValue:     trieTreeStartIndex,
-			TypeValueSet: "IntValue"}
+		// g.UpdateAtomMapValues(trieTreeId, map[string]int{"trie tree": length})
+		// g.States[length] = Atom{
+		// 	Id:           length,
+		// 	IntValue:     trieTreeStartIndex,
+		// 	TypeValueSet: "IntValue"}
 
 		g.InitMapValues(trieTreeStartIndex)
 		return
 	}
 
 }
-func (g *Graph) TrieTreeAdd(strings []string) (newTrieTreeNodeId int) {
+func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId int) {
 
-	trieTreeId, _, _ := g.GetAtom(0, []string{DATA_STRUCTURE_IDS, "trie tree"})
+	// trieTreeId, _, _ := g.GetAtom(0, []string{DATA_STRUCTURE_IDS, "trie tree"})
 	Id, path, returnKind := g.GetAtom(trieTreeId, strings)
 
 	if returnKind == NOT_FOUND {
@@ -324,7 +324,7 @@ func (g *Graph) TrieTreeAdd(strings []string) (newTrieTreeNodeId int) {
 			} else {
 				g.States[newIds[j]] = Atom{
 					Id:           newIds[j],
-					IntValue:     len(g.States), // add in separate state id tracker
+					IntValue:     len(g.States), // Add state right after TrieTreeAdd is done
 					TypeValueSet: "IntValue",
 				}
 			}
