@@ -177,34 +177,28 @@ func (sc *StateComponent) StateComponent() app.UI {
 			Body(
 				app.Li().
 					Style("list-style", "none").
-					Text("list element"),
+					Text("parent state name"),
 				app.Ul().Style("padding-left", "1rem").
-					Body(
-						app.Li().Style("list-style", "none").Text("test"),
+					Body(app.Li().Style("list-style", "none").Text("child state name 1"),
 						app.If(sc.editActive3,
-							app.Ul().Style("padding-left", "1rem").Body(
-								app.Input().
-									Type("text").
-									Value(ss.Name).
-									Placeholder("enter Atom name").
-									AutoFocus(true).
-									OnChange(func(ctx app.Context, e app.Event) {
-										ss.Name = ctx.JSSrc().Get("value").String()
-										sc.editActive3 = false
-										sc.saveData()
-									}).
-									Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6))),
+							app.Ul().Style("padding-left", "1rem").Body(),
+							app.Input().
+								Type("text").
+								Value(ss.Name).
+								Placeholder("enter Atom name").
+								AutoFocus(true).
+								OnChange(func(ctx app.Context, e app.Event) {
+									ss.Name = ctx.JSSrc().Get("value").String()
+									sc.editActive3 = false
+									sc.saveData()
+								}).
+								Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)),
 						).Else(
-
-							app.Ul().Style("padding-left", "1rem").
+							app.Li().Style("list-style", "none").
 								Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)).
-								Body(
-									app.Li().Style("list-style", "none").
-										Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)).
-										Text(ss.Name)).
+								Text(ss.Name).
 								OnClick(func(ctx app.Context, e app.Event) { sc.UpdateEditFlag(3) }),
-						),
-					),
+						)),
 			),
 	)
 }
