@@ -169,6 +169,20 @@ func (sc *StateComponent) saveData() app.UI {
 	http.PostForm("/save", output)
 	return nil
 }
+
+/*
+name
+
+	nested name input map
+	nested name input string
+	nested name input int
+	nested name input bool
+
+next name input map
+next name input string
+next name input int
+next name input int
+*/
 func (sc *StateComponent) StateComponent() app.UI {
 
 	return app.Div().
