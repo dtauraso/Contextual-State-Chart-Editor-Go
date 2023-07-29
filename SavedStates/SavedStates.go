@@ -12,3 +12,4 @@ var SavedStates []t.Atom
 var SavedStates2 map[int]t.Atom
 
 var Name string
+var Names []string

@@ -120,6 +120,7 @@ type StateComponent struct {
 	editActive1 bool
 	editActive2 bool
 	editActive3 bool
+	editActive  []bool
 }
 
 func (sc *StateComponent) Render() app.UI {
@@ -143,13 +144,24 @@ func (sc *StateComponent) OnMount(ctx app.Context) {
 	}
 
 	ss.Name = string(ss.SavedStates2[2].StringValue)
+	ss.Names = make([]string, 2)
+	ss.Names[0] = ss.Name
+	ss.Names[1] = string(ss.SavedStates2[3].StringValue)
+	sc.editActive = make([]bool, 2)
+	sc.editActive[0] = false
+	sc.editActive[1] = false
 	sc.editActive1 = false
 	sc.editActive2 = false
 	sc.editActive3 = false
+
 }
 func (sc *StateComponent) UpdateEditFlag(flagId int) {
 
 	sc.editActive3 = true
+	if flagId >= 0 && flagId <= 1 {
+
+		sc.editActive[flagId] = true
+	}
 	sc.Update() // Manual updated trigger
 
 }
@@ -170,7 +182,39 @@ func (sc *StateComponent) saveData() app.UI {
 	return nil
 }
 
+func (sc *StateComponent) saveData2() app.UI {
+
+	if reflect.DeepEqual(ss.SavedStates2, reflect.ValueOf(ss.SavedStates2).IsZero()) {
+		return nil
+	}
+	t.SaveString(ss.SavedStates2, 2, ss.Names[0])
+	binaryOutput, err := json.Marshal(ss.SavedStates2[2])
+	if err != nil {
+		panic(err)
+	}
+
+	output := url.Values{"Atom": {string(binaryOutput)}, "fileId": {"2"}}
+	http.PostForm("/save", output)
+
+	t.SaveString(ss.SavedStates2, 3, ss.Names[1])
+	binaryOutput2, err2 := json.Marshal(ss.SavedStates2[3])
+	if err2 != nil {
+		panic(err2)
+	}
+
+	output2 := url.Values{"Atom": {string(binaryOutput2)}, "fileId": {"3"}}
+	http.PostForm("/save", output2)
+
+	return nil
+}
+
 /*
+name           delete
+
+	add
+
+add
+
 name
 
 	nested name input map
@@ -183,7 +227,7 @@ next name input string
 next name input int
 next name input int
 */
-func (sc *StateComponent) StateComponent() app.UI {
+func (sc *StateComponent) StateComponent2() app.UI {
 
 	return app.Div().
 		Body(
@@ -227,4 +271,41 @@ func (sc *StateComponent) StateComponent() app.UI {
 							)),
 				),
 		)
+}
+
+func (sc *StateComponent) StateComponent() app.UI {
+	editFlagIds := []int{
+		0, 1,
+	}
+	return app.Ul().Body(
+		app.Range(editFlagIds).Slice(func(i int) app.UI {
+			if len(ss.Names) == 0 {
+				return app.Div()
+			}
+			return app.Div().Body(
+				app.If(sc.editActive[i],
+					app.Ul().
+						Style("padding-left", "1rem").
+						Body(),
+					app.Input().
+						Type("text").
+						Value(ss.Names[i]).
+						Placeholder("enter Atom name").
+						AutoFocus(true).
+						OnChange(func(ctx app.Context, e app.Event) {
+							ss.Names[i] = ctx.JSSrc().Get("value").String()
+							sc.editActive[i] = false
+							sc.saveData2()
+						}).
+						Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)),
+				).Else(
+					app.Li().
+						Style("list-style", "none").
+						Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)).
+						Text(ss.Names[i]).
+						OnClick(func(ctx app.Context, e app.Event) { sc.UpdateEditFlag(i) }),
+				))
+
+		}))
+
 }
