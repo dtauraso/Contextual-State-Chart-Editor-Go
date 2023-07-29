@@ -175,8 +175,10 @@ func (sc *StateComponent) StateComponent() app.UI {
 		Body(
 			app.Ul().
 				Style("position", "absolute").
-				Style("top", "200px").
-				Style("bottom", "100px").
+				Style("top", "1000px").
+				Style("left", "100px").
+				Style("width", "200px").
+				Style("height", "400px").
 				Style("background-color", "#f39c12").
 				Body(
 					app.Li().
