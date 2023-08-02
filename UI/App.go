@@ -282,8 +282,8 @@ func (sc *StateComponent) StateComponent() app.UI {
 			if len(ss.Names) == 0 {
 				return app.Div()
 			}
-			return app.Div().Body(
-				app.If(sc.editActive[i],
+			if sc.editActive[i] {
+				return app.Div().Body(
 					app.Ul().
 						Style("padding-left", "1rem").
 						Body(),
@@ -297,15 +297,14 @@ func (sc *StateComponent) StateComponent() app.UI {
 							sc.editActive[i] = false
 							sc.saveData2()
 						}).
-						Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)),
-				).Else(
-					app.Li().
-						Style("list-style", "none").
-						Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)).
-						Text(ss.Names[i]).
-						OnClick(func(ctx app.Context, e app.Event) { sc.UpdateEditFlag(i) }),
-				))
-
+						Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)))
+			}
+			return app.Div().Body(
+				app.Li().
+					Style("list-style", "none").
+					Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)).
+					Text(ss.Names[i]).
+					OnClick(func(ctx app.Context, e app.Event) { sc.UpdateEditFlag(i) }))
 		}))
 
 }

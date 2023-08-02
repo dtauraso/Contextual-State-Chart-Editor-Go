@@ -203,6 +203,14 @@ const (
 	DATA_STRUCTURE_IDS = "DataStructureIds"
 )
 
+func (g *Graph) GetState(stateName []string) *Graph {
+	return &Graph{States: g.States}
+}
+
+func (s *Graph) GetVariable(variableName string) Atom {
+	return s.States[0]
+}
+
 func (g *Graph) InitGraph() {
 	g.AddState(
 		CollectMaps(DATA_STRUCTURE_IDS, CollectMaps()))
