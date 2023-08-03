@@ -273,11 +273,32 @@ func (sc *StateComponent) StateComponent2() app.UI {
 		)
 }
 
+type AppComponent2 struct {
+	app.Compo
+}
+
+func MakeStyles(part app.HTMLDiv, styles [][]string, i int) app.HTMLDiv {
+	if i >= len(styles) {
+		return part
+	}
+	return MakeStyles(part.Style(styles[i][0], styles[i][1]), styles, i+1)
+}
+
+func (c *AppComponent2) Render() app.UI {
+	return MakeStyles(
+		app.Div().
+			Body(app.P().Text("test")),
+		[][]string{{"position", "absolute"},
+			{"top", "1000px"}}, 0)
+
+}
+
 func (sc *StateComponent) StateComponent() app.UI {
 	editFlagIds := []int{
 		0, 1,
 	}
 	return app.Ul().Body(
+		&AppComponent2{},
 		app.Range(editFlagIds).Slice(func(i int) app.UI {
 			if len(ss.Names) == 0 {
 				return app.Div()
