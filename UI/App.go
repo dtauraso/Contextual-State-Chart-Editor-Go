@@ -230,6 +230,7 @@ next name input int
 
 type AtomForm struct {
 	app.Compo
+	value              string
 	isEditActive       bool
 	isAddChildActive   bool
 	isAddSiblingActive bool
