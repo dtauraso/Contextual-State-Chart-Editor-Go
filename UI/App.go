@@ -230,7 +230,7 @@ next name input int
 
 type AtomForm struct {
 	app.Compo
-	value              string
+	AtomId             int
 	isEditActive       bool
 	isAddChildActive   bool
 	isAddSiblingActive bool
@@ -243,6 +243,7 @@ type AtomForm struct {
 
 type AtomUI struct {
 	AtomForms map[int]AtomForm
+	Atoms     map[int]t.Atom
 }
 
 func (sc *StateComponent) StateComponent2() app.UI {
