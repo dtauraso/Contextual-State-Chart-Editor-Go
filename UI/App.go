@@ -227,6 +227,23 @@ next name input string
 next name input int
 next name input int
 */
+
+type AtomForm struct {
+	app.Compo
+	isEditActive       bool
+	isAddChildActive   bool
+	isAddSiblingActive bool
+	isDeleteActive     bool
+	parentAtom         int
+	childAtoms         []int
+	newChildAtom       t.Atom
+	newSiblingAtom     t.Atom
+}
+
+type AtomUI struct {
+	AtomForms []AtomForm
+}
+
 func (sc *StateComponent) StateComponent2() app.UI {
 
 	return app.Div().
