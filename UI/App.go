@@ -233,7 +233,9 @@ type AtomForm struct {
 	AtomId             int
 	isEditActive       bool
 	isAddChildActive   bool
+	childAtomType      string
 	isAddSiblingActive bool
+	siblingAtomType    string
 	isDeleteActive     bool
 	parentAtom         int
 	childAtoms         []int
