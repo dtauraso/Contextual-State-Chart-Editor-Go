@@ -241,7 +241,7 @@ type AtomForm struct {
 }
 
 type AtomUI struct {
-	AtomForms []AtomForm
+	AtomForms map[int]AtomForm
 }
 
 func (sc *StateComponent) StateComponent2() app.UI {
