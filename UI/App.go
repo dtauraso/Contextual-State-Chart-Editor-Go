@@ -246,8 +246,6 @@ type AtomForm struct {
 	isDeleteActive     bool
 	parentAtom         int
 	childAtoms         []int
-	newChildAtom       t.Atom
-	newSiblingAtom     t.Atom
 }
 
 type AtomUI struct {
