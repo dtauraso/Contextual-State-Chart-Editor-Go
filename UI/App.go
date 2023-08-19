@@ -248,6 +248,39 @@ type AtomForm struct {
 	childAtoms         []int
 }
 
+func (a *AtomForm) OnMount(ctx app.Context) {
+	res, err := http.Get("/loadAllStates")
+	if err != nil {
+
+		panic(err)
+	}
+	defer res.Body.Close()
+	body, err2 := io.ReadAll(res.Body)
+	if err2 != nil {
+
+		panic(err2)
+	}
+	err3 := json.Unmarshal(body, &ss.SavedStates2)
+	if err3 != nil {
+		panic(err3)
+	}
+
+	ss.Name = string(ss.SavedStates2[2].StringValue)
+	ss.Names = make([]string, 2)
+	ss.Names[0] = ss.Name
+	ss.Names[1] = string(ss.SavedStates2[3].StringValue)
+	// a.editActive = make([]bool, 2)
+	// a.editActive[0] = false
+	// a.editActive[1] = false
+	// a.editActive1 = false
+	// a.editActive2 = false
+	// a.editActive3 = false
+
+}
+func (a *AtomForm) Render() app.UI {
+	return nil
+}
+
 type AtomUI struct {
 	AtomForms map[int]AtomForm
 	Atoms     map[int]t.Atom
