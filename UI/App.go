@@ -305,25 +305,16 @@ func (a *AtomUI) OnMount(ctx app.Context) {
 
 		panic(err2)
 	}
-	err3 := json.Unmarshal(body, &ss.SavedStates2)
+	err3 := json.Unmarshal(body, &a.Atoms)
 	if err3 != nil {
 		panic(err3)
 	}
-
-	ss.Name = string(ss.SavedStates2[2].StringValue)
-	ss.Names = make([]string, 2)
-	ss.Names[0] = ss.Name
-	ss.Names[1] = string(ss.SavedStates2[3].StringValue)
-	// a.editActive = make([]bool, 2)
-	// a.editActive[0] = false
-	// a.editActive[1] = false
-	// a.editActive1 = false
-	// a.editActive2 = false
-	// a.editActive3 = false
-
+}
+func makeTree(a *AtomUI) app.UI {
+	return app.Div().Body().Text("text")
 }
 func (a *AtomUI) Render() app.UI {
-	return nil
+	return makeTree(a)
 }
 
 func (sc *StateComponent) StateComponent2() app.UI {
