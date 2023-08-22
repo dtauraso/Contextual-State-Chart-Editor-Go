@@ -226,6 +226,28 @@ next name input map
 next name input string
 next name input int
 next name input int
+
+Parents
+	-1
+Name
+	["this is a test child state name 4",
+	"StarbucksMachine"]
+FunctionCode
+	"ReturnTrue"
+StartChildren
+	Edges
+		[["state1 name1",
+		"state1 name2"],
+		["state2 name1",
+		"state2 name2"]]
+	AreParallel
+		true
+Values
+	drinkOrder
+		[]
+	orderQueue
+		[]
+
 */
 
 type AtomForm struct {
@@ -248,7 +270,13 @@ type AtomForm struct {
 	childAtoms         []int
 }
 
-func (a *AtomForm) OnMount(ctx app.Context) {
+type AtomUI struct {
+	app.Compo
+	AtomForms map[int]AtomForm
+	Atoms     map[int]t.Atom
+}
+
+func (a *AtomUI) OnMount(ctx app.Context) {
 	res, err := http.Get("/loadAllStates")
 	if err != nil {
 
@@ -277,13 +305,8 @@ func (a *AtomForm) OnMount(ctx app.Context) {
 	// a.editActive3 = false
 
 }
-func (a *AtomForm) Render() app.UI {
+func (a *AtomUI) Render() app.UI {
 	return nil
-}
-
-type AtomUI struct {
-	AtomForms map[int]AtomForm
-	Atoms     map[int]t.Atom
 }
 
 func (sc *StateComponent) StateComponent2() app.UI {
