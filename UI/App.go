@@ -227,22 +227,39 @@ next name input string
 next name input int
 next name input int
 
+
 Parents
 	-1
+
 Name
-	["this is a test child state name 4",
-	"StarbucksMachine"]
+
+	this is a test child state name 4
+
+	StarbucksMachine
+
 FunctionName
-	"ReturnTrue"
+	ReturnTrue
+
 StartChildren
+
 	Edges
-		[["state1 name1",
-		"state1 name2"],
-		["state2 name1",
-		"state2 name2"]]
+
+
+			state1 name1
+
+			state1 name2
+
+
+			state2 name1
+
+			state2 name2
+
+
 	AreParallel
 		true
+
 Values
+
 	drinkOrder
 		[]
 	orderQueue
