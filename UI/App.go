@@ -283,8 +283,12 @@ type AtomForm struct {
 	newSiblingBool     string
 	siblingAtomType    string
 	isDeleteActive     bool
-	parentAtom         int
+	ParentAtom         int
 	childAtoms         []int
+}
+
+func (a *AtomForm) Render() app.UI {
+	return app.Div().Body().Text(a.ParentAtom)
 }
 
 type AtomUI struct {
@@ -309,9 +313,18 @@ func (a *AtomUI) OnMount(ctx app.Context) {
 	if err3 != nil {
 		panic(err3)
 	}
+	// fmt.Println(a.Atoms)
+
 }
 func makeTree(a *AtomUI) app.UI {
-	return app.Div().Body().Text("text")
+
+	for _, atom := range a.Atoms {
+		fmt.Println(atom)
+
+	}
+	return app.Div().Body(
+		app.P().Text("text"),
+		&AtomForm{ParentAtom: 1})
 }
 func (a *AtomUI) Render() app.UI {
 	return makeTree(a)

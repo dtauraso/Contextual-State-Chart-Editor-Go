@@ -307,6 +307,7 @@ func main() {
 		}
 
 		returnFiles, _ := json.Marshal(myMap)
+		// fmt.Println(myMap)
 		rw.Write(returnFiles)
 
 	})
