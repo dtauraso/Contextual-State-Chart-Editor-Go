@@ -1,10 +1,5 @@
 {
     "Id": 5,
-    "Name": [
-        "StartChildren"
-    ],
-    "MapValues": {
-        "Edges": 6,
-        "AreParallel": 7
-    }
+    "StringValue": "ReturnTrue",
+    "TypeValueSet": "StringValue"
 }

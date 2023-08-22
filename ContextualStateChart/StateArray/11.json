@@ -1,4 +1,8 @@
 {
     "Id": 11,
-    "StringValue": "1rem"
+    "MapValues": {
+        "0": 12,
+        "1": 13
+    },
+    "TypeValueSet": "MapValues"
 }

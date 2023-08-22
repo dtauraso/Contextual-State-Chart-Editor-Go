@@ -1,10 +1,8 @@
 {
     "Id": 6,
-    "Name": [
-        "Edges"
-    ],
-    "ArrayValues": [
-        200,
-        300
-    ]
+    "MapValues": {
+        "Edges": 7,
+        "AreParallel": 14
+    },
+    "TypeValueSet": "MapValues"
 }

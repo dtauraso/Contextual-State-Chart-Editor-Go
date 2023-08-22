@@ -1,4 +1,8 @@
 {
     "Id": 15,
-    "StringValue": "StarbucksMachine"
+    "MapValues": {
+        "drinkOrder": 16,
+        "orderQueue": 17
+    },
+    "TypeValueSet": "MapValues"
 }

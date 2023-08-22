@@ -1,8 +1,5 @@
 {
     "Id": 12,
-    "MapValues": {
-        "Name": 1,
-        "Parents": 60,
-        "editActive": 6
-    }
+    "StringValue": "state2 name1",
+    "TypeValueSet": "StringValue"
 }

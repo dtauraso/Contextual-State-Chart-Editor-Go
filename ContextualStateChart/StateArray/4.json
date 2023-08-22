@@ -1,7 +1,5 @@
 {
     "Id": 4,
-    "Name": [
-        "FunctionName"
-    ],
-    "StringValue": "ReturnTrue"
+    "StringValue": "StarbucksMachine",
+    "TypeValueSet": "StringValue"
 }

@@ -1,4 +1,5 @@
 {
     "Id": 10,
-    "StringValue": "UI"
+    "StringValue": "state1 name2",
+    "TypeValueSet": "StringValue"
 }

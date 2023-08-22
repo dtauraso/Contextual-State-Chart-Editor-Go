@@ -1,8 +1,5 @@
 {
     "Id": 17,
-    "MapValues": {
-        "name": 0,
-        "FunctionName": 1,
-        "StartChildren": 2
-    }
+    "MapValues": {},
+    "TypeValueSet": "MapValues"
 }

@@ -1,7 +1,5 @@
 {
     "Id": 1,
-    "ArrayValues": [
-        2,
-        3
-    ]
+    "IntValue": -1,
+    "TypeValueSet": "IntValue"
 }

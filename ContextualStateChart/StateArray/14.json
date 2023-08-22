@@ -1,4 +1,5 @@
 {
     "Id": 14,
-    "StringValue": "this is a test"
+    "BoolValue": true,
+    "TypeValueSet": "BoolValue"
 }

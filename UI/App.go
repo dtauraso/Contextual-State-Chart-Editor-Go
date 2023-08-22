@@ -232,7 +232,7 @@ Parents
 Name
 	["this is a test child state name 4",
 	"StarbucksMachine"]
-FunctionCode
+FunctionName
 	"ReturnTrue"
 StartChildren
 	Edges

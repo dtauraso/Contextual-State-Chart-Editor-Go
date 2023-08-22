@@ -1,4 +1,5 @@
 {
     "Id": 3,
-    "StringValue": "StarbucksMachine"
+    "StringValue": "this is a test child state name 4",
+    "TypeValueSet": "StringValue"
 }

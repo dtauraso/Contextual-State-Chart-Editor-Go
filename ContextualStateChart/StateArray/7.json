@@ -1,7 +1,8 @@
 {
     "Id": 7,
-    "Name": [
-        "AreParallel"
-    ],
-    "BoolValue": true
+    "MapValues": {
+        "0": 8,
+        "1": 11
+    },
+    "TypeValueSet": "MapValues"
 }

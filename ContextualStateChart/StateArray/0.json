@@ -1,13 +1,11 @@
 {
     "Id": 0,
     "MapValues": {
-        "FunctionName": 4,
-        "Name": 1,
-        "Parents": 60,
-        "StartChildren": 5,
-        "Value": 70,
-        "drinkOrder": 80,
-        "orderQueue": 90,
-        "outputBuffer": 100
-    }
+        "Parents": 1,
+        "Name": 2,
+        "FunctionName": 5,
+        "StartChildren": 6,
+        "Values": 15
+    },
+    "TypeValueSet": "MapValues"
 }

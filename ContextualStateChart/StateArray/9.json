@@ -1,6 +1,5 @@
 {
     "Id": 9,
-    "ArrayValues": [
-        2
-    ]
+    "StringValue": "state1 name1",
+    "TypeValueSet": "StringValue"
 }
