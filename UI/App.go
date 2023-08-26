@@ -12,6 +12,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
+	"sort"
 
 	// "time"
 	// "fmt"
@@ -410,6 +411,7 @@ func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 		if len(keys) == 0 {
 			return app.Ul().Body(app.Li().Text("[]"))
 		}
+		sort.Strings(keys)
 		return app.Ul().Body(
 			app.Range(keys).Slice(func(i int) app.UI {
 				return app.Div().Body(
