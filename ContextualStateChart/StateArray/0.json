@@ -1,11 +1,11 @@
 {
     "Id": 0,
     "MapValues": {
-        "0_Parents": 1,
-        "1_Name": 2,
-        "2_FunctionName": 5,
-        "3_StartChildren": 6,
-        "4_Values": 15
+        "Parents": 1,
+        "Name": 2,
+        "FunctionName": 5,
+        "StartChildren": 6,
+        "Values": 15
     },
     "TypeValueSet": "MapValues"
 }

@@ -412,11 +412,14 @@ func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 			return app.Ul().Body(app.Li().Text("[]"))
 		}
 		sort.Strings(keys)
+
 		return app.Ul().Body(
 			app.Range(keys).Slice(func(i int) app.UI {
+				key := keys[i]
 				return app.Div().Body(
-					app.If(atom.TypeValueSet == "MapValues", app.Li().Text(keys[i])),
-					makeTreeHelper(atom.MapValues[keys[i]], atoms),
+					app.If(atom.TypeValueSet == "MapValues",
+						app.Li().Text(key)),
+					makeTreeHelper(atom.MapValues[key], atoms),
 				)
 			}))
 	} else if atom.TypeValueSet == "BoolValue" {
