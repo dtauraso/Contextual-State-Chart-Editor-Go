@@ -126,6 +126,88 @@ type StateComponent struct {
 func (sc *StateComponent) Render() app.UI {
 	return sc.StateComponent()
 }
+func (sc *StateComponent) StateComponent2() app.UI {
+
+	return app.Div().
+		Body(
+			app.Ul().
+				Style("position", "absolute").
+				Style("top", "1000px").
+				Style("left", "100px").
+				Style("width", "200px").
+				Style("height", "400px").
+				Style("background-color", "#f39c12").
+				Body(
+					app.Li().
+						Style("list-style", "none").
+						Text("parent state name"),
+					app.Ul().
+						Style("padding-left", "1rem").
+						Body(app.Li().
+							Style("list-style", "none").
+							Text("child state name 1"),
+							app.If(sc.editActive3,
+								app.Ul().
+									Style("padding-left", "1rem").
+									Body(),
+								app.Input().
+									Type("text").
+									Value(ss.Name).
+									Placeholder("enter Atom name").
+									AutoFocus(true).
+									OnChange(func(ctx app.Context, e app.Event) {
+										ss.Name = ctx.JSSrc().Get("value").String()
+										sc.editActive3 = false
+										sc.saveData()
+									}).
+									Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)),
+							).Else(
+								app.Li().
+									Style("list-style", "none").
+									Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)).
+									Text(ss.Name).
+									OnClick(func(ctx app.Context, e app.Event) { sc.UpdateEditFlag(3) }),
+							)),
+				),
+		)
+}
+func (sc *StateComponent) StateComponent() app.UI {
+	editFlagIds := []int{
+		0, 1,
+	}
+	return app.Ul().Body(
+		&AppComponent2{},
+		app.Range(editFlagIds).Slice(func(i int) app.UI {
+			if len(ss.Names) == 0 {
+				return app.Div()
+			}
+			if sc.editActive[i] {
+				return app.Div().Body(
+					app.Ul().
+						Style("padding-left", "1rem").
+						Body(),
+					app.Input().
+						Type("text").
+						Value(ss.Names[i]).
+						Placeholder("enter Atom name").
+						AutoFocus(true).
+						OnChange(func(ctx app.Context, e app.Event) {
+							ss.Names[i] = ctx.JSSrc().Get("value").String()
+							sc.editActive[i] = false
+							sc.saveData2()
+						}).
+						Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)))
+			}
+			return app.Div().Body(
+				app.Li().
+					Style("list-style", "none").
+					Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)).
+					Text(ss.Names[i]).
+					OnClick(func(ctx app.Context, e app.Event) { sc.UpdateEditFlag(i) }))
+		}))
+
+}
+
 func (sc *StateComponent) OnMount(ctx app.Context) {
 	res, err := http.Get("/loadAllStates")
 	if err != nil {
@@ -298,6 +380,7 @@ type AtomUI struct {
 }
 
 func (a *AtomUI) OnMount(ctx app.Context) {
+
 	res, err := http.Get("/loadAllStates")
 	if err != nil {
 
@@ -313,67 +396,40 @@ func (a *AtomUI) OnMount(ctx app.Context) {
 	if err3 != nil {
 		panic(err3)
 	}
-	// fmt.Println(a.Atoms)
 
 }
-func makeTree(a *AtomUI) app.UI {
+func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 
+	atom := atoms[atomId]
+
+	if atom.TypeValueSet == "MapValues" {
+		keys := []string{}
+		for key, _ := range atom.MapValues {
+			keys = append(keys, key)
+		}
+		return app.Range(keys).Slice(func(i int) app.UI {
+			return app.Ul().Body(
+				app.Li().Text(keys[i]),
+				makeTreeHelper(atom.MapValues[keys[i]], atoms),
+			)
+		})
+	}
+	return nil
+}
+func makeTree(a *AtomUI) app.UI {
+	if len(a.Atoms) == 0 {
+		return app.Div().Body(
+			app.P().Text("no data"),
+			&AtomForm{ParentAtom: 1})
+	}
 	for _, atom := range a.Atoms {
 		fmt.Println(atom)
 
 	}
-	return app.Div().Body(
-		app.P().Text("text"),
-		&AtomForm{ParentAtom: 1})
+	return makeTreeHelper(0, a.Atoms)
 }
 func (a *AtomUI) Render() app.UI {
 	return makeTree(a)
-}
-
-func (sc *StateComponent) StateComponent2() app.UI {
-
-	return app.Div().
-		Body(
-			app.Ul().
-				Style("position", "absolute").
-				Style("top", "1000px").
-				Style("left", "100px").
-				Style("width", "200px").
-				Style("height", "400px").
-				Style("background-color", "#f39c12").
-				Body(
-					app.Li().
-						Style("list-style", "none").
-						Text("parent state name"),
-					app.Ul().
-						Style("padding-left", "1rem").
-						Body(app.Li().
-							Style("list-style", "none").
-							Text("child state name 1"),
-							app.If(sc.editActive3,
-								app.Ul().
-									Style("padding-left", "1rem").
-									Body(),
-								app.Input().
-									Type("text").
-									Value(ss.Name).
-									Placeholder("enter Atom name").
-									AutoFocus(true).
-									OnChange(func(ctx app.Context, e app.Event) {
-										ss.Name = ctx.JSSrc().Get("value").String()
-										sc.editActive3 = false
-										sc.saveData()
-									}).
-									Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)),
-							).Else(
-								app.Li().
-									Style("list-style", "none").
-									Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)).
-									Text(ss.Name).
-									OnClick(func(ctx app.Context, e app.Event) { sc.UpdateEditFlag(3) }),
-							)),
-				),
-		)
 }
 
 type AppComponent2 struct {
@@ -393,42 +449,5 @@ func (c *AppComponent2) Render() app.UI {
 			Body(app.P().Text("test")),
 		[][]string{{"position", "absolute"},
 			{"top", "1000px"}}, 0)
-
-}
-
-func (sc *StateComponent) StateComponent() app.UI {
-	editFlagIds := []int{
-		0, 1,
-	}
-	return app.Ul().Body(
-		&AppComponent2{},
-		app.Range(editFlagIds).Slice(func(i int) app.UI {
-			if len(ss.Names) == 0 {
-				return app.Div()
-			}
-			if sc.editActive[i] {
-				return app.Div().Body(
-					app.Ul().
-						Style("padding-left", "1rem").
-						Body(),
-					app.Input().
-						Type("text").
-						Value(ss.Names[i]).
-						Placeholder("enter Atom name").
-						AutoFocus(true).
-						OnChange(func(ctx app.Context, e app.Event) {
-							ss.Names[i] = ctx.JSSrc().Get("value").String()
-							sc.editActive[i] = false
-							sc.saveData2()
-						}).
-						Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)))
-			}
-			return app.Div().Body(
-				app.Li().
-					Style("list-style", "none").
-					Style("width", fmt.Sprintf("%dpx", len(ss.Name)*6)).
-					Text(ss.Names[i]).
-					OnClick(func(ctx app.Context, e app.Event) { sc.UpdateEditFlag(i) }))
-		}))
 
 }
