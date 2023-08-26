@@ -401,20 +401,32 @@ func (a *AtomUI) OnMount(ctx app.Context) {
 func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 
 	atom := atoms[atomId]
-
-	if atom.TypeValueSet == "MapValues" {
+	if atom.TypeValueSet == "MapValues" ||
+		atom.TypeValueSet == "ArrayValues" {
 		keys := []string{}
 		for key, _ := range atom.MapValues {
 			keys = append(keys, key)
 		}
-		return app.Range(keys).Slice(func(i int) app.UI {
-			return app.Ul().Body(
-				app.Li().Text(keys[i]),
-				makeTreeHelper(atom.MapValues[keys[i]], atoms),
-			)
-		})
+		if len(keys) == 0 {
+			return app.Ul().Body(app.Li().Text("[]"))
+		}
+		return app.Ul().Body(
+			app.Range(keys).Slice(func(i int) app.UI {
+				return app.Div().Body(
+					app.If(atom.TypeValueSet == "MapValues", app.Li().Text(keys[i])),
+					makeTreeHelper(atom.MapValues[keys[i]], atoms),
+				)
+			}))
+	} else if atom.TypeValueSet == "BoolValue" {
+		return app.Ul().Body(app.Li().Text(atom.BoolValue))
+
+	} else if atom.TypeValueSet == "IntValue" {
+		return app.Ul().Body(app.Li().Text(atom.IntValue))
+
+	} else /*if atom.TypeValueSet == "StringValue"*/ {
+		return app.Ul().Body(app.Li().Text(atom.StringValue))
+
 	}
-	return nil
 }
 func makeTree(a *AtomUI) app.UI {
 	if len(a.Atoms) == 0 {
@@ -422,10 +434,12 @@ func makeTree(a *AtomUI) app.UI {
 			app.P().Text("no data"),
 			&AtomForm{ParentAtom: 1})
 	}
-	for _, atom := range a.Atoms {
-		fmt.Println(atom)
+	// for _, atom := range a.Atoms {
+	// 	fmt.Println(atom)
 
-	}
+	// }
+	fmt.Println(a.Atoms[0])
+
 	return makeTreeHelper(0, a.Atoms)
 }
 func (a *AtomUI) Render() app.UI {
