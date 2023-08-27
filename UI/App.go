@@ -409,7 +409,10 @@ func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 			keys = append(keys, key)
 		}
 		if len(keys) == 0 {
-			return app.Ul().Body(app.Li().Text("[]"))
+			return app.Ul().
+				Body(app.Li().Text("[]").
+					Style("list-style-type", "none").
+					Style("margin-bottom", "20px"))
 		}
 		sort.Strings(keys)
 
@@ -420,8 +423,7 @@ func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 					return app.Div().Body(
 						app.If(atom.TypeValueSet == "MapValues",
 							app.Li().
-								Text(key).
-								Style("margin-bottom", "20px")),
+								Text(key)),
 						makeTreeHelper(atom.MapValues[key], atoms),
 					)
 				}),
@@ -430,22 +432,26 @@ func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 					Style("list-style-type", "none").
 					Style("margin-bottom", "20px")).
 			Style("list-style-type", "none").
-			Style("padding-left", "20px")
+			Style("padding-left", "10px").
+			Style("margin-bottom", "40px")
 
 	} else if atom.TypeValueSet == "BoolValue" {
 		return app.Ul().
 			Body(app.Li().Text(atom.BoolValue)).
-			Style("list-style-type", "none")
+			Style("list-style-type", "none").
+			Style("margin-bottom", "10px")
 
 	} else if atom.TypeValueSet == "IntValue" {
 		return app.Ul().
 			Body(app.Li().Text(atom.IntValue)).
-			Style("list-style-type", "none")
+			Style("list-style-type", "none").
+			Style("margin-bottom", "10px")
 
 	} else /*if atom.TypeValueSet == "StringValue"*/ {
 		return app.Ul().
 			Body(app.Li().Text(atom.StringValue)).
-			Style("list-style-type", "none")
+			Style("list-style-type", "none").
+			Style("margin-bottom", "10px")
 
 	}
 }
