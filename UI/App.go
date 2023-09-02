@@ -374,12 +374,17 @@ type AtomForm struct {
 }
 
 func (a *AtomForm) Render() app.UI {
-	if a.IsKeyMapKey {
-		return app.Li().Text(a.Key)
+	return app.Li().Text(a.DisplayText())
 
+}
+
+func (a *AtomForm) DisplayText() any {
+	if a.IsKeyMapKey {
+		return a.Key
 	}
 	atom := a.Atoms[a.AtomId]
-	return app.Li().Text(atom.Value())
+	return atom.Value()
+
 }
 
 type AtomUI struct {
