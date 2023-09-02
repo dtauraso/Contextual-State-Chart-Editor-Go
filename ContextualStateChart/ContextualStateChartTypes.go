@@ -35,6 +35,17 @@ type Atom struct {
 	TypeValueSet string         `json:"TypeValueSet"`
 }
 
+func (a *Atom) Value() any {
+	if a.TypeValueSet == "BoolValue" {
+		return a.BoolValue
+	} else if a.TypeValueSet == "IntValue" {
+		return a.IntValue
+	} else if a.TypeValueSet == "StringValue" {
+		return a.StringValue
+	}
+	return nil
+}
+
 type AtomChan struct {
 	Id           int            `json:"Id"`
 	BoolValue    bool           `json:"BoolValue,omitempty"`

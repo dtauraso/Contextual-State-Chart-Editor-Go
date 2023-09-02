@@ -352,6 +352,9 @@ Values
 
 type AtomForm struct {
 	app.Compo
+	Atoms              map[int]t.Atom
+	Key                string
+	IsKeyMapKey        bool
 	AtomId             int
 	isEditActive       bool
 	isAddChildActive   bool
@@ -371,7 +374,12 @@ type AtomForm struct {
 }
 
 func (a *AtomForm) Render() app.UI {
-	return app.Div().Body().Text(a.ParentAtom)
+	if a.IsKeyMapKey {
+		return app.Li().Text(a.Key)
+
+	}
+	atom := a.Atoms[a.AtomId]
+	return app.Li().Text(atom.Value())
 }
 
 type AtomUI struct {
@@ -405,7 +413,7 @@ func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 	if atom.TypeValueSet == "MapValues" ||
 		atom.TypeValueSet == "ArrayValues" {
 		keys := []string{}
-		for key, _ := range atom.MapValues {
+		for key := range atom.MapValues {
 			keys = append(keys, key)
 		}
 		if len(keys) == 0 {
@@ -422,8 +430,11 @@ func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 					key := keys[i]
 					return app.Div().Body(
 						app.If(atom.TypeValueSet == "MapValues",
-							app.Li().
-								Text(key)),
+							&AtomForm{
+								Key:         key,
+								IsKeyMapKey: true,
+								AtomId:      atomId,
+								Atoms:       atoms}),
 						makeTreeHelper(atom.MapValues[key], atoms),
 					)
 				}),
@@ -435,25 +446,17 @@ func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 			Style("padding-left", "10px").
 			Style("margin-bottom", "40px")
 
-	} else if atom.TypeValueSet == "BoolValue" {
-		return app.Ul().
-			Body(app.Li().Text(atom.BoolValue)).
-			Style("list-style-type", "none").
-			Style("margin-bottom", "10px")
-
-	} else if atom.TypeValueSet == "IntValue" {
-		return app.Ul().
-			Body(app.Li().Text(atom.IntValue)).
-			Style("list-style-type", "none").
-			Style("margin-bottom", "10px")
-
-	} else /*if atom.TypeValueSet == "StringValue"*/ {
-		return app.Ul().
-			Body(app.Li().Text(atom.StringValue)).
-			Style("list-style-type", "none").
-			Style("margin-bottom", "10px")
-
 	}
+	return app.Ul().
+		Body(
+			&AtomForm{
+				IsKeyMapKey: false,
+				AtomId:      atomId,
+				Atoms:       atoms},
+		).
+		Style("list-style-type", "none").
+		Style("margin-bottom", "10px")
+
 }
 func makeTree(a *AtomUI) app.UI {
 	if len(a.Atoms) == 0 {
@@ -461,11 +464,6 @@ func makeTree(a *AtomUI) app.UI {
 			app.P().Text("no data"),
 			&AtomForm{ParentAtom: 1})
 	}
-	// for _, atom := range a.Atoms {
-	// 	fmt.Println(atom)
-
-	// }
-	fmt.Println(a.Atoms[0])
 
 	return makeTreeHelper(0, a.Atoms)
 }
