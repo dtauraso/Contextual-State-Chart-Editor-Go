@@ -407,10 +407,10 @@ func (a *AtomForm) UpdateEditFlag() {
 		a.AtomId,
 		[]string{"AtomForm", "IsEditActive"})
 	if returnType == t.FOUND {
-		boolValue := a.Graph.Atoms[atomId].BoolValue
-		a.Graph.Atoms[atomId] = t.Atom{
-			BoolValue:    !boolValue,
-			TypeValueSet: "BoolValue"}
+		entry := a.Graph.Atoms[atomId]
+		entry.BoolValue = !entry.BoolValue
+		a.Graph.Atoms[atomId] = entry
+
 	} else if len(currentPath) == 0 {
 		atomFormId := len(a.Graph.Atoms)
 		isEditActiveId := atomFormId + 1
