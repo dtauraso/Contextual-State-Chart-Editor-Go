@@ -890,7 +890,7 @@ func TestStateConnections(t *testing.T) {
 
 func TestAddStates(t *testing.T) {
 	t.Run("0 prior states before adding", func(t *testing.T) {
-		myGraph := Graph{States: map[int]Atom{}}
+		myGraph := Graph{Atoms: map[int]Atom{}}
 		firstIdWant := 0
 
 		firstIdGot := myGraph.AddState(ArrayValue("I am a test", "StarbucksMachine"))
@@ -901,7 +901,7 @@ func TestAddStates(t *testing.T) {
 	})
 
 	t.Run("3 prior states before adding", func(t *testing.T) {
-		myGraph := Graph{States: map[int]Atom{}}
+		myGraph := Graph{Atoms: map[int]Atom{}}
 		firstIdWant := 4
 
 		firstGraph := ArrayValue("I am a test", "StarbucksMachine", "test")
@@ -915,7 +915,7 @@ func TestAddStates(t *testing.T) {
 }
 
 func TestGetAtom(t *testing.T) {
-	myGraph := Graph{States: CollectMaps(
+	myGraph := Graph{Atoms: CollectMaps(
 		"test",
 		CollectMaps(
 			"Name", ArrayValue("I am a test", "StarbucksMachine"),
@@ -1004,10 +1004,10 @@ func TestGetAtom(t *testing.T) {
 }
 
 func TestUpdateAtom(t *testing.T) {
-	want := Graph{States: map[int]Atom{0: {Id: 0,
+	want := Graph{Atoms: map[int]Atom{0: {Id: 0,
 		MapValues: map[string]int{"a": 2, "b": 3, "c": 4}}}}
 
-	got := Graph{States: map[int]Atom{0: {Id: 0,
+	got := Graph{Atoms: map[int]Atom{0: {Id: 0,
 		MapValues: map[string]int{"a": 1, "b": 3}}}}
 	got.UpdateAtomMapValues(0, map[string]int{"a": 2, "c": 4})
 
@@ -1017,7 +1017,7 @@ func TestUpdateAtom(t *testing.T) {
 }
 
 func TestTrieTreeInit(t *testing.T) {
-	myGraph := Graph{States: map[int]Atom{
+	myGraph := Graph{Atoms: map[int]Atom{
 		0: {
 			Id: 0,
 			MapValues: map[string]int{
@@ -1046,7 +1046,7 @@ func TestTrieTreeInit(t *testing.T) {
 	t.Run("no 'data structure Id's'", func(t *testing.T) {
 		want := myGraph
 
-		got := Graph{States: map[int]Atom{}}
+		got := Graph{Atoms: map[int]Atom{}}
 		got.TrieTreeInit()
 
 		if !reflect.DeepEqual(want, got) {
@@ -1056,7 +1056,7 @@ func TestTrieTreeInit(t *testing.T) {
 	t.Run("no 'trie tree'", func(t *testing.T) {
 		want := myGraph
 
-		got := Graph{States: map[int]Atom{
+		got := Graph{Atoms: map[int]Atom{
 			0: {
 				Id: 0,
 				MapValues: map[string]int{

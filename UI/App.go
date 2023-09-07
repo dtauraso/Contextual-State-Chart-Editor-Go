@@ -11,9 +11,9 @@ import (
 	// "os"
 	"encoding/json"
 	"fmt"
+	// "golang.org/x/exp/slices"
 	"reflect"
 	"sort"
-
 	// "time"
 	// "fmt"
 	// "fmt"
@@ -352,11 +352,11 @@ Values
 
 type AtomForm struct {
 	app.Compo
-	Atoms              map[int]t.Atom
+	Graph              t.Graph
 	Key                string
 	IsKeyMapKey        bool
 	AtomId             int
-	isEditActive       bool
+	IsEditActive       bool
 	isAddChildActive   bool
 	newChildMap        string
 	newChildString     string
@@ -374,7 +374,61 @@ type AtomForm struct {
 }
 
 func (a *AtomForm) Render() app.UI {
-	return app.Li().Text(a.DisplayText())
+
+	// fmt.Println("render form", a.IsEditActive, a.AtomId)
+	atomId, _, returnType := a.Graph.GetAtom(
+		a.AtomId,
+		[]string{"AtomForm", "IsEditActive"})
+	isEditActive := false
+	if returnType == t.FOUND {
+		isEditActive = a.Graph.Atoms[atomId].BoolValue
+
+	}
+	// fmt.Println("render form after set", a.IsEditActive)
+
+	if isEditActive {
+		return app.
+			Div().
+			Body(app.P().Text("edit is active"),
+				app.Li().Text(a.DisplayText())).
+			OnClick(func(ctx app.Context, e app.Event) { a.UpdateEditFlag() })
+
+	}
+	return app.
+		Li().
+		Text(a.DisplayText()).
+		OnClick(func(ctx app.Context, e app.Event) { a.UpdateEditFlag() })
+
+}
+
+func (a *AtomForm) UpdateEditFlag() {
+	// fmt.Println("here")
+
+	atomId, currentPath, returnType := a.Graph.GetAtom(
+		a.AtomId,
+		[]string{"AtomForm", "IsEditActive"})
+	if returnType == t.FOUND {
+		boolValue := a.Graph.Atoms[atomId].BoolValue
+		a.Graph.Atoms[atomId] = t.Atom{
+			BoolValue:    !boolValue,
+			TypeValueSet: "BoolValue"}
+	} else if len(currentPath) == 0 {
+		atomFormId := len(a.Graph.Atoms)
+		isEditActiveId := atomFormId + 1
+
+		a.Graph.Atoms[a.AtomId].MapValues["AtomForm"] = atomFormId
+		a.Graph.Atoms[atomFormId] = t.Atom{
+			Id:           atomFormId,
+			MapValues:    map[string]int{"IsEditActive": isEditActiveId},
+			TypeValueSet: "MapValues"}
+		a.Graph.Atoms[isEditActiveId] = t.Atom{
+			Id:           isEditActiveId,
+			BoolValue:    true,
+			TypeValueSet: "BoolValue"}
+
+	}
+	// fmt.Println(a.IsEditActive)
+	a.Update() // Manual updated trigger
 
 }
 
@@ -382,7 +436,7 @@ func (a *AtomForm) DisplayText() any {
 	if a.IsKeyMapKey {
 		return a.Key
 	}
-	atom := a.Atoms[a.AtomId]
+	atom := a.Graph.Atoms[a.AtomId]
 	return atom.Value()
 
 }
@@ -390,7 +444,7 @@ func (a *AtomForm) DisplayText() any {
 type AtomUI struct {
 	app.Compo
 	AtomForms map[int]AtomForm
-	Atoms     map[int]t.Atom
+	Graph     t.Graph
 }
 
 func (a *AtomUI) OnMount(ctx app.Context) {
@@ -406,15 +460,15 @@ func (a *AtomUI) OnMount(ctx app.Context) {
 
 		panic(err2)
 	}
-	err3 := json.Unmarshal(body, &a.Atoms)
+	err3 := json.Unmarshal(body, &a.Graph.Atoms)
 	if err3 != nil {
 		panic(err3)
 	}
 
 }
-func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
+func makeTreeHelper(atomId int, graph t.Graph) app.UI {
 
-	atom := atoms[atomId]
+	atom := graph.Atoms[atomId]
 	if atom.TypeValueSet == "MapValues" ||
 		atom.TypeValueSet == "ArrayValues" {
 		keys := []string{}
@@ -433,14 +487,15 @@ func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 			Body(
 				app.Range(keys).Slice(func(i int) app.UI {
 					key := keys[i]
+					// fmt.Println("range here")
 					return app.Div().Body(
 						app.If(atom.TypeValueSet == "MapValues",
 							&AtomForm{
 								Key:         key,
 								IsKeyMapKey: true,
 								AtomId:      atomId,
-								Atoms:       atoms}),
-						makeTreeHelper(atom.MapValues[key], atoms),
+								Graph:       graph}),
+						makeTreeHelper(atom.MapValues[key], graph),
 					)
 				}),
 				app.Li().
@@ -457,20 +512,20 @@ func makeTreeHelper(atomId int, atoms map[int]t.Atom) app.UI {
 			&AtomForm{
 				IsKeyMapKey: false,
 				AtomId:      atomId,
-				Atoms:       atoms},
+				Graph:       graph},
 		).
 		Style("list-style-type", "none").
 		Style("margin-bottom", "10px")
 
 }
 func makeTree(a *AtomUI) app.UI {
-	if len(a.Atoms) == 0 {
+	if len(a.Graph.Atoms) == 0 {
 		return app.Div().Body(
 			app.P().Text("no data"),
 			&AtomForm{ParentAtom: 1})
 	}
 
-	return makeTreeHelper(0, a.Atoms)
+	return makeTreeHelper(0, a.Graph)
 }
 func (a *AtomUI) Render() app.UI {
 	return makeTree(a)

@@ -207,7 +207,7 @@ func convertToTree(states map[int]Atom) (strings []string) {
 }
 
 type Graph struct {
-	States map[int]Atom
+	Atoms map[int]Atom
 }
 
 const (
@@ -215,11 +215,11 @@ const (
 )
 
 func (g *Graph) GetState(stateName []string) *Graph {
-	return &Graph{States: g.States}
+	return &Graph{Atoms: g.Atoms}
 }
 
 func (s *Graph) GetVariable(variableName string) Atom {
-	return s.States[0]
+	return s.Atoms[0]
 }
 
 func (g *Graph) InitGraph() {
@@ -227,17 +227,17 @@ func (g *Graph) InitGraph() {
 		CollectMaps(DATA_STRUCTURE_IDS, CollectMaps()))
 }
 func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) (stateId int) {
-	g.States = addStates(g.States, state, newIndex)
-	return len(g.States) - len(state)
+	g.Atoms = addStates(g.Atoms, state, newIndex)
+	return len(g.Atoms) - len(state)
 
 }
 
 func (g *Graph) AddState(state map[int]Atom) (stateId int) {
 	// state keys are[0, len(states))
-	if len(g.States) == 0 {
+	if len(g.Atoms) == 0 {
 		return g.AddStateHelper(state, 0)
 	}
-	return g.AddStateHelper(state, len(g.States))
+	return g.AddStateHelper(state, len(g.Atoms))
 }
 
 const (
@@ -257,7 +257,7 @@ func (g *Graph) GetAtom(startAtom int, path []string) (atomId int, currentPath [
 	pathFound := []string{}
 	for i := 0; i < len(path); i++ {
 		currentBranch := path[i]
-		nextEdge, ok := g.States[tracker].MapValues[currentBranch]
+		nextEdge, ok := g.Atoms[tracker].MapValues[currentBranch]
 		if !ok {
 			return tracker, pathFound, NOT_FOUND
 		}
@@ -270,11 +270,11 @@ func (g *Graph) GetAtom(startAtom int, path []string) (atomId int, currentPath [
 func (g *Graph) UpdateAtomMapValues(Id int, replacements map[string]int) {
 
 	for item := range replacements {
-		g.States[Id].MapValues[item] = replacements[item]
+		g.Atoms[Id].MapValues[item] = replacements[item]
 	}
 }
 func (g *Graph) InitMapValues(startIndex int) {
-	g.States[startIndex] = Atom{
+	g.Atoms[startIndex] = Atom{
 		Id:           startIndex,
 		MapValues:    map[string]int{},
 		TypeValueSet: "MapValues"}
@@ -282,7 +282,7 @@ func (g *Graph) InitMapValues(startIndex int) {
 func (g *Graph) TrieTreeInit() {
 	pathToDataStructureIds := []string{DATA_STRUCTURE_IDS}
 	dataStructureIdsId, _, returnKind1 := g.GetAtom(0, pathToDataStructureIds)
-	length := len(g.States)
+	length := len(g.Atoms)
 	var trieTreeStartIndex int
 
 	if returnKind1 == NOT_FOUND {
@@ -299,7 +299,7 @@ func (g *Graph) TrieTreeInit() {
 	if returnKind2 == NOT_FOUND {
 		trieTreeStartIndex = length + 1
 		// g.UpdateAtomMapValues(trieTreeId, map[string]int{"trie tree": length})
-		// g.States[length] = Atom{
+		// g.Atoms[length] = Atom{
 		// 	Id:           length,
 		// 	IntValue:     trieTreeStartIndex,
 		// 	TypeValueSet: "IntValue"}
@@ -317,7 +317,7 @@ func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId
 	if returnKind == NOT_FOUND {
 		pathLength := len(path)
 		newIds := []int{}
-		length := len(g.States)
+		length := len(g.Atoms)
 		remainingPath := []string{}
 		remainingPathLength := len(strings) - pathLength
 		for i := 0; i < remainingPathLength; i++ {
@@ -331,19 +331,19 @@ func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId
 		remainingPath = append(remainingPath,
 			"Id",
 			"id")
-		g.States[Id].MapValues[strings[pathLength]] = newIds[0]
+		g.Atoms[Id].MapValues[strings[pathLength]] = newIds[0]
 
 		for j := 0; j < len(newIds); j++ {
 			if remainingPath[j] != "id" {
-				g.States[newIds[j]] = Atom{
+				g.Atoms[newIds[j]] = Atom{
 					Id:           newIds[j],
 					MapValues:    map[string]int{remainingPath[j]: newIds[j+1]},
 					TypeValueSet: "MapValues",
 				}
 			} else {
-				g.States[newIds[j]] = Atom{
+				g.Atoms[newIds[j]] = Atom{
 					Id:           newIds[j],
-					IntValue:     len(g.States), // Add state right after TrieTreeAdd is done
+					IntValue:     len(g.Atoms), // Add state right after TrieTreeAdd is done
 					TypeValueSet: "IntValue",
 				}
 			}
