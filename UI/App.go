@@ -375,16 +375,13 @@ type AtomForm struct {
 
 func (a *AtomForm) Render() app.UI {
 
-	// fmt.Println("render form", a.IsEditActive, a.AtomId)
 	atomId, _, returnType := a.Graph.GetAtom(
 		a.AtomId,
 		[]string{"AtomForm", "IsEditActive"})
 	isEditActive := false
 	if returnType == t.FOUND {
 		isEditActive = a.Graph.Atoms[atomId].BoolValue
-
 	}
-	// fmt.Println("render form after set", a.IsEditActive)
 
 	if isEditActive {
 		return app.
@@ -402,7 +399,6 @@ func (a *AtomForm) Render() app.UI {
 }
 
 func (a *AtomForm) UpdateEditFlag() {
-	// fmt.Println("here")
 
 	atomId, currentPath, returnType := a.Graph.GetAtom(
 		a.AtomId,
@@ -415,7 +411,12 @@ func (a *AtomForm) UpdateEditFlag() {
 	} else if len(currentPath) == 0 {
 		atomFormId := len(a.Graph.Atoms)
 		isEditActiveId := atomFormId + 1
-
+		if entry, ok := a.Graph.Atoms[a.AtomId]; ok {
+			if len(a.Graph.Atoms[a.AtomId].MapValues) == 0 {
+				entry.MapValues = make(map[string]int)
+				a.Graph.Atoms[a.AtomId] = entry
+			}
+		}
 		a.Graph.Atoms[a.AtomId].MapValues["AtomForm"] = atomFormId
 		a.Graph.Atoms[atomFormId] = t.Atom{
 			Id:           atomFormId,
@@ -427,7 +428,6 @@ func (a *AtomForm) UpdateEditFlag() {
 			TypeValueSet: "BoolValue"}
 
 	}
-	// fmt.Println(a.IsEditActive)
 	a.Update() // Manual updated trigger
 
 }
@@ -473,7 +473,9 @@ func makeTreeHelper(atomId int, graph t.Graph) app.UI {
 		atom.TypeValueSet == "ArrayValues" {
 		keys := []string{}
 		for key := range atom.MapValues {
-			keys = append(keys, key)
+			if key != "AtomForm" {
+				keys = append(keys, key)
+			}
 		}
 		if len(keys) == 0 {
 			return app.Ul().
