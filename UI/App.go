@@ -384,10 +384,13 @@ func (a *AtomForm) Render() app.UI {
 	}
 
 	if isEditActive {
-		return app.
-			Div().
-			Body(app.P().Text("edit is active"),
-				app.Li().Text(a.DisplayText())).
+		return app.Li().
+			Body(
+				app.Span().Text(a.DisplayText()),
+				app.Span().Text("delete"),
+			).
+			Style("display", "flex").
+			Style("flex-direction", "row").
 			OnClick(func(ctx app.Context, e app.Event) { a.UpdateEditFlag() })
 
 	}
