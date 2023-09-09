@@ -384,14 +384,21 @@ func (a *AtomForm) Render() app.UI {
 	}
 
 	if isEditActive {
-		return app.Li().
-			Body(
-				app.Span().Text(a.DisplayText()),
-				app.Span().Text("delete"),
-			).
-			Style("display", "flex").
-			Style("flex-direction", "row").
-			OnClick(func(ctx app.Context, e app.Event) { a.UpdateEditFlag() })
+		return app.Div().
+			Body(app.Li().
+				Body(
+					app.Span().Text(a.DisplayText()).
+						Style("margin-right", "1rem"),
+					app.Span().Text("delete"),
+				).
+				Style("display", "flex").
+				Style("flex-direction", "row").
+				Style("margin-bottom", "10px").
+				OnClick(func(ctx app.Context, e app.Event) { a.UpdateEditFlag() }),
+				app.Ul().Body(app.Li().Text("add child")).
+					Style("list-style-type", "none").
+					Style("margin-bottom", "10px"),
+				app.Li().Text("add sibling"))
 
 	}
 	return app.
