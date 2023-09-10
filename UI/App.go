@@ -373,6 +373,9 @@ type AtomForm struct {
 	childAtoms         []int
 }
 
+/*
+add child cases
+*/
 func (a *AtomForm) Render() app.UI {
 
 	atomId, _, returnType := a.Graph.GetAtom(
