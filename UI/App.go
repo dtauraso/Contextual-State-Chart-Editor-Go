@@ -375,6 +375,11 @@ type AtomForm struct {
 
 /*
 add child cases
+
+	current atom is key
+		child is primitive
+		child is map
+	current atom is primtive
 */
 func (a *AtomForm) Render() app.UI {
 
