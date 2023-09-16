@@ -380,6 +380,11 @@ add child cases
 		child is primitive
 		child is map
 	current atom is primtive
+
+add sibling cases
+
+	current atom is key
+	current atom is primitive
 */
 func (a *AtomForm) Render() app.UI {
 
