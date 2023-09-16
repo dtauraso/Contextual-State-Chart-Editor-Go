@@ -386,15 +386,18 @@ add sibling cases
 	current atom is key
 	current atom is primitive
 */
+
+func GetBool(g t.Graph, a *AtomForm, path []string) (bool, error) {
+	atomId, _, returnType := a.Graph.GetAtom(a.AtomId, path)
+	if returnType == t.FOUND {
+		return a.Graph.Atoms[atomId].BoolValue, nil
+	}
+	return false, fmt.Errorf("no bool value")
+}
+
 func (a *AtomForm) Render() app.UI {
 
-	atomId, _, returnType := a.Graph.GetAtom(
-		a.AtomId,
-		[]string{"AtomForm", "IsEditActive"})
-	isEditActive := false
-	if returnType == t.FOUND {
-		isEditActive = a.Graph.Atoms[atomId].BoolValue
-	}
+	isEditActive, _ := GetBool(a.Graph, a, []string{"AtomForm", "IsEditActive"})
 
 	if isEditActive {
 		return app.Div().
