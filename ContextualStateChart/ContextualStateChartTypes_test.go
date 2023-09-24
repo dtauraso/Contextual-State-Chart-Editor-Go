@@ -932,21 +932,19 @@ func TestGetAtom(t *testing.T) {
 
 		wantIdsFound := []string{}
 		gotIdsFound := idsFound
-		if !reflect.DeepEqual(wantIdsFound, gotIdsFound) {
+		if !(len(wantIdsFound) == len(gotIdsFound) && len(wantIdsFound) == 0) {
 			t.Fatalf("wanted |%v|, got |%v|", wantIdsFound, gotIdsFound)
 		}
 	})
 
 	t.Run("path does not exist 1", func(t *testing.T) {
 
-		id1, path1, _ := myGraph.GetAtom(0, []string{"not there"})
+		idsFound := myGraph.GetAtom2(0, []string{"not there"})
 
-		wantId := 0
-		wantPath := []string{}
-		gotId := id1
-		gotPath := path1
-		if wantId != gotId || !reflect.DeepEqual(wantPath, gotPath) {
-			t.Fatalf("wanted |%v||%v|, got |%v||%v|", wantId, wantPath, gotId, gotPath)
+		wantIdsFound := []string{}
+		gotIdsFound := idsFound
+		if !(len(idsFound) == 0 && len(wantIdsFound) == len(idsFound)) {
+			t.Fatalf("wanted |%v|, got |%v|", wantIdsFound, gotIdsFound)
 		}
 	})
 	t.Run("path does not exist 2", func(t *testing.T) {
@@ -957,6 +955,7 @@ func TestGetAtom(t *testing.T) {
 		wantPath := []string{"test"}
 		gotId := id1
 		gotPath := path1
+		// len(a) > len(b) && len(b) > 0
 		if wantId != gotId || !reflect.DeepEqual(wantPath, gotPath) {
 			t.Fatalf("wanted |%v||%v|, got |%v||%v|", wantId, wantPath, gotId, gotPath)
 		}
