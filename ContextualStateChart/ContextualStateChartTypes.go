@@ -246,6 +246,20 @@ const (
 	FOUND       = 2
 )
 
+func (g *Graph) GetAtom2(startAtom int, path []string) (idsFound []int) {
+
+	tracker := startAtom
+	for i := 0; i < len(path); i++ {
+		currentBranch := path[i]
+		nextEdge, ok := g.Atoms[tracker].MapValues[currentBranch]
+		if !ok {
+			return idsFound
+		}
+		idsFound = append(idsFound, nextEdge)
+		tracker = nextEdge
+	}
+	return idsFound
+}
 func (g *Graph) GetAtom(startAtom int, path []string) (atomId int, currentPath []string, returnKind int) {
 
 	// no clear way to know if it was unable to find item
@@ -309,6 +323,11 @@ func (g *Graph) TrieTreeInit() {
 	}
 
 }
+
+func DoubleLinkTreeAdd() {
+
+}
+
 func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId int) {
 
 	// trieTreeId, _, _ := g.GetAtom(0, []string{DATA_STRUCTURE_IDS, "trie tree"})

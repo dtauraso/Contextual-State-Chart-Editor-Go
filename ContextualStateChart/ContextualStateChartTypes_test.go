@@ -928,14 +928,12 @@ func TestGetAtom(t *testing.T) {
 			"FunctionCode2", "ReturnTrue"))}
 	t.Run("path has length == 0", func(t *testing.T) {
 
-		id1, path1, _ := myGraph.GetAtom(0, []string{})
+		idsFound := myGraph.GetAtom2(0, []string{})
 
-		wantId := -1
-		wantPath := []string{}
-		gotId := id1
-		gotPath := path1
-		if wantId != gotId || !reflect.DeepEqual(wantPath, gotPath) {
-			t.Fatalf("wanted |%v||%v|, got |%v||%v|", wantId, wantPath, gotId, gotPath)
+		wantIdsFound := []string{}
+		gotIdsFound := idsFound
+		if !reflect.DeepEqual(wantIdsFound, gotIdsFound) {
+			t.Fatalf("wanted |%v|, got |%v|", wantIdsFound, gotIdsFound)
 		}
 	})
 
