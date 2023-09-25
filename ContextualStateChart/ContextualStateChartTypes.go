@@ -115,7 +115,7 @@ func addEntries(
 	elements ...any) (Atoms map[int]Atom) {
 
 	mapValues := make(map[string]int)
-	states := make(map[int]Atom)
+	atoms := make(map[int]Atom)
 
 	j := 1
 	for i := 0; i < len(elements); i += step {
@@ -126,30 +126,30 @@ func addEntries(
 		myBoolValue, okBoolValue := myElement.(bool)
 		myIntValue, okIntValue := myElement.(int)
 		myStringValue, okStringValue := myElement.(string)
-		myStatesValue, okStatesValue := myElement.(map[int]Atom)
+		myAtomsValue, okAtomsValue := myElement.(map[int]Atom)
 
 		if okBoolValue {
-			states[j] = Atom{Id: j, BoolValue: myBoolValue, TypeValueSet: "BoolValue"}
+			atoms[j] = Atom{Id: j, BoolValue: myBoolValue, TypeValueSet: "BoolValue"}
 		} else if okIntValue {
-			states[j] = Atom{Id: j, IntValue: myIntValue, TypeValueSet: "IntValue"}
+			atoms[j] = Atom{Id: j, IntValue: myIntValue, TypeValueSet: "IntValue"}
 		} else if okStringValue {
-			states[j] = Atom{Id: j, StringValue: myStringValue, TypeValueSet: "StringValue"}
-		} else if okStatesValue {
-			states = addAtoms(states, myStatesValue, j)
+			atoms[j] = Atom{Id: j, StringValue: myStringValue, TypeValueSet: "StringValue"}
+		} else if okAtomsValue {
+			atoms = addAtoms(atoms, myAtomsValue, j)
 
 		}
 		var offset int
 		if okBoolValue || okIntValue || okStringValue {
 			offset = 1
-		} else if okStatesValue {
-			offset = len(myStatesValue)
+		} else if okAtomsValue {
+			offset = len(myAtomsValue)
 		}
 
 		j += offset
 
 	}
-	states[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues"}
-	return states
+	atoms[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues"}
+	return atoms
 }
 func ArrayValue(elements ...any) (Atoms map[int]Atom) {
 
@@ -162,7 +162,7 @@ func ArrayValue(elements ...any) (Atoms map[int]Atom) {
 
 func CollectMaps(elements ...any) (Atoms map[int]Atom) {
 	// 0, 2, 4 element ids are strings
-	// 1, 3, 5 element ids are values (bool, int, string, states)
+	// 1, 3, 5 element ids are values (bool, int, string, atom)
 	if len(elements)%2 != 0 {
 		return nil
 	}
