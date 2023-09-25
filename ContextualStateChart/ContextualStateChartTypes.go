@@ -66,30 +66,30 @@ func SaveString(s map[int]Atom, key int, newString string) {
 		s[key] = entry
 	}
 }
-func addAtoms(states, newStates map[int]Atom, newIndex int) (atoms map[int]Atom) {
+func addAtoms(atoms, newAtoms map[int]Atom, newIndex int) map[int]Atom {
 
 	// visiting keys in ascending order for offset formula to work
-	for key := 0; key < len(newStates); key++ {
-		value := newStates[key]
+	for key := 0; key < len(newAtoms); key++ {
+		value := newAtoms[key]
 		if value.TypeValueSet == "MapValues" {
 			newMapValues := make(map[string]int)
 			offset := newIndex - key
 			for key2, value2 := range value.MapValues {
 				newMapValues[key2] = value2 + offset
 			}
-			states[newIndex] = Atom{Id: newIndex, MapValues: newMapValues, TypeValueSet: "MapValues"}
+			atoms[newIndex] = Atom{Id: newIndex, MapValues: newMapValues, TypeValueSet: "MapValues"}
 
 		} else if value.TypeValueSet == "BoolValue" {
-			states[newIndex] = Atom{Id: newIndex, BoolValue: value.BoolValue, TypeValueSet: "BoolValue"}
+			atoms[newIndex] = Atom{Id: newIndex, BoolValue: value.BoolValue, TypeValueSet: "BoolValue"}
 		} else if value.TypeValueSet == "IntValue" {
-			states[newIndex] = Atom{Id: newIndex, IntValue: value.IntValue, TypeValueSet: "IntValue"}
+			atoms[newIndex] = Atom{Id: newIndex, IntValue: value.IntValue, TypeValueSet: "IntValue"}
 		} else if value.TypeValueSet == "StringValue" {
-			states[newIndex] = Atom{Id: newIndex, StringValue: value.StringValue, TypeValueSet: "StringValue"}
+			atoms[newIndex] = Atom{Id: newIndex, StringValue: value.StringValue, TypeValueSet: "StringValue"}
 		}
 
 		newIndex++
 	}
-	return states
+	return atoms
 }
 
 func arrayGetNewIndex(i int, elements ...any) (stringIndex string) {
