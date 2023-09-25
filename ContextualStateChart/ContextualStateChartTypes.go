@@ -33,6 +33,7 @@ type Atom struct {
 	StringValue  string         `json:"StringValue,omitempty"`
 	MapValues    map[string]int `json:"MapValues,omitempty"`
 	TypeValueSet string         `json:"TypeValueSet"`
+	Parent       int            `json:"Parent,omitempty"`
 }
 
 func (a *Atom) Value() any {
@@ -57,6 +58,7 @@ type AtomChan struct {
 	ChannelRead  <-chan Atom    `json:"ChannelRead,omitempty"`
 
 	TypeValueSet string `json:"TypeValueSet"`
+	Parent       int    `json:"Parent,omitempty"`
 }
 
 func SaveString(s map[int]Atom, key int, newString string) {
@@ -69,18 +71,34 @@ func SaveString(s map[int]Atom, key int, newString string) {
 func addAtoms(atoms, newAtoms map[int]Atom, newIndex int) map[int]Atom {
 
 	// visiting keys in ascending order for offset formula to work
+	firstNewIndex := newIndex
+	// first newAtom is parent
+
+	// parent's parent is 0
+	// child's parent is firstNewIndex
+	// value.cloneWithOffset(childOffset, parentOffset)
 	for key := 0; key < len(newAtoms); key++ {
 		value := newAtoms[key]
+
 		if value.TypeValueSet == "MapValues" {
 			newMapValues := make(map[string]int)
-			offset := newIndex - key
 			for key2, value2 := range value.MapValues {
-				newMapValues[key2] = value2 + offset
+				newMapValues[key2] = value2 + firstNewIndex
 			}
-			atoms[newIndex] = Atom{Id: newIndex, MapValues: newMapValues, TypeValueSet: "MapValues"}
+			atoms[newIndex] = Atom{
+				Id:           newIndex,
+				MapValues:    newMapValues,
+				TypeValueSet: "MapValues",
+				Parent:       firstNewIndex,
+			}
 
 		} else if value.TypeValueSet == "BoolValue" {
-			atoms[newIndex] = Atom{Id: newIndex, BoolValue: value.BoolValue, TypeValueSet: "BoolValue"}
+			atoms[newIndex] = Atom{
+				Id:           newIndex,
+				BoolValue:    value.BoolValue,
+				TypeValueSet: "BoolValue",
+				Parent:       firstNewIndex,
+			}
 		} else if value.TypeValueSet == "IntValue" {
 			atoms[newIndex] = Atom{Id: newIndex, IntValue: value.IntValue, TypeValueSet: "IntValue"}
 		} else if value.TypeValueSet == "StringValue" {
