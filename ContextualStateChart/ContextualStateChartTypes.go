@@ -66,7 +66,7 @@ func SaveString(s map[int]Atom, key int, newString string) {
 		s[key] = entry
 	}
 }
-func addStates(states, newStates map[int]Atom, newIndex int) (atoms map[int]Atom) {
+func addAtoms(states, newStates map[int]Atom, newIndex int) (atoms map[int]Atom) {
 
 	// visiting keys in ascending order for offset formula to work
 	for key := 0; key < len(newStates); key++ {
@@ -135,7 +135,7 @@ func addEntries(
 		} else if okStringValue {
 			states[j] = Atom{Id: j, StringValue: myStringValue, TypeValueSet: "StringValue"}
 		} else if okStatesValue {
-			states = addStates(states, myStatesValue, j)
+			states = addAtoms(states, myStatesValue, j)
 
 		}
 		var offset int
@@ -227,7 +227,7 @@ func (g *Graph) InitGraph() {
 		CollectMaps(DATA_STRUCTURE_IDS, CollectMaps()))
 }
 func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) (stateId int) {
-	g.Atoms = addStates(g.Atoms, state, newIndex)
+	g.Atoms = addAtoms(g.Atoms, state, newIndex)
 	return len(g.Atoms) - len(state)
 
 }
