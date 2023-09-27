@@ -47,6 +47,43 @@ func (a *Atom) Value() any {
 	return nil
 }
 
+func (a *Atom) CloneWithOffset(j, childOffset, parentOffset int) (atomClone Atom) {
+	if a.TypeValueSet == "MapValues" {
+		newMapValues := make(map[string]int)
+		for key2, value2 := range a.MapValues {
+			newMapValues[key2] = value2 + childOffset
+		}
+		return Atom{
+			Id:           j,
+			MapValues:    newMapValues,
+			TypeValueSet: "MapValues",
+			Parent:       parentOffset,
+		}
+	} else if a.TypeValueSet == "BoolValue" {
+		return Atom{
+			Id:           j,
+			BoolValue:    a.BoolValue,
+			TypeValueSet: "BoolValue",
+			Parent:       parentOffset,
+		}
+	} else if a.TypeValueSet == "IntValue" {
+		return Atom{
+			Id:           j,
+			IntValue:     a.IntValue,
+			TypeValueSet: "IntValue",
+			Parent:       parentOffset,
+		}
+	} else if a.TypeValueSet == "StringValue" {
+		return Atom{
+			Id:           j,
+			StringValue:  a.StringValue,
+			TypeValueSet: "StringValue",
+			Parent:       parentOffset,
+		}
+	}
+	return Atom{}
+}
+
 type AtomChan struct {
 	Id           int            `json:"Id"`
 	BoolValue    bool           `json:"BoolValue,omitempty"`
@@ -73,38 +110,15 @@ func addAtoms(atoms, newAtoms map[int]Atom, newIndex int) map[int]Atom {
 	// visiting keys in ascending order for offset formula to work
 	firstNewIndex := newIndex
 	// first newAtom is parent
-
-	// parent's parent is 0
+	// parent's first parent is 0
 	// child's parent is firstNewIndex
-	// value.cloneWithOffset(childOffset, parentOffset)
-	for key := 0; key < len(newAtoms); key++ {
+	value := newAtoms[0]
+	atoms[newIndex] = value.CloneWithOffset(newIndex, firstNewIndex, 0)
+	newIndex++
+
+	for key := 1; key < len(newAtoms); key++ {
 		value := newAtoms[key]
-
-		if value.TypeValueSet == "MapValues" {
-			newMapValues := make(map[string]int)
-			for key2, value2 := range value.MapValues {
-				newMapValues[key2] = value2 + firstNewIndex
-			}
-			atoms[newIndex] = Atom{
-				Id:           newIndex,
-				MapValues:    newMapValues,
-				TypeValueSet: "MapValues",
-				Parent:       firstNewIndex,
-			}
-
-		} else if value.TypeValueSet == "BoolValue" {
-			atoms[newIndex] = Atom{
-				Id:           newIndex,
-				BoolValue:    value.BoolValue,
-				TypeValueSet: "BoolValue",
-				Parent:       firstNewIndex,
-			}
-		} else if value.TypeValueSet == "IntValue" {
-			atoms[newIndex] = Atom{Id: newIndex, IntValue: value.IntValue, TypeValueSet: "IntValue"}
-		} else if value.TypeValueSet == "StringValue" {
-			atoms[newIndex] = Atom{Id: newIndex, StringValue: value.StringValue, TypeValueSet: "StringValue"}
-		}
-
+		atoms[newIndex] = value.CloneWithOffset(newIndex, firstNewIndex, firstNewIndex)
 		newIndex++
 	}
 	return atoms
@@ -147,11 +161,23 @@ func addEntries(
 		myAtomsValue, okAtomsValue := myElement.(map[int]Atom)
 
 		if okBoolValue {
-			atoms[j] = Atom{Id: j, BoolValue: myBoolValue, TypeValueSet: "BoolValue"}
+			atoms[j] = Atom{
+				Id:           j,
+				BoolValue:    myBoolValue,
+				TypeValueSet: "BoolValue",
+				Parent:       0}
 		} else if okIntValue {
-			atoms[j] = Atom{Id: j, IntValue: myIntValue, TypeValueSet: "IntValue"}
+			atoms[j] = Atom{
+				Id:           j,
+				IntValue:     myIntValue,
+				TypeValueSet: "IntValue",
+				Parent:       0}
 		} else if okStringValue {
-			atoms[j] = Atom{Id: j, StringValue: myStringValue, TypeValueSet: "StringValue"}
+			atoms[j] = Atom{
+				Id:           j,
+				StringValue:  myStringValue,
+				TypeValueSet: "StringValue",
+				Parent:       0}
 		} else if okAtomsValue {
 			atoms = addAtoms(atoms, myAtomsValue, j)
 
@@ -166,7 +192,7 @@ func addEntries(
 		j += offset
 
 	}
-	atoms[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues"}
+	atoms[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues", Parent: 0}
 	return atoms
 }
 func ArrayValue(elements ...any) (Atoms map[int]Atom) {

@@ -56,11 +56,13 @@ func TestMapValueBool(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		1: {
 			Id:           1,
 			BoolValue:    false,
 			TypeValueSet: "BoolValue",
+			Parent:       0,
 		},
 	}
 
@@ -69,7 +71,7 @@ func TestMapValueBool(t *testing.T) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
 }
-func TestMapValue(t *testing.T) {
+func TestMapValue1(t *testing.T) {
 
 	want := map[int]Atom{
 
@@ -77,16 +79,19 @@ func TestMapValue(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		1: {
 			Id:           1,
 			MapValues:    map[string]int{"testKey2": 2},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		2: {
 			Id:           2,
 			StringValue:  "testValue2",
 			TypeValueSet: "StringValue",
+			Parent:       1,
 		},
 	}
 
@@ -104,26 +109,31 @@ func TestMapValue2(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		1: {
 			Id:           1,
 			MapValues:    map[string]int{"0": 2, "1": 3, "2": 4},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		2: {
 			Id:           2,
 			StringValue:  "test1",
 			TypeValueSet: "StringValue",
+			Parent:       1,
 		},
 		3: {
 			Id:           3,
 			IntValue:     0,
 			TypeValueSet: "IntValue",
+			Parent:       1,
 		},
 		4: {
 			Id:           4,
 			BoolValue:    false,
 			TypeValueSet: "BoolValue",
+			Parent:       1,
 		},
 	}
 
@@ -142,16 +152,19 @@ func TestMapValue3(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		1: {
 			Id:           1,
 			MapValues:    map[string]int{"testKey2": 2},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		2: {
 			Id:           2,
 			StringValue:  "testValue2",
 			TypeValueSet: "StringValue",
+			Parent:       1,
 		},
 	}
 
@@ -169,16 +182,19 @@ func TestMapValue4(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		1: {
 			Id:           1,
 			MapValues:    map[string]int{"testKey2": 2},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		2: {
 			Id:           2,
 			IntValue:     0,
 			TypeValueSet: "IntValue",
+			Parent:       1,
 		},
 	}
 
@@ -196,16 +212,19 @@ func TestMapValue5(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		1: {
 			Id:           1,
 			MapValues:    map[string]int{"testKey2": 2},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		2: {
 			Id:           2,
 			BoolValue:    false,
 			TypeValueSet: "BoolValue",
+			Parent:       1,
 		},
 	}
 
@@ -215,7 +234,7 @@ func TestMapValue5(t *testing.T) {
 		t.Fatalf("wanted %v, got %v", want, got)
 	}
 }
-func TestArrayValues(t *testing.T) {
+func TestArrayValues1(t *testing.T) {
 
 	want := map[int]Atom{
 
@@ -226,21 +245,25 @@ func TestArrayValues(t *testing.T) {
 				"1": 2,
 				"2": 3},
 			TypeValueSet: "MapValues",
+			Parent:       0,
 		},
 		1: {
 			Id:           1,
 			StringValue:  "test1",
 			TypeValueSet: "StringValue",
+			Parent:       0,
 		},
 		2: {
 			Id:           2,
 			StringValue:  "test2",
 			TypeValueSet: "StringValue",
+			Parent:       0,
 		},
 		3: {
 			Id:           3,
 			StringValue:  "test3",
 			TypeValueSet: "StringValue",
+			Parent:       0,
 		},
 	}
 
