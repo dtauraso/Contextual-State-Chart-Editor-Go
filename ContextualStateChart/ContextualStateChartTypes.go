@@ -48,6 +48,9 @@ func (a *Atom) Value() any {
 }
 
 func (a *Atom) CloneWithOffset(j, childOffset, parentOffset int) (atomClone Atom) {
+	// a.Parent + parentOffset
+	// parent and child atoms are being cloned in a loop from caller and added to a map of type
+	// map[int]Atom by adding new batches of entries by id as appending
 	if a.TypeValueSet == "MapValues" {
 		newMapValues := make(map[string]int)
 		for key2, value2 := range a.MapValues {
@@ -57,28 +60,28 @@ func (a *Atom) CloneWithOffset(j, childOffset, parentOffset int) (atomClone Atom
 			Id:           j,
 			MapValues:    newMapValues,
 			TypeValueSet: "MapValues",
-			Parent:       parentOffset,
+			Parent:       a.Parent + parentOffset,
 		}
 	} else if a.TypeValueSet == "BoolValue" {
 		return Atom{
 			Id:           j,
 			BoolValue:    a.BoolValue,
 			TypeValueSet: "BoolValue",
-			Parent:       parentOffset,
+			Parent:       a.Parent + parentOffset,
 		}
 	} else if a.TypeValueSet == "IntValue" {
 		return Atom{
 			Id:           j,
 			IntValue:     a.IntValue,
 			TypeValueSet: "IntValue",
-			Parent:       parentOffset,
+			Parent:       a.Parent + parentOffset,
 		}
 	} else if a.TypeValueSet == "StringValue" {
 		return Atom{
 			Id:           j,
 			StringValue:  a.StringValue,
 			TypeValueSet: "StringValue",
-			Parent:       parentOffset,
+			Parent:       a.Parent + parentOffset,
 		}
 	}
 	return Atom{}
@@ -113,7 +116,8 @@ func addAtoms(atoms, newAtoms map[int]Atom, newIndex int) map[int]Atom {
 	// parent's first parent is 0
 	// child's parent is firstNewIndex
 	value := newAtoms[0]
-	atoms[newIndex] = value.CloneWithOffset(newIndex, firstNewIndex, 0)
+	// caller is adding 1 new parent
+	atoms[newIndex] = value.CloneWithOffset(newIndex, firstNewIndex, 1)
 	newIndex++
 
 	for key := 1; key < len(newAtoms); key++ {
@@ -180,7 +184,6 @@ func addEntries(
 				Parent:       0}
 		} else if okAtomsValue {
 			atoms = addAtoms(atoms, myAtomsValue, j)
-
 		}
 		var offset int
 		if okBoolValue || okIntValue || okStringValue {
@@ -192,7 +195,7 @@ func addEntries(
 		j += offset
 
 	}
-	atoms[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues", Parent: 0}
+	atoms[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues", Parent: -1}
 	return atoms
 }
 func ArrayValue(elements ...any) (Atoms map[int]Atom) {
