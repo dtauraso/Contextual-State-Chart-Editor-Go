@@ -14,11 +14,13 @@ func TestMapValueString(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
+			Parent:       -1,
 		},
 		1: {
 			Id:           1,
 			StringValue:  "testValue",
 			TypeValueSet: "StringValue",
+			Parent:       0,
 		},
 	}
 
@@ -35,11 +37,13 @@ func TestMapValueInt(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
+			Parent:       -1,
 		},
 		1: {
 			Id:           1,
 			IntValue:     0,
 			TypeValueSet: "IntValue",
+			Parent:       0,
 		},
 	}
 
@@ -56,7 +60,7 @@ func TestMapValueBool(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
-			Parent:       0,
+			Parent:       -1,
 		},
 		1: {
 			Id:           1,
@@ -79,7 +83,7 @@ func TestMapValue1(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
-			Parent:       0,
+			Parent:       -1,
 		},
 		1: {
 			Id:           1,
@@ -109,7 +113,7 @@ func TestMapValue2(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
-			Parent:       0,
+			Parent:       -1,
 		},
 		1: {
 			Id:           1,
@@ -152,7 +156,7 @@ func TestMapValue3(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
-			Parent:       0,
+			Parent:       -1,
 		},
 		1: {
 			Id:           1,
@@ -182,7 +186,7 @@ func TestMapValue4(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
-			Parent:       0,
+			Parent:       -1,
 		},
 		1: {
 			Id:           1,
@@ -212,7 +216,7 @@ func TestMapValue5(t *testing.T) {
 			Id:           0,
 			MapValues:    map[string]int{"testKey": 1},
 			TypeValueSet: "MapValues",
-			Parent:       0,
+			Parent:       -1,
 		},
 		1: {
 			Id:           1,
@@ -245,7 +249,7 @@ func TestArrayValues1(t *testing.T) {
 				"1": 2,
 				"2": 3},
 			TypeValueSet: "MapValues",
-			Parent:       0,
+			Parent:       -1,
 		},
 		1: {
 			Id:           1,

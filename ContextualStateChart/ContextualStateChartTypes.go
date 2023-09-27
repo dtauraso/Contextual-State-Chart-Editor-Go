@@ -192,7 +192,7 @@ func addEntries(
 		j += offset
 
 	}
-	atoms[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues", Parent: 0}
+	atoms[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues", Parent: -1}
 	return atoms
 }
 func ArrayValue(elements ...any) (Atoms map[int]Atom) {
