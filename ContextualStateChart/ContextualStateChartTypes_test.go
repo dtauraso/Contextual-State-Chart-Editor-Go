@@ -739,55 +739,71 @@ func TestStateExistance(t *testing.T) {
 				"Values":              25,
 				"parents":             1,
 			},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       -1},
 
 		// "parents", CollectMaps("0", "-1")
 		1: {Id: 1, MapValues: map[string]int{"0": 2},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       0},
 		2: {Id: 2, IntValue: -1,
-			TypeValueSet: "IntValue"},
+			TypeValueSet: "IntValue",
+			Parent:       1},
 
 		// "Name", ArrayValueStrings("I am a test", "StarbucksMachine")
 		3: {Id: 3, MapValues: map[string]int{"0": 4, "1": 5},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       0},
 		4: {Id: 4, StringValue: "I am a test",
-			TypeValueSet: "StringValue"},
+			TypeValueSet: "StringValue",
+			Parent:       3},
 		5: {Id: 5, StringValue: "StarbucksMachine",
-			TypeValueSet: "StringValue"},
+			TypeValueSet: "StringValue",
+			Parent:       3},
 
 		// "FunctionCode", "ReturnTrue"
 		6: {Id: 6, StringValue: "ReturnTrue",
-			TypeValueSet: "StringValue"},
+			TypeValueSet: "StringValue",
+			Parent:       0},
 
 		// "StartChildren",
 		// CollectMaps(
 		7: {Id: 7, MapValues: map[string]int{"AreParallel": 15, "Edges": 8},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       0},
 
 		// "Edges",
 		// ArrayValue(
 		8: {Id: 8, MapValues: map[string]int{"0": 9, "1": 12},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       7},
 
 		// ArrayValue("state1 name1", "state1 name2")
 		9: {Id: 9, MapValues: map[string]int{"0": 10, "1": 11},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       8},
 		10: {Id: 10, StringValue: "state1 name1",
-			TypeValueSet: "StringValue"},
+			TypeValueSet: "StringValue",
+			Parent:       9},
 		11: {Id: 11, StringValue: "state1 name2",
-			TypeValueSet: "StringValue"},
+			TypeValueSet: "StringValue",
+			Parent:       9},
 
 		// ArrayValue("state2 name1", "state2 name2"))
 		12: {Id: 12, MapValues: map[string]int{"0": 13, "1": 14},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       8},
 		13: {Id: 13, StringValue: "state2 name1",
-			TypeValueSet: "StringValue"},
+			TypeValueSet: "StringValue",
+			Parent:       12},
 		14: {Id: 14, StringValue: "state2 name2",
-			TypeValueSet: "StringValue"},
+			TypeValueSet: "StringValue",
+			Parent:       12},
 
 		// "AreParallel", "true")
 		15: {Id: 15, BoolValue: true,
-			TypeValueSet: "BoolValue"},
+			TypeValueSet: "BoolValue",
+			Parent:       7},
 
 		/////////
 
@@ -795,32 +811,41 @@ func TestStateExistance(t *testing.T) {
 		// "Next",
 		// CollectMaps(
 		16: {Id: 16, MapValues: map[string]int{"AreParallel": 24, "Edges": 17},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       0},
 
 		// "Edges",
 		// ArrayValue(
 		17: {Id: 17, MapValues: map[string]int{"0": 18, "1": 21},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       16},
 
 		// ArrayValue("state1 name1", "state1 name2")
 		18: {Id: 18, MapValues: map[string]int{"0": 19, "1": 20},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       17},
 		19: {Id: 19, StringValue: "state1 name1",
-			TypeValueSet: "StringValue"},
+			TypeValueSet: "StringValue",
+			Parent:       18},
 		20: {Id: 20, StringValue: "state1 name2",
-			TypeValueSet: "StringValue"},
+			TypeValueSet: "StringValue",
+			Parent:       18},
 
 		// ArrayValue("state2 name1", "state2 name2"))
 		21: {Id: 21, MapValues: map[string]int{"0": 22, "1": 23},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       17},
 		22: {Id: 22, StringValue: "state2 name1",
-			TypeValueSet: "StringValue"},
+			TypeValueSet: "StringValue",
+			Parent:       21},
 		23: {Id: 23, StringValue: "state2 name2",
-			TypeValueSet: "StringValue"},
+			TypeValueSet: "StringValue",
+			Parent:       21},
 
 		// "AreParallel", "true")
 		24: {Id: 24, BoolValue: true,
-			TypeValueSet: "BoolValue"},
+			TypeValueSet: "BoolValue",
+			Parent:       16},
 
 		// "Values",
 		// CollectMaps(
@@ -828,32 +853,39 @@ func TestStateExistance(t *testing.T) {
 			"drinkOrder":   26,
 			"orderQueue":   27,
 			"outputBuffer": 28},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       0},
 
 		// "drinkOrder", ArrayValue()
 		26: {Id: 26, MapValues: map[string]int{},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       25},
 
 		// "orderQueue", ArrayValue()
 		27: {Id: 27, MapValues: map[string]int{},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       25},
 
 		// "outputBuffer", ArrayValue()
 		28: {Id: 28, MapValues: map[string]int{},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       25},
 
 		// "LockedByStates",
 		// CollectMaps(
 		29: {Id: 29, MapValues: map[string]int{"11": 30},
-			TypeValueSet: "MapValues"},
+			TypeValueSet: "MapValues",
+			Parent:       0},
 
 		// "11", "true"),
 		30: {Id: 30, BoolValue: true,
-			TypeValueSet: "BoolValue"},
+			TypeValueSet: "BoolValue",
+			Parent:       29},
 
 		// "LockedByStatesCount", "1"
 		31: {Id: 31, IntValue: 1,
-			TypeValueSet: "IntValue"},
+			TypeValueSet: "IntValue",
+			Parent:       0},
 	}
 
 	got :=
