@@ -371,8 +371,44 @@ func (g *Graph) TrieTreeInit() {
 
 }
 
-func (g *Graph) DoubleLinkListAdd(strings []string, id int) (lastAtomNodeId int) {
+func (g *Graph) DoubleLinkListKeysAdd(strings []string, startId int) (lastAtomNodeId int) {
 
+	idsFound := g.GetAtom2(startId, strings)
+	if len(idsFound) < len(strings) {
+		return startId
+	}
+
+	pathLength := len(idsFound)
+	newIds := []int{}
+	length := len(g.Atoms)
+	remainingPath := []string{}
+	remainingPathLength := len(strings) - pathLength
+	for i := 0; i < remainingPathLength; i++ {
+		newIds = append(newIds, length+i)
+		remainingPath = append(remainingPath, strings[pathLength+i])
+	}
+	id := idsFound[len(idsFound)-1]
+	g.Atoms[id].MapValues[strings[pathLength]] = newIds[0]
+
+	for j := len(newIds) - 1; j >= 0; j-- {
+
+	}
+	for j := 0; j < len(newIds); j++ {
+		if remainingPath[j] != "id" {
+			g.Atoms[newIds[j]] = Atom{
+				Id:           newIds[j],
+				MapValues:    map[string]int{remainingPath[j]: newIds[j+1]},
+				TypeValueSet: "MapValues",
+			}
+		} else {
+			g.Atoms[newIds[j]] = Atom{
+				Id:           newIds[j],
+				IntValue:     len(g.Atoms), // Add state right after TrieTreeAdd is done
+				TypeValueSet: "IntValue",
+			}
+		}
+
+	}
 	return 0
 }
 
