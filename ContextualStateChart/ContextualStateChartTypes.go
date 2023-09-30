@@ -379,26 +379,32 @@ func (g *Graph) DoubleLinkListKeysAdd(strings []string, startId int) (lastAtomNo
 	}
 
 	pathLength := len(idsFound)
+	length := len(g.Atoms)
 	remainingPath := []string{}
 	remainingPathLength := len(strings) - pathLength
 	for i := 0; i < remainingPathLength; i++ {
 		remainingPath = append(remainingPath, strings[pathLength+i])
 	}
 	id := idsFound[len(idsFound)-1]
-	g.Atoms[id].MapValues[strings[pathLength]] = len(g.Atoms)
-
-	if remainingPathLength == 1 {
-
-	}
+	g.Atoms[id].MapValues[strings[pathLength]] = length
 	lastString := strings[len(strings)-1]
 	secondToLastString := strings[len(strings)-2]
+
+	if remainingPathLength == 1 {
+		g.Atoms[length] = Atom{
+			Id:           length,
+			MapValues:    map[string]int{lastString: length + 1},
+			TypeValueSet: "MapValues",
+			Parent:       id,
+		}
+	}
 
 	mapList := CollectMaps(secondToLastString, lastString)
 
 	for j := remainingPathLength; j >= 0; j-- {
 		mapList = CollectMaps(mapList, strings[j])
 	}
-
+	g.AddState(mapList)
 	return 0
 }
 
