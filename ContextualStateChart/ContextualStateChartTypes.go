@@ -371,8 +371,9 @@ func (g *Graph) TrieTreeInit() {
 
 }
 
-func DoubleLinkTreeAdd() {
+func (g *Graph) DoubleLinkListAdd(strings []string, id int) (lastAtomNodeId int) {
 
+	return 0
 }
 
 func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId int) {
