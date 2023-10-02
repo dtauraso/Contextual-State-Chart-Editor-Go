@@ -1003,7 +1003,7 @@ func TestAddStates(t *testing.T) {
 		myGraph := Graph{Atoms: map[int]Atom{}}
 		firstIdWant := 0
 
-		firstIdGot := myGraph.AddState(ArrayValue("I am a test", "StarbucksMachine"))
+		firstIdGot := myGraph.AddAtoms(ArrayValue("I am a test", "StarbucksMachine"))
 
 		if firstIdWant != firstIdGot {
 			t.Fatalf("wanted %v, got %v", firstIdWant, firstIdGot)
@@ -1015,8 +1015,8 @@ func TestAddStates(t *testing.T) {
 		firstIdWant := 4
 
 		firstGraph := ArrayValue("I am a test", "StarbucksMachine", "test")
-		myGraph.AddState(firstGraph)
-		firstIdGot := myGraph.AddState(ArrayValue("I am a test", "StarbucksMachine"))
+		myGraph.AddAtoms(firstGraph)
+		firstIdGot := myGraph.AddAtoms(ArrayValue("I am a test", "StarbucksMachine"))
 
 		if firstIdWant != firstIdGot {
 			t.Fatalf("wanted %v, got %v", firstIdWant, firstIdGot)
@@ -1149,7 +1149,19 @@ func TestDoubleLinkListKeysAdd(t *testing.T) {
 		want := 4
 
 		got := myGraph.DoubleLinkListKeysAdd([]string{"test1", "test2", "test4", "test5"}, 0)
+		/*
+			0:{0 false 0  map[test4:1] MapValues -1}
+			1:{1 false 0  map[test4:2] MapValues 0}
+			2:{2 false 0 test5 map[] StringValue 1}
 
+			0:{0 false 0  map[test1:1]  -1}
+			1:{1 false 0  map[test2:2 test4:4]  0}
+			2:{2 false 0 test3 map[]  1}
+			3:{3 false 0  map[test4:4] MapValues 1}
+			4:{4 false 0  map[test4:5] MapValues 0}
+			5:{5 false 0  map[test4:6] MapValues 4}
+			6:{6 false 0 test5 map[] StringValue 5}
+		*/
 		fmt.Println(myGraph)
 		if want != got {
 			t.Fatalf("wanted %v, got %v", want, got)

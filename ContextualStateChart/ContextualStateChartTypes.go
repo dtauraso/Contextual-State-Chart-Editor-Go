@@ -110,6 +110,7 @@ func SaveString(s map[int]Atom, key int, newString string) {
 }
 func addAtoms(atoms, newAtoms map[int]Atom, newIndex int) map[int]Atom {
 
+	// assumes addEntries is the caller
 	// visiting keys in ascending order for offset formula to work
 	firstNewIndex := newIndex
 	// first newAtom is parent
@@ -150,6 +151,7 @@ func addEntries(
 	valueIndex func(int) int,
 	elements ...any) (Atoms map[int]Atom) {
 
+	// designed to be used only with nested CollectMaps and ArrayValue
 	mapValues := make(map[string]int)
 	atoms := make(map[int]Atom)
 
@@ -270,7 +272,7 @@ func (s *Graph) GetVariable(variableName string) Atom {
 }
 
 func (g *Graph) InitGraph() {
-	g.AddState(
+	g.AddAtoms(
 		CollectMaps(DATA_STRUCTURE_IDS, CollectMaps()))
 }
 func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) (stateId int) {
@@ -279,7 +281,7 @@ func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) (stateId int) {
 
 }
 
-func (g *Graph) AddState(state map[int]Atom) (stateId int) {
+func (g *Graph) AddAtoms(state map[int]Atom) (stateId int) {
 	// state keys are[0, len(states))
 	if len(g.Atoms) == 0 {
 		return g.AddStateHelper(state, 0)
@@ -400,14 +402,16 @@ func (g *Graph) DoubleLinkListKeysAdd(path []string, startId int) (lastAtomNodeI
 		}
 		return length
 	}
-
+	// have no way to append a generated map to an already made map with a without messing up the
+	// parent links
 	mapList := CollectMaps(secondToLastString, lastString)
 
 	for j := remainingPathLength; j >= foundPathLength; j-- {
 		mapList = CollectMaps(path[j], mapList)
 	}
-
-	g.AddState(mapList)
+	fmt.Println(mapList)
+	// g.Atoms = ArrayValue(g.Atoms, mapList)
+	g.AddAtoms(mapList)
 	return length + remainingPathLength
 }
 
