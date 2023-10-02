@@ -275,18 +275,18 @@ func (g *Graph) InitGraph() {
 	g.AddAtoms(
 		CollectMaps(DATA_STRUCTURE_IDS, CollectMaps()))
 }
-func (g *Graph) AddStateHelper(state map[int]Atom, newIndex int) (stateId int) {
-	g.Atoms = addAtoms(g.Atoms, state, newIndex)
-	return len(g.Atoms) - len(state)
+func (g *Graph) AddAtomsHelper(atoms map[int]Atom, newIndex int) (stateId int) {
+	g.Atoms = addAtoms(g.Atoms, atoms, newIndex)
+	return len(g.Atoms) - len(atoms)
 
 }
 
-func (g *Graph) AddAtoms(state map[int]Atom) (stateId int) {
+func (g *Graph) AddAtoms(atoms map[int]Atom) (stateId int) {
 	// state keys are[0, len(states))
 	if len(g.Atoms) == 0 {
-		return g.AddStateHelper(state, 0)
+		return g.AddAtomsHelper(atoms, 0)
 	}
-	return g.AddStateHelper(state, len(g.Atoms))
+	return g.AddAtomsHelper(atoms, len(g.Atoms))
 }
 
 const (
@@ -304,7 +304,7 @@ func (g *Graph) GetAtom2(startAtom int, path []string) (idsFound []int) {
 		if !ok {
 			return idsFound
 		}
-		idsFound = append(idsFound, tracker)
+		idsFound = append(idsFound, nextEdge)
 		tracker = nextEdge
 	}
 	return idsFound
@@ -380,7 +380,7 @@ func (g *Graph) DoubleLinkListKeysAdd(path []string, startId int) (lastAtomNodeI
 	pathLength := len(path)
 	// fmt.Println(path, startId, idsFound)
 
-	if len(idsFound) == 0 {
+	if pathLength > foundPathLength || len(idsFound) == 0 {
 		return startId
 	}
 	length := len(g.Atoms)
