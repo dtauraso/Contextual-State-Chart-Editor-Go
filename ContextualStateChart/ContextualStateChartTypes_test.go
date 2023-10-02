@@ -3,6 +3,7 @@ package ContextualStateChartTypes
 import (
 	// "fmt"
 	// "errors"
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -1114,47 +1115,42 @@ func TestUpdateAtom(t *testing.T) {
 }
 
 func TestDoubleLinkListKeysAdd(t *testing.T) {
-	// myGraph := Graph{
-	// 	Atoms: map[int]Atom{
-	// 		0: {
-	// 			Id:        0,
-	// 			MapValues: map[string]int{"test1": 1},
-	// 		},
-	// 		1: {
-	// 			Id:        1,
-	// 			MapValues: map[string]int{"test2": 2},
-	// 		},
-	// 		2: {
-	// 			Id:        2,
-	// 			MapValues: map[string]int{"test3": 3},
-	// 		},
-	// 		3: {
-	// 			Id:          3,
-	// 			StringValue: "test4",
-	// 		},
-	// 	},
-	// }
-
-	t.Run("Add 1 item", func(t *testing.T) {
-		want := 3
-		newGraph := Graph{
-			Atoms: map[int]Atom{
-				0: {
-					Id:        0,
-					MapValues: map[string]int{"test1": 1},
-				},
-				1: {
-					Id:        1,
-					MapValues: map[string]int{"test2": 2},
-				},
-				2: {
-					Id:        2,
-					MapValues: map[string]int{"test3": 3},
-				},
+	myGraph := Graph{
+		Atoms: map[int]Atom{
+			0: {
+				Id:        0,
+				MapValues: map[string]int{"test1": 1},
+				Parent:    -1,
 			},
+			1: {
+				Id:        1,
+				MapValues: map[string]int{"test2": 2},
+				Parent:    0,
+			},
+			2: {
+				Id:          2,
+				StringValue: "test3",
+				Parent:      1,
+			},
+		},
+	}
+
+	t.Run("Add 1 key", func(t *testing.T) {
+		want := 3
+
+		got := myGraph.DoubleLinkListKeysAdd([]string{"test1", "test2", "test4"}, 0)
+
+		if want != got {
+			t.Fatalf("wanted %v, got %v", want, got)
 		}
 
-		got := newGraph.DoubleLinkListKeysAdd([]string{"test1", "test2", "test3", "test4"}, 0)
+	})
+	t.Run("Add 2 keys", func(t *testing.T) {
+		want := 4
+
+		got := myGraph.DoubleLinkListKeysAdd([]string{"test1", "test2", "test4", "test5"}, 0)
+
+		fmt.Println(myGraph)
 		if want != got {
 			t.Fatalf("wanted %v, got %v", want, got)
 		}

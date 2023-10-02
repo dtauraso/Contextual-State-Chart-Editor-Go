@@ -302,7 +302,7 @@ func (g *Graph) GetAtom2(startAtom int, path []string) (idsFound []int) {
 		if !ok {
 			return idsFound
 		}
-		idsFound = append(idsFound, nextEdge)
+		idsFound = append(idsFound, tracker)
 		tracker = nextEdge
 	}
 	return idsFound
@@ -376,7 +376,7 @@ func (g *Graph) DoubleLinkListKeysAdd(path []string, startId int) (lastAtomNodeI
 	idsFound := g.GetAtom2(startId, path)
 	foundPathLength := len(idsFound)
 	pathLength := len(path)
-	fmt.Println(path, startId, idsFound)
+	// fmt.Println(path, startId, idsFound)
 
 	if len(idsFound) == 0 {
 		return startId
@@ -385,6 +385,7 @@ func (g *Graph) DoubleLinkListKeysAdd(path []string, startId int) (lastAtomNodeI
 	remainingPathLength := pathLength - foundPathLength
 
 	id := idsFound[foundPathLength-1]
+	// fmt.Println(id)
 	// first atom added using CollectMaps is expected to have id = len(g.Atoms)
 	g.Atoms[id].MapValues[path[foundPathLength]] = length
 	lastString := path[pathLength-1]
@@ -405,6 +406,7 @@ func (g *Graph) DoubleLinkListKeysAdd(path []string, startId int) (lastAtomNodeI
 	for j := remainingPathLength; j >= foundPathLength; j-- {
 		mapList = CollectMaps(path[j], mapList)
 	}
+
 	g.AddState(mapList)
 	return length + remainingPathLength
 }
