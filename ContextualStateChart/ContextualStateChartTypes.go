@@ -371,24 +371,23 @@ func (g *Graph) TrieTreeInit() {
 
 }
 
-func (g *Graph) DoubleLinkListKeysAdd(strings []string, startId int) (lastAtomNodeId int) {
+func (g *Graph) DoubleLinkListKeysAdd(path []string, startId int) (lastAtomNodeId int) {
 
-	idsFound := g.GetAtom2(startId, strings)
-	if len(idsFound) < len(strings) || len(idsFound) == 0 {
+	idsFound := g.GetAtom2(startId, path)
+	foundPathLength := len(idsFound)
+	pathLength := len(path)
+	if foundPathLength < pathLength || len(idsFound) == 0 {
 		return startId
 	}
 
-	pathLength := len(idsFound)
 	length := len(g.Atoms)
-	remainingPath := []string{}
-	remainingPathLength := len(strings) - pathLength
-	for i := 0; i < remainingPathLength; i++ {
-		remainingPath = append(remainingPath, strings[pathLength+i])
-	}
-	id := idsFound[len(idsFound)-1]
-	g.Atoms[id].MapValues[strings[pathLength]] = length
-	lastString := strings[len(strings)-1]
-	secondToLastString := strings[len(strings)-2]
+	remainingPathLength := pathLength - foundPathLength
+
+	id := idsFound[foundPathLength-1]
+	// first atom added using CollectMaps is expected to have id = len(g.Atoms)
+	g.Atoms[id].MapValues[path[foundPathLength]] = length
+	lastString := path[pathLength-1]
+	secondToLastString := path[pathLength-2]
 
 	if remainingPathLength == 1 {
 		g.Atoms[length] = Atom{
@@ -397,15 +396,16 @@ func (g *Graph) DoubleLinkListKeysAdd(strings []string, startId int) (lastAtomNo
 			TypeValueSet: "MapValues",
 			Parent:       id,
 		}
+		return length
 	}
 
 	mapList := CollectMaps(secondToLastString, lastString)
 
-	for j := remainingPathLength; j >= 0; j-- {
-		mapList = CollectMaps(mapList, strings[j])
+	for j := remainingPathLength; j >= foundPathLength; j-- {
+		mapList = CollectMaps(path[j], mapList)
 	}
 	g.AddState(mapList)
-	return 0
+	return length + remainingPathLength
 }
 
 func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId int) {
