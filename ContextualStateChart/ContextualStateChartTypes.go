@@ -376,10 +376,11 @@ func (g *Graph) DoubleLinkListKeysAdd(path []string, startId int) (lastAtomNodeI
 	idsFound := g.GetAtom2(startId, path)
 	foundPathLength := len(idsFound)
 	pathLength := len(path)
-	if foundPathLength < pathLength || len(idsFound) == 0 {
+	fmt.Println(path, startId, idsFound)
+
+	if len(idsFound) == 0 {
 		return startId
 	}
-
 	length := len(g.Atoms)
 	remainingPathLength := pathLength - foundPathLength
 

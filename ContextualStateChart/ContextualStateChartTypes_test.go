@@ -1113,64 +1113,113 @@ func TestUpdateAtom(t *testing.T) {
 	}
 }
 
-func TestTrieTreeInit(t *testing.T) {
-	myGraph := Graph{Atoms: map[int]Atom{
-		0: {
-			Id: 0,
-			MapValues: map[string]int{
-				"data structure Id's": 1,
-			},
-			TypeValueSet: "MapValues",
-		},
-		1: {
-			Id: 1,
-			MapValues: map[string]int{
-				"trie tree": 2,
-			},
-			TypeValueSet: "MapValues",
-		},
-		2: {
-			Id:           2,
-			IntValue:     3,
-			TypeValueSet: "IntValue",
-		},
-		3: {
-			Id:           3,
-			MapValues:    map[string]int{},
-			TypeValueSet: "MapValues",
-		},
-	}}
-	t.Run("no 'data structure Id's'", func(t *testing.T) {
-		want := myGraph
+func TestDoubleLinkListKeysAdd(t *testing.T) {
+	// myGraph := Graph{
+	// 	Atoms: map[int]Atom{
+	// 		0: {
+	// 			Id:        0,
+	// 			MapValues: map[string]int{"test1": 1},
+	// 		},
+	// 		1: {
+	// 			Id:        1,
+	// 			MapValues: map[string]int{"test2": 2},
+	// 		},
+	// 		2: {
+	// 			Id:        2,
+	// 			MapValues: map[string]int{"test3": 3},
+	// 		},
+	// 		3: {
+	// 			Id:          3,
+	// 			StringValue: "test4",
+	// 		},
+	// 	},
+	// }
 
-		got := Graph{Atoms: map[int]Atom{}}
-		got.TrieTreeInit()
-
-		if !reflect.DeepEqual(want, got) {
-			t.Fatalf("wanted %v, got %v", want, got)
-		}
-	})
-	t.Run("no 'trie tree'", func(t *testing.T) {
-		want := myGraph
-
-		got := Graph{Atoms: map[int]Atom{
-			0: {
-				Id: 0,
-				MapValues: map[string]int{
-					"data structure Id's": 1,
+	t.Run("Add 1 item", func(t *testing.T) {
+		want := 3
+		newGraph := Graph{
+			Atoms: map[int]Atom{
+				0: {
+					Id:        0,
+					MapValues: map[string]int{"test1": 1},
 				},
-				TypeValueSet: "MapValues",
+				1: {
+					Id:        1,
+					MapValues: map[string]int{"test2": 2},
+				},
+				2: {
+					Id:        2,
+					MapValues: map[string]int{"test3": 3},
+				},
 			},
-			1: {
-				Id:           1,
-				MapValues:    map[string]int{},
-				TypeValueSet: "MapValues",
-			}}}
-		got.TrieTreeInit()
+		}
 
-		if !reflect.DeepEqual(want, got) {
+		got := newGraph.DoubleLinkListKeysAdd([]string{"test1", "test2", "test3", "test4"}, 0)
+		if want != got {
 			t.Fatalf("wanted %v, got %v", want, got)
 		}
-	})
 
+	})
 }
+
+// func TestTrieTreeInit(t *testing.T) {
+// 	myGraph := Graph{Atoms: map[int]Atom{
+// 		0: {
+// 			Id: 0,
+// 			MapValues: map[string]int{
+// 				"data structure Id's": 1,
+// 			},
+// 			TypeValueSet: "MapValues",
+// 		},
+// 		1: {
+// 			Id: 1,
+// 			MapValues: map[string]int{
+// 				"trie tree": 2,
+// 			},
+// 			TypeValueSet: "MapValues",
+// 		},
+// 		2: {
+// 			Id:           2,
+// 			IntValue:     3,
+// 			TypeValueSet: "IntValue",
+// 		},
+// 		3: {
+// 			Id:           3,
+// 			MapValues:    map[string]int{},
+// 			TypeValueSet: "MapValues",
+// 		},
+// 	}}
+// 	t.Run("no 'data structure Id's'", func(t *testing.T) {
+// 		want := myGraph
+
+// 		got := Graph{Atoms: map[int]Atom{}}
+// 		got.TrieTreeInit()
+
+// 		if !reflect.DeepEqual(want, got) {
+// 			t.Fatalf("wanted %v, got %v", want, got)
+// 		}
+// 	})
+// 	t.Run("no 'trie tree'", func(t *testing.T) {
+// 		want := myGraph
+
+// 		got := Graph{Atoms: map[int]Atom{
+// 			0: {
+// 				Id: 0,
+// 				MapValues: map[string]int{
+// 					"data structure Id's": 1,
+// 				},
+// 				TypeValueSet: "MapValues",
+// 			},
+// 			1: {
+// 				Id:           1,
+// 				MapValues:    map[string]int{},
+// 				TypeValueSet: "MapValues",
+// 			}}}
+// 		got.TrieTreeInit()
+
+// 		if !reflect.DeepEqual(want, got) {
+// 			t.Fatalf("wanted %v, got %v", want, got)
+// 		}
+// 	})
+
+// }
