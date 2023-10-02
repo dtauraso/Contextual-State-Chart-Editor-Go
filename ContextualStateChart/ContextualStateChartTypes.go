@@ -161,6 +161,7 @@ func addEntries(
 		mapValues[myString] = j
 
 		myElement := elements[valueIndex(i)]
+		// assumes value is primitive unless value is of type map[int]Atom
 		myBoolValue, okBoolValue := myElement.(bool)
 		myIntValue, okIntValue := myElement.(int)
 		myStringValue, okStringValue := myElement.(string)
@@ -373,7 +374,7 @@ func (g *Graph) TrieTreeInit() {
 
 }
 
-func (g *Graph) DoubleLinkListKeysAdd(path []string, startId int) (lastAtomNodeId int) {
+func (g *Graph) DoubleLinkListKeysValueAdd(path []string, startId int) (lastAtomNodeId int) {
 
 	idsFound := g.GetAtom2(startId, path)
 	foundPathLength := len(idsFound)
