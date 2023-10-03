@@ -1138,7 +1138,7 @@ func TestDoubleLinkListKeysAdd(t *testing.T) {
 	t.Run("Add 1 key", func(t *testing.T) {
 		want := 3
 
-		got := myGraph.DoubleLinkListKeysValueAdd([]string{"test1", "test2", "test4"}, 0)
+		got := myGraph.DoubleLinkListKeysValueAdd(0, "test1", "test2", "test4")
 
 		if want != got {
 			t.Fatalf("wanted %v, got %v", want, got)
@@ -1148,7 +1148,7 @@ func TestDoubleLinkListKeysAdd(t *testing.T) {
 	t.Run("Add 2 keys", func(t *testing.T) {
 		want := 4
 
-		got := myGraph.DoubleLinkListKeysValueAdd([]string{"test1", "test2", "test4", "test5"}, 0)
+		got := myGraph.DoubleLinkListKeysValueAdd(0, "test1", "test2", "test4", "test5")
 		/*
 			0:{0 false 0  map[test4:1] MapValues -1}
 			1:{1 false 0  map[test4:2] MapValues 0}

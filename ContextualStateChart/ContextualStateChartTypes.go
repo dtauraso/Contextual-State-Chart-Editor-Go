@@ -374,8 +374,27 @@ func (g *Graph) TrieTreeInit() {
 
 }
 
-func (g *Graph) DoubleLinkListKeysValueAdd(path []string, startId int) (lastAtomNodeId int) {
+func validatePath(path ...any) bool {
 
+	for i := 0; i < len(path)-1; i++ {
+		_, ok := path[i].(string)
+		if !ok {
+			return false
+		}
+	}
+	lastItem := path[len(path)-1]
+	_, okBool := lastItem.(bool)
+	_, okInt := lastItem.(int)
+	_, okString := lastItem.(string)
+
+	return okBool || okInt || okString
+
+}
+func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNodeId int) {
+
+	if !validatePath(path...) {
+		return startId
+	}
 	idsFound := g.GetAtom2(startId, path)
 	foundPathLength := len(idsFound)
 	pathLength := len(path)
