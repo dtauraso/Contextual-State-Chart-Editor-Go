@@ -395,7 +395,12 @@ func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNo
 	if !validatePath(path...) {
 		return startId
 	}
-	idsFound := g.GetAtom2(startId, path)
+
+	stringPath := []string{}
+	for i := 0; i < len(path)-1; i++ {
+		stringPath = append(stringPath, path[i].(string))
+	}
+	idsFound := g.GetAtom2(startId, stringPath)
 	foundPathLength := len(idsFound)
 	pathLength := len(path)
 	// fmt.Println(path, startId, idsFound)
