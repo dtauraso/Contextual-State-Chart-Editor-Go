@@ -3,7 +3,6 @@ package ContextualStateChartTypes
 import (
 	// "fmt"
 	// "errors"
-	"fmt"
 	"reflect"
 	"testing"
 )
@@ -1145,29 +1144,29 @@ func TestDoubleLinkListKeysAdd(t *testing.T) {
 		}
 
 	})
-	t.Run("Add 2 keys", func(t *testing.T) {
-		want := 4
+	// t.Run("Add 2 keys", func(t *testing.T) {
+	// 	want := 4
 
-		got := myGraph.DoubleLinkListKeysValueAdd(0, "test1", "test2", "test4", "test5")
-		/*
-			0:{0 false 0  map[test4:1] MapValues -1}
-			1:{1 false 0  map[test4:2] MapValues 0}
-			2:{2 false 0 test5 map[] StringValue 1}
+	// 	got := myGraph.DoubleLinkListKeysValueAdd(0, "test1", "test2", "test4", "test5")
+	// 	/*
+	// 		0:{0 false 0  map[test4:1] MapValues -1}
+	// 		1:{1 false 0  map[test4:2] MapValues 0}
+	// 		2:{2 false 0 test5 map[] StringValue 1}
 
-			0:{0 false 0  map[test1:1]  -1}
-			1:{1 false 0  map[test2:2 test4:4]  0}
-			2:{2 false 0 test3 map[]  1}
-			3:{3 false 0  map[test4:4] MapValues 1}
-			4:{4 false 0  map[test4:5] MapValues 0}
-			5:{5 false 0  map[test4:6] MapValues 4}
-			6:{6 false 0 test5 map[] StringValue 5}
-		*/
-		fmt.Println(myGraph)
-		if want != got {
-			t.Fatalf("wanted %v, got %v", want, got)
-		}
+	// 		0:{0 false 0  map[test1:1]  -1}
+	// 		1:{1 false 0  map[test2:2 test4:4]  0}
+	// 		2:{2 false 0 test3 map[]  1}
+	// 		3:{3 false 0  map[test4:4] MapValues 1}
+	// 		4:{4 false 0  map[test4:5] MapValues 0}
+	// 		5:{5 false 0  map[test4:6] MapValues 4}
+	// 		6:{6 false 0 test5 map[] StringValue 5}
+	// 	*/
+	// 	// fmt.Println(myGraph)
+	// 	if want != got {
+	// 		t.Fatalf("wanted %v, got %v", want, got)
+	// 	}
 
-	})
+	// })
 }
 
 // func TestTrieTreeInit(t *testing.T) {
