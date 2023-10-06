@@ -401,9 +401,11 @@ func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNo
 		stringPath = append(stringPath, path[i].(string))
 	}
 	idsFound := g.GetAtom2(startId, stringPath)
+	// match
 	if len(idsFound) == len(path) {
 		return startId
 	}
+	// path was not found
 	if len(idsFound) == 0 {
 		return startId
 	}
@@ -414,16 +416,16 @@ func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNo
 	lastId := idsFound[foundPathLength]
 	var lastBranchId int
 	lastAtom := g.Atoms[lastId]
+	// last atom is leaf
 	if lastAtom.TypeValueSet != "MapValues" && lastAtom.TypeValueSet != "ArrayValues" {
-		// atom is leaf
+		// path started at leaf
 		if len(idsFound) == 1 {
-			// path started at leaf
 			return startId
 		}
-		lastBranchId = idsFound[foundPathLength-1]
+		lastBranchId = idsFound[foundPathLength-2]
 	}
+	// last atom is branch
 	if lastAtom.TypeValueSet == "MapValues" || lastAtom.TypeValueSet == "ArrayValues" {
-		// atom is branch
 		lastBranchId = lastId
 	}
 	// fmt.Println(path, startId, idsFound)
