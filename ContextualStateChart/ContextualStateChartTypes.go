@@ -296,11 +296,11 @@ const (
 	FOUND       = 2
 )
 
-func (g *Graph) GetAtom2(startAtom int, path []string) (idsFound []int) {
+func (g *Graph) GetAtom2(startAtom int, keys []string) (idsFound []int) {
 
 	tracker := startAtom
-	for i := 0; i < len(path); i++ {
-		currentBranch := path[i]
+	for i := 0; i < len(keys); i++ {
+		currentBranch := keys[i]
 		nextEdge, ok := g.Atoms[tracker].MapValues[currentBranch]
 		if !ok {
 			return idsFound
