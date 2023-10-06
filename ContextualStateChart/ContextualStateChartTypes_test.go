@@ -1122,14 +1122,9 @@ func TestDoubleLinkListKeysAdd(t *testing.T) {
 				Parent:    -1,
 			},
 			1: {
-				Id:        1,
-				MapValues: map[string]int{"test2": 2},
-				Parent:    0,
-			},
-			2: {
-				Id:          2,
-				StringValue: "test3",
-				Parent:      1,
+				Id:          1,
+				StringValue: "test2",
+				Parent:      0,
 			},
 		},
 	}
@@ -1137,7 +1132,7 @@ func TestDoubleLinkListKeysAdd(t *testing.T) {
 	t.Run("Add 1 key", func(t *testing.T) {
 		want := 3
 
-		got := myGraph.DoubleLinkListKeysValueAdd(0, "test1", "test2", "test4")
+		got := myGraph.DoubleLinkListKeysValueAdd(0, "test1", "test3")
 
 		if want != got {
 			t.Fatalf("wanted %v, got %v", want, got)
