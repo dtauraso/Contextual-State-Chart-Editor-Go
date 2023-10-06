@@ -18,3 +18,12 @@ if the first nodeName matches the next item in input keep matching till entire p
 if first matches but doesn't get all the way through the graph it's a new path(starts with first match and ends at first mismatch) added onto the end.
 
 github.com/nsf/jsondiff
+
+1 = cycle
+0 = no cycle
+
+binary representation of cycles and their positions in graph
+
+
+1's match count(111110011111 & 111110001111) / 1's count(111110011111 | 111110001111) >= .9
+1+1+1+1+1+1+1+1+1/ 10 = 9/10

@@ -404,7 +404,8 @@ func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNo
 	}
 
 	idsFound := g.GetAtom2(startId, keys)
-	// match
+	// what if the value at last id is not the same as last id of path
+	// keys only match
 	if len(idsFound) == len(path)-1 {
 		return startId
 	}
