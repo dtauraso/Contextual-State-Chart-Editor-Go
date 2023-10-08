@@ -390,8 +390,28 @@ func validatePath(path ...any) bool {
 	return okBool || okInt || okString
 
 }
+
+func comparePrimitives(value any, a Atom) bool {
+
+	_, okBool := value.(bool)
+	_, okInt := value.(int)
+	_, okString := value.(string)
+
+	typeName1 := a1.TypeValueSet
+	typeName2 := a2.TypeValueSet
+
+	if typeName1 == "BoolValue" && typeName2 == "BoolValue" {
+		return a1.BoolValue == a2.BoolValue
+	} else if typeName1 == "IntValue" && typeName2 == "IntValue" {
+		return a1.IntValue == a2.IntValue
+	} else if typeName1 == "StringValue" && typeName2 == "StringValue" {
+		return a1.StringValue == a2.StringValue
+	}
+
+}
 func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNodeId int) {
 
+	// value can be bool, int, or string
 	if !validatePath(path...) {
 		return startId
 	}
@@ -399,14 +419,15 @@ func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNo
 		return startId
 	}
 	keys := []string{}
-	for i := 0; i < len(path)-1; i++ {
+	valueLocation := len(path) - 1
+	for i := 0; i < valueLocation; i++ {
 		keys = append(keys, path[i].(string))
 	}
 
 	idsFound := g.GetAtom2(startId, keys)
-	// what if the value at last id is not the same as last id of path
+
 	// keys only match
-	if len(idsFound) == len(path)-1 {
+	if len(idsFound) == len(path)-2 {
 		return startId
 	}
 	// path was not found
