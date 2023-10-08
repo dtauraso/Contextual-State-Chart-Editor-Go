@@ -391,7 +391,7 @@ func validatePath(path ...any) bool {
 
 }
 
-func comparePrimitives(value any, a Atom) bool {
+func arePrimitivesEqual(value any, a Atom) bool {
 
 	valueBool, okBool := value.(bool)
 	valueInt, okInt := value.(int)
