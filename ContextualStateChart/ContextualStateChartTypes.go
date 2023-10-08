@@ -393,20 +393,20 @@ func validatePath(path ...any) bool {
 
 func comparePrimitives(value any, a Atom) bool {
 
-	_, okBool := value.(bool)
-	_, okInt := value.(int)
-	_, okString := value.(string)
+	valueBool, okBool := value.(bool)
+	valueInt, okInt := value.(int)
+	valueString, okString := value.(string)
 
-	typeName1 := a1.TypeValueSet
-	typeName2 := a2.TypeValueSet
+	typeName := a.TypeValueSet
 
-	if typeName1 == "BoolValue" && typeName2 == "BoolValue" {
-		return a1.BoolValue == a2.BoolValue
-	} else if typeName1 == "IntValue" && typeName2 == "IntValue" {
-		return a1.IntValue == a2.IntValue
-	} else if typeName1 == "StringValue" && typeName2 == "StringValue" {
-		return a1.StringValue == a2.StringValue
+	if okBool && typeName == "BoolValue" {
+		return valueBool == a.BoolValue
+	} else if okInt && typeName == "IntValue" {
+		return valueInt == a.IntValue
+	} else if okString && typeName == "StringValue" {
+		return valueString == a.StringValue
 	}
+	return false
 
 }
 func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNodeId int) {
