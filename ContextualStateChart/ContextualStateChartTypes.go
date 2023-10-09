@@ -426,9 +426,26 @@ func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNo
 
 	idsFound := g.GetAtom2(startId, keys)
 
-	// keys only match
-	if len(idsFound) == len(path)-2 {
-		return startId
+	idsFoundLength := len(idsFound)
+	parentLocation := 0
+
+	if idsFoundLength == 0 {
+
+	} else if idsFoundLength == 1 {
+
+	}
+
+	arePrimitivesEqual := arePrimitivesEqual(
+		path[valueLocation],
+		g.Atoms[idsFound[idsFoundLength-1]])
+	areKeysEqual := idsFoundLength == len(path)-2
+	// check keys and value for match
+	// keys match
+	if areKeysEqual {
+		// values match
+		if arePrimitivesEqual {
+			return startId
+		}
 	}
 	// path was not found
 	if len(idsFound) == 0 {
