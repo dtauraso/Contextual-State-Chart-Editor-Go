@@ -87,6 +87,12 @@ func (a *Atom) CloneWithOffset(j, childOffset, parentOffset int) (atomClone Atom
 	return Atom{}
 }
 
+func (a Atom) IsLeaf() bool {
+	return a.TypeValueSet == "BoolValue" ||
+		a.TypeValueSet == "IntValue" ||
+		a.TypeValueSet == "StringValue"
+}
+
 type AtomChan struct {
 	Id           int            `json:"Id"`
 	BoolValue    bool           `json:"BoolValue,omitempty"`
@@ -276,6 +282,7 @@ func (g *Graph) InitGraph() {
 	g.AddAtoms(
 		CollectMaps(DATA_STRUCTURE_IDS, CollectMaps()))
 }
+
 func (g *Graph) AddAtomsHelper(atoms map[int]Atom, newIndex int) (stateId int) {
 	g.Atoms = addAtoms(g.Atoms, atoms, newIndex)
 	return len(g.Atoms) - len(atoms)
@@ -409,7 +416,8 @@ func arePrimitivesEqual(value any, a Atom) bool {
 	return false
 
 }
-func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNodeId int) {
+
+func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, path ...any) (lastAtomNodeId int) {
 
 	// value can be bool, int, or string
 	if !validatePath(path...) {
@@ -427,13 +435,6 @@ func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNo
 	idsFound := g.GetAtom2(startId, keys)
 
 	idsFoundLength := len(idsFound)
-	parentLocation := 0
-
-	if idsFoundLength == 0 {
-
-	} else if idsFoundLength == 1 {
-
-	}
 
 	arePrimitivesEqual := arePrimitivesEqual(
 		path[valueLocation],
@@ -442,9 +443,19 @@ func (g *Graph) DoubleLinkListKeysValueAdd(startId int, path ...any) (lastAtomNo
 	// check keys and value for match
 	// keys match
 	if areKeysEqual {
-		// values match
+		// value matches
 		if arePrimitivesEqual {
 			return startId
+		}
+	}
+	parentId := 0
+
+	if idsFoundLength == 1 {
+		parentId = idsFound[0]
+	} else if idsFoundLength >= 2 {
+		lastIdFound := idsFound[idsFoundLength-1]
+		if g.Atoms[lastIdFound].IsLeaf() {
+			parentId = idsFound[idsFoundLength-2]
 		}
 	}
 	// path was not found

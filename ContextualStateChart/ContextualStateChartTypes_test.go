@@ -1132,7 +1132,7 @@ func TestDoubleLinkListKeysAdd(t *testing.T) {
 	t.Run("Add 1 key", func(t *testing.T) {
 		want := 3
 
-		got := myGraph.DoubleLinkListKeysValueAdd(0, "test1", "test3")
+		got := myGraph.DoubleLinkTreeKeysValueAdd(0, "test1", "test3")
 
 		if want != got {
 			t.Fatalf("wanted %v, got %v", want, got)
