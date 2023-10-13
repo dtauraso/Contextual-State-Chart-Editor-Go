@@ -420,7 +420,7 @@ func arePrimitivesEqual(value any, a Atom) bool {
 func (g *Graph) DoubleLinkTreeKeysMatch(startId int, path ...any) bool {
 	return false
 }
-func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, valueMatchStatus bool, path ...any) (lastAtomNodeId int) {
+func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, keyMatchStatus bool, path ...any) (lastAtomNodeId int) {
 
 	if len(path) == 0 {
 		return startId
