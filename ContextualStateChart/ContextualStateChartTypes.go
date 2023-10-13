@@ -419,6 +419,9 @@ func arePrimitivesEqual(value any, a Atom) bool {
 
 func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, path ...any) (lastAtomNodeId int) {
 
+	if len(path) == 0 {
+		return startId
+	}
 	// value can be bool, int, or string
 	if !validatePath(path...) {
 		return startId
@@ -439,7 +442,7 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, path ...any) (lastAtomNo
 	arePrimitivesEqual := arePrimitivesEqual(
 		path[valueLocation],
 		g.Atoms[idsFound[idsFoundLength-1]])
-	areKeysEqual := idsFoundLength == len(path)-2
+	areKeysEqual := idsFoundLength == len(path)-1
 	// check keys and value for match
 	// keys match
 	if areKeysEqual {
@@ -461,9 +464,9 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, path ...any) (lastAtomNo
 		}
 	}
 
-	// path was not found
-	if len(idsFound) == 0 {
-		return startId
+	// unfound path
+	for i := len(path) - 1; i >= idsFoundLength; i-- {
+
 	}
 
 	foundPathLength := len(idsFound)
