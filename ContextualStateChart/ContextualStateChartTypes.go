@@ -465,8 +465,16 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, path ...any) (lastAtomNo
 	}
 
 	// unfound path
-	for i := len(path) - 1; i >= idsFoundLength; i-- {
 
+	g.Atoms[parentId].MapValues[path[idsFoundLength].(string)] = len(g.Atoms)
+
+	valueString := path[len(path)-1]
+	lastKeyString := path[len(path)-2]
+
+	mapList := CollectMaps(lastKeyString, valueString)
+
+	for i := len(path) - 1; i >= idsFoundLength; i-- {
+		mapList = CollectMaps(path[i], mapList)
 	}
 
 	foundPathLength := len(idsFound)
