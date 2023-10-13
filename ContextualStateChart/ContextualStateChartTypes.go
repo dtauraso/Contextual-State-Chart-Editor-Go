@@ -420,6 +420,26 @@ func arePrimitivesEqual(value any, a Atom) bool {
 func (g *Graph) DoubleLinkTreeKeysMatch(startId int, path ...any) bool {
 	return false
 }
+func appendAtoms(atoms, newAtoms map[int]Atom, newIndex int) map[int]Atom {
+
+	// assumes addEntries is the caller
+	// visiting keys in ascending order for offset formula to work
+	firstNewIndex := newIndex
+	// first newAtom is parent
+	// parent's first parent is 0
+	// child's parent is firstNewIndex
+	value := newAtoms[0]
+	// caller is adding 1 new parent
+	atoms[newIndex] = value.CloneWithOffset(newIndex, firstNewIndex, 1)
+	newIndex++
+
+	for key := 1; key < len(newAtoms); key++ {
+		value := newAtoms[key]
+		atoms[newIndex] = value.CloneWithOffset(newIndex, firstNewIndex, firstNewIndex)
+		newIndex++
+	}
+	return atoms
+}
 func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, keyMatchStatus bool, path ...any) (lastAtomNodeId int) {
 
 	if len(path) == 0 {
