@@ -451,24 +451,24 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, path ...any) (lastAtomNo
 			return startId
 		}
 	}
-	parentId := 0
+	lastParentId := 0
 
 	if idsFoundLength == 1 {
 		if !g.Atoms[idsFound[0]].IsLeaf() {
-			parentId = idsFound[0]
+			lastParentId = idsFound[0]
 		}
 	} else if idsFoundLength >= 2 {
 		lastIdFound := idsFound[idsFoundLength-1]
 		if g.Atoms[lastIdFound].IsLeaf() {
-			parentId = idsFound[idsFoundLength-2]
+			lastParentId = idsFound[idsFoundLength-2]
 		} else {
-			parentId = lastIdFound
+			lastParentId = lastIdFound
 		}
 	}
 
 	// unfound path
 
-	g.Atoms[parentId].MapValues[path[idsFoundLength].(string)] = len(g.Atoms)
+	g.Atoms[lastParentId].MapValues[path[idsFoundLength].(string)] = len(g.Atoms)
 
 	valueString := path[len(path)-1]
 	lastKeyString := path[len(path)-2]
