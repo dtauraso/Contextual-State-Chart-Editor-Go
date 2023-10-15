@@ -422,9 +422,9 @@ func (g *Graph) DoubleLinkTreeKeysMatch(startId int, path ...any) bool {
 }
 func appendAtoms(atoms, newAtoms map[int]Atom, newIndex int) map[int]Atom {
 
-	for key := 1; key < len(newAtoms); key++ {
+	for key := 0; key < len(newAtoms); key++ {
 		value := newAtoms[key]
-		atoms[newIndex] = value.CloneWithOffset(newIndex, len(atoms), len(atoms))
+		atoms[newIndex] = value.CloneWithOffset(newIndex, newIndex, newIndex)
 		newIndex++
 	}
 	return atoms
@@ -491,6 +491,8 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, keyMatchStatus bool, pat
 		mapList = CollectMaps(path[i], mapList)
 	}
 
+	g.Atoms = appendAtoms(g.Atoms, mapList, len(g.Atoms))
+	return len(g.Atoms) - 1
 	foundPathLength := len(idsFound)
 	// pathLength := len(path)
 	fmt.Printf("%v\n", idsFound)
