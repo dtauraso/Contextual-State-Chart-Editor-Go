@@ -303,19 +303,19 @@ const (
 	FOUND       = 2
 )
 
-func (g *Graph) GetAtom2(startAtom int, keys []string) (idsFound []int) {
+func (g *Graph) GetValues(startAtom int, keys []string) (idsFound []int, ok bool) {
 
 	tracker := startAtom
 	for i := 0; i < len(keys); i++ {
 		currentBranch := keys[i]
 		nextEdge, ok := g.Atoms[tracker].MapValues[currentBranch]
 		if !ok {
-			return idsFound
+			return idsFound, false
 		}
 		idsFound = append(idsFound, nextEdge)
 		tracker = nextEdge
 	}
-	return idsFound
+	return idsFound, true
 }
 func (g *Graph) GetAtom(startAtom int, path []string) (atomId int, currentPath []string, returnKind int) {
 
@@ -447,14 +447,14 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, keyMatchStatus bool, pat
 		keys = append(keys, path[i].(string))
 	}
 
-	idsFound := g.GetAtom2(startId, keys)
+	idsFound, ok := g.GetValues(startId, keys)
 
 	idsFoundLength := len(idsFound)
 
 	arePrimitivesEqual := arePrimitivesEqual(
 		path[valueLocation],
 		g.Atoms[idsFound[idsFoundLength-1]])
-	areKeysEqual := idsFoundLength == len(path)-1
+	areKeysEqual := ok
 	// check keys and value for match
 	// keys match
 	if areKeysEqual {
@@ -493,57 +493,6 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, keyMatchStatus bool, pat
 
 	g.Atoms = appendAtoms(g.Atoms, mapList, len(g.Atoms))
 	return len(g.Atoms) - 1
-	foundPathLength := len(idsFound)
-	// pathLength := len(path)
-	fmt.Printf("%v\n", idsFound)
-	lastId := idsFound[foundPathLength]
-	var lastBranchId int
-	lastAtom := g.Atoms[lastId]
-	// last atom is leaf
-	if lastAtom.TypeValueSet != "MapValues" && lastAtom.TypeValueSet != "ArrayValues" {
-		// path started at leaf
-		if len(idsFound) == 1 {
-			return startId
-		}
-		lastBranchId = idsFound[foundPathLength-2]
-	}
-	// last atom is branch
-	if lastAtom.TypeValueSet == "MapValues" || lastAtom.TypeValueSet == "ArrayValues" {
-		lastBranchId = lastId
-	}
-	// fmt.Println(path, startId, idsFound)
-
-	// length := len(g.Atoms)
-	// remainingPathLength := pathLength - foundPathLength
-
-	// id := idsFound[foundPathLength-1]
-	// fmt.Println(id)
-	// first atom added using CollectMaps is expected to have id = len(g.Atoms)
-	// g.Atoms[id].MapValues[path[foundPathLength]] = length
-	// lastString := path[pathLength-1]
-	// secondToLastString := path[pathLength-2]
-
-	// if remainingPathLength == 1 {
-	// 	g.Atoms[length] = Atom{
-	// 		Id:           length,
-	// 		MapValues:    map[string]int{lastString: length + 1},
-	// 		TypeValueSet: "MapValues",
-	// 		Parent:       id,
-	// 	}
-	// 	return length
-	// }
-	// have no way to append a generated map to an already made map with a without messing up the
-	// parent links
-	// mapList := CollectMaps(secondToLastString, lastString)
-
-	// for j := remainingPathLength; j >= foundPathLength; j-- {
-	// 	mapList = CollectMaps(path[j], mapList)
-	// }
-	// fmt.Println(mapList)
-	// // g.Atoms = ArrayValue(g.Atoms, mapList)
-	// g.AddAtoms(mapList)
-	// return length + remainingPathLength
-	return 0
 }
 
 func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId int) {

@@ -1114,25 +1114,16 @@ func TestUpdateAtom(t *testing.T) {
 }
 
 func TestDoubleLinkListKeysAdd(t *testing.T) {
-	myGraph := Graph{
-		Atoms: map[int]Atom{
-			0: {
-				Id:        0,
-				MapValues: map[string]int{"test1": 1},
-				Parent:    -1,
-			},
-			1: {
-				Id:          1,
-				StringValue: "test2",
-				Parent:      0,
-			},
-		},
+	presetGraph1 := Graph{
+		Atoms: map[int]Atom{},
 	}
 
 	t.Run("Add 1 key", func(t *testing.T) {
 		want := 3
 
-		got := myGraph.DoubleLinkTreeKeysValueAdd(0, "test1", "test3")
+		// search for key
+		// if key is not there add it
+		got := presetGraph1.DoubleLinkTreeKeysValueAdd(0, "test1", "test3")
 
 		if want != got {
 			t.Fatalf("wanted %v, got %v", want, got)
