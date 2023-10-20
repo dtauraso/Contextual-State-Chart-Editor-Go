@@ -562,3 +562,15 @@ func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId
 	}
 	return 0
 }
+
+/*
+pattern detection + hierarchy
+trackers for pattern tracking for each level
+trackers for first node in each level
+levels above input level are for folding the cycles found in lower levels
+cycles are found at each level simultaneously
+input level is not necessarily the bottom level of patterns
+input symbols are checked from bottom to top to determine presence
+lowest level where input symbols are detected determine level of patterns used to check
+input for patterns
+*/
