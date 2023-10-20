@@ -26,14 +26,16 @@ ND name -> array of Id's
 ND name -> map of string keys -> Id's
 */
 
+// each atom is a context
+
 type Atom struct {
-	Id           int            `json:"Id"`
-	BoolValue    bool           `json:"BoolValue,omitempty"`
-	IntValue     int            `json:"IntValue,omitempty"`
-	StringValue  string         `json:"StringValue,omitempty"`
-	MapValues    map[string]int `json:"MapValues,omitempty"`
-	TypeValueSet string         `json:"TypeValueSet"`
-	Parent       int            `json:"Parent,omitempty"`
+	Id            int            `json:"Id"`
+	BoolValue     bool           `json:"BoolValue,omitempty"`
+	IntValue      int            `json:"IntValue,omitempty"`
+	StringValue   string         `json:"StringValue,omitempty"`
+	MapValues     map[string]int `json:"MapValues,omitempty"`
+	TypeValueSet  string         `json:"TypeValueSet"`
+	ContextParent int            `json:"ContextParent,omitempty"`
 }
 
 func (a *Atom) Value() any {
@@ -48,7 +50,7 @@ func (a *Atom) Value() any {
 }
 
 func (a *Atom) CloneWithOffset(j, childOffset, parentOffset int) (atomClone Atom) {
-	// a.Parent + parentOffset
+	// a.ContextParent + parentOffset
 	// parent and child atoms are being cloned in a loop from caller and added to a map of type
 	// map[int]Atom by adding new batches of entries by id as appending
 	if a.TypeValueSet == "MapValues" {
@@ -57,31 +59,31 @@ func (a *Atom) CloneWithOffset(j, childOffset, parentOffset int) (atomClone Atom
 			newMapValues[key2] = value2 + childOffset
 		}
 		return Atom{
-			Id:           j,
-			MapValues:    newMapValues,
-			TypeValueSet: "MapValues",
-			Parent:       a.Parent + parentOffset,
+			Id:            j,
+			MapValues:     newMapValues,
+			TypeValueSet:  "MapValues",
+			ContextParent: a.ContextParent + parentOffset,
 		}
 	} else if a.TypeValueSet == "BoolValue" {
 		return Atom{
-			Id:           j,
-			BoolValue:    a.BoolValue,
-			TypeValueSet: "BoolValue",
-			Parent:       a.Parent + parentOffset,
+			Id:            j,
+			BoolValue:     a.BoolValue,
+			TypeValueSet:  "BoolValue",
+			ContextParent: a.ContextParent + parentOffset,
 		}
 	} else if a.TypeValueSet == "IntValue" {
 		return Atom{
-			Id:           j,
-			IntValue:     a.IntValue,
-			TypeValueSet: "IntValue",
-			Parent:       a.Parent + parentOffset,
+			Id:            j,
+			IntValue:      a.IntValue,
+			TypeValueSet:  "IntValue",
+			ContextParent: a.ContextParent + parentOffset,
 		}
 	} else if a.TypeValueSet == "StringValue" {
 		return Atom{
-			Id:           j,
-			StringValue:  a.StringValue,
-			TypeValueSet: "StringValue",
-			Parent:       a.Parent + parentOffset,
+			Id:            j,
+			StringValue:   a.StringValue,
+			TypeValueSet:  "StringValue",
+			ContextParent: a.ContextParent + parentOffset,
 		}
 	}
 	return Atom{}
@@ -103,8 +105,8 @@ type AtomChan struct {
 	ChannelWrite chan<- Atom    `json:"ChannelWrite,omitempty"`
 	ChannelRead  <-chan Atom    `json:"ChannelRead,omitempty"`
 
-	TypeValueSet string `json:"TypeValueSet"`
-	Parent       int    `json:"Parent,omitempty"`
+	TypeValueSet  string `json:"TypeValueSet"`
+	ContextParent int    `json:"ContextParent,omitempty"`
 }
 
 func SaveString(s map[int]Atom, key int, newString string) {
@@ -175,22 +177,22 @@ func addEntries(
 
 		if okBoolValue {
 			atoms[j] = Atom{
-				Id:           j,
-				BoolValue:    myBoolValue,
-				TypeValueSet: "BoolValue",
-				Parent:       0}
+				Id:            j,
+				BoolValue:     myBoolValue,
+				TypeValueSet:  "BoolValue",
+				ContextParent: 0}
 		} else if okIntValue {
 			atoms[j] = Atom{
-				Id:           j,
-				IntValue:     myIntValue,
-				TypeValueSet: "IntValue",
-				Parent:       0}
+				Id:            j,
+				IntValue:      myIntValue,
+				TypeValueSet:  "IntValue",
+				ContextParent: 0}
 		} else if okStringValue {
 			atoms[j] = Atom{
-				Id:           j,
-				StringValue:  myStringValue,
-				TypeValueSet: "StringValue",
-				Parent:       0}
+				Id:            j,
+				StringValue:   myStringValue,
+				TypeValueSet:  "StringValue",
+				ContextParent: 0}
 		} else if okAtomsValue {
 			atoms = addAtoms(atoms, myAtomsValue, j)
 		}
@@ -204,7 +206,7 @@ func addEntries(
 		j += offset
 
 	}
-	atoms[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues", Parent: -1}
+	atoms[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues", ContextParent: -1}
 	return atoms
 }
 func ArrayValue(elements ...any) (Atoms map[int]Atom) {
@@ -429,7 +431,7 @@ func appendAtoms(atoms, newAtoms map[int]Atom, newIndex int) map[int]Atom {
 	}
 	return atoms
 }
-func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, keyMatchStatus bool, path ...any) (lastAtomNodeId int) {
+func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, path ...any) (lastAtomNodeId int) {
 
 	if len(path) == 0 {
 		return startId
@@ -495,6 +497,25 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, keyMatchStatus bool, pat
 	return len(g.Atoms) - 1
 }
 
+/*
+Delete(nodes, starting id, canContinueF, deleteF)
+
+	tracker = starting id
+	while canContinue(nodes, tracker)
+		bump up trcker to parent of current tracker
+		deletef(nodes, pref of tracker)
+
+canContiueF0(nodes, tracker)
+
+	visits whaever attributes or nodes needed to find out if we are done
+
+deleteF0(nodes, tracker)
+
+	deletes whatever nodes need to be deleted
+
+Delete(nodes, starting id, canContinueF0, deleteF0)
+Delete(nodes, starting id, canContinueF1, deleteF1)
+*/
 func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId int) {
 
 	// trieTreeId, _, _ := g.GetAtom(0, []string{DATA_STRUCTURE_IDS, "trie tree"})
