@@ -86,3 +86,10 @@ atomRecognized.prediction
 contextual state chart
 
 facts are logical
+
+computer code writing patterns and using parts of the pattern tree
+to make pattern for when to put down pieces of text
+
+higher level patterns from 1 graph (not same sequence but same if in between nodes were removed)
+lower level patterns from different graph
+input being multiple levels of structured sequence match the pattern structures the pattern detector makes
