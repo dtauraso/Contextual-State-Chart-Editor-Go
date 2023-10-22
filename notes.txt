@@ -85,8 +85,6 @@ atomRecognized.prediction
 		remove data or send info to higher level prediction function
 contextual state chart
 
-facts are logical
-
 computer code writing patterns and using parts of the pattern tree
 to make pattern for when to put down pieces of text
 
