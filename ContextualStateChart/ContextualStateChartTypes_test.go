@@ -1119,11 +1119,23 @@ func TestDoubleLinkListKeysAdd(t *testing.T) {
 	}
 
 	t.Run("Add 0 keys", func(t *testing.T) {
-		want := 3
+		want := 0
 
 		// search for key
 		// if key is not there add it
-		got := presetGraph1.DoubleLinkTreeKeysValueAdd(0, "test1", "test3")
+		got := presetGraph1.DoubleLinkTreeKeysValueAdd(0)
+
+		if want != got {
+			t.Fatalf("wanted %v, got %v", want, got)
+		}
+
+	})
+	t.Run("Add 1 (key, value) pair", func(t *testing.T) {
+		want := 2
+
+		// search for key
+		// if key is not there add it
+		got := presetGraph1.DoubleLinkTreeKeysValueAdd(0, "key1", "value1")
 
 		if want != got {
 			t.Fatalf("wanted %v, got %v", want, got)
