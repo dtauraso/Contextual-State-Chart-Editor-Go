@@ -439,6 +439,7 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, path ...any) (lastAtomNo
 		return startId
 	}
 	if len(path) < 2 {
+
 		return startId
 	}
 	keys := []string{}
@@ -451,18 +452,21 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, path ...any) (lastAtomNo
 
 	idsFoundLength := len(idsFound)
 
-	arePrimitivesEqual := arePrimitivesEqual(
-		path[valueLocation],
-		g.Atoms[idsFound[idsFoundLength-1]])
-	areKeysEqual := ok
-	// check keys and value for match
-	// keys match
-	if areKeysEqual {
-		// value matches
-		if arePrimitivesEqual {
-			return startId
+	if idsFoundLength > 0 {
+		arePrimitivesEqual := arePrimitivesEqual(
+			path[valueLocation],
+			g.Atoms[idsFound[idsFoundLength-1]])
+		areKeysEqual := ok
+		// check keys and value for match
+		// keys match
+		if areKeysEqual {
+			// value matches
+			if arePrimitivesEqual {
+				return startId
+			}
 		}
 	}
+
 	lastParentId := 0
 
 	if idsFoundLength == 1 {
@@ -490,7 +494,7 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, path ...any) (lastAtomNo
 	for i := len(path) - 1; i >= idsFoundLength; i-- {
 		mapList = CollectMaps(path[i], mapList)
 	}
-
+	fmt.Println(mapList)
 	g.Atoms = appendAtoms(g.Atoms, mapList, len(g.Atoms))
 	return len(g.Atoms) - 1
 }

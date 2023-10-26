@@ -92,3 +92,4 @@ higher level patterns from 1 graph (not same sequence but same if in between nod
 lower level patterns from different graph
 input being multiple levels of structured sequence match the pattern structures the pattern detector makes
 way for user to add shortcut words so user and stored patterns are on same page even with internal pattern names being generated
+shortcut word happens at same time pattern happens
