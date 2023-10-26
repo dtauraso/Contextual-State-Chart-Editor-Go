@@ -93,3 +93,9 @@ lower level patterns from different graph
 input being multiple levels of structured sequence match the pattern structures the pattern detector makes
 way for user to add shortcut words so user and stored patterns are on same page even with internal pattern names being generated
 shortcut word happens at same time pattern happens
+grid where 1 axis is time 1 axis is sequence
+each point can be set to backtrack control to an earlier time and different sequence, replacing the simultaneous sequence
+with a different sequence started earlier but comming after the sequence backtrack control was used from
+1 axis for structure nodes to let backtrack commands be consistent for same structure
+backtrack is true if prediction fails
+making predictions while reading information
