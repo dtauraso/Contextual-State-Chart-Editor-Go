@@ -100,3 +100,22 @@ with a different sequence started earlier but comming after the sequence backtra
 backtrack is true if prediction fails
 making predictions while reading information
 each element of the same property happening right next to other element in same time or same space is part of same group
+pattern is loop
+inhibition is when pattern stops
+
+atom tree intersect with atom trees in timeline a
+run timeline b at same time as a
+atom tree interesction is the pattern
+master time line for a and b
+
+run only b
+recognize atom tree as matching with intersect atom tree
+find sibling patterns that was run at same time with b
+run sibling pattern
+do recognizing and running sibling pattern as same timestep as b
+
+more than 1 timeline running means training
+a partial match (keep differences found during intersection) during training means different data being added makes a new context on the state
+first round training must use full match
+highest number of node and content matches during intersection during non-training
+each intersection atom tree has is separate to represent slightly different contexts among intersection trees
