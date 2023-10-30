@@ -120,4 +120,5 @@ first round training must use full match
 highest number of node and content matches during intersection during non-training
 each intersection atom tree has is separate to represent slightly different contexts among intersection trees
 intesection, union
-change in time is the pattern
+change in time and change in space is the pattern
+save items from observe grid to table holding last tree data about data point
