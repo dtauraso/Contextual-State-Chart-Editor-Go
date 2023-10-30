@@ -122,3 +122,4 @@ each intersection atom tree has is separate to represent slightly different cont
 intesection, union
 change in time and change in space is the pattern
 save items from observe grid to table holding last tree data about data point
+connect same data points together
