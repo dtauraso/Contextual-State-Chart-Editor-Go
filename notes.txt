@@ -123,3 +123,4 @@ intesection, union
 change in time and change in space is the pattern
 save items from observe grid to table holding last tree data about data point
 connect same data points together
+edge is when 2 data points are different but they are at same time
