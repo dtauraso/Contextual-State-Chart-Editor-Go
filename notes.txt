@@ -130,5 +130,6 @@ the content in the higher level atom always wins
 connecting data points across timeslines at same time and higher level time lines
 compute the interesction nodes then use them to add hierarchy to timelines
 
-intersect points on same line when there is a loop
+intersect points on same line when there is a loop and the loop node holds position of timeline is was made from and looped points are 1 level below
 intersect points on different lines at same time and let the higher level timeline name win if a lower level uses a timeline from a different theme
+loops are separate timelines even if they start and end at same time as non loops
