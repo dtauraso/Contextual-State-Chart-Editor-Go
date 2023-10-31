@@ -124,3 +124,11 @@ change in time and change in space is the pattern
 save items from observe grid to table holding last tree data about data point
 connect same data points together
 edge is when 2 data points are different but they are at same time
+numerical barrier data point that stops reading of timeline until a data point barrier of same number is read in a different timeline
+all nested timelines must have a common theme so they don't collect nested timelines from other higher level timelines
+the content in the higher level atom always wins
+connecting data points across timeslines at same time and higher level time lines
+compute the interesction nodes then use them to add hierarchy to timelines
+
+intersect points on same line when there is a loop
+intersect points on different lines at same time and let the higher level timeline name win if a lower level uses a timeline from a different theme
