@@ -134,3 +134,4 @@ intersect points on same line when there is a loop and the loop node holds posit
 intersect points on different lines at same time and let the higher level timeline name win if a lower level uses a timeline from a different theme
 loops are separate timelines even if they start and end at same time as non loops
 mattern match: highest in common count with weights stronger each level closer to root node
+pattern match: loop match, finding right intersection node that's closes in common with input to start prediction or running siblings
