@@ -585,3 +585,10 @@ func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId
 	}
 	return 0
 }
+
+func HierarchicalTimelines() {
+
+	myGraph := Graph{Atoms: CollectMaps(
+		"Timelines", ArrayValue(),
+	)}
+}

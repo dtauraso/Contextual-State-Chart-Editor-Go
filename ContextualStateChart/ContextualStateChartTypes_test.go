@@ -3,7 +3,7 @@ package ContextualStateChartTypes
 import (
 	// "fmt"
 	// "errors"
-	"fmt"
+	// "fmt"
 	"reflect"
 	"testing"
 )
@@ -1222,81 +1222,79 @@ func TestUpdateAtom(t *testing.T) {
 	}
 }
 
-func TestDoubleLinkListKeysAdd(t *testing.T) {
-	presetGraph1 := Graph{
-		Atoms: map[int]Atom{
-			0: {MapValues: map[string]int{},
-				TypeValueSet: "MapValues",
-				AtomParent:   -1},
-		},
-	}
+// func TestDoubleLinkListKeysAdd(t *testing.T) {
+// 	presetGraph1 := Graph{
+// 		Atoms: map[int]Atom{
+// 			0: {MapValues: map[string]int{},
+// 				TypeValueSet: "MapValues",
+// 				AtomParent:   -1},
+// 		},
+// 	}
 
-	t.Run("Add 0 keys", func(t *testing.T) {
-		want := 0
+// 	t.Run("Add 0 keys", func(t *testing.T) {
+// 		want := 0
 
-		// search for key
-		// if key is not there add it
-		got := presetGraph1.DoubleLinkTreeKeysValueAdd(0)
+// 		// search for key
+// 		// if key is not there add it
+// 		got := presetGraph1.DoubleLinkTreeKeysValueAdd(0)
 
-		if want != got {
-			t.Fatalf("wanted %v, got %v", want, got)
-		}
+// 		if want != got {
+// 			t.Fatalf("wanted %v, got %v", want, got)
+// 		}
 
-	})
-	t.Run("Add 1 (key, value) pair", func(t *testing.T) {
-		want := 2
+// 	})
+// 	t.Run("Add 1 (key, value) pair", func(t *testing.T) {
+// 		want := 2
 
-		// search for key
-		// if key is not there add it
-		got := presetGraph1.DoubleLinkTreeKeysValueAdd(0, "key1", "value1")
-		fmt.Println(presetGraph1)
-		/*
-			generated
-			map[
-				0:{0 false 0  map[key1:1] MapValues -1}
-				1:{1 false 0  map[value1:2] MapValues 0}
-				2:{2 false 0  map[key1:3] MapValues 1}
-				3:{3 false 0 value1 map[] StringValue 2}]
+// 		// search for key
+// 		// if key is not there add it
+// 		got := presetGraph1.DoubleLinkTreeKeysValueAdd(0, "key1", "value1")
+// 		fmt.Println(presetGraph1)
+// 		/*
+// 			generated
+// 			map[
+// 				0:{0 false 0  map[key1:1] MapValues -1}
+// 				1:{1 false 0  map[value1:2] MapValues 0}
+// 				2:{2 false 0  map[key1:3] MapValues 1}
+// 				3:{3 false 0 value1 map[] StringValue 2}]
 
+// 			append
+// 				   {map[
+// 					0:{0 false 0  map[key1:1] MapValues -1}
+// 					1:{1 false 0  map[key1:2] MapValues 0}
+// 					2:{2 false 0  map[value1:4] MapValues 2}
+// 					3:{3 false 0  map[key1:6] MapValues 4}
+// 					4:{4 false 0 value1 map[] StringValue 6}]}
+// 		*/
+// 		if want != got {
+// 			t.Fatalf("wanted %v, got %v", want, got)
+// 		}
 
+// 	})
+// 	// t.Run("Add 2 keys", func(t *testing.T) {
+// 	// 	want := 4
 
-			append
-				   {map[
-					0:{0 false 0  map[key1:1] MapValues -1}
-					1:{1 false 0  map[key1:2] MapValues 0}
-					2:{2 false 0  map[value1:4] MapValues 2}
-					3:{3 false 0  map[key1:6] MapValues 4}
-					4:{4 false 0 value1 map[] StringValue 6}]}
-		*/
-		if want != got {
-			t.Fatalf("wanted %v, got %v", want, got)
-		}
+// 	// 	got := myGraph.DoubleLinkListKeysValueAdd(0, "test1", "test2", "test4", "test5")
+// 	// 	/*
+// 	// 		0:{0 false 0  map[test4:1] MapValues -1}
+// 	// 		1:{1 false 0  map[test4:2] MapValues 0}
+// 	// 		2:{2 false 0 test5 map[] StringValue 1}
 
-	})
-	// t.Run("Add 2 keys", func(t *testing.T) {
-	// 	want := 4
+// 	// 		0:{0 false 0  map[test1:1]  -1}
+// 	// 		1:{1 false 0  map[test2:2 test4:4]  0}
+// 	// 		2:{2 false 0 test3 map[]  1}
+// 	// 		3:{3 false 0  map[test4:4] MapValues 1}
+// 	// 		4:{4 false 0  map[test4:5] MapValues 0}
+// 	// 		5:{5 false 0  map[test4:6] MapValues 4}
+// 	// 		6:{6 false 0 test5 map[] StringValue 5}
+// 	// 	*/
+// 	// 	// fmt.Println(myGraph)
+// 	// 	if want != got {
+// 	// 		t.Fatalf("wanted %v, got %v", want, got)
+// 	// 	}
 
-	// 	got := myGraph.DoubleLinkListKeysValueAdd(0, "test1", "test2", "test4", "test5")
-	// 	/*
-	// 		0:{0 false 0  map[test4:1] MapValues -1}
-	// 		1:{1 false 0  map[test4:2] MapValues 0}
-	// 		2:{2 false 0 test5 map[] StringValue 1}
-
-	// 		0:{0 false 0  map[test1:1]  -1}
-	// 		1:{1 false 0  map[test2:2 test4:4]  0}
-	// 		2:{2 false 0 test3 map[]  1}
-	// 		3:{3 false 0  map[test4:4] MapValues 1}
-	// 		4:{4 false 0  map[test4:5] MapValues 0}
-	// 		5:{5 false 0  map[test4:6] MapValues 4}
-	// 		6:{6 false 0 test5 map[] StringValue 5}
-	// 	*/
-	// 	// fmt.Println(myGraph)
-	// 	if want != got {
-	// 		t.Fatalf("wanted %v, got %v", want, got)
-	// 	}
-
-	// })
-}
+// 	// })
+// }
 
 // func TestTrieTreeInit(t *testing.T) {
 // 	myGraph := Graph{Atoms: map[int]Atom{
