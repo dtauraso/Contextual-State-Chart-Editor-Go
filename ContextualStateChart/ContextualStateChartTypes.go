@@ -589,6 +589,7 @@ func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId
 func HierarchicalTimelines() {
 	const (
 		barista   = "barista"
+		customer  = "customer"
 		movement  = "movement"
 		makeDrink = "makeDrink"
 	)
@@ -604,6 +605,13 @@ func HierarchicalTimelines() {
 			ArrayValue(
 				0,
 				CollectMaps(barista, makeDrink),
-				0)),
+				0),
+			"customer movement", ArrayValue(
+				CollectMaps(customer,
+					CollectMaps(movement, 0)),
+				CollectMaps(customer,
+					CollectMaps(movement, 2)),
+				0,
+			)),
 	)}
 }
