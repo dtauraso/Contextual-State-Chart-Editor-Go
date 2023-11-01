@@ -594,7 +594,8 @@ func HierarchicalTimelines() {
 		makeDrink = "makeDrink"
 	)
 
-	// highest consistency % timeline = hierarchy point
+	// highest consistency # timeline = hierarchy point
+	// consistency # tie = 2 hierarchies with same level and 1 extra higher level above the 2 hierarchies
 	myGraph := Graph{Atoms: CollectMaps(
 		"Timelines", CollectMaps("barista movement",
 			ArrayValue(
