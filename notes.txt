@@ -135,3 +135,13 @@ intersect points on different lines at same time and let the higher level timeli
 loops are separate timelines even if they start and end at same time as non loops
 mattern match: highest in common count with weights stronger each level closer to root node
 pattern match: loop match, finding right intersection node that's closes in common with input to start prediction or running siblings
+program with if statements and conclusions
+funnel paragraph with conclusion and premises
+take the program sequences for if statements and conclusions,
+match it into the funnel paragraph tree,
+copy the level, but change the links so they link to the same lower words as their counterpart intersection nodes it to the funnel paragraph tree as new sub timeline,
+make a new timeline where english works are now used in the sequence of if statements and conclusions
+"condition" node of the program timeline will find the "condition" node of the english timeline
+the "condition" node of the program timeline will copy itself under the english timeline,
+but take the child nodes from the english timeline "condition" node
+
