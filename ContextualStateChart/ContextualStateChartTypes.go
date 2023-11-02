@@ -597,6 +597,24 @@ func HierarchicalTimelines() {
 	/*
 		n timelines = n simultaneous data point changes
 		repeating across n timelines = hierarchy
+
+
+		0, move, 0, move, 2, move, 2, move
+		cycles length >= 1
+			0: 0 move
+			2: 2 move
+		repeats with n items before 1 item repeats
+			move:
+				move1: move 0
+				move2: move 2
+
+		move1, barista, move1, barista, move2, barista
+		cycles length >= 1
+			move1: move1 barista
+		repeats with n items before 1 item repeats
+			barista
+				barista1: barista move1
+				barista2: barista move2
 	*/
 	myGraph := Graph{Atoms: CollectMaps(
 		"Timelines", CollectMaps("barista movement",
