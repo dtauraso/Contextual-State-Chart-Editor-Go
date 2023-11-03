@@ -150,3 +150,7 @@ y = 1/2 x
 n time to go 2 units of x axis
 y/n units each time n for 1 unit of y axis
 convert slope into time path of slightly changing x, y values
+
+hold y=+-1x diagonals and straight lines as the default slopes for finding the next color
+if the points don't match the next expected color try all directions till a point matches
+the matching point and the previous point can be used to calculate the slope for the non-default direction
