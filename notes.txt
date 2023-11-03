@@ -145,3 +145,8 @@ make a new timeline where english works are now used in the sequence of if state
 the "condition" node of the program timeline will copy itself under the english timeline,
 but take the child nodes from the english timeline "condition" node
 
+y = 1/2 x
+
+n time to go 2 units of x axis
+y/n units each time n for 1 unit of y axis
+convert slope into time path of slightly changing x, y values
