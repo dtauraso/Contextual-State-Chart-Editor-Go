@@ -1,6 +1,6 @@
 {
     "Id": 2,
-    "StringMapInt": {
+    "MapValues": {
         "0": 3,
         "1": 4
     },

@@ -21,7 +21,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "drinkOrder": [],
             "orderQueue": [],
             "outputBuffer": []
@@ -54,7 +54,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "change": 18,
             "drinkPrice": 17
         }
@@ -80,7 +80,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "drink": 14
         }
     },
@@ -212,7 +212,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "currentOrder": 15,
             "price": 16
         }
@@ -425,7 +425,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "Pistachio": 53,
             "drinks": 52,
             "flavors": 40,
@@ -446,7 +446,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "Chocolate Cream Cold Foam": 29,
             "Dark Caramel Sauce": 24,
             "Pistachio": 23,
@@ -484,7 +484,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "flavor": 25
         }
     },
@@ -499,7 +499,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "Sauces": 26
         }
     },
@@ -534,7 +534,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "options": 28
         }
     },
@@ -569,7 +569,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "toppings": 30
         }
     },
@@ -584,7 +584,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "cold foam": 31
         }
     },
@@ -619,7 +619,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "flavors": 34,
             "size": 33,
             "toppings": 35
@@ -636,7 +636,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "grande": 38,
             "large": 37,
             "venti": 39
@@ -653,7 +653,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "Sauces": 41
         }
     },
@@ -668,7 +668,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "Dark Caramel Sauce": 42,
             "Mocha Sauce": 43
         }
@@ -684,7 +684,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "Brown Sugar Syrup": 45,
             "Caramel Syrup": 46
         }
@@ -700,7 +700,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "cold foam": 48
         }
     },
@@ -715,7 +715,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "price": 51,
             "servings": 50,
             "value": 49
@@ -752,7 +752,7 @@
         "Value": {
             "TypeName": ""
         },
-        "StringMapInt": {
+        "MapValues": {
             "name": 54,
             "sizes": 55
         }

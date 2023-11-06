@@ -139,7 +139,7 @@ Indent
 				AreParallel
 					state
 
-	StringMapInt
+	MapValues
 
 		Children
 			state
@@ -157,10 +157,10 @@ states[curr["EdgeKinds"]["StartChildren"]]
 EdgeKinds, StartChildren, indent,
 [{Edges: {indent: [edges]}}, AreParallel]
 
-states[curr["StringMapInt"]["Children"]]
+states[curr["MapValues"]["Children"]]
 ->indent
 ->states[curr["ArrayValues"]]
-StringMapInt, Children, indent, ArrayValues
+MapValues, Children, indent, ArrayValues
 */
 func (c *myCompo) onClick(ctx app.Context, e app.Event) {
 	fmt.Println("onClick is called")

@@ -1,8 +1,8 @@
 {
     "Id": 15,
-    "StringMapInt": {
+    "MapValues": {
         "drinkOrder": 16,
         "orderQueue": 17
     },
-    "TypeValueSet": "StringMapInt"
+    "TypeValueSet": "MapValues"
 }
