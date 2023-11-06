@@ -1,8 +1,8 @@
 {
     "Id": 6,
-    "MapValues": {
+    "StringMapInt": {
         "Edges": 7,
         "AreParallel": 14
     },
-    "TypeValueSet": "MapValues"
+    "TypeValueSet": "StringMapInt"
 }

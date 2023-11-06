@@ -13,7 +13,7 @@ import (
 )
 
 // Parents: NDParentStateName -> Id
-// MapValues: 1D string -> Id
+// StringMapInt: 1D string -> Id
 /*
 local variable
 1D name -> primitive value
@@ -31,7 +31,9 @@ type Atom struct {
 	BoolValue          bool           `json:"BoolValue,omitempty"`
 	IntValue           int            `json:"IntValue,omitempty"`
 	StringValue        string         `json:"StringValue,omitempty"`
-	MapValues          map[string]int `json:"MapValues,omitempty"`
+	BoolMapInt         map[bool]int   `json:"BoolMapInt,omitempty"`
+	IntMapInt          map[int]int    `json:"IntMapInt,omitempty"`
+	StringMapInt       map[string]int `json:"StringMapInt,omitempty"`
 	TypeValueSet       string         `json:"TypeValueSet"`
 	AtomParent         int            `json:"AtomParent,omitempty"`
 	AtomParentChildKey string         `json:"AtomParentChildKey,omitempty"`
@@ -57,15 +59,15 @@ func (a *Atom) CloneWithOffset(j, childOffset, parentOffset int, childKey string
 	if len(newChildKey) == 0 {
 		newChildKey = childKey
 	}
-	if a.TypeValueSet == "MapValues" {
+	if a.TypeValueSet == "StringMapInt" {
 		newMapValues := make(map[string]int)
-		for key2, value2 := range a.MapValues {
+		for key2, value2 := range a.StringMapInt {
 			newMapValues[key2] = value2 + childOffset
 		}
 		return Atom{
 			Id:                 j,
-			MapValues:          newMapValues,
-			TypeValueSet:       "MapValues",
+			StringMapInt:       newMapValues,
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         a.AtomParent + parentOffset,
 			AtomParentChildKey: newChildKey,
 		}
@@ -108,7 +110,7 @@ type AtomChan struct {
 	BoolValue    bool           `json:"BoolValue,omitempty"`
 	IntValue     int            `json:"IntValue,omitempty"`
 	StringValue  string         `json:"StringValue,omitempty"`
-	MapValues    map[string]int `json:"MapValues,omitempty"`
+	StringMapInt map[string]int `json:"StringMapInt,omitempty"`
 	Channel      chan Atom      `json:"Channel,omitempty"`
 	ChannelWrite chan<- Atom    `json:"ChannelWrite,omitempty"`
 	ChannelRead  <-chan Atom    `json:"ChannelRead,omitempty"`
@@ -142,8 +144,8 @@ func addAtoms(atoms, newAtoms map[int]Atom, newIndex int, childKey string) map[i
 		atoms[newIndex] = value.CloneWithOffset(newIndex, firstNewIndex, firstNewIndex, "")
 		newIndex++
 	}
-	for childKey := range atoms[firstNewIndex].MapValues {
-		childId := atoms[firstNewIndex].MapValues[childKey]
+	for childKey := range atoms[firstNewIndex].StringMapInt {
+		childId := atoms[firstNewIndex].StringMapInt[childKey]
 		childAtom := atoms[childId]
 		childAtom.AtomParentChildKey = childKey
 		atoms[childId] = childAtom
@@ -223,7 +225,7 @@ func addEntries(
 		j += offset
 
 	}
-	atoms[0] = Atom{Id: 0, MapValues: mapValues, TypeValueSet: "MapValues", AtomParent: -1, AtomParentChildKey: ""}
+	atoms[0] = Atom{Id: 0, StringMapInt: mapValues, TypeValueSet: "StringMapInt", AtomParent: -1, AtomParentChildKey: ""}
 	return atoms
 }
 func ArrayValue(elements ...any) (Atoms map[int]Atom) {
@@ -263,14 +265,14 @@ func makeString(states map[int]Atom, currentState int, indents, currentString st
 			myArray = append(myArray, "|"+indents+myState.StringValue+"|")
 		}
 		return myArray
-	} else if typeName == "MapValues" {
-		keys := make([]string, 0, len(myState.MapValues))
-		for key1 := range myState.MapValues {
+	} else if typeName == "StringMapInt" {
+		keys := make([]string, 0, len(myState.StringMapInt))
+		for key1 := range myState.StringMapInt {
 			keys = append(keys, key1)
 		}
 		sort.Strings(keys)
 		for _, key := range keys {
-			value := myState.MapValues[key]
+			value := myState.StringMapInt[key]
 			myArray = append(myArray, "|"+indents+key+": |")
 			myArray = append(myArray, makeString(states, value, indents+"    ", "")...)
 		}
@@ -327,7 +329,7 @@ func (g *Graph) GetValues(startAtom int, keys []string) (idsFound []int, ok bool
 	tracker := startAtom
 	for i := 0; i < len(keys); i++ {
 		currentBranch := keys[i]
-		nextEdge, ok := g.Atoms[tracker].MapValues[currentBranch]
+		nextEdge, ok := g.Atoms[tracker].StringMapInt[currentBranch]
 		if !ok {
 			return idsFound, false
 		}
@@ -347,7 +349,7 @@ func (g *Graph) GetAtom(startAtom int, path []string) (atomId int, currentPath [
 	pathFound := []string{}
 	for i := 0; i < len(path); i++ {
 		currentBranch := path[i]
-		nextEdge, ok := g.Atoms[tracker].MapValues[currentBranch]
+		nextEdge, ok := g.Atoms[tracker].StringMapInt[currentBranch]
 		if !ok {
 			return tracker, pathFound, NOT_FOUND
 		}
@@ -360,14 +362,14 @@ func (g *Graph) GetAtom(startAtom int, path []string) (atomId int, currentPath [
 func (g *Graph) UpdateAtomMapValues(Id int, replacements map[string]int) {
 
 	for item := range replacements {
-		g.Atoms[Id].MapValues[item] = replacements[item]
+		g.Atoms[Id].StringMapInt[item] = replacements[item]
 	}
 }
 func (g *Graph) InitMapValues(startIndex int) {
 	g.Atoms[startIndex] = Atom{
 		Id:           startIndex,
-		MapValues:    map[string]int{},
-		TypeValueSet: "MapValues"}
+		StringMapInt: map[string]int{},
+		TypeValueSet: "StringMapInt"}
 }
 func (g *Graph) TrieTreeInit() {
 	pathToDataStructureIds := []string{DATA_STRUCTURE_IDS}
@@ -503,7 +505,7 @@ func (g *Graph) DoubleLinkTreeKeysValueAdd(startId int, path ...any) (lastAtomNo
 
 	// unfound path
 
-	g.Atoms[lastParentId].MapValues[path[idsFoundLength].(string)] = len(g.Atoms)
+	g.Atoms[lastParentId].StringMapInt[path[idsFoundLength].(string)] = len(g.Atoms)
 
 	valueString := path[len(path)-1]
 	lastKeyString := path[len(path)-2]
@@ -559,14 +561,14 @@ func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId
 		remainingPath = append(remainingPath,
 			"Id",
 			"id")
-		g.Atoms[Id].MapValues[strings[pathLength]] = newIds[0]
+		g.Atoms[Id].StringMapInt[strings[pathLength]] = newIds[0]
 
 		for j := 0; j < len(newIds); j++ {
 			if remainingPath[j] != "id" {
 				g.Atoms[newIds[j]] = Atom{
 					Id:           newIds[j],
-					MapValues:    map[string]int{remainingPath[j]: newIds[j+1]},
-					TypeValueSet: "MapValues",
+					StringMapInt: map[string]int{remainingPath[j]: newIds[j+1]},
+					TypeValueSet: "StringMapInt",
 				}
 			} else {
 				g.Atoms[newIds[j]] = Atom{
@@ -594,25 +596,23 @@ func HierarchicalTimelines() {
 		makeDrink = "makeDrink"
 	)
 
-	myGraph := Graph{Atoms: CollectMaps(
-		"Timelines", CollectMaps("barista movement",
-			ArrayValue(
-				CollectMaps(barista,
-					CollectMaps(movement, 0)),
-				CollectMaps(barista,
-					CollectMaps(movement, 2)),
-				0),
-			"barista use drink resources",
-			ArrayValue(
-				0,
-				CollectMaps(barista, makeDrink),
-				0),
-			"customer movement", ArrayValue(
-				CollectMaps(customer,
-					CollectMaps(movement, 0)),
-				CollectMaps(customer,
-					CollectMaps(movement, 2)),
-				0,
-			)),
-	)}
+	// myGraph := Graph{Atoms: CollectMaps(
+	// 	"Timelines", CollectMaps("movement",
+	// 		ArrayValue(0,
+	// 			CollectMaps(barista,
+	// 				CollectMaps(movement, 2)),
+	// 			0),
+	// 		"barista use drink resources",
+	// 		ArrayValue(
+	// 			0,
+	// 			CollectMaps(barista, makeDrink),
+	// 			0),
+	// 		"customer movement", ArrayValue(
+	// 			CollectMaps(customer,
+	// 				CollectMaps(movement, 0)),
+	// 			CollectMaps(customer,
+	// 				CollectMaps(movement, 2)),
+	// 			0,
+	// 		)),
+	// )}
 }

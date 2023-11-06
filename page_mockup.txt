@@ -116,37 +116,37 @@ Children:
         Name: "Output buffer"
         FunctionCode: ReturnTrue,
 
-MapValues:
+StringMapInt:
     "orderQueue":   []string{}
     "drinkOrder":   []string{}
     "outputBuffer": []string{}
 
 Name: "machine"
-MapValues
+StringMapInt
     Name: "names"
-    MapValues
+    StringMapInt
         Name: "Pistachio"
         Next
             {"Pistachio Id"},
 
         "Dark Caramel Sauce"
-        MapValues
+        StringMapInt
             Name: "flavor"
-                MapValues
+                StringMapInt
                     Name: "Sauces"
                     Next
                         {"Dark Caramel Sauce", "flavor", "Sauces"},
 
         Name: "size"
-        MapValues
+        StringMapInt
             Name: "options"
             Next
                 {"size", "options"},
 
         Name: "Chocolate Cream Cold Foam"
-        MapValues
+        StringMapInt
             Name: "toppings"
-                MapValues
+                StringMapInt
                     Name: "cold foam"
                     Next
                         {"Chocolate Cream Cold Foam", "toppings", "cold foam"},
@@ -158,13 +158,13 @@ MapValues
             "toppings"}
 
     Name: "sizes"
-        MapValues
+        StringMapInt
             "large":  3,
             "grande": 2,
             "vente":  0,
 
     Name: "flavors"
-    MapValues
+    StringMapInt
         Name: "Sauces"
             ArrayValues
                 "Dark Caramel Sauce",
@@ -176,9 +176,9 @@ MapValues
                 "Caramel Syrup",
 
     Name: "toppings"
-    MapValues
+    StringMapInt
         "cold foam"
-            MapValues
+            StringMapInt
                     "value":    "Chocolate Cream Cold Foam",
                     "servings": 5,
                     "price":    1,
@@ -186,7 +186,7 @@ MapValues
     Next
             {"Pistachio Id"},
     Name: "Pistachio Id"
-        MapValues
+        StringMapInt
             "name": "Pistachio"
             Name: "sizes"
             Next

@@ -13,8 +13,8 @@ func TestMapValueString(t *testing.T) {
 	want := map[int]Atom{
 		0: {
 			Id:                 0,
-			MapValues:          map[string]int{"testKey": 1},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey": 1},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
@@ -38,8 +38,8 @@ func TestMapValueInt(t *testing.T) {
 	want := map[int]Atom{
 		0: {
 			Id:                 0,
-			MapValues:          map[string]int{"testKey": 1},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey": 1},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
@@ -63,8 +63,8 @@ func TestMapValueBool(t *testing.T) {
 	want := map[int]Atom{
 		0: {
 			Id:                 0,
-			MapValues:          map[string]int{"testKey": 1},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey": 1},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
@@ -88,15 +88,15 @@ func TestMapValue1(t *testing.T) {
 
 		0: {
 			Id:                 0,
-			MapValues:          map[string]int{"testKey": 1},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey": 1},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
 		1: {
 			Id:                 1,
-			MapValues:          map[string]int{"testKey2": 2},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey2": 2},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "testKey",
 		},
@@ -121,15 +121,15 @@ func TestMapValue2(t *testing.T) {
 
 		0: {
 			Id:                 0,
-			MapValues:          map[string]int{"testKey": 1},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey": 1},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
 		1: {
 			Id:                 1,
-			MapValues:          map[string]int{"0": 2, "1": 3, "2": 4},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"0": 2, "1": 3, "2": 4},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "testKey",
 		},
@@ -169,15 +169,15 @@ func TestMapValue3(t *testing.T) {
 
 		0: {
 			Id:                 0,
-			MapValues:          map[string]int{"testKey": 1},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey": 1},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
 		1: {
 			Id:                 1,
-			MapValues:          map[string]int{"testKey2": 2},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey2": 2},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "testKey",
 		},
@@ -202,15 +202,15 @@ func TestMapValue4(t *testing.T) {
 
 		0: {
 			Id:                 0,
-			MapValues:          map[string]int{"testKey": 1},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey": 1},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
 		1: {
 			Id:                 1,
-			MapValues:          map[string]int{"testKey2": 2},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey2": 2},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "testKey",
 		},
@@ -235,15 +235,15 @@ func TestMapValue5(t *testing.T) {
 
 		0: {
 			Id:                 0,
-			MapValues:          map[string]int{"testKey": 1},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey": 1},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
 		1: {
 			Id:                 1,
-			MapValues:          map[string]int{"testKey2": 2},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"testKey2": 2},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "testKey",
 		},
@@ -268,11 +268,11 @@ func TestArrayValues1(t *testing.T) {
 
 		0: {
 			Id: 0,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 1,
 				"1": 2,
 				"2": 3},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
@@ -311,11 +311,11 @@ func TestArrayValuesInts(t *testing.T) {
 
 		0: {
 			Id: 0,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 1,
 				"1": 2,
 				"2": 3},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
@@ -354,11 +354,11 @@ func TestArrayValuesBools(t *testing.T) {
 
 		0: {
 			Id: 0,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 1,
 				"1": 2,
 				"2": 3},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
@@ -398,19 +398,19 @@ func TestArrayValues21(t *testing.T) {
 
 		0: {
 			Id: 0,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 1},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
 		1: {
 			Id: 1,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 2,
 				"1": 3,
 				"2": 4},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "0",
 		},
@@ -449,19 +449,19 @@ func TestArrayValues2Ints(t *testing.T) {
 
 		0: {
 			Id: 0,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 1},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
 		1: {
 			Id: 1,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 2,
 				"1": 3,
 				"2": 4},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "0",
 		},
@@ -501,20 +501,20 @@ func TestArrayValues3(t *testing.T) {
 
 		0: {
 			Id: 0,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 1,
 				"1": 5},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
 		1: {
 			Id: 1,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 2,
 				"1": 3,
 				"2": 4},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "0",
 		},
@@ -561,10 +561,10 @@ func TestArrayValues4(t *testing.T) {
 
 		0: {
 			Id: 0,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 1,
 				"1": 2},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
@@ -577,11 +577,11 @@ func TestArrayValues4(t *testing.T) {
 		},
 		2: {
 			Id: 2,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 3,
 				"1": 4,
 				"2": 5},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "1",
 		},
@@ -619,21 +619,21 @@ func TestCollectMaps1(t *testing.T) {
 	want := map[int]Atom{
 		0: {
 			Id: 0,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"Name":          1,
 				"FunctionCode":  4,
 				"FunctionCode2": 5},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
 		1: {
 			Id: 1,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 2,
 				"1": 3,
 			},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "Name",
 		},
@@ -680,28 +680,28 @@ func TestCollectMaps1(t *testing.T) {
 func TestCollectMaps2(t *testing.T) {
 	want := map[int]Atom{
 		0: {Id: 0,
-			MapValues:          map[string]int{"test": 1, "test2": 7},
-			TypeValueSet:       "MapValues",
+			StringMapInt:       map[string]int{"test": 1, "test2": 7},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: "",
 		},
 		1: {
 			Id: 1,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"Name":          2,
 				"FunctionCode":  5,
 				"FunctionCode2": 6},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "test",
 		},
 		2: {
 			Id: 2,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 3,
 				"1": 4,
 			},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         1,
 			AtomParentChildKey: "Name",
 		},
@@ -735,21 +735,21 @@ func TestCollectMaps2(t *testing.T) {
 		},
 		7: {
 			Id: 7,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"Name":          8,
 				"FunctionCode":  11,
 				"FunctionCode2": 12},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "test2",
 		},
 		8: {
 			Id: 8,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"0": 9,
 				"1": 10,
 			},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         7,
 			AtomParentChildKey: "Name",
 		},
@@ -806,7 +806,7 @@ func TestStateExistance(t *testing.T) {
 
 		// CollectMaps(
 		0: {Id: 0,
-			MapValues: map[string]int{
+			StringMapInt: map[string]int{
 				"FunctionCode":        6,
 				"LockedByStates":      29,
 				"LockedByStatesCount": 31,
@@ -816,13 +816,13 @@ func TestStateExistance(t *testing.T) {
 				"Values":              25,
 				"parents":             1,
 			},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         -1,
 			AtomParentChildKey: ""},
 
 		// "parents", CollectMaps("0", "-1")
-		1: {Id: 1, MapValues: map[string]int{"0": 2},
-			TypeValueSet:       "MapValues",
+		1: {Id: 1, StringMapInt: map[string]int{"0": 2},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "parents"},
 		2: {Id: 2, IntValue: -1,
@@ -831,8 +831,8 @@ func TestStateExistance(t *testing.T) {
 			AtomParentChildKey: "0"},
 
 		// "Name", ArrayValueStrings("I am a test", "StarbucksMachine")
-		3: {Id: 3, MapValues: map[string]int{"0": 4, "1": 5},
-			TypeValueSet:       "MapValues",
+		3: {Id: 3, StringMapInt: map[string]int{"0": 4, "1": 5},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "Name"},
 		4: {Id: 4, StringValue: "I am a test",
@@ -852,21 +852,21 @@ func TestStateExistance(t *testing.T) {
 
 		// "StartChildren",
 		// CollectMaps(
-		7: {Id: 7, MapValues: map[string]int{"AreParallel": 15, "Edges": 8},
-			TypeValueSet:       "MapValues",
+		7: {Id: 7, StringMapInt: map[string]int{"AreParallel": 15, "Edges": 8},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "StartChildren"},
 
 		// "Edges",
 		// ArrayValue(
-		8: {Id: 8, MapValues: map[string]int{"0": 9, "1": 12},
-			TypeValueSet:       "MapValues",
+		8: {Id: 8, StringMapInt: map[string]int{"0": 9, "1": 12},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         7,
 			AtomParentChildKey: "Edges"},
 
 		// ArrayValue("state1 name1", "state1 name2")
-		9: {Id: 9, MapValues: map[string]int{"0": 10, "1": 11},
-			TypeValueSet:       "MapValues",
+		9: {Id: 9, StringMapInt: map[string]int{"0": 10, "1": 11},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         8,
 			AtomParentChildKey: "0"},
 		10: {Id: 10, StringValue: "state1 name1",
@@ -879,8 +879,8 @@ func TestStateExistance(t *testing.T) {
 			AtomParentChildKey: "1"},
 
 		// ArrayValue("state2 name1", "state2 name2"))
-		12: {Id: 12, MapValues: map[string]int{"0": 13, "1": 14},
-			TypeValueSet:       "MapValues",
+		12: {Id: 12, StringMapInt: map[string]int{"0": 13, "1": 14},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         8,
 			AtomParentChildKey: "1"},
 		13: {Id: 13, StringValue: "state2 name1",
@@ -903,21 +903,21 @@ func TestStateExistance(t *testing.T) {
 		/////////
 		// "Next",
 		// CollectMaps(
-		16: {Id: 16, MapValues: map[string]int{"AreParallel": 24, "Edges": 17},
-			TypeValueSet:       "MapValues",
+		16: {Id: 16, StringMapInt: map[string]int{"AreParallel": 24, "Edges": 17},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "Next"},
 
 		// "Edges",
 		// ArrayValue(
-		17: {Id: 17, MapValues: map[string]int{"0": 18, "1": 21},
-			TypeValueSet:       "MapValues",
+		17: {Id: 17, StringMapInt: map[string]int{"0": 18, "1": 21},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         16,
 			AtomParentChildKey: "Edges"},
 
 		// ArrayValue("state1 name1", "state1 name2")
-		18: {Id: 18, MapValues: map[string]int{"0": 19, "1": 20},
-			TypeValueSet:       "MapValues",
+		18: {Id: 18, StringMapInt: map[string]int{"0": 19, "1": 20},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         17,
 			AtomParentChildKey: "0"},
 		19: {Id: 19, StringValue: "state1 name1",
@@ -930,8 +930,8 @@ func TestStateExistance(t *testing.T) {
 			AtomParentChildKey: "1"},
 
 		// ArrayValue("state2 name1", "state2 name2"))
-		21: {Id: 21, MapValues: map[string]int{"0": 22, "1": 23},
-			TypeValueSet:       "MapValues",
+		21: {Id: 21, StringMapInt: map[string]int{"0": 22, "1": 23},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         17,
 			AtomParentChildKey: "1"},
 		22: {Id: 22, StringValue: "state2 name1",
@@ -951,36 +951,36 @@ func TestStateExistance(t *testing.T) {
 
 		// "Values",
 		// CollectMaps(
-		25: {Id: 25, MapValues: map[string]int{
+		25: {Id: 25, StringMapInt: map[string]int{
 			"drinkOrder":   26,
 			"orderQueue":   27,
 			"outputBuffer": 28},
-			TypeValueSet:       "MapValues",
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "Values"},
 
 		// "drinkOrder", ArrayValue()
-		26: {Id: 26, MapValues: map[string]int{},
-			TypeValueSet:       "MapValues",
+		26: {Id: 26, StringMapInt: map[string]int{},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         25,
 			AtomParentChildKey: "drinkOrder"},
 
 		// "orderQueue", ArrayValue()
-		27: {Id: 27, MapValues: map[string]int{},
-			TypeValueSet:       "MapValues",
+		27: {Id: 27, StringMapInt: map[string]int{},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         25,
 			AtomParentChildKey: "orderQueue"},
 
 		// "outputBuffer", ArrayValue()
-		28: {Id: 28, MapValues: map[string]int{},
-			TypeValueSet:       "MapValues",
+		28: {Id: 28, StringMapInt: map[string]int{},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         25,
 			AtomParentChildKey: "outputBuffer"},
 
 		// "LockedByStates",
 		// CollectMaps(
-		29: {Id: 29, MapValues: map[string]int{"11": 30},
-			TypeValueSet:       "MapValues",
+		29: {Id: 29, StringMapInt: map[string]int{"11": 30},
+			TypeValueSet:       "StringMapInt",
 			AtomParent:         0,
 			AtomParentChildKey: "LockedByStates"},
 
@@ -1211,10 +1211,10 @@ func TestGetAtom(t *testing.T) {
 
 func TestUpdateAtom(t *testing.T) {
 	want := Graph{Atoms: map[int]Atom{0: {Id: 0,
-		MapValues: map[string]int{"a": 2, "b": 3, "c": 4}}}}
+		StringMapInt: map[string]int{"a": 2, "b": 3, "c": 4}}}}
 
 	got := Graph{Atoms: map[int]Atom{0: {Id: 0,
-		MapValues: map[string]int{"a": 1, "b": 3}}}}
+		StringMapInt: map[string]int{"a": 1, "b": 3}}}}
 	got.UpdateAtomMapValues(0, map[string]int{"a": 2, "c": 4})
 
 	if !reflect.DeepEqual(want, got) {
@@ -1225,8 +1225,8 @@ func TestUpdateAtom(t *testing.T) {
 // func TestDoubleLinkListKeysAdd(t *testing.T) {
 // 	presetGraph1 := Graph{
 // 		Atoms: map[int]Atom{
-// 			0: {MapValues: map[string]int{},
-// 				TypeValueSet: "MapValues",
+// 			0: {StringMapInt: map[string]int{},
+// 				TypeValueSet: "StringMapInt",
 // 				AtomParent:   -1},
 // 		},
 // 	}
@@ -1253,17 +1253,17 @@ func TestUpdateAtom(t *testing.T) {
 // 		/*
 // 			generated
 // 			map[
-// 				0:{0 false 0  map[key1:1] MapValues -1}
-// 				1:{1 false 0  map[value1:2] MapValues 0}
-// 				2:{2 false 0  map[key1:3] MapValues 1}
+// 				0:{0 false 0  map[key1:1] StringMapInt -1}
+// 				1:{1 false 0  map[value1:2] StringMapInt 0}
+// 				2:{2 false 0  map[key1:3] StringMapInt 1}
 // 				3:{3 false 0 value1 map[] StringValue 2}]
 
 // 			append
 // 				   {map[
-// 					0:{0 false 0  map[key1:1] MapValues -1}
-// 					1:{1 false 0  map[key1:2] MapValues 0}
-// 					2:{2 false 0  map[value1:4] MapValues 2}
-// 					3:{3 false 0  map[key1:6] MapValues 4}
+// 					0:{0 false 0  map[key1:1] StringMapInt -1}
+// 					1:{1 false 0  map[key1:2] StringMapInt 0}
+// 					2:{2 false 0  map[value1:4] StringMapInt 2}
+// 					3:{3 false 0  map[key1:6] StringMapInt 4}
 // 					4:{4 false 0 value1 map[] StringValue 6}]}
 // 		*/
 // 		if want != got {
@@ -1276,16 +1276,16 @@ func TestUpdateAtom(t *testing.T) {
 
 // 	// 	got := myGraph.DoubleLinkListKeysValueAdd(0, "test1", "test2", "test4", "test5")
 // 	// 	/*
-// 	// 		0:{0 false 0  map[test4:1] MapValues -1}
-// 	// 		1:{1 false 0  map[test4:2] MapValues 0}
+// 	// 		0:{0 false 0  map[test4:1] StringMapInt -1}
+// 	// 		1:{1 false 0  map[test4:2] StringMapInt 0}
 // 	// 		2:{2 false 0 test5 map[] StringValue 1}
 
 // 	// 		0:{0 false 0  map[test1:1]  -1}
 // 	// 		1:{1 false 0  map[test2:2 test4:4]  0}
 // 	// 		2:{2 false 0 test3 map[]  1}
-// 	// 		3:{3 false 0  map[test4:4] MapValues 1}
-// 	// 		4:{4 false 0  map[test4:5] MapValues 0}
-// 	// 		5:{5 false 0  map[test4:6] MapValues 4}
+// 	// 		3:{3 false 0  map[test4:4] StringMapInt 1}
+// 	// 		4:{4 false 0  map[test4:5] StringMapInt 0}
+// 	// 		5:{5 false 0  map[test4:6] StringMapInt 4}
 // 	// 		6:{6 false 0 test5 map[] StringValue 5}
 // 	// 	*/
 // 	// 	// fmt.Println(myGraph)
@@ -1300,17 +1300,17 @@ func TestUpdateAtom(t *testing.T) {
 // 	myGraph := Graph{Atoms: map[int]Atom{
 // 		0: {
 // 			Id: 0,
-// 			MapValues: map[string]int{
+// 			StringMapInt: map[string]int{
 // 				"data structure Id's": 1,
 // 			},
-// 			TypeValueSet: "MapValues",
+// 			TypeValueSet: "StringMapInt",
 // 		},
 // 		1: {
 // 			Id: 1,
-// 			MapValues: map[string]int{
+// 			StringMapInt: map[string]int{
 // 				"trie tree": 2,
 // 			},
-// 			TypeValueSet: "MapValues",
+// 			TypeValueSet: "StringMapInt",
 // 		},
 // 		2: {
 // 			Id:           2,
@@ -1319,8 +1319,8 @@ func TestUpdateAtom(t *testing.T) {
 // 		},
 // 		3: {
 // 			Id:           3,
-// 			MapValues:    map[string]int{},
-// 			TypeValueSet: "MapValues",
+// 			StringMapInt:    map[string]int{},
+// 			TypeValueSet: "StringMapInt",
 // 		},
 // 	}}
 // 	t.Run("no 'data structure Id's'", func(t *testing.T) {
@@ -1339,15 +1339,15 @@ func TestUpdateAtom(t *testing.T) {
 // 		got := Graph{Atoms: map[int]Atom{
 // 			0: {
 // 				Id: 0,
-// 				MapValues: map[string]int{
+// 				StringMapInt: map[string]int{
 // 					"data structure Id's": 1,
 // 				},
-// 				TypeValueSet: "MapValues",
+// 				TypeValueSet: "StringMapInt",
 // 			},
 // 			1: {
 // 				Id:           1,
-// 				MapValues:    map[string]int{},
-// 				TypeValueSet: "MapValues",
+// 				StringMapInt:    map[string]int{},
+// 				TypeValueSet: "StringMapInt",
 // 			}}}
 // 		got.TrieTreeInit()
 

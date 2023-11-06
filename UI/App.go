@@ -11,9 +11,11 @@ import (
 	// "os"
 	"encoding/json"
 	"fmt"
+
 	// "golang.org/x/exp/slices"
 	"reflect"
 	"sort"
+
 	// "time"
 	// "fmt"
 	// "fmt"
@@ -438,16 +440,16 @@ func (a *AtomForm) UpdateEditFlag() {
 		atomFormId := len(a.Graph.Atoms)
 		isEditActiveId := atomFormId + 1
 		if entry, ok := a.Graph.Atoms[a.AtomId]; ok {
-			if len(a.Graph.Atoms[a.AtomId].MapValues) == 0 {
-				entry.MapValues = make(map[string]int)
+			if len(a.Graph.Atoms[a.AtomId].StringMapInt) == 0 {
+				entry.StringMapInt = make(map[string]int)
 				a.Graph.Atoms[a.AtomId] = entry
 			}
 		}
-		a.Graph.Atoms[a.AtomId].MapValues["AtomForm"] = atomFormId
+		a.Graph.Atoms[a.AtomId].StringMapInt["AtomForm"] = atomFormId
 		a.Graph.Atoms[atomFormId] = t.Atom{
 			Id:           atomFormId,
-			MapValues:    map[string]int{"IsEditActive": isEditActiveId},
-			TypeValueSet: "MapValues"}
+			StringMapInt: map[string]int{"IsEditActive": isEditActiveId},
+			TypeValueSet: "StringMapInt"}
 		a.Graph.Atoms[isEditActiveId] = t.Atom{
 			Id:           isEditActiveId,
 			BoolValue:    true,
@@ -495,10 +497,10 @@ func (a *AtomUI) OnMount(ctx app.Context) {
 func makeTreeHelper(atomId int, graph t.Graph) app.UI {
 
 	atom := graph.Atoms[atomId]
-	if atom.TypeValueSet == "MapValues" ||
+	if atom.TypeValueSet == "StringMapInt" ||
 		atom.TypeValueSet == "ArrayValues" {
 		keys := []string{}
-		for key := range atom.MapValues {
+		for key := range atom.StringMapInt {
 			if key != "AtomForm" {
 				keys = append(keys, key)
 			}
@@ -517,13 +519,13 @@ func makeTreeHelper(atomId int, graph t.Graph) app.UI {
 					key := keys[i]
 					// fmt.Println("range here")
 					return app.Div().Body(
-						app.If(atom.TypeValueSet == "MapValues",
+						app.If(atom.TypeValueSet == "StringMapInt",
 							&AtomForm{
 								Key:         key,
 								IsKeyMapKey: true,
 								AtomId:      atomId,
 								Graph:       graph}),
-						makeTreeHelper(atom.MapValues[key], graph),
+						makeTreeHelper(atom.StringMapInt[key], graph),
 					)
 				}),
 				app.Li().
