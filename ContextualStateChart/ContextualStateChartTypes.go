@@ -594,25 +594,30 @@ func HierarchicalTimelines() {
 		makeDrink = "makeDrink"
 	)
 
-	myGraph := Graph{Atoms: CollectMaps(
-		"Timelines", CollectMaps("barista movement",
-			ArrayValue(
-				CollectMaps(barista,
-					CollectMaps(movement, 0)),
-				CollectMaps(barista,
-					CollectMaps(movement, 2)),
-				0),
-			"barista use drink resources",
-			ArrayValue(
-				0,
-				CollectMaps(barista, makeDrink),
-				0),
-			"customer movement", ArrayValue(
-				CollectMaps(customer,
-					CollectMaps(movement, 0)),
-				CollectMaps(customer,
-					CollectMaps(movement, 2)),
-				0,
-			)),
-	)}
+	// myGraph := Graph{Atoms: CollectMaps(
+	// 	"Timelines", CollectMaps("barista movement",
+	// 		ArrayValue(
+	// 			CollectMaps(barista,
+	// 				CollectMaps(movement, 0)),
+	// 			CollectMaps(barista,
+	// 				CollectMaps(movement, 2)),
+	// 			0),
+	// 		"barista use drink resources",
+	// 		ArrayValue(
+	// 			0,
+	// 			CollectMaps(barista, makeDrink),
+	// 			0),
+	// 		"customer movement", ArrayValue(
+	// 			CollectMaps(customer,
+	// 				CollectMaps(movement, 0)),
+	// 			CollectMaps(customer,
+	// 				CollectMaps(movement, 2)),
+	// 			0,
+	// 		)),
+	// )}
+	/*
+		case 1: nothing is there to match
+		case 2: there is 1 match but there is nothing to predict
+		case 3: there is 1 match and there is at least 1 item to predict
+	*/
 }

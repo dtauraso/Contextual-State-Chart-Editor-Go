@@ -179,3 +179,14 @@ if the points don't match the next expected color try all directions till a poin
 the matching point and the previous point can be used to calculate the slope for the non-default direction
 timeline A has same point repeated at same time timeline B has points
 A's point is repeated enough times it can be used as a shortcut for B's points
+
+for all bottom level sequences found
+intersect atom trees
+if no match
+go up 1 level
+if match
+stop
+
+
+predict(match what is stored with input) and fit(intersection with small atom trees. if no match move up 1 level and repeat with next level of atom trees) sequence to atom tree
+keep items stored for longer period of time
