@@ -586,6 +586,11 @@ func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId
 	return 0
 }
 
+type TimeStep struct {
+	id    int
+	value int
+}
+
 func HierarchicalTimelines() {
 	const (
 		barista   = "barista"
@@ -594,27 +599,55 @@ func HierarchicalTimelines() {
 		makeDrink = "makeDrink"
 	)
 
-	// myGraph := Graph{Atoms: CollectMaps(
-	// 	"Timelines", CollectMaps("barista movement",
-	// 		ArrayValue(
-	// 			CollectMaps(barista,
-	// 				CollectMaps(movement, 0)),
-	// 			CollectMaps(barista,
-	// 				CollectMaps(movement, 2)),
-	// 			0),
-	// 		"barista use drink resources",
-	// 		ArrayValue(
-	// 			0,
-	// 			CollectMaps(barista, makeDrink),
-	// 			0),
-	// 		"customer movement", ArrayValue(
-	// 			CollectMaps(customer,
-	// 				CollectMaps(movement, 0)),
-	// 			CollectMaps(customer,
-	// 				CollectMaps(movement, 2)),
-	// 			0,
-	// 		)),
-	// )}
+	myGraph := Graph{Atoms: CollectMaps(
+		"Timelines", ArrayValue(
+			CollectMaps(
+				"0", 0, "1", 2, "4", 1),
+			CollectMaps(
+				"1", 4),
+			CollectMaps(
+				"0", 0, "1", 2, "4", 1),
+		),
+	)}
+
+	idsFound, _ := myGraph.GetValues(0, []string{"Timelines"})
+
+	atom := myGraph.Atoms[idsFound[0]]
+	/*
+		{map[
+			0:{0 false 0  map[Timelines:1] MapValues -1 }
+			1:{1 false 0  map[0:2 1:6 2:8] MapValues 0 Timelines}
+			2:{2 false 0  map[0:3 1:4 4:5] MapValues 1 0}
+			3:{3 false 0  map[] IntValue 2 0}
+			4:{4 false 2  map[] IntValue 2 1}
+			5:{5 false 1  map[] IntValue 2 4}
+			6:{6 false 0  map[1:7] MapValues 1 1}
+			7:{7 false 0 makeDrink map[] StringValue 6 1}
+			8:{8 false 0  map[0:9 1:10 4:11] MapValues 1 2}
+			9:{9 false 0  map[] IntValue 8 0}
+			10:{10 false 2  map[] IntValue 8 1}
+			11:{11 false 1  map[] IntValue 8 4}]}
+	*/
+	// fmt.Printf("%v\n%v", atom, myGraph)
+
+	timelines := make(map[int]int)
+	timestepChannel := make(chan TimeStep)
+	for key, i := range atom.MapValues {
+		go func(key string, i int) {
+			timestepChannel <- TimeStep{i, myGraph.Atoms[i].IntValue}
+
+		}(key, i)
+
+	}
+
+	for i := 0; i < len(atom.MapValues); i++ {
+		r := <-timestepChannel
+		timelines[r.id] = r.value
+
+	}
+	// close(timestepChannel)
+
+	fmt.Println(timelines)
 	/*
 		case 1: nothing is there to match
 		case 2: there is 1 match but there is nothing to predict
