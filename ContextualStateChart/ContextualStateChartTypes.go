@@ -638,10 +638,10 @@ func HierarchicalTimelines() {
 
 	timelines := make(map[int][]int)
 	timestepChannel := make(chan TimeStep)
-	for timestep := 0; timestep < 3; timestep++ {
+	for timestep := 0; timestep < 10; timestep++ {
 		for key, i := range atom.MapValues {
 			go func(key string, i int) {
-				timestepChannel <- TimeStep{i, myGraph.Atoms[i].IntValue}
+				timestepChannel <- TimeStep{i, myGraph.Atoms[i].MapValues[fmt.Sprint(timestep)]}
 
 			}(key, i)
 		}
@@ -652,7 +652,6 @@ func HierarchicalTimelines() {
 				timelines[r.id] = []int{}
 			}
 			timelines[r.id] = append(timelines[r.id], r.value)
-
 		}
 	}
 	fmt.Println(timelines)
