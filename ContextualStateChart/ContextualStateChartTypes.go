@@ -636,23 +636,25 @@ func HierarchicalTimelines() {
 	*/
 	// fmt.Printf("%v\n%v", atom, myGraph)
 
-	timelines := make(map[int]int)
+	timelines := make(map[int][]int)
 	timestepChannel := make(chan TimeStep)
-	for key, i := range atom.MapValues {
-		go func(key string, i int) {
-			timestepChannel <- TimeStep{i, myGraph.Atoms[i].IntValue}
+	for timestep := 0; timestep < 3; timestep++ {
+		for key, i := range atom.MapValues {
+			go func(key string, i int) {
+				timestepChannel <- TimeStep{i, myGraph.Atoms[i].IntValue}
 
-		}(key, i)
+			}(key, i)
+		}
+		for i := 0; i < len(atom.MapValues); i++ {
+			r := <-timestepChannel
+			_, ok := timelines[r.id]
+			if !ok {
+				timelines[r.id] = []int{}
+			}
+			timelines[r.id] = append(timelines[r.id], r.value)
 
+		}
 	}
-
-	for i := 0; i < len(atom.MapValues); i++ {
-		r := <-timestepChannel
-		timelines[r.id] = r.value
-
-	}
-	defer close(timestepChannel)
-
 	fmt.Println(timelines)
 	/*
 		case 1: nothing is there to match
