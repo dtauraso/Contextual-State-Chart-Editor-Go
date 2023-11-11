@@ -336,6 +336,14 @@ func (g *Graph) GetValues(startAtom int, keys []string) (idsFound []int, ok bool
 	}
 	return idsFound, true
 }
+func (g *Graph) GetAtom2(startAtom int, keys []string) (atom Atom) {
+
+	idsFound, ok := g.GetValues(startAtom, keys)
+	if ok {
+		return g.Atoms[idsFound[len(idsFound)-1]]
+	}
+	return Atom{}
+}
 func (g *Graph) GetAtom(startAtom int, path []string) (atomId int, currentPath []string, returnKind int) {
 
 	// no clear way to know if it was unable to find item
@@ -610,9 +618,7 @@ func HierarchicalTimelines() {
 		),
 	)}
 
-	idsFound, _ := myGraph.GetValues(0, []string{"Timelines"})
-
-	atom := myGraph.Atoms[idsFound[0]]
+	atom := myGraph.GetAtom2(0, []string{"Timelines"})
 	/*
 		{map[
 			0:{0 false 0  map[Timelines:1] MapValues -1 }
@@ -645,7 +651,7 @@ func HierarchicalTimelines() {
 		timelines[r.id] = r.value
 
 	}
-	// close(timestepChannel)
+	defer close(timestepChannel)
 
 	fmt.Println(timelines)
 	/*
