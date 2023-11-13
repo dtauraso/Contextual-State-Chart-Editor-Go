@@ -596,7 +596,7 @@ func (g *Graph) TrieTreeAdd(strings []string, trieTreeId int) (newTrieTreeNodeId
 
 type TimeStep struct {
 	id    int
-	value int
+	value Atom
 }
 
 func HierarchicalTimelines() {
@@ -610,11 +610,11 @@ func HierarchicalTimelines() {
 	myGraph := Graph{Atoms: CollectMaps(
 		"Timelines", ArrayValue(
 			CollectMaps(
-				"0", 0, "1", 2, "4", 1),
+				"0", 1, "1", 2, "4", 3),
 			CollectMaps(
 				"1", 4),
 			CollectMaps(
-				"0", 0, "1", 2, "4", 1),
+				"0", 1, "1", 2, "4", 1),
 		),
 	)}
 
@@ -641,7 +641,8 @@ func HierarchicalTimelines() {
 	for timestep := 0; timestep < 10; timestep++ {
 		for key, i := range atom.MapValues {
 			go func(key string, i int) {
-				timestepChannel <- TimeStep{i, myGraph.Atoms[i].MapValues[fmt.Sprint(timestep)]}
+				timelineAtomId := myGraph.Atoms[i].MapValues[fmt.Sprint(timestep)]
+				timestepChannel <- TimeStep{i, myGraph.Atoms[timelineAtomId]}
 
 			}(key, i)
 		}
@@ -651,7 +652,7 @@ func HierarchicalTimelines() {
 			if !ok {
 				timelines[r.id] = []int{}
 			}
-			timelines[r.id] = append(timelines[r.id], r.value)
+			timelines[r.id] = append(timelines[r.id], r.value.IntValue)
 		}
 	}
 	fmt.Println(timelines)
