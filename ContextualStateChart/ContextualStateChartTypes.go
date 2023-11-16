@@ -643,6 +643,14 @@ func HierarchicalTimelines() {
 			go func(key string, i int) {
 				timelineAtomId := myGraph.Atoms[i].MapValues[fmt.Sprint(timestep)]
 				timestepChannel <- TimeStep{i, myGraph.Atoms[timelineAtomId]}
+				// frst item in each timeline defines the type
+				// use mapvalues to store the intvalue data for the table
+				// timeline id -> graph atom id
+				// if item1, item2 occurr contiguously then they are to be grouped as 1 string or 1 int
+
+				// predict next string
+				// if fail
+				// 	save string to linked list with string being key in mapvalues
 
 			}(key, i)
 		}
