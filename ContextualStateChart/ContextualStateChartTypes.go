@@ -651,7 +651,12 @@ func HierarchicalTimelines() {
 				// predict next string
 				// if fail
 				// 	save string to linked list with string being key in mapvalues
-
+				/*
+					tree levels
+					character level
+					word level
+					phrase level
+				*/
 			}(key, i)
 		}
 		for i := 0; i < len(atom.MapValues); i++ {
