@@ -646,16 +646,23 @@ func HierarchicalTimelines() {
 				// frst item in each timeline defines the type
 				// use mapvalues to store the intvalue data for the table
 				// timeline id -> graph atom id
-				// if item1, item2 occurr contiguously then they are to be grouped as 1 string or 1 int
+				// if item1, item2 occurr contiguously then they are to be grouped as 1 string
 
 				// predict next string
 				// if fail
-				// 	save string to linked list with string being key in mapvalues
+				// 	1 table for if string has been seen
+				//  1 table for order of strings
+				// timelines only use strings
 				/*
 					tree levels
 					character level
 					word level
 					phrase level
+
+
+					T for holding items across timelines
+					item repeats across n timelines
+					repeating across each timeline must not match at same timestep
 				*/
 			}(key, i)
 		}
