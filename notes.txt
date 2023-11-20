@@ -263,8 +263,8 @@ keep items stored for longer period of time
 		parents: {
 			phrase: id
 		}
-		sequence: [7, 8, 9, 10],
-		map: {w: [1], o: [2], r: [3], d: []}
+		components: [7, 8, 9, 10],
+		predict: {w: [1], o: [2], r: [3], d: []}
 		children: {accc: 4, acba: 1}
 	}
 			
@@ -272,3 +272,6 @@ keep items stored for longer period of time
 
 sequence l1
 read and save
+
+read and save the formula(word, " ", word)
+find the closest formula to match with the sequence(autocomplete using word, " ", word)
