@@ -653,6 +653,9 @@ func HierarchicalTimelines() {
 				// 	1 table for if string has been seen
 				//  1 table for order of strings
 				// timelines only use strings
+				// tree diagram
+				/*
+				 */
 				/*
 					tree levels
 					character level

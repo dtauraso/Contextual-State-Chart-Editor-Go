@@ -190,3 +190,85 @@ stop
 
 predict(match what is stored with input) and fit(intersection with small atom trees. if no match move up 1 level and repeat with next level of atom trees) sequence to atom tree
 keep items stored for longer period of time
+
+{
+	0: {
+		name: a,
+		parents: {
+			acba: 3,
+			accc: 4
+		}
+	},
+	1: {
+		name: b,
+		parents: {
+			acba: 3
+		}
+	},
+	2: {
+		name: c,
+		parents: {
+			acba: 3,
+			accc: 4
+		}
+	}
+	3: {
+		name: acba,
+		parents: {
+			"acba accc": 5
+			word: 11
+
+		}
+		sequence: [0, 2, 1, 0],
+		map: {a: [1], b: [3], c: [2]}
+	}
+	4: {
+		name: accc,
+		parents: {
+			"acba accc": 6
+			word: 11
+		}
+		sequence: [0, 2, 2, 2]
+		map: {a: [1], c: [2, 3]}
+	}
+	5: {
+		name: " "
+		parents: {
+			"acba accc": 6
+			word: 7
+		}
+	}
+	6: {
+		name: acba accc,
+		parents: {
+			sentence: id
+		}
+		sequence: [3, 5, 4]
+		map: {acba: [1], " ": [2], accc: []}
+	}
+	7: {
+		name: w
+	}
+	8: {
+		name: o
+	}
+	9: {
+		name: r
+	}
+	10: {
+		name: d
+	}
+	11: {
+		name: word,
+		parents: {
+			phrase: id
+		}
+		sequence: [7, 8, 9, 10],
+		map: {w: [1], o: [2], r: [3], d: []}
+		children: {accc: 4, acba: 1}
+	}
+			
+}
+
+sequence l1
+read and save
