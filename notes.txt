@@ -275,3 +275,37 @@ read and save
 
 read and save the formula(word, " ", word)
 find the closest formula to match with the sequence(autocomplete using word, " ", word)
+
+
+standing on a color floor
+have 4 maps, 1 large dot, 1 ring and 1 large dot, 2 parallel lines and 1 large dot, or neither
+can't jump to se more of the floor
+can't compare color you see on floor with maps
+you only see 1 color where you stand and surroundings
+can compare colors on the floor only
+no guarantee of items on floor are centered
+how to figure out what map is right
+
+if you see a different color on the floor the 1 large dot map is wrong
+if you follow the different color off the page than the 1 ring and 1 large dot is wrong
+if you follow the different color and are able to arrive at the same place you started and you are still traveling on 1 color then 1 ring and 1 large dot is right
+
+
+
+code
+	code structure english phrases
+		english words making up the phrase
+		code
+
+
+english
+	english funnel essay english phrases
+		english words making up the phrase
+		english sentences
+
+assume english words under code and english are the same words
+read english funnel essay english phrases
+recognize the code and english english words
+use the sequence that does not actually predict the input(code structure english phrases)
+link code structure english phrases to the english sentences as the code structure english phrases are linked to the code
+
