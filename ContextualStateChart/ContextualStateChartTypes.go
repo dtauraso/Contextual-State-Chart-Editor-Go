@@ -610,11 +610,11 @@ func HierarchicalTimelines() {
 	myGraph := Graph{Atoms: CollectMaps(
 		"Timelines", ArrayValue(
 			CollectMaps(
-				"0", 1, "1", 2, "4", 3),
+				"0", "a", "1", "c", "2", "b", "3", "a"),
 			CollectMaps(
-				"1", 4),
+				"1", "4"),
 			CollectMaps(
-				"0", 1, "1", 2, "4", 1),
+				"0", "1", "1", "2", "4", "1"),
 		),
 	)}
 

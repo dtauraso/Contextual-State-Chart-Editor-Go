@@ -215,36 +215,25 @@ keep items stored for longer period of time
 	3: {
 		name: acba,
 		parents: {
-			"acba accc": 5
 			word: 11
 
 		}
 		sequence: [0, 2, 1, 0],
-		map: {a: [1], b: [3], c: [2]}
+		predict: {a: [1], b: [3], c: [2]}
 	}
 	4: {
 		name: accc,
 		parents: {
-			"acba accc": 6
 			word: 11
 		}
 		sequence: [0, 2, 2, 2]
-		map: {a: [1], c: [2, 3]}
+		predict: {a: [1], c: [2, 3]}
 	}
 	5: {
 		name: " "
 		parents: {
-			"acba accc": 6
-			word: 7
+			phrase: 12
 		}
-	}
-	6: {
-		name: acba accc,
-		parents: {
-			sentence: id
-		}
-		sequence: [3, 5, 4]
-		map: {acba: [1], " ": [2], accc: []}
 	}
 	7: {
 		name: w
@@ -267,8 +256,18 @@ keep items stored for longer period of time
 		predict: {w: [1], o: [2], r: [3], d: []}
 		children: {accc: 4, acba: 1}
 	}
+	12: {
+		name: phrase,
+		parents {
+			sentence: id
+		}
+		components: [11, 5, 11]
+		predict: {word: [1], " ": 2}
+		children: {word: 11, " ": 5}
+	}
 			
 }
+
 
 sequence l1
 read and save
