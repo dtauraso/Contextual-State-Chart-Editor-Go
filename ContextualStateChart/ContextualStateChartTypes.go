@@ -610,7 +610,7 @@ func HierarchicalTimelines() {
 	myGraph := Graph{Atoms: CollectMaps(
 		"Timelines", ArrayValue(
 			CollectMaps(
-				"0", "a", "1", "c", "2", "b", "3", "a"),
+				"0", "a", "2", "c", "4", "b", "6", "a"),
 			CollectMaps(
 				"1", "4"),
 			CollectMaps(
@@ -646,7 +646,8 @@ func HierarchicalTimelines() {
 				// frst item in each timeline defines the type
 				// use mapvalues to store the intvalue data for the table
 				// timeline id -> graph atom id
-				// if item1, item2 occurr contiguously then they are to be grouped as 1 string
+				// contiguously says how to connect
+				// prediction says what needs to match and be connected
 
 				// predict next string
 				// if fail
