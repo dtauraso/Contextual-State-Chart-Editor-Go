@@ -655,6 +655,10 @@ func HierarchicalTimelines() {
 				// how to know when we are at the nth child run(1 run is contiguous states)
 				// discontinuity breaks means new run of same timline
 				/*
+					everything is a block or sequence of smaller blocks
+					different sequences that are logically the same are doubly linked by the "same"
+					property
+					variables are found by insersecting, completing the sequence and finding trees that have different branches
 					what happens if more than 1 parent connects to the same child
 					{nodeId -> {unrunChildNodeCount, parentNodeId}}
 					use goroutines for child nodes
@@ -674,6 +678,55 @@ func HierarchicalTimelines() {
 					so phrase is made using the input
 
 					storing the letter formulas first
+
+
+					d/dxc
+						d/dx, c
+					c
+						constant
+
+					d/dxx^n
+						same
+							nx^n-1
+						d/dx
+							d
+							/
+							d
+							x
+						x^n
+							x
+							^
+							n
+								digit
+									self loop
+									0
+									1
+									...
+									9
+					nx^n-1
+						same
+							d/dxx^n
+						n
+						x^n
+							x
+							^
+							n
+								n-1
+									n
+										digit
+											self loop
+										0
+										1
+										...
+										9
+									-
+									1
+					intersect sequences at top level
+					traverse intersected part in counterpart sequence to find the node where branches diverge on
+					searched sequence and counterpart sequence
+					the node found is the variable
+					use it as the substitution key for the countepart sequence and the input being evalulated
+					how to know when a different sequence is logically the same
 
 				*/
 				// predict next string
