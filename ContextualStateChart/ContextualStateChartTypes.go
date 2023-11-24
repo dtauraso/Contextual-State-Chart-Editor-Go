@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"sort"
 	"strconv"
+	"sync"
 )
 
 // Parents: NDParentStateName -> Id
@@ -648,7 +649,32 @@ func HierarchicalTimelines() {
 				// timeline id -> graph atom id
 				// contiguously says how to connect
 				// prediction says what needs to match and be connected
+				// hierarchy timelines
+				// each timeline is unique
+				// 1 state being run by multiple parent timelines
+				// how to know when we are at the nth child run(1 run is contiguous states)
+				// discontinuity breaks means new run of same timline
+				/*
+					what happens if more than 1 parent connects to the same child
+					{nodeId -> {unrunChildNodeCount, parentNodeId}}
+					use goroutines for child nodes
 
+					bottom up filter from child nodes to parent nodes
+					parent nodes found are now input for parent nodes filter
+					there should be 1 parent found at the top that is the top level formula for the input
+
+					storing the formula for word first
+					word formula
+						word
+							a
+							at
+							the
+					using words and spaces to derive the formula for phrase
+					finds word formula first, then fails to complete pattern. word is the highest formula
+					so phrase is made using the input
+
+					storing the letter formulas first
+				*/
 				// predict next string
 				// if fail
 				// 	1 table for if string has been seen
@@ -685,4 +711,58 @@ func HierarchicalTimelines() {
 		case 2: there is 1 match but there is nothing to predict
 		case 3: there is 1 match and there is at least 1 item to predict
 	*/
+
+	// Slice of numbers
+	numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	// Number of goroutines to use
+	numGoroutines := 3
+
+	// Calculate the chunk size for each goroutine
+	chunkSize := len(numbers) / numGoroutines
+
+	// Create a channel to collect results
+	resultChan := make(chan int, numGoroutines)
+
+	// Create a WaitGroup to wait for all goroutines to finish
+	var wg sync.WaitGroup
+
+	// Split the slice into chunks and calculate sum concurrently
+	for i := 0; i < numGoroutines; i++ {
+		wg.Add(1)
+
+		startIndex := i * chunkSize
+		endIndex := (i + 1) * chunkSize
+
+		// For the last goroutine, include any remaining elements
+		if i == numGoroutines-1 {
+			endIndex = len(numbers)
+		}
+
+		go calculateSum(numbers[startIndex:endIndex], &wg, resultChan)
+	}
+
+	// Close the result channel once all goroutines finish
+	wg.Wait()
+	close(resultChan)
+
+	// Collect results from the channel and calculate the total sum
+	totalSum := 0
+	for result := range resultChan {
+		totalSum += result
+	}
+
+	fmt.Printf("Total sum: %d\n", totalSum)
+}
+
+// calculateSum calculates the sum of numbers in a given slice.
+func calculateSum(numbers []int, wg *sync.WaitGroup, result chan<- int) {
+	defer wg.Done()
+
+	sum := 0
+	for _, num := range numbers {
+		sum += num
+	}
+
+	result <- sum
 }
