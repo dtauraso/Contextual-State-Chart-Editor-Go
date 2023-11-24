@@ -308,3 +308,4 @@ recognize the code and english english words
 use the sequence that does not actually predict the input(code structure english phrases)
 link code structure english phrases to the english sentences as the code structure english phrases are linked to the code
 
+sequences different but equivalent.

@@ -674,6 +674,7 @@ func HierarchicalTimelines() {
 					so phrase is made using the input
 
 					storing the letter formulas first
+
 				*/
 				// predict next string
 				// if fail
