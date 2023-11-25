@@ -660,7 +660,7 @@ func HierarchicalTimelines() {
 					property
 					variables are found by insersecting, completing the sequence and finding trees that have different branches
 					what happens if more than 1 parent connects to the same child
-					{nodeId -> {unrunChildNodeCount, parentNodeId}}
+					{nodeId -> {parentNodeId: unrunChildNodeCount}}
 					use goroutines for child nodes
 
 					bottom up filter from child nodes to parent nodes
@@ -721,11 +721,65 @@ func HierarchicalTimelines() {
 										9
 									-
 									1
+
 					intersect sequences at top level
 					traverse intersected part in counterpart sequence to find the node where branches diverge on
 					searched sequence and counterpart sequence
 					the node found is the variable
 					use it as the substitution key for the countepart sequence and the input being evalulated
+
+					n = n
+						n
+							same
+								n
+							digit
+								check with same
+								self loop
+						n
+							same
+								n
+							digit
+								check with same
+								self loop
+
+					n = p
+					n
+						same
+							p
+						digit
+							check with same
+								if n != p
+									break complete sequence
+							self loop
+					p
+						same
+							n
+						digit
+							check with same
+							self loop
+
+					branch
+						paths
+							0
+								condition1
+								statement
+							1
+								condition2
+								statement
+							2
+								statement
+
+					while
+						paths
+							0
+								condition1
+								statement
+								rerun condition1
+									leave while if condition1 is false
+
+
+					run each sequence in order and halt the moment the equivalence is broken
+
 					how to know when a different sequence is logically the same
 
 				*/
