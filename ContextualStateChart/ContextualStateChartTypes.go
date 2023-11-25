@@ -748,6 +748,8 @@ func HierarchicalTimelines() {
 							p
 						digit
 							check with same
+								if n == p
+									stop running successive sequences in branch tree
 								if n != p
 									break complete sequence
 							self loop
