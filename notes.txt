@@ -309,3 +309,166 @@ use the sequence that does not actually predict the input(code structure english
 link code structure english phrases to the english sentences as the code structure english phrases are linked to the code
 
 sequences different but equivalent.
+
+
+
+// frst item in each timeline defines the type
+// use mapvalues to store the intvalue data for the table
+// timeline id -> graph atom id
+// contiguously says how to connect
+// prediction says what needs to match and be connected
+// hierarchy timelines
+// each timeline is unique
+// 1 state being run by multiple parent timelines
+// how to know when we are at the nth child run(1 run is contiguous states)
+// discontinuity breaks means new run of same timline
+/*
+	everything is a block or sequence of smaller blocks
+	different sequences that are logically the same are doubly linked by the "same"
+	property
+	variables are found by insersecting, completing the sequence and finding trees that have different branches
+	what happens if more than 1 parent connects to the same child
+	{nodeId -> {parentNodeId: unrunChildNodeCount}}
+	use goroutines for child nodes
+
+	bottom up filter from child nodes to parent nodes
+	parent nodes found are now input for parent nodes filter
+	there should be 1 parent found at the top that is the top level formula for the input
+
+	storing the formula for word first
+	word formula
+		word
+			a
+			at
+			the
+	using words and spaces to derive the formula for phrase
+	finds word formula first, then fails to complete pattern. word is the highest formula
+	so phrase is made using the input
+
+	storing the letter formulas first
+
+
+	d/dxc
+		d/dx, c
+	c
+		constant
+
+	d/dxx^n
+		same
+			nx^n-1
+		d/dx
+			d
+			/
+			d
+			x
+		x^n
+			x
+			^
+			n
+				digit
+					self loop
+					0
+					1
+					...
+					9
+	nx^n-1
+		same
+			d/dxx^n
+		n
+		x^n
+			x
+			^
+			n
+				n-1
+					n
+						digit
+							self loop
+						0
+						1
+						...
+						9
+					-
+					1
+
+	intersect sequences at top level
+	traverse intersected part in counterpart sequence to find the node where branches diverge on
+	searched sequence and counterpart sequence
+	the node found is the variable
+	use it as the substitution key for the countepart sequence and the input being evalulated
+
+	n = n
+		n
+			same
+				n
+			digit
+				check with same
+				self loop
+		n
+			same
+				n
+			digit
+				check with same
+				self loop
+
+	n = p
+	n
+		same
+			p
+		digit
+			check with same
+				if n == p
+					stop running successive sequences in branch tree
+				if n != p
+					break complete sequence
+			self loop
+	p
+		same
+			n
+		digit
+			check with same
+			self loop
+
+	branch
+		paths
+			0
+				condition1
+				statement
+			1
+				condition2
+				statement
+			2
+				statement
+
+	while
+		paths
+			0
+				condition1
+				statement
+				rerun condition1
+					leave while if condition1 is false
+
+
+	run each sequence in order and halt the moment the equivalence is broken
+
+	how to know when a different sequence is logically the same
+
+*/
+// predict next string
+// if fail
+// 	1 table for if string has been seen
+//  1 table for order of strings
+// timelines only use strings
+// tree diagram
+/*
+	*/
+/*
+	tree levels
+	character level
+	word level
+	phrase level
+
+
+	T for holding items across timelines
+	item repeats across n timelines
+	repeating across each timeline must not match at same timestep
+*/
