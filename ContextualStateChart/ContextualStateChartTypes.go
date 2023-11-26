@@ -609,14 +609,20 @@ func HierarchicalTimelines() {
 	)
 
 	myGraph := Graph{Atoms: CollectMaps(
-		"Timelines", ArrayValue(
-			CollectMaps(
+		"timelineTree", CollectMaps(
+			"timeline", CollectMaps(
 				"0", "a", "2", "c", "4", "b", "6", "a"),
-			CollectMaps(
-				"1", "4"),
-			CollectMaps(
-				"0", "1", "1", "2", "4", "1"),
-		),
+			"children", ArrayValue(
+				CollectMaps(
+					"timeline", CollectMaps(
+						"0", "a", "2", "c", "4", "b", "6", "a")),
+				CollectMaps(
+					"timeline", CollectMaps(
+						"1", "4")),
+				CollectMaps(
+					"timeline", CollectMaps(
+						"0", "1", "1", "2", "4", "1")),
+			)),
 	)}
 
 	atom := myGraph.GetAtom2(0, []string{"Timelines"})
