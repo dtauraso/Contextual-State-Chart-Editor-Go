@@ -195,79 +195,103 @@ keep items stored for longer period of time
 	0: {
 		name: a,
 		parents: {
-			acba: 3,
-			accc: 4
+			// position child is in when visiting parent: [parent id]
+			0: [4]
+			1: [3]
+			3: [3]
 		}
+		components: [],
+
 	},
 	1: {
 		name: b,
 		parents: {
-			acba: 3
+			2: [3]
 		}
+		components: [],
 	},
 	2: {
 		name: c,
 		parents: {
-			acba: 3,
-			accc: 4
+			1: [3, 4],
+			2: [4],
+			3: [4]
 		}
+		components: [],
 	}
 	3: {
 		name: acba,
 		parents: {
-			word: 11
+			0: [11]
 
 		}
 		sequence: [0, 2, 1, 0],
-		predict: {a: [1], b: [3], c: [2]}
+		children: {a: 0, b: 1, c: 2}
 	}
 	4: {
 		name: accc,
 		parents: {
-			word: 11
+			0: [11]
 		}
 		sequence: [0, 2, 2, 2]
-		predict: {a: [1], c: [2, 3]}
+		children: {a: 0, c: 2}
+
 	}
 	5: {
 		name: " "
 		parents: {
-			phrase: 12
+			1: [12]
 		}
 	}
 	7: {
 		name: w
+		components: [],
 	}
 	8: {
 		name: o
+		components: [],
 	}
 	9: {
 		name: r
+		components: [],
 	}
 	10: {
 		name: d
+		components: [],
 	}
 	11: {
 		name: word,
 		parents: {
-			phrase: id
+			0: [12]
+			2: [12]
 		}
 		components: [7, 8, 9, 10],
-		predict: {w: [1], o: [2], r: [3], d: []}
-		children: {accc: 4, acba: 1}
 	}
+	
 	12: {
 		name: phrase,
 		parents {
-			sentence: id
+			position_in_sentence: id
 		}
 		components: [11, 5, 11]
-		predict: {word: [1], " ": 2}
 		children: {word: 11, " ": 5}
+	}
+	13: {
+		name: word,
+		substate: {
+			name: abstract
+			parents: {
+				0: [12]
+				2: [12]
+			}
+			children: {accc: 4, acba: 1}
+		}
 	}
 			
 }
 
+different paths through the same column
+A is represented by 1 column, but A can be recognized by any usage of any row in the 1 column
 
 sequence l1
 read and save

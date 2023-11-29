@@ -11,6 +11,7 @@ import (
 	"sort"
 	"strconv"
 	"sync"
+	"time"
 )
 
 // Parents: NDParentStateName -> Id
@@ -667,58 +668,60 @@ func HierarchicalTimelines() {
 		case 2: there is 1 match but there is nothing to predict
 		case 3: there is 1 match and there is at least 1 item to predict
 	*/
+	// Constructing a sample tree
+	root := &Node{
+		ID: 1,
+		Children: []*Node{
+			{ID: 2, Children: []*Node{
+				{ID: 4, Children: []*Node{}},
+				{ID: 5, Children: []*Node{}},
+			}},
+			{ID: 3, Children: []*Node{
+				{ID: 6, Children: []*Node{}},
+				{ID: 7, Children: []*Node{}},
+			}},
+		},
+	}
 
-	// Slice of numbers
-	numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-
-	// Number of goroutines to use
-	numGoroutines := 3
-
-	// Calculate the chunk size for each goroutine
-	chunkSize := len(numbers) / numGoroutines
-
-	// Create a channel to collect results
-	resultChan := make(chan int, numGoroutines)
-
-	// Create a WaitGroup to wait for all goroutines to finish
+	// Use a WaitGroup to wait for all goroutines to finish
 	var wg sync.WaitGroup
+	wg.Add(1)
 
-	// Split the slice into chunks and calculate sum concurrently
-	for i := 0; i < numGoroutines; i++ {
-		wg.Add(1)
+	// Start the process with the root node
+	go runGoroutines(root, &wg)
 
-		startIndex := i * chunkSize
-		endIndex := (i + 1) * chunkSize
-
-		// For the last goroutine, include any remaining elements
-		if i == numGoroutines-1 {
-			endIndex = len(numbers)
-		}
-
-		go calculateSum(numbers[startIndex:endIndex], &wg, resultChan)
-	}
-
-	// Close the result channel once all goroutines finish
+	// Wait for the root goroutine to finish
 	wg.Wait()
-	close(resultChan)
 
-	// Collect results from the channel and calculate the total sum
-	totalSum := 0
-	for result := range resultChan {
-		totalSum += result
-	}
-
-	fmt.Printf("Total sum: %d\n", totalSum)
 }
 
-// calculateSum calculates the sum of numbers in a given slice.
-func calculateSum(numbers []int, wg *sync.WaitGroup, result chan<- int) {
+// Node represents a node in the tree data structure
+type Node struct {
+	ID       int
+	Children []*Node
+}
+
+// Function that simulates some work for a node
+func simulateWork(nodeID int) {
+	fmt.Printf("Node %d is doing some work\n", nodeID)
+	time.Sleep(time.Second)
+	fmt.Printf("Node %d finished its work\n", nodeID)
+}
+
+// Function to execute the goroutines for a node and its children
+func runGoroutines(node *Node, wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	sum := 0
-	for _, num := range numbers {
-		sum += num
+	// Run goroutines for children first
+	childWg := &sync.WaitGroup{}
+	for _, child := range node.Children {
+		childWg.Add(1)
+		go runGoroutines(child, childWg)
 	}
 
-	result <- sum
+	// Wait for all child goroutines to finish
+	childWg.Wait()
+
+	// Now, execute the goroutine for the current node
+	simulateWork(node.ID)
 }
