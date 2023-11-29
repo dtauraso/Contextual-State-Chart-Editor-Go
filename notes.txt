@@ -292,6 +292,7 @@ keep items stored for longer period of time
 
 different paths through the same column
 A is represented by 1 column, but A can be recognized by any usage of any row in the 1 column
+certain symbols alter what is read next and written to next
 
 sequence l1
 read and save
