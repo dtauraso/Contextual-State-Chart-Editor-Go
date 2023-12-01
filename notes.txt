@@ -323,6 +323,10 @@ intersect symbols to narrow down trackers to match rest of sequence
 permenence value -> symbol id vector
 permanence value drops over time
 atrophy(time difference, permance value) = reduced permance value
+set operation
+equality operation
+if statement
+
 
 
 sequence l1
