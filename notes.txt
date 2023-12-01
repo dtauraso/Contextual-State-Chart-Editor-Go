@@ -194,11 +194,12 @@ keep items stored for longer period of time
 {
 	0: {
 		name: a,
+		id: 0,
+
 		parents: {
-			// position child is in when visiting parent: [parent id]
-			0: [4]
+			// dimension
+			0: [3],
 			1: [3]
-			3: [3]
 		}
 		components: [],
 
@@ -206,7 +207,7 @@ keep items stored for longer period of time
 	1: {
 		name: b,
 		parents: {
-			2: [3]
+			0: [3]
 		}
 		components: [],
 	},
@@ -225,7 +226,31 @@ keep items stored for longer period of time
 			0: [11]
 
 		}
-		sequence: [0, 2, 1, 0],
+		a0 -> c0
+		b0 -> a1
+		sequence: {0: {0: {2: 0}, ....., 1: {0: {0: 1}}}}
+		[0, 2, 1, 0],
+		startNodes: {0: 0}
+		children: {a: 0, b: 1, c: 2}
+	}
+	15: {
+		name: x,
+		parents: {
+			0: [14]
+		}
+		components: [],
+	},
+	14: {
+		name: xacba,
+		parents: {
+			0: [11]
+
+		}
+		a0 -> c0
+		b0 -> a1
+		sequence: {15: {0: {0: 0}},  0: {0: {2: 0}, ....., 1: {0: {0: 1}}}}
+		[0, 2, 1, 0],
+		startNodes: {15: 0}
 		children: {a: 0, b: 1, c: 2}
 	}
 	4: {
@@ -293,6 +318,11 @@ keep items stored for longer period of time
 different paths through the same column
 A is represented by 1 column, but A can be recognized by any usage of any row in the 1 column
 certain symbols alter what is read next and written to next
+intersect symbols to narrow down trackers to match rest of sequence
+permenence value -> symbol id vector
+permanence value drops over time
+atrophy(time difference, permance value) = reduced permance value
+
 
 sequence l1
 read and save
