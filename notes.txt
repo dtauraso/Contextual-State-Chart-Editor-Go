@@ -329,7 +329,7 @@ if statement
 higher tracker waits until lower tracker meets it, recognizing lower blocks as the traversal
 processing the logic
 	1. reuse constructions
-	2. keep different contexts for each processing step
+	2. everything is context
 	3. multple threads can run the same logic simultaneously
 
 sequence l1
