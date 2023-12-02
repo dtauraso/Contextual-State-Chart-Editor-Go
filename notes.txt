@@ -193,6 +193,7 @@ keep items stored for longer period of time
 
 {
 	0: {
+		// name will describe traversal changes when block is visited
 		name: a,
 		id: 0,
 
