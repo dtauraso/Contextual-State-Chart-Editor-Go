@@ -365,6 +365,11 @@ make new sequence with value instead of field to bring the result up the tree
 	changes often take parts from same program and different programs
 	the changes don't have to fit the syntax
 
+test input:
+	"if 1 then 0"
+	"0 if 1"
+	"if(1) {0}"
+
 sequence l1
 read and save
 
