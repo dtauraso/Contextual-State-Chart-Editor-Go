@@ -343,6 +343,10 @@ single block is either 1 block or 1 block parent of 1 block sequence
 make new sequence with value instead of field to bring the result up the tree
 1 tracker to make new sequence with value instead of field
 1 tracker on existing sequence to keep fields that haven't been replaced yet
+1 program
+	multiple people suggest how to change it
+	changes often take parts from same program and different programs
+	the changes don't have to fit the syntax
 
 sequence l1
 read and save
