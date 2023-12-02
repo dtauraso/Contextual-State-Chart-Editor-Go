@@ -243,7 +243,8 @@ keep items stored for longer period of time
 		components: [],
 	},
 	14: {
-		0: {
+		dimensions: {
+			0: {
 			name: xacba,
 
 			parents: {
@@ -252,15 +253,20 @@ keep items stored for longer period of time
 			}
 			a0 -> c0
 			b0 -> a1
-			sequence: {15: {0: {0: 2}},  0: {0: {2: 0}, ....., 1: {0: {0: 1}}}}
+			sequence: [(15, 0), (0, 2), (0, 0), (2, 0), ....., (1, 0), (0, 1)]
+
 			[0, 2, 1, 0],
 			startNodes: {15: 0}
 			children: {a: 0, b: 1, c: 2}
-		}
-		1: {
-			// name can be same as in (14, 0) or different
-			name: xacba,
+			}
+			1: {
+				// name can be same as in (14, 0) or different
+				name: xacba,
 
+			}
+		
+		}
+		newInstancesFromInput: []
 		}
 	}
 	4: {
