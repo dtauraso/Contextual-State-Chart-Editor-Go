@@ -336,7 +336,8 @@ n = p
 1 tracker for n
 1 tracker for p
 making new connections and connecting existing structures in different ways
-making new connections vs reusing existing connections but adjusting permanence values
+making new connections for sequence
+reusing existing connections but adjusting permanence values for child sequence to field in parent sequence
 traverse tree until tracker is on a single block
 single block is either 1 block or 1 block parent of 1 block sequence
 
