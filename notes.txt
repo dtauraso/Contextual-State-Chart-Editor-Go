@@ -326,8 +326,11 @@ atrophy(time difference, permance value) = reduced permance value
 set operation
 equality operation
 if statement
-
-
+higher tracker waits until lower tracker meets it, recognizing lower blocks as the traversal
+processing the logic
+	1. reuse constructions
+	2. keep different contexts for each processing step
+	3. multple threads can run the same logic simultaneously
 
 sequence l1
 read and save
