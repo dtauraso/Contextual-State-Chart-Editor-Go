@@ -331,6 +331,12 @@ processing the logic
 	1. reuse constructions
 	2. everything is context
 	3. multple threads can run the same logic simultaneously
+	difference instances reusing same logic
+n = p
+1 tracker for n
+1 tracker for p
+traverse tree until tracker is on a single block
+single block is either 1 block or 1 block parent of 1 block sequence
 
 sequence l1
 read and save
