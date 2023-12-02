@@ -369,6 +369,12 @@ test input:
 	"if 1 then 0"
 	"0 if 1"
 	"if(1) {0}"
+	"if 0 then 1"
+	"1 if 0"
+	"if(0) {1}"
+
+define "0" to be false
+define "1" to be true
 
 sequence l1
 read and save
