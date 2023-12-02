@@ -340,6 +340,7 @@ making new connections for sequence
 reusing existing connections but adjusting permanence values for child sequence to field in parent sequence
 traverse tree until tracker is on a single block
 single block is either 1 block or 1 block parent of 1 block sequence
+make new sequence with value instead of field to bring the result up the tree
 
 sequence l1
 read and save
