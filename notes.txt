@@ -373,7 +373,8 @@ test input:
 	"1 if 0"
 	"if(0) {1}"
 	"if 1 {0}" // this sequence nees to be found via failed prediction and trying existing options in sequences not previously matched for this input as matching where prediction from first sequence failed
-
+				// if current parent doesn't have children that work, keep going up tree till root
+				// how to know going up and down the tree will not let tracker miss the expected position and fail to find the match
 define "0" to be false
 define "1" to be true
 
