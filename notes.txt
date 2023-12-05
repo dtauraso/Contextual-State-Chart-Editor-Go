@@ -258,7 +258,7 @@ keep items stored for longer period of time
 				[0, 2, 1, 0],
 				startNodes: {15: 0}
 				children: {a: 0, b: 1, c: 2}
-				nextDimension: {0: Block{}}
+				nextDimension: {0: BlockContext{}}
 			}
 			1: {
 				// name can be same as in (14, 0) or different
