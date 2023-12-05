@@ -242,7 +242,7 @@ keep items stored for longer period of time
 		}
 		components: [],
 	},
-	// block doesn't process until the full sequence matches
+	// name determines the items that need to match
 	14:	Block{ //  different sequence for context in different block
 			0: BlockContext{
 				name: xacba,
