@@ -243,8 +243,8 @@ keep items stored for longer period of time
 		components: [],
 	},
 	// block doesn't process until the full sequence matches
-	14:	[ //  different sequence for context in different block
-			0: {
+	14:	Block{ //  different sequence for context in different block
+			0: BlockContext{
 				name: xacba,
 
 				parents: {
@@ -258,7 +258,7 @@ keep items stored for longer period of time
 				[0, 2, 1, 0],
 				startNodes: {15: 0}
 				children: {a: 0, b: 1, c: 2}
-				nextDimension: {0: BlockContext{}}
+				nestedContext: {0: BlockContext{}}
 			}
 			1: {
 				// name can be same as in (14, 0) or different
@@ -266,7 +266,7 @@ keep items stored for longer period of time
 
 			}
 		[]
-	]
+	}
 	4: {
 		name: accc,
 		parents: {
