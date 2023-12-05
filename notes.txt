@@ -254,7 +254,7 @@ keep items stored for longer period of time
 				a0 -> c0
 				b0 -> a1
 				sequence: [(15, 0), (0, 2), (0, 0), (2, 0), ....., (1, 0), (0, 1)]
-
+				variables: {x: {value: 1, history: [1]}}
 				[0, 2, 1, 0],
 				startNodes: {15: 0}
 				children: {a: 0, b: 1, c: 2}
