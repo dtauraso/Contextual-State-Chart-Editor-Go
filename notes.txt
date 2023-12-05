@@ -199,9 +199,9 @@ keep items stored for longer period of time
 
 		parents: {
 			// dimension -> parent id
-			0: 3,
-			1: 3,
-			2: 14
+			0: {parentId: [3, 0], positionInParent: 0},
+			1: {parentId: [3, 0], positionInParent: 3},
+			2: {parentIdList: [14, 0], positionInParent: 1}, 
 		}
 		components: [],
 
@@ -244,30 +244,28 @@ keep items stored for longer period of time
 	},
 	// block doesn't process until the full sequence matches
 	14:	[ //  different sequence for context in different block
-			[ // revisit block in same sequence
-				{
+			{
+				name: xacba,
+
+				parents: {
+					0: [11]
+
+				}
+				a0 -> c0
+				b0 -> a1
+				sequence: [(15, 0), (0, 2), (0, 0), (2, 0), ....., (1, 0), (0, 1)]
+
+				[0, 2, 1, 0],
+				startNodes: {15: 0}
+				children: {a: 0, b: 1, c: 2}
+			}
+			{
+				1: {
+					// name can be same as in (14, 0) or different
 					name: xacba,
 
-					parents: {
-						0: [11]
-
-					}
-					a0 -> c0
-					b0 -> a1
-					sequence: [(15, 0), (0, 2), (0, 0), (2, 0), ....., (1, 0), (0, 1)]
-
-					[0, 2, 1, 0],
-					startNodes: {15: 0}
-					children: {a: 0, b: 1, c: 2}
 				}
-				{
-					1: {
-						// name can be same as in (14, 0) or different
-						name: xacba,
-
-					}
-				}
-			]
+			}
 		[]
 	]
 	4: {
