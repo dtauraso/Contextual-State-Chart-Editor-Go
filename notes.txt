@@ -242,6 +242,8 @@ keep items stored for longer period of time
 		}
 		components: [],
 	},
+	// intersect blocks to find common block
+	// intersect blocks maximizing intersection sequence length
 	// name determines the items that need to match
 	14:	Block{ //  different sequence for context in different block
 			0: BlockContext{

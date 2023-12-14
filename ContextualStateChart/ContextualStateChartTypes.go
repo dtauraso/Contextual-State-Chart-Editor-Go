@@ -669,31 +669,84 @@ func HierarchicalTimelines() {
 		case 3: there is 1 match and there is at least 1 item to predict
 	*/
 	// Constructing a sample tree
-	root := &Node{
-		ID: 1,
-		Children: []*Node{
-			{ID: 2, Children: []*Node{
-				{ID: 4, Children: []*Node{}},
-				{ID: 5, Children: []*Node{}},
-			}},
-			{ID: 3, Children: []*Node{
-				{ID: 6, Children: []*Node{}},
-				{ID: 7, Children: []*Node{}},
-			}},
-		},
-	}
+	// root := &Node{
+	// 	ID: 1,
+	// 	Children: []*Node{
+	// 		{ID: 2, Children: []*Node{
+	// 			{ID: 4, Children: []*Node{}},
+	// 			{ID: 5, Children: []*Node{}},
+	// 		}},
+	// 		{ID: 3, Children: []*Node{
+	// 			{ID: 6, Children: []*Node{}},
+	// 			{ID: 7, Children: []*Node{}},
+	// 		}},
+	// 	},
+	// }
 
 	// Use a WaitGroup to wait for all goroutines to finish
-	var wg sync.WaitGroup
-	wg.Add(1)
+	// var wg sync.WaitGroup
+	// wg.Add(1)
 
 	// Start the process with the root node
-	go runGoroutines(root, &wg)
+	// go runGoroutines(root, &wg)
 
 	// Wait for the root goroutine to finish
-	wg.Wait()
+	// wg.Wait()
+	// Example usage
+	sets1 := [][]int{
+		{1, 2, 3, 4, 5},
+		{2, 3, 5, 6},
+		{3, 4, 5},
+	}
+
+	result1 := intersectSets(sets1)
+
+	fmt.Println("Intersection of sets:", result1)
+
+	sets2 := [][]int{
+		{1, 2, 3, 4, 5, 6},
+		{2, 3, 5, 6},
+		{3, 4, 5},
+	}
+
+	result2 := intersectSets(sets2)
+
+	fmt.Println("Intersection of sets:", result2)
 
 }
+
+func intersectSets(sets [][]int) []int {
+	// Create a map to store the frequency of each element
+	elementFrequency := make(map[int]int)
+
+	// Count the frequency of each element in the sets
+	for _, set := range sets {
+		uniqueSet := make(map[int]bool)
+		for _, elem := range set {
+			uniqueSet[elem] = true
+		}
+
+		// Increment the frequency of each element in the map
+		for elem := range uniqueSet {
+			elementFrequency[elem]++
+		}
+	}
+
+	// Sort the elements based on their frequency in descending order
+	sortedElements := make([]int, 0, len(elementFrequency))
+	for elem, freq := range elementFrequency {
+		sortedElements = append(sortedElements, elem*freq)
+	}
+	sort.Sort(sort.Reverse(sort.IntSlice(sortedElements)))
+	return []int{}
+	// Extract the original elements from the sorted list
+	// result := make([]int, 0, len(sortedElements))
+	// for _, elem := range sortedElements {
+
+	// result = append(result, elem/elementFrequency[elem])
+}
+
+// return result
 
 // Node represents a node in the tree data structure
 type Node struct {
