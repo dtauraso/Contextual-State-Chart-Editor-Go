@@ -29,7 +29,7 @@ type Link struct {
 type Block struct {
 	Id          string                                `json:"Id"`
 	Function    func(map[string]Block, []string) bool `json:"Function,omitempty"`
-	Parents     map[string]Parent                     `json:"Parents,omitempty"`
+	Parents     []Parent                              `json:"Parents,omitempty"`
 	Sequence    []Link                                `json:"Link,omitempty"`
 	Variables   map[string]Variable                   `json:"Variables,omitempty"`
 	NextContext map[string]string                     `json:"NextContext,omitempty"`
