@@ -3,8 +3,8 @@ package main
 import ContextualStateChartTypes "Contextual-State-Chart-Editor-Go/ContextualStateChart"
 
 type Parent struct {
-	IdList           []int `json:"IdList,omitempty"`
-	PositionInParent int   `json:"PositionInParent,omitempty"`
+	IdList           []string `json:"IdList,omitempty"`
+	PositionInParent int      `json:"PositionInParent,omitempty"`
 }
 
 type Variable struct {
@@ -13,10 +13,9 @@ type Variable struct {
 }
 
 type Block struct {
-	Id          int                 `json:"Id"`
-	Name        string              `json:"Name,omitempty"`
-	Parents     map[int]Parent      `json:"Parents,omitempty"`
-	Sequence    [][]int             `json:"Sequence,omitempty"`
+	Id          string              `json:"Id"`
+	Parents     []Parent            `json:"Parents,omitempty"`
+	Sequence    [][]string          `json:"Sequence,omitempty"`
 	Variables   map[string]Variable `json:"Variables,omitempty"`
 	NextContext map[string]int      `json:"NextContext,omitempty"`
 }
