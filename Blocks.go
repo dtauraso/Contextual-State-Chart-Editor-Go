@@ -1,20 +1,30 @@
 package main
 
-import ContextualStateChartTypes "Contextual-State-Chart-Editor-Go/ContextualStateChart"
+import (
+	ContextualStateChartTypes "Contextual-State-Chart-Editor-Go/ContextualStateChart"
+	"time"
+)
 
 type Parent struct {
 	Link             Link `json:"Link,omitempty"`
 	PositionInParent int  `json:"PositionInParent,omitempty"`
 }
 
+type Change struct {
+	Value ContextualStateChartTypes.Atom `json:"Value,omitempty"`
+	Type  string                         `json:"Type,omitempty"`
+}
+
 type Variable struct {
-	Value   ContextualStateChartTypes.Atom   `json:"Value,omitempty"`
-	History []ContextualStateChartTypes.Atom `json:"History,omitempty"`
+	Value   ContextualStateChartTypes.Atom `json:"Value,omitempty"`
+	History []Change                       `json:"History,omitempty"`
 }
 
 type Link struct {
-	Ids        []string `json:"Ids,omitempty"`
-	UsageCount int      `json:"UsageCount,omitempty"`
+	Ids                       []string  `json:"Ids,omitempty"`
+	UsageCount                int       `json:"UsageCount,omitempty"`
+	TimeLastUsed              time.Time `json:"TimeLastUsed,omitempty"`
+	ActiveConnectionLastIndex int       `json:"ActiveConnectionLastIndex,omitempty"`
 }
 type Block struct {
 	Id          string                                `json:"Id"`
