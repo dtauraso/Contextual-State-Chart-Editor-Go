@@ -32,5 +32,5 @@ type Block struct {
 	Parents     []Parent                              `json:"Parents,omitempty"`
 	Sequence    []Link                                `json:"Link,omitempty"`
 	Variables   map[string]Variable                   `json:"Variables,omitempty"`
-	NextContext map[string]string                     `json:"NextContext,omitempty"`
+	NestedBlock map[string]string                     `json:"NestedBlock,omitempty"`
 }
