@@ -34,3 +34,8 @@ type Block struct {
 	Variables   map[string]Variable                   `json:"Variables,omitempty"`
 	NestedBlock map[string]string                     `json:"NestedBlock,omitempty"`
 }
+
+type Blocks struct {
+	Blocks map[string]Block `json:"Blocks,omitempty"`
+	MaxInt int              `json:"MaxInt,omitempty"`
+}
