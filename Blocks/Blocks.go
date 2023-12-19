@@ -29,12 +29,11 @@ type Link struct {
 
 /*func(map[string]Block, []string) bool*/
 type Block struct {
-	Id           string              `json:"Id"`
-	FunctionName string              `json:"FunctionName,omitempty"`
-	Parents      []Parent            `json:"Parents,omitempty"`
-	Sequence     []Link              `json:"Link,omitempty"`
-	Variables    map[string]Variable `json:"Variables,omitempty"`
-	NestedBlock  map[string]string   `json:"NestedBlock,omitempty"`
+	Id          string              `json:"Id"`
+	Parents     []Parent            `json:"Parents,omitempty"`
+	Sequence    []Link              `json:"Link,omitempty"`
+	Variables   map[string]Variable `json:"Variables,omitempty"`
+	NestedBlock map[string]string   `json:"NestedBlock,omitempty"`
 }
 
 type Blocks struct {
