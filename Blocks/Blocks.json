@@ -1,0 +1,25 @@
+{
+    "MaxInt": 0,
+    "Blocks": {
+        "dot": {
+            "Id": "dot",
+            "Sequence": [
+                {
+                    "Ids": [
+                        "color"
+                    ]
+                },
+                {
+                    "Ids": [
+                        "radius"
+                    ]
+                }
+            ]
+        },
+        "color": {
+            "NestedBlock": {
+                "css": {}
+            }
+        }
+    }
+}

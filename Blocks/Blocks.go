@@ -33,10 +33,12 @@ type Block struct {
 	Parents     []Parent            `json:"Parents,omitempty"`
 	Sequence    []Link              `json:"Link,omitempty"`
 	Variables   map[string]Variable `json:"Variables,omitempty"`
-	NestedBlock map[string]string   `json:"NestedBlock,omitempty"`
+	NestedBlock map[string]Block    `json:"NestedBlock,omitempty"`
 }
 
 type Blocks struct {
 	Blocks map[string]Block `json:"Blocks,omitempty"`
 	MaxInt int              `json:"MaxInt,omitempty"`
 }
+
+var blocks Blocks
