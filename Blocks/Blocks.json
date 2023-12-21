@@ -1,24 +1,40 @@
 {
     "MaxInt": 0,
     "Blocks": {
-        "dot": {
-            "Id": "dot",
-            "Sequence": [
-                {
-                    "Ids": [
-                        "color"
-                    ]
-                },
-                {
-                    "Ids": [
-                        "radius"
-                    ]
-                }
-            ]
-        },
-        "color": {
+        "step": {
+            "Id": "step",
             "NestedBlock": {
-                "css": {}
+                "template": {
+                    "backend": {
+                        "NestedBlock": {
+                            "function": {}
+                        },
+                        "Variables": {}
+                    },
+                    "css": {
+                        "Sequence": [
+                            {
+                                "Ids": [
+                                    "css",
+                                    "step"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "css": {
+            "NestedBlock": {
+                "step": {
+                    "Id": "step",
+                    "Variables": {
+                        "backgroundColor": {},
+                        "position": {},
+                        "top": {},
+                        "left": {}
+                    }
+                }
             }
         }
     }
