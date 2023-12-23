@@ -11,28 +11,63 @@
                         },
                         "Variables": {}
                     },
-                    "css": {
+                    "frontend": {
                         "Sequence": [
                             {
                                 "Ids": [
                                     "css",
-                                    "step"
+                                    "step",
+                                    "template"
                                 ]
                             }
                         ]
                     }
-                }
+                },
+                "instances": {}
             }
         },
         "css": {
             "NestedBlock": {
                 "step": {
                     "Id": "step",
-                    "Variables": {
-                        "backgroundColor": {},
-                        "position": {},
-                        "top": {},
-                        "left": {}
+                    "NestedBlock": {
+                        "template": {
+                            "NestedBlock": {
+                                "Variables": {
+                                    "function": {}
+                                }
+                            },
+                            "Variables": {
+                                "backgroundColor": {},
+                                "position": {},
+                                "top": {},
+                                "left": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "if": {
+            "Id": "if",
+            "NestedBlock": {
+                "template": {
+                    "Id": "template",
+                    "NestedBlock": {
+                        "if": {
+                            "Id": "if",
+                            "Variables": {
+                                "ifStatementFunctionName": {
+                                    "Value": {
+                                        "Id": "0",
+                                        "StringValue": "ifStatementFunction"
+                                    }
+                                }
+                            }
+                        },
+                        "cond": {},
+                        "if true": {},
+                        "if false": {}
                     }
                 }
             }
