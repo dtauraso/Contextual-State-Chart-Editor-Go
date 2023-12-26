@@ -580,3 +580,5 @@ sequences different but equivalent.
 	item repeats across n timelines
 	repeating across each timeline must not match at same timestep
 */
+
+percent intersect

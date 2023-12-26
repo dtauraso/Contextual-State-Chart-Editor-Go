@@ -5,6 +5,12 @@ import (
 	"time"
 )
 
+type LinkedNode struct {
+	Prev int
+	Curr int
+	Data interface{}
+}
+
 type Parent struct {
 	Link             Link `json:"Link,omitempty"`
 	PositionInParent int  `json:"PositionInParent,omitempty"`

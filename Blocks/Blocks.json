@@ -65,12 +65,27 @@
                                 }
                             }
                         },
-                        "cond": {},
-                        "if true": {},
-                        "if false": {}
+                        "path": {
+                            "Id": "path",
+                            "Sequence": [
+                                {
+                                    "Ids": [
+                                        "cond"
+                                    ]
+                                },
+                                {
+                                    "Ids": [
+                                        "block to run if cond is true"
+                                    ]
+                                }
+                            ]
+                        }
                     }
                 }
             }
+        },
+        "cond": {
+            "Id": "cond"
         }
     }
 }
