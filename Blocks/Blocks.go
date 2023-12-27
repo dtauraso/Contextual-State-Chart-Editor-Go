@@ -8,7 +8,13 @@ import (
 type LinkedNode struct {
 	Prev int
 	Curr int
-	Data interface{}
+	Data Link
+}
+
+type LinkedList struct {
+	LinkedList []LinkedNode
+	FirstNode  int
+	LastNode   int
 }
 
 type Parent struct {
@@ -37,7 +43,7 @@ type Link struct {
 type Block struct {
 	Id          string              `json:"Id"`
 	Parents     []Parent            `json:"Parents,omitempty"`
-	Sequence    []Link              `json:"Link,omitempty"`
+	Sequence    LinkedList          `json:"Link,omitempty"`
 	Variables   map[string]Variable `json:"Variables,omitempty"`
 	NestedBlock map[string]Block    `json:"NestedBlock,omitempty"`
 }

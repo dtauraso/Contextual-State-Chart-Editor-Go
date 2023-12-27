@@ -1227,6 +1227,10 @@ func TestHierarchicalTimelines(t *testing.T) {
 	HierarchicalTimelines()
 }
 
+func TestPattern(t *testing.T) {
+	Pattern()
+}
+
 // func TestDoubleLinkListKeysAdd(t *testing.T) {
 // 	presetGraph1 := Graph{
 // 		Atoms: map[int]Atom{

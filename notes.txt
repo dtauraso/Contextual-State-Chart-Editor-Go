@@ -582,3 +582,5 @@ sequences different but equivalent.
 */
 
 percent intersect
+
+each block autopredicts what the input will be

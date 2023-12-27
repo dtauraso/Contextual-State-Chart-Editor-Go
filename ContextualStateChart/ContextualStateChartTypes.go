@@ -778,3 +778,10 @@ func runGoroutines(node *Node, wg *sync.WaitGroup) {
 	// Now, execute the goroutine for the current node
 	simulateWork(node.ID)
 }
+
+func Pattern() {
+
+	// sequence of blocks for different colors
+	// sequence of blocks for different directions
+	// detect repeating
+}
