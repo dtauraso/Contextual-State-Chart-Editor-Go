@@ -784,4 +784,14 @@ func Pattern() {
 	// sequence of blocks for different colors
 	// sequence of blocks for different directions
 	// detect repeating
+	// 1 small spiral using different colors
+	// 1 large spiral using different colors
+	// detect repeating for small spiral
+	// detect parts of small spiral as part of large spiral
+	// update small spiral to have parts of large spiral
+	// 1 small large spiral
+	// detect part of small large spiral using current spiral template
+	// 1 wierd spiral
+	// detect spiral parts and generate cleaner(slightly cleaner is ok) spiral using the spiral parts it has detected
+
 }
