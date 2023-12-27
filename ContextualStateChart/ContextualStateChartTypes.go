@@ -781,7 +781,6 @@ func runGoroutines(node *Node, wg *sync.WaitGroup) {
 
 func Pattern() {
 
-	// sequence of blocks for different colors
 	// sequence of blocks for different directions
 	// detect repeating
 	// 1 small spiral using different colors
