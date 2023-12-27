@@ -37,6 +37,7 @@ type Link struct {
 	UsageCount                int       `json:"UsageCount,omitempty"`
 	TimeLastUsed              time.Time `json:"TimeLastUsed,omitempty"`
 	ActiveConnectionLastIndex int       `json:"ActiveConnectionLastIndex,omitempty"`
+	ChildBlockLink            []string  `json:"ChildBlockLink,omitempty"`
 }
 
 /*func(map[string]Block, []string) bool*/

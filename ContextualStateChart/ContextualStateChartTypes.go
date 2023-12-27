@@ -782,6 +782,8 @@ func runGoroutines(node *Node, wg *sync.WaitGroup) {
 func Pattern() {
 
 	// sequence of blocks for different directions
+	// all spirals have to be larger than 1 unit spiral
+
 	// detect repeating
 	// 1 small spiral
 	// 1 large spiral
@@ -792,5 +794,11 @@ func Pattern() {
 	// detect part of small large spiral using current spiral template
 	// 1 wierd spiral (70% or less match with spiral detector)
 	// detect spiral parts and generate spiral using the spiral parts it has detected
+	// simplify saved sequenes by deleting nodes that don't match to spiral traits
+	// remove example spiral sequences so there is idealy 1 unit spiral to detect all future spirals
 
 }
+
+// matching
+// needs to match different sequences at different times per sequence
+// ith input != ith position is existing pattern
