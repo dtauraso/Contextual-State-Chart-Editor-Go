@@ -792,6 +792,6 @@ func Pattern() {
 	// 1 small large spiral
 	// detect part of small large spiral using current spiral template
 	// 1 wierd spiral
-	// detect spiral parts and generate cleaner(slightly cleaner is ok) spiral using the spiral parts it has detected
+	// detect spiral parts and generate spiral using the spiral parts it has detected
 
 }
