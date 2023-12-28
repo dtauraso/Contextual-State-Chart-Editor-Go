@@ -1228,7 +1228,7 @@ func TestHierarchicalTimelines(t *testing.T) {
 }
 
 func TestPattern(t *testing.T) {
-	Pattern()
+	pattern()
 }
 
 // func TestDoubleLinkListKeysAdd(t *testing.T) {

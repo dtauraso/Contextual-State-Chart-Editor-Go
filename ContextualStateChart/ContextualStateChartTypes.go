@@ -52,11 +52,12 @@ type Link struct {
 
 /*func(map[string]Block, []string) bool*/
 type Block struct {
-	Id          string              `json:"Id"`
-	Parents     []Parent            `json:"Parents,omitempty"`
-	Sequence    LinkedList          `json:"Link,omitempty"`
-	Variables   map[string]Variable `json:"Variables,omitempty"`
-	NestedBlock map[string]Block    `json:"NestedBlock,omitempty"`
+	Id           string              `json:"Id"`
+	Parents      []Parent            `json:"Parents,omitempty"`
+	Sequence     LinkedList          `json:"Link,omitempty"`
+	FunctionName string              `json:"FunctionName,omitempty"`
+	Variables    map[string]Variable `json:"Variables,omitempty"`
+	NestedBlock  map[string]Block    `json:"NestedBlock,omitempty"`
 }
 
 type Blocks struct {
@@ -831,14 +832,17 @@ func runGoroutines(node *Node, wg *sync.WaitGroup) {
 	simulateWork(node.ID)
 }
 
-func Pattern() {
+func pattern() {
 
 	myBlocks := Blocks{Blocks: map[string]Block{}, MaxInt: 0}
-	myBlocks.Blocks["cond"] = Block{Id: "cond"}
+	myBlocks.Blocks["cond"] = Block{Id: "cond",
+		NestedBlock: map[string]Block{
+			"instances": {Id: "instances", Sequence: LinkedList{}},
+			"0":         {Id: "0", FunctionName: "condFunction"}}}
 	myBlocks.Blocks["if"] = Block{Id: "if",
 		NestedBlock: map[string]Block{
 			"instances": {Id: "instances", Sequence: LinkedList{}},
-			"0":         {Id: "0", Sequence: LinkedList{}}}}
+			"0":         {Id: "0", Sequence: LinkedList{LinkedList: []LinkedNode{{Data: Link{Ids: []string{"cond", "0"}}}}, FirstNode: 0, LastNode: 0, CurrentNode: 0}}}}
 	// sequence of blocks for different directions
 	// all spirals have to be larger than 1 unit spiral
 
