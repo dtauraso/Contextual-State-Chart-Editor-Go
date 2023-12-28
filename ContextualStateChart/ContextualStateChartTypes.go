@@ -833,8 +833,12 @@ func runGoroutines(node *Node, wg *sync.WaitGroup) {
 
 func Pattern() {
 
-	// myBlocks := make(Blocks)
-	// myBlocks.Blocks["if"] = Block{Id: "if"}
+	myBlocks := Blocks{Blocks: map[string]Block{}, MaxInt: 0}
+	myBlocks.Blocks["cond"] = Block{Id: "cond"}
+	myBlocks.Blocks["if"] = Block{Id: "if",
+		NestedBlock: map[string]Block{
+			"instances": {Id: "instances", Sequence: LinkedList{}},
+			"0":         {Id: "0", Sequence: LinkedList{}}}}
 	// sequence of blocks for different directions
 	// all spirals have to be larger than 1 unit spiral
 
