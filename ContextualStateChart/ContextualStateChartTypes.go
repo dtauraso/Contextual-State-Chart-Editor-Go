@@ -839,7 +839,7 @@ func add1(x int) int {
 func lessThan(x, y int) bool {
 	return x < y
 }
-func left1(blocks Blocks, path []string, sequencePos int) bool {
+func leftY(blocks Blocks, path []string, sequencePos int) bool {
 
 	block := blocks.GetBlock(path)
 	y := block.Variables["y"].Value.IntValue
@@ -872,7 +872,7 @@ func (b *Blocks) GetBlock(path []string) Block {
 func pattern() {
 
 	myBlocks := Blocks{Blocks: map[string]Block{}, MaxInt: 0}
-	myBlocks.Blocks["left1"] = Block{Id: "left1", FunctionName: "left1"}
+	myBlocks.Blocks["leftY"] = Block{Id: "leftY", FunctionName: "leftY"}
 	myBlocks.Blocks["forward"] = Block{Id: "forward", FunctionName: "forward"}
 	myBlocks.Blocks["checkLeftX"] = Block{Id: "checkLeftX", FunctionName: "checkLeftX"}
 	myBlocks.Blocks["path"] = Block{Id: "path",
@@ -888,12 +888,12 @@ func pattern() {
 					Link{Ids: []string{"checkLeftX"}}},
 			}}}
 	inputs := map[string][]string{
-		"left1":      []string{"left1"},
+		"leftY":      []string{"leftY"},
 		"forward":    []string{"forward"},
 		"checkLeftX": []string{"checkLeftX"},
 	}
 	functionNameFunction := map[string]func(blocks Blocks, path []string, sequencePos int) bool{
-		"left1":      left1,
+		"leftY":      leftY,
 		"checkLeftX": checkLeftX,
 	}
 	// myBlocks.Blocks["cond"] = Block{Id: "cond",
