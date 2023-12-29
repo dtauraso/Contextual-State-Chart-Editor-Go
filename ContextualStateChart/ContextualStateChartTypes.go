@@ -872,6 +872,8 @@ func (b *Blocks) GetBlock(path []string) Block {
 func pattern() {
 
 	myBlocks := Blocks{Blocks: map[string]Block{}, MaxInt: 0}
+	// needs a way to tell the difference between using the same
+	// function block in the same sequence and across different sequences
 	myBlocks.Blocks["leftY"] = Block{Id: "leftY", FunctionName: "leftY"}
 	myBlocks.Blocks["forward"] = Block{Id: "forward", FunctionName: "forward"}
 	myBlocks.Blocks["checkLeftX"] = Block{Id: "checkLeftX", FunctionName: "checkLeftX"}
