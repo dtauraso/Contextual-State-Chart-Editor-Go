@@ -54,7 +54,7 @@ type Link struct {
 type Block struct {
 	Id           string              `json:"Id"`
 	Parents      []Parent            `json:"Parents,omitempty"`
-	Sequence     LinkedList          `json:"Link,omitempty"`
+	Sequence     []Link              `json:"Sequence,omitempty"`
 	FunctionName string              `json:"FunctionName,omitempty"`
 	Variables    map[string]Variable `json:"Variables,omitempty"`
 	NestedBlock  map[string]Block    `json:"NestedBlock,omitempty"`
@@ -832,17 +832,44 @@ func runGoroutines(node *Node, wg *sync.WaitGroup) {
 	simulateWork(node.ID)
 }
 
+func add1(x int) int {
+	return x + 1
+}
+
+func lessThan(x, y int) bool {
+	return x < y
+}
+func left(blocks Blocks, path []string, sequencePos int) {}
+
 func pattern() {
 
 	myBlocks := Blocks{Blocks: map[string]Block{}, MaxInt: 0}
-	myBlocks.Blocks["cond"] = Block{Id: "cond",
+	myBlocks.Blocks["left"] = Block{Id: "left", FunctionName: "left"}
+	myBlocks.Blocks["forward"] = Block{Id: "forward", FunctionName: "forward"}
+	myBlocks.Blocks["path"] = Block{Id: "path",
 		NestedBlock: map[string]Block{
-			"instances": {Id: "instances", Sequence: LinkedList{}},
-			"0":         {Id: "0", FunctionName: "condFunction"}}}
-	myBlocks.Blocks["if"] = Block{Id: "if",
-		NestedBlock: map[string]Block{
-			"instances": {Id: "instances", Sequence: LinkedList{}},
-			"0":         {Id: "0", Sequence: LinkedList{LinkedList: []LinkedNode{{Data: Link{Ids: []string{"cond", "0"}}}}, FirstNode: 0, LastNode: 0, CurrentNode: 0}}}}
+			"0": {Id: "0",
+				Variables: map[string]Variable{
+					"x": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
+					"y": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
+					"z": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}}},
+				Sequence: []Link{Link{Ids: []string{"forward"}}}},
+		}}
+	inputs := map[string][]string{
+		"left":    []string{"left"},
+		"forward": []string{"forward"},
+	}
+	functionNameFunction := map[string]func(blocks Blocks, path []string, sequencePos int){
+		"left": left,
+	}
+	// myBlocks.Blocks["cond"] = Block{Id: "cond",
+	// 	NestedBlock: map[string]Block{
+	// 		"instances": {Id: "instances", Sequence: LinkedList{}},
+	// 		"0":         {Id: "0", FunctionName: "condFunction"}}}
+	// myBlocks.Blocks["if"] = Block{Id: "if",
+	// 	NestedBlock: map[string]Block{
+	// 		"instances": {Id: "instances", Sequence: LinkedList{}},
+	// 		"0":         {Id: "0", Sequence: LinkedList{LinkedList: []LinkedNode{{Data: Link{Ids: []string{"cond", "0"}}}}, FirstNode: 0, LastNode: 0, CurrentNode: 0}}}}
 	// sequence of blocks for different directions
 	// all spirals have to be larger than 1 unit spiral
 
