@@ -27,10 +27,10 @@ type LinkedList struct {
 	CurrentNode int
 }
 
-type Parent struct {
-	Link             Link `json:"Link,omitempty"`
-	PositionInParent int  `json:"PositionInParent,omitempty"`
-}
+// type Parent struct {
+// 	Link             Link `json:"Link,omitempty"`
+// 	PositionInParent int  `json:"PositionInParent,omitempty"`
+// }
 
 type Change struct {
 	Value Atom   `json:"Value,omitempty"`
@@ -53,7 +53,6 @@ type Link struct {
 /*func(map[string]Block, []string) bool*/
 type Block struct {
 	Id           string              `json:"Id"`
-	Parents      []Parent            `json:"Parents,omitempty"`
 	Sequence     []Link              `json:"Sequence,omitempty"`
 	FunctionName string              `json:"FunctionName,omitempty"`
 	Variables    map[string]Variable `json:"Variables,omitempty"`
@@ -872,8 +871,7 @@ func (b *Blocks) GetBlock(path []string) Block {
 func pattern() {
 
 	myBlocks := Blocks{Blocks: map[string]Block{}, MaxInt: 0}
-	// needs a way to tell the difference between using the same
-	// function block in the same sequence and across different sequences
+
 	myBlocks.Blocks["leftY"] = Block{Id: "leftY", FunctionName: "leftY"}
 	myBlocks.Blocks["forward"] = Block{Id: "forward", FunctionName: "forward"}
 	myBlocks.Blocks["checkLeftX"] = Block{Id: "checkLeftX", FunctionName: "checkLeftX"}
