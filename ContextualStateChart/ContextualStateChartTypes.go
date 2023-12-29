@@ -839,28 +839,64 @@ func add1(x int) int {
 func lessThan(x, y int) bool {
 	return x < y
 }
-func left(blocks Blocks, path []string, sequencePos int) {}
+func left1(blocks Blocks, path []string, sequencePos int) {
+
+	block := blocks.GetBlock(path)
+	y := block.Variables["y"].Value.IntValue
+	yVariable := block.Variables["y"]
+	yCurrent := Atom{IntValue: y, TypeValueSet: "IntValue"}
+	yVariable.History = append(yVariable.History, Change{Value: yCurrent})
+	yVariable.Value.IntValue = add1(y)
+	block.Variables["y"] = yVariable
+}
+
+func checkLeftX(blocks Blocks, path []string, sequencePos int) {
+
+	block := blocks.GetBlock(path)
+	x := block.Variables["x"].Value.IntValue
+	xVariable := block.Variables["x"]
+	xPrev := xVariable.History[len(xVariable.History)-1].Value.IntValue
+	y := block.Variables["y"].Value.IntValue
+	yVariable := block.Variables["y"]
+	yPrev := xVariable.History[len(yVariable.History)-1].Value.IntValue
+
+	if (yPrev == y) && (x == xPrev-1) {
+		checkLeftX := block.Variables["checkLeftX"]
+		checkLeftX.Value.BoolValue = true
+	}
+}
+
+func (b *Blocks) GetBlock(path []string) Block {
+
+	return Block{}
+}
 
 func pattern() {
 
 	myBlocks := Blocks{Blocks: map[string]Block{}, MaxInt: 0}
-	myBlocks.Blocks["left"] = Block{Id: "left", FunctionName: "left"}
+	myBlocks.Blocks["left1"] = Block{Id: "left1", FunctionName: "left1"}
 	myBlocks.Blocks["forward"] = Block{Id: "forward", FunctionName: "forward"}
+	myBlocks.Blocks["checkLeftX"] = Block{Id: "checkLeftX", FunctionName: "checkLeftX"}
 	myBlocks.Blocks["path"] = Block{Id: "path",
 		NestedBlock: map[string]Block{
 			"0": {Id: "0",
 				Variables: map[string]Variable{
-					"x": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
-					"y": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
-					"z": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}}},
-				Sequence: []Link{Link{Ids: []string{"forward"}}}},
+					"x":          {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
+					"y":          {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
+					"z":          {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
+					"checkLeftX": {Value: Atom{BoolValue: false, TypeValueSet: "BoolValue"}}},
+				Sequence: []Link{
+					Link{Ids: []string{"forward"}},
+					Link{Ids: []string{"checkLeftX"}}}},
 		}}
 	inputs := map[string][]string{
-		"left":    []string{"left"},
-		"forward": []string{"forward"},
+		"left1":      []string{"left1"},
+		"forward":    []string{"forward"},
+		"checkLeftX": []string{"checkLeftX"},
 	}
 	functionNameFunction := map[string]func(blocks Blocks, path []string, sequencePos int){
-		"left": left,
+		"left1":      left1,
+		"checkLeftX": checkLeftX,
 	}
 	// myBlocks.Blocks["cond"] = Block{Id: "cond",
 	// 	NestedBlock: map[string]Block{
