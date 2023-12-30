@@ -838,17 +838,18 @@ func add1(x int) int {
 func lessThan(x, y int) bool {
 	return x < y
 }
-func leftY(blocks Blocks, path []string, sequencePos int) bool {
 
-	block := blocks.GetBlock(path)
-	y := block.Variables["y"].Value.IntValue
-	yVariable := block.Variables["y"]
-	yCurrent := Atom{IntValue: y, TypeValueSet: "IntValue"}
-	yVariable.History = append(yVariable.History, Change{Value: yCurrent})
-	yVariable.Value.IntValue = add1(y)
-	block.Variables["y"] = yVariable
-	return true
-}
+// func leftY(blocks Blocks, path []string, sequencePos int) bool {
+
+// 	block := blocks.GetBlock(path)
+// 	y := block.Variables["y"].Value.IntValue
+// 	yVariable := block.Variables["y"]
+// 	yCurrent := Atom{IntValue: y, TypeValueSet: "IntValue"}
+// 	yVariable.History = append(yVariable.History, Change{Value: yCurrent})
+// 	yVariable.Value.IntValue = add1(y)
+// 	block.Variables["y"] = yVariable
+// 	return true
+// }
 
 func checkLeftX(blocks Blocks, path []string, sequencePos int) bool {
 
@@ -866,6 +867,37 @@ func checkLeftX(blocks Blocks, path []string, sequencePos int) bool {
 func (b *Blocks) GetBlock(path []string) Block {
 
 	return Block{}
+}
+
+type Variables struct {
+	state map[string]interface{}
+}
+
+func leftY(v *Variable, c *Caretaker) {
+
+}
+
+func (v *Variables) CreateMemento() Memento {
+	return Memento{state: v.state}
+}
+func (v *Variables) SetMemento(m Memento) {
+	v.state = m.state
+}
+
+type Memento struct {
+	state map[string]interface{}
+}
+
+type Caretaker struct {
+	mementos []Memento
+}
+
+func (c *Caretaker) AddMemento(m Memento) {
+	c.mementos = append(c.mementos, m)
+}
+
+func (c *Caretaker) GetMemento(index int) Memento {
+	return c.mementos[index]
 }
 
 func pattern() {
@@ -893,7 +925,7 @@ func pattern() {
 		"checkLeftX": []string{"checkLeftX"},
 	}
 	functionNameFunction := map[string]func(blocks Blocks, path []string, sequencePos int) bool{
-		"leftY":      leftY,
+		// "leftY":      leftY,
 		"checkLeftX": checkLeftX,
 	}
 	// myBlocks.Blocks["cond"] = Block{Id: "cond",
