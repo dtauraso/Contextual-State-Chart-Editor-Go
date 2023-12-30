@@ -870,22 +870,59 @@ func (b *Blocks) GetBlock(path []string) Block {
 }
 
 type Variables struct {
-	state map[string]interface{}
+	State map[string]interface{}
 }
 
-func leftY(v *Variable, c *Caretaker) {
+func R3Test(v *Variables) bool {
 
+	x, okX := v.State["x"]
+
+	y, okY := v.State["y"]
+
+	z, okZ := v.State["z"]
+
+	if !okX {
+		return false
+	}
+	if _, okXInt := x.(int); !okXInt {
+		return false
+	}
+	if !okY {
+		return false
+	}
+	if _, okYInt := y.(int); !okYInt {
+		return false
+	}
+	if !okZ {
+		return false
+	}
+	if _, okZInt := z.(int); !okZInt {
+		return false
+	}
+	return true
+}
+func leftY(v *Variables, c *Caretaker) {
+
+	if !R3Test(v) {
+		return
+	}
+
+	c.AddMemento(v.CreateMemento())
+
+	y := v.State["y"].(int)
+	y = add1(y)
+	v.State["y"] = y
 }
 
 func (v *Variables) CreateMemento() Memento {
-	return Memento{state: v.state}
+	return Memento{State: v.State}
 }
 func (v *Variables) SetMemento(m Memento) {
-	v.state = m.state
+	v.State = m.State
 }
 
 type Memento struct {
-	state map[string]interface{}
+	State map[string]interface{}
 }
 
 type Caretaker struct {
