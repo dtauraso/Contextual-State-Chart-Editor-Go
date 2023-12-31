@@ -1051,8 +1051,8 @@ func pattern() {
 		cRZ,
 		mF1UZ}
 
-	checkFunctions := map[int]map[int]string{}
-	for i, item := range itemSequence1 {
+	checkFunctions := map[int][]string{}
+	for _, item := range itemSequence1 {
 		// fmt.Printf("%v. %v, %v\n", item, "check", strings.Contains(item, "check"))
 		// fmt.Printf("item1 %v\n", item1)
 
@@ -1064,9 +1064,9 @@ func pattern() {
 				continue
 			}
 			if entry := checkFunctions[0]; len(entry) >= 1 {
-				checkFunctions[0][i] = item
+				checkFunctions[0] = append(checkFunctions[0], item)
 			} else {
-				checkFunctions[0] = map[int]string{i: item}
+				checkFunctions[0] = []string{item}
 			}
 		} else {
 			functions[item].(func(v *Variables, c *Caretaker))(&item1, &caretaker1)
