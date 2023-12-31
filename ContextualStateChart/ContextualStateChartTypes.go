@@ -875,9 +875,11 @@ type Variables struct {
 }
 
 const (
-	x = "x"
-	y = "y"
-	z = "z"
+	x     = "x"
+	y     = "y"
+	z     = "z"
+	left  = "Left"
+	right = "Right"
 )
 
 func R3Test(v *Variables) bool {
@@ -924,7 +926,10 @@ func move1UnitX(v *Variables, c *Caretaker) { move1Unit(v, c, x) }
 func move1UnitY(v *Variables, c *Caretaker) { move1Unit(v, c, y) }
 func move1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z) }
 
-func checkLeftDimension(v *Variables, c *Caretaker, d1, d2, d3 string) {
+func checkLeft1D(d1Curr, d1Prev int) bool  { return d1Curr == d1Prev-1 }
+func checkRight1D(d1Curr, d1Prev int) bool { return d1Curr == d1Prev+1 }
+
+func checkDimensionChange(v *Variables, c *Caretaker, d1, d2, d3, directionName string, checkDirection1D func(d1Curr, d1Prev int) bool) {
 	if !R3Test(v) {
 		return
 	}
@@ -935,11 +940,28 @@ func checkLeftDimension(v *Variables, c *Caretaker, d1, d2, d3 string) {
 	d2Prev := c.GetMemento(c.GetLastIndex()).State[d2].(int)
 	d3Curr := v.State[d3].(int)
 	d3Prev := c.GetMemento(c.GetLastIndex()).State[d3].(int)
-
-	v.State["checkLeft"+strings.ToUpper(d3)] =
-		(d1Prev == d1Curr) && (d2Prev == d2Curr) && (d3Curr == d3Prev-1)
+	v.State["check"+directionName+strings.ToUpper(d3)] =
+		(d1Prev == d1Curr) && (d2Prev == d2Curr) && checkLeft1D(d3Curr, d3Prev)
 }
-func checkLeftX(v *Variables, c *Caretaker) { checkLeftDimension(v, c, y, z, x) }
+
+func checkLeftX(v *Variables, c *Caretaker) {
+	checkDimensionChange(v, c, y, z, x, left, checkLeft1D)
+}
+func checkLeftY(v *Variables, c *Caretaker) {
+	checkDimensionChange(v, c, x, z, y, left, checkLeft1D)
+}
+func checkLeftZ(v *Variables, c *Caretaker) {
+	checkDimensionChange(v, c, x, y, z, left, checkLeft1D)
+}
+func checkRightX(v *Variables, c *Caretaker) {
+	checkDimensionChange(v, c, y, z, x, right, checkRight1D)
+}
+func checkRightY(v *Variables, c *Caretaker) {
+	checkDimensionChange(v, c, x, z, y, right, checkRight1D)
+}
+func checkRightZ(v *Variables, c *Caretaker) {
+	checkDimensionChange(v, c, x, y, z, right, checkRight1D)
+}
 
 func (v *Variables) CreateMemento() Memento {
 	return Memento{State: v.State}
