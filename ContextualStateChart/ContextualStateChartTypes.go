@@ -941,7 +941,7 @@ func checkDimensionChange(v *Variables, c *Caretaker, d1, d2, d3, directionName 
 	d3Curr := v.State[d3].(int)
 	d3Prev := c.GetMemento(c.GetLastIndex()).State[d3].(int)
 	v.State["check"+directionName+strings.ToUpper(d3)] =
-		(d1Prev == d1Curr) && (d2Prev == d2Curr) && checkLeft1D(d3Curr, d3Prev)
+		(d1Prev == d1Curr) && (d2Prev == d2Curr) && checkDirection1D(d3Curr, d3Prev)
 }
 
 func checkLeftX(v *Variables, c *Caretaker) {
