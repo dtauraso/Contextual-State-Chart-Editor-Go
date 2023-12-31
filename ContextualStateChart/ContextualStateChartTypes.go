@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"sort"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -923,24 +924,22 @@ func move1UnitX(v *Variables, c *Caretaker) { move1Unit(v, c, x) }
 func move1UnitY(v *Variables, c *Caretaker) { move1Unit(v, c, y) }
 func move1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z) }
 
-func checkLeftX(v *Variables, c *Caretaker) {
-
+func checkLeftDimension(v *Variables, c *Caretaker, d1, d2, d3 string) {
 	if !R3Test(v) {
 		return
 	}
 
-	xCurr := v.State[x].(int)
-	xPrev := c.GetMemento(c.GetLastIndex()).State[x].(int)
-	yCurr := v.State[y].(int)
-	yPrev := c.GetMemento(c.GetLastIndex()).State[y].(int)
-	zCurr := v.State[z].(int)
-	zPrev := c.GetMemento(c.GetLastIndex()).State[z].(int)
+	d1Curr := v.State[d1].(int)
+	d1Prev := c.GetMemento(c.GetLastIndex()).State[d1].(int)
+	d2Curr := v.State[d2].(int)
+	d2Prev := c.GetMemento(c.GetLastIndex()).State[d2].(int)
+	d3Curr := v.State[d3].(int)
+	d3Prev := c.GetMemento(c.GetLastIndex()).State[d3].(int)
 
-	v.State["checkLeftX"] =
-		(yPrev == yCurr) &&
-			(zPrev == zCurr) &&
-			(xCurr == xPrev-1)
+	v.State["checkLeft"+strings.ToUpper(d3)] =
+		(d1Prev == d1Curr) && (d2Prev == d2Curr) && (d3Curr == d3Prev-1)
 }
+func checkLeftX(v *Variables, c *Caretaker) { checkLeftDimension(v, c, y, z, x) }
 
 func (v *Variables) CreateMemento() Memento {
 	return Memento{State: v.State}
