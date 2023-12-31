@@ -832,9 +832,6 @@ func runGoroutines(node *Node, wg *sync.WaitGroup) {
 	simulateWork(node.ID)
 }
 
-
-
-
 // func leftY(blocks Blocks, path []string, sequencePos int) bool {
 
 // 	block := blocks.GetBlock(path)
@@ -875,7 +872,6 @@ const (
 	z     = "z"
 	left  = "Left"
 	right = "Right"
-	
 )
 
 func R3Test(v *Variables) bool {
@@ -915,7 +911,7 @@ func subtract1(x int) int {
 	return x - 1
 }
 
-func move1Unit(v *Variables, c *Caretaker, dimensionName string, direction func(int)int) {
+func move1Unit(v *Variables, c *Caretaker, dimensionName string, direction func(int) int) {
 
 	if !R3Test(v) {
 		return
@@ -927,13 +923,12 @@ func move1Unit(v *Variables, c *Caretaker, dimensionName string, direction func(
 	dimension = direction(dimension)
 	v.State[dimensionName] = dimension
 }
-func moveForward1UnitX(v *Variables, c *Caretaker) { move1Unit(v, c, x, add1) }
-func moveForward1UnitY(v *Variables, c *Caretaker) { move1Unit(v, c, y, add1) }
-func moveForward1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z, add1) }
+func moveForward1UnitX(v *Variables, c *Caretaker)  { move1Unit(v, c, x, add1) }
+func moveForward1UnitY(v *Variables, c *Caretaker)  { move1Unit(v, c, y, add1) }
+func moveForward1UnitZ(v *Variables, c *Caretaker)  { move1Unit(v, c, z, add1) }
 func moveBackward1UnitX(v *Variables, c *Caretaker) { move1Unit(v, c, x, subtract1) }
 func moveBackward1UnitY(v *Variables, c *Caretaker) { move1Unit(v, c, y, subtract1) }
 func moveBackward1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z, subtract1) }
-
 
 func checkLeft1D(d1Curr, d1Prev int) bool  { return d1Curr == d1Prev-1 }
 func checkRight1D(d1Curr, d1Prev int) bool { return d1Curr == d1Prev+1 }
@@ -998,6 +993,7 @@ func (c *Caretaker) AddMemento(m Memento) {
 func (c *Caretaker) GetMemento(index int) Memento {
 	return c.mementos[index]
 }
+
 const (
 	mF1UX = "moveForward1UnitX"
 	mf1UY = "moveForward1UnitY"
@@ -1005,14 +1001,14 @@ const (
 	mB1UX = "moveBackward1UnitX"
 	mB1UY = "moveBackward1UnitY"
 	mB1UZ = "moveBackward1UnitZ"
-	cLX = "checkLeftX"
-	cLY = "checkLeftY"
-	cLZ = "checkLeftZ"
-	cRX = "checkRightX"
-	cRY = "checkRightY"
-	cRZ = "checkRightZ"
-
+	cLX   = "checkLeftX"
+	cLY   = "checkLeftY"
+	cLZ   = "checkLeftZ"
+	cRX   = "checkRightX"
+	cRY   = "checkRightY"
+	cRZ   = "checkRightZ"
 )
+
 func pattern() {
 
 	item1 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0}}}
