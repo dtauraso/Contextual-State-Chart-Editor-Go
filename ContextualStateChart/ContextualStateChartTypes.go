@@ -907,7 +907,7 @@ func R3Test(v *Variables) bool {
 	}
 	return true
 }
-func move(v *Variables, c *Caretaker, dimensionName string) {
+func move1Unit(v *Variables, c *Caretaker, dimensionName string) {
 
 	if !R3Test(v) {
 		return
@@ -919,9 +919,9 @@ func move(v *Variables, c *Caretaker, dimensionName string) {
 	dimension = add1(dimension)
 	v.State[dimensionName] = dimension
 }
-func moveX(v *Variables, c *Caretaker) { move(v, c, x) }
-func moveY(v *Variables, c *Caretaker) { move(v, c, y) }
-func moveZ(v *Variables, c *Caretaker) { move(v, c, z) }
+func move1UnitX(v *Variables, c *Caretaker) { move1Unit(v, c, x) }
+func move1UnitY(v *Variables, c *Caretaker) { move1Unit(v, c, y) }
+func move1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z) }
 
 func checkLeftX(v *Variables, c *Caretaker) {
 
@@ -938,8 +938,8 @@ func checkLeftX(v *Variables, c *Caretaker) {
 
 	v.State["checkLeftX"] =
 		(yPrev == yCurr) &&
-		(zPrev == zCurr) &&
-		(xCurr == xPrev-1)
+			(zPrev == zCurr) &&
+			(xCurr == xPrev-1)
 }
 
 func (v *Variables) CreateMemento() Memento {
