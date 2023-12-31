@@ -920,8 +920,8 @@ func move(v *Variables, c *Caretaker, dimensionName string) {
 	v.State[dimensionName] = dimension
 }
 func moveX(v *Variables, c *Caretaker) { move(v, c, x) }
-func moveZ(v *Variables, c *Caretaker) { move(v, c, z) }
 func moveY(v *Variables, c *Caretaker) { move(v, c, y) }
+func moveZ(v *Variables, c *Caretaker) { move(v, c, z) }
 
 func checkLeftX(v *Variables, c *Caretaker) {
 
@@ -929,12 +929,12 @@ func checkLeftX(v *Variables, c *Caretaker) {
 		return
 	}
 
-	x := v.State["x"].(int)
-	xPrev := c.GetMemento(c.GetLastIndex()).State["x"].(int)
-	y := v.State["y"].(int)
-	yPrev := c.GetMemento(c.GetLastIndex()).State["y"].(int)
+	xCurr := v.State[x].(int)
+	xPrev := c.GetMemento(c.GetLastIndex()).State[x].(int)
+	yCurr := v.State[y].(int)
+	yPrev := c.GetMemento(c.GetLastIndex()).State[y].(int)
 
-	v.State["checkLeftX"] = (yPrev == y) && (x == xPrev-1)
+	v.State["checkLeftX"] = (yPrev == yCurr) && (xCurr == xPrev-1)
 }
 
 func (v *Variables) CreateMemento() Memento {
