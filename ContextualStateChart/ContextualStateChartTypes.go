@@ -851,18 +851,18 @@ func lessThan(x, y int) bool {
 // 	return true
 // }
 
-func checkLeftX(blocks Blocks, path []string, sequencePos int) bool {
+// func checkLeftX(blocks Blocks, path []string, sequencePos int) bool {
 
-	block := blocks.GetBlock(path)
-	x := block.Variables["x"].Value.IntValue
-	xVariable := block.Variables["x"]
-	xPrev := xVariable.History[len(xVariable.History)-1].Value.IntValue
-	y := block.Variables["y"].Value.IntValue
-	yVariable := block.Variables["y"]
-	yPrev := xVariable.History[len(yVariable.History)-1].Value.IntValue
+// 	block := blocks.GetBlock(path)
+// 	x := block.Variables["x"].Value.IntValue
+// 	xVariable := block.Variables["x"]
+// 	xPrev := xVariable.History[len(xVariable.History)-1].Value.IntValue
+// 	y := block.Variables["y"].Value.IntValue
+// 	yVariable := block.Variables["y"]
+// 	yPrev := xVariable.History[len(yVariable.History)-1].Value.IntValue
 
-	return (yPrev == y) && (x == xPrev-1)
-}
+// 	return (yPrev == y) && (x == xPrev-1)
+// }
 
 func (b *Blocks) GetBlock(path []string) Block {
 
@@ -873,13 +873,19 @@ type Variables struct {
 	State map[string]interface{}
 }
 
+const (
+	x = "x"
+	y = "y"
+	z = "z"
+)
+
 func R3Test(v *Variables) bool {
 
-	x, okX := v.State["x"]
+	x, okX := v.State[x]
 
-	y, okY := v.State["y"]
+	y, okY := v.State[y]
 
-	z, okZ := v.State["z"]
+	z, okZ := v.State[z]
 
 	if !okX {
 		return false
@@ -901,7 +907,7 @@ func R3Test(v *Variables) bool {
 	}
 	return true
 }
-func leftY(v *Variables, c *Caretaker) {
+func move(v *Variables, c *Caretaker, dimensionName string) {
 
 	if !R3Test(v) {
 		return
@@ -909,9 +915,26 @@ func leftY(v *Variables, c *Caretaker) {
 
 	c.AddMemento(v.CreateMemento())
 
+	dimension := v.State[dimensionName].(int)
+	dimension = add1(dimension)
+	v.State[dimensionName] = dimension
+}
+func moveX(v *Variables, c *Caretaker) { move(v, c, x) }
+func moveZ(v *Variables, c *Caretaker) { move(v, c, z) }
+func moveY(v *Variables, c *Caretaker) { move(v, c, y) }
+
+func checkLeftX(v *Variables, c *Caretaker) {
+
+	if !R3Test(v) {
+		return
+	}
+
+	x := v.State["x"].(int)
+	xPrev := c.GetMemento(c.GetLastIndex()).State["x"].(int)
 	y := v.State["y"].(int)
-	y = add1(y)
-	v.State["y"] = y
+	yPrev := c.GetMemento(c.GetLastIndex()).State["y"].(int)
+
+	v.State["checkLeftX"] = (yPrev == y) && (x == xPrev-1)
 }
 
 func (v *Variables) CreateMemento() Memento {
@@ -929,8 +952,12 @@ type Caretaker struct {
 	mementos []Memento
 }
 
+func (c *Caretaker) GetLastIndex() int {
+	return len(c.mementos) - 1
+}
 func (c *Caretaker) AddMemento(m Memento) {
 	c.mementos = append(c.mementos, m)
+
 }
 
 func (c *Caretaker) GetMemento(index int) Memento {
@@ -963,7 +990,7 @@ func pattern() {
 	}
 	functionNameFunction := map[string]func(blocks Blocks, path []string, sequencePos int) bool{
 		// "leftY":      leftY,
-		"checkLeftX": checkLeftX,
+		// "checkLeftX": checkLeftX,
 	}
 	// myBlocks.Blocks["cond"] = Block{Id: "cond",
 	// 	NestedBlock: map[string]Block{
