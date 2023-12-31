@@ -933,8 +933,13 @@ func checkLeftX(v *Variables, c *Caretaker) {
 	xPrev := c.GetMemento(c.GetLastIndex()).State[x].(int)
 	yCurr := v.State[y].(int)
 	yPrev := c.GetMemento(c.GetLastIndex()).State[y].(int)
+	zCurr := v.State[z].(int)
+	zPrev := c.GetMemento(c.GetLastIndex()).State[z].(int)
 
-	v.State["checkLeftX"] = (yPrev == yCurr) && (xCurr == xPrev-1)
+	v.State["checkLeftX"] =
+		(yPrev == yCurr) &&
+		(zPrev == zCurr) &&
+		(xCurr == xPrev-1)
 }
 
 func (v *Variables) CreateMemento() Memento {
