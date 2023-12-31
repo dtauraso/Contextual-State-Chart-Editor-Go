@@ -862,10 +862,6 @@ func (b *Blocks) GetBlock(path []string) Block {
 	return Block{}
 }
 
-type Variables struct {
-	State map[string]interface{}
-}
-
 const (
 	x     = "x"
 	y     = "y"
@@ -918,10 +914,10 @@ func move1Unit(v *Variables, c *Caretaker, dimensionName string, direction func(
 	}
 
 	c.AddMemento(v.CreateMemento())
-
 	dimension := v.State[dimensionName].(int)
 	dimension = direction(dimension)
 	v.State[dimensionName] = dimension
+
 }
 func moveForward1UnitX(v *Variables, c *Caretaker)  { move1Unit(v, c, x, add1) }
 func moveForward1UnitY(v *Variables, c *Caretaker)  { move1Unit(v, c, y, add1) }
@@ -933,9 +929,13 @@ func moveBackward1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z, subtrac
 func checkLeft1D(d1Curr, d1Prev int) bool  { return d1Curr == d1Prev-1 }
 func checkRight1D(d1Curr, d1Prev int) bool { return d1Curr == d1Prev+1 }
 
-func checkDimensionChange(v *Variables, c *Caretaker, d1, d2, d3, directionName string, checkDirection1D func(d1Curr, d1Prev int) bool) {
+func checkDimensionChange(
+	v *Variables,
+	c *Caretaker,
+	d1, d2, d3, directionName string,
+	checkDirection1D func(d1Curr, d1Prev int) bool) bool {
 	if !R3Test(v) {
-		return
+		return false
 	}
 
 	d1Curr := v.State[d1].(int)
@@ -944,31 +944,38 @@ func checkDimensionChange(v *Variables, c *Caretaker, d1, d2, d3, directionName 
 	d2Prev := c.GetMemento(c.GetLastIndex()).State[d2].(int)
 	d3Curr := v.State[d3].(int)
 	d3Prev := c.GetMemento(c.GetLastIndex()).State[d3].(int)
-	v.State["check"+directionName+strings.ToUpper(d3)] =
-		(d1Prev == d1Curr) && (d2Prev == d2Curr) && checkDirection1D(d3Curr, d3Prev)
+	return (d1Prev == d1Curr) && (d2Prev == d2Curr) && checkDirection1D(d3Curr, d3Prev)
 }
 
-func checkLeftX(v *Variables, c *Caretaker) {
-	checkDimensionChange(v, c, y, z, x, left, checkLeft1D)
+func checkLeftX(v *Variables, c *Caretaker) bool {
+	return checkDimensionChange(v, c, y, z, x, left, checkLeft1D)
 }
-func checkLeftY(v *Variables, c *Caretaker) {
-	checkDimensionChange(v, c, x, z, y, left, checkLeft1D)
+func checkLeftY(v *Variables, c *Caretaker) bool {
+	return checkDimensionChange(v, c, x, z, y, left, checkLeft1D)
 }
-func checkLeftZ(v *Variables, c *Caretaker) {
-	checkDimensionChange(v, c, x, y, z, left, checkLeft1D)
+func checkLeftZ(v *Variables, c *Caretaker) bool {
+	return checkDimensionChange(v, c, x, y, z, left, checkLeft1D)
 }
-func checkRightX(v *Variables, c *Caretaker) {
-	checkDimensionChange(v, c, y, z, x, right, checkRight1D)
+func checkRightX(v *Variables, c *Caretaker) bool {
+	return checkDimensionChange(v, c, y, z, x, right, checkRight1D)
 }
-func checkRightY(v *Variables, c *Caretaker) {
-	checkDimensionChange(v, c, x, z, y, right, checkRight1D)
+func checkRightY(v *Variables, c *Caretaker) bool {
+	return checkDimensionChange(v, c, x, z, y, right, checkRight1D)
 }
-func checkRightZ(v *Variables, c *Caretaker) {
-	checkDimensionChange(v, c, x, y, z, right, checkRight1D)
+func checkRightZ(v *Variables, c *Caretaker) bool {
+	return checkDimensionChange(v, c, x, y, z, right, checkRight1D)
+}
+
+type Variables struct {
+	State map[string]interface{}
 }
 
 func (v *Variables) CreateMemento() Memento {
-	return Memento{State: v.State}
+	memento := map[string]interface{}{}
+	for key, value := range v.State {
+		memento[key] = value
+	}
+	return Memento{State: memento}
 }
 func (v *Variables) SetMemento(m Memento) {
 	v.State = m.State
@@ -996,7 +1003,7 @@ func (c *Caretaker) GetMemento(index int) Memento {
 
 const (
 	mF1UX = "moveForward1UnitX"
-	mf1UY = "moveForward1UnitY"
+	mF1UY = "moveForward1UnitY"
 	mF1UZ = "moveForward1UnitZ"
 	mB1UX = "moveBackward1UnitX"
 	mB1UY = "moveBackward1UnitY"
@@ -1009,9 +1016,25 @@ const (
 	cRZ   = "checkRightZ"
 )
 
+var functions = map[string]interface{}{
+	mF1UX: moveForward1UnitX,
+	mF1UY: moveForward1UnitY,
+	mF1UZ: moveForward1UnitZ,
+	mB1UX: moveBackward1UnitX,
+	mB1UY: moveBackward1UnitY,
+	mB1UZ: moveBackward1UnitZ,
+	cLX:   checkLeftX,
+	cLY:   checkLeftY,
+	cLZ:   checkLeftZ,
+	cRX:   checkRightX,
+	cRY:   checkRightY,
+	cRZ:   checkRightZ,
+}
+
 func pattern() {
 
-	item1 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0}}}
+	item1 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0}}
+	caretaker1 := Caretaker{}
 	itemSequence1 := []string{
 		mF1UY,
 		mF1UY,
@@ -1022,12 +1045,35 @@ func pattern() {
 		cLY,
 		mB1UY,
 		mF1UX,
-		cLX,
+		cRX,
 		mF1UX,
 		mF1UZ,
-		cLZ,
+		cRZ,
 		mF1UZ}
 
+	checkFunctions := map[string]map[int][]int{}
+	for i, item := range itemSequence1 {
+		// fmt.Printf("%v. %v, %v\n", item, "check", strings.Contains(item, "check"))
+		// fmt.Printf("item1 %v\n", item1)
+
+		if strings.Contains(item, "check") {
+			// fmt.Printf("%v, %v\n", item, i)
+
+			// fmt.Printf("%v, %v\n", item, functions[item].(func(v *Variables, c *Caretaker) bool)(&item1, &caretaker1))
+			if !functions[item].(func(v *Variables, c *Caretaker) bool)(&item1, &caretaker1) {
+				continue
+			}
+			if entry := checkFunctions[item]; len(entry) >= 1 {
+				checkFunctions[item][0] = append(checkFunctions[item][0], i)
+			} else {
+				checkFunctions[item] = map[int][]int{0: {i}}
+			}
+		} else {
+			functions[item].(func(v *Variables, c *Caretaker))(&item1, &caretaker1)
+		}
+
+	}
+	fmt.Printf("%v", checkFunctions)
 	// myBlocks := Blocks{Blocks: map[string]Block{}, MaxInt: 0}
 
 	// myBlocks.Blocks["leftY"] = Block{Id: "leftY", FunctionName: "leftY"}
