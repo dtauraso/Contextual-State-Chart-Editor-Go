@@ -832,13 +832,8 @@ func runGoroutines(node *Node, wg *sync.WaitGroup) {
 	simulateWork(node.ID)
 }
 
-func add1(x int) int {
-	return x + 1
-}
 
-func lessThan(x, y int) bool {
-	return x < y
-}
+
 
 // func leftY(blocks Blocks, path []string, sequencePos int) bool {
 
@@ -880,6 +875,7 @@ const (
 	z     = "z"
 	left  = "Left"
 	right = "Right"
+	
 )
 
 func R3Test(v *Variables) bool {
@@ -910,7 +906,16 @@ func R3Test(v *Variables) bool {
 	}
 	return true
 }
-func move1Unit(v *Variables, c *Caretaker, dimensionName string) {
+
+func add1(x int) int {
+	return x + 1
+}
+
+func subtract1(x int) int {
+	return x - 1
+}
+
+func move1Unit(v *Variables, c *Caretaker, dimensionName string, direction func(int)int) {
 
 	if !R3Test(v) {
 		return
@@ -919,12 +924,16 @@ func move1Unit(v *Variables, c *Caretaker, dimensionName string) {
 	c.AddMemento(v.CreateMemento())
 
 	dimension := v.State[dimensionName].(int)
-	dimension = add1(dimension)
+	dimension = direction(dimension)
 	v.State[dimensionName] = dimension
 }
-func move1UnitX(v *Variables, c *Caretaker) { move1Unit(v, c, x) }
-func move1UnitY(v *Variables, c *Caretaker) { move1Unit(v, c, y) }
-func move1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z) }
+func moveForward1UnitX(v *Variables, c *Caretaker) { move1Unit(v, c, x, add1) }
+func moveForward1UnitY(v *Variables, c *Caretaker) { move1Unit(v, c, y, add1) }
+func moveForward1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z, add1) }
+func moveBackward1UnitX(v *Variables, c *Caretaker) { move1Unit(v, c, x, subtract1) }
+func moveBackward1UnitY(v *Variables, c *Caretaker) { move1Unit(v, c, y, subtract1) }
+func moveBackward1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z, subtract1) }
+
 
 func checkLeft1D(d1Curr, d1Prev int) bool  { return d1Curr == d1Prev-1 }
 func checkRight1D(d1Curr, d1Prev int) bool { return d1Curr == d1Prev+1 }
@@ -989,35 +998,66 @@ func (c *Caretaker) AddMemento(m Memento) {
 func (c *Caretaker) GetMemento(index int) Memento {
 	return c.mementos[index]
 }
+const (
+	mF1UX = "moveForward1UnitX"
+	mf1UY = "moveForward1UnitY"
+	mF1UZ = "moveForward1UnitZ"
+	mB1UX = "moveBackward1UnitX"
+	mB1UY = "moveBackward1UnitY"
+	mB1UZ = "moveBackward1UnitZ"
+	cLX = "checkLeftX"
+	cLY = "checkLeftY"
+	cLZ = "checkLeftZ"
+	cRX = "checkRightX"
+	cRY = "checkRightY"
+	cRZ = "checkRightZ"
 
+)
 func pattern() {
 
-	myBlocks := Blocks{Blocks: map[string]Block{}, MaxInt: 0}
+	item1 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0}}}
+	itemSequence1 := []string{
+		mF1UY,
+		mF1UY,
+		mB1UX,
+		cLX,
+		mB1UX,
+		mB1UY,
+		cLY,
+		mB1UY,
+		mF1UX,
+		cLX,
+		mF1UX,
+		mF1UZ,
+		cLZ,
+		mF1UZ}
 
-	myBlocks.Blocks["leftY"] = Block{Id: "leftY", FunctionName: "leftY"}
-	myBlocks.Blocks["forward"] = Block{Id: "forward", FunctionName: "forward"}
-	myBlocks.Blocks["checkLeftX"] = Block{Id: "checkLeftX", FunctionName: "checkLeftX"}
-	myBlocks.Blocks["path"] = Block{Id: "path",
-		NestedBlock: map[string]Block{
-			"0": {Id: "0",
-				Variables: map[string]Variable{
-					"x": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
-					"y": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
-					"z": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
-				},
-				Sequence: []Link{
-					Link{Ids: []string{"forward"}},
-					Link{Ids: []string{"checkLeftX"}}},
-			}}}
-	inputs := map[string][]string{
-		"leftY":      []string{"leftY"},
-		"forward":    []string{"forward"},
-		"checkLeftX": []string{"checkLeftX"},
-	}
-	functionNameFunction := map[string]func(blocks Blocks, path []string, sequencePos int) bool{
-		// "leftY":      leftY,
-		// "checkLeftX": checkLeftX,
-	}
+	// myBlocks := Blocks{Blocks: map[string]Block{}, MaxInt: 0}
+
+	// myBlocks.Blocks["leftY"] = Block{Id: "leftY", FunctionName: "leftY"}
+	// myBlocks.Blocks["forward"] = Block{Id: "forward", FunctionName: "forward"}
+	// myBlocks.Blocks["checkLeftX"] = Block{Id: "checkLeftX", FunctionName: "checkLeftX"}
+	// myBlocks.Blocks["path"] = Block{Id: "path",
+	// 	NestedBlock: map[string]Block{
+	// 		"0": {Id: "0",
+	// 			Variables: map[string]Variable{
+	// 				"x": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
+	// 				"y": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
+	// 				"z": {Value: Atom{IntValue: 0, TypeValueSet: "IntValue"}},
+	// 			},
+	// 			Sequence: []Link{
+	// 				Link{Ids: []string{"forward"}},
+	// 				Link{Ids: []string{"checkLeftX"}}},
+	// 		}}}
+	// inputs := map[string][]string{
+	// 	"leftY":      []string{"leftY"},
+	// 	"forward":    []string{"forward"},
+	// 	"checkLeftX": []string{"checkLeftX"},
+	// }
+	// functionNameFunction := map[string]func(blocks Blocks, path []string, sequencePos int) bool{
+	// "leftY":      leftY,
+	// "checkLeftX": checkLeftX,
+	// }
 	// myBlocks.Blocks["cond"] = Block{Id: "cond",
 	// 	NestedBlock: map[string]Block{
 	// 		"instances": {Id: "instances", Sequence: LinkedList{}},
