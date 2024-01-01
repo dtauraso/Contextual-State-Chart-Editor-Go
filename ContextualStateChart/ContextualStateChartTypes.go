@@ -1082,6 +1082,12 @@ var functions = map[string]interface{}{
 	cRZ:   checkRightZ,
 }
 
+func createCheckFunctions() {
+	// when the command changes
+	// note what variable values stayed the same and changed
+	// record the change as a sequence of check functions
+
+}
 func pattern() {
 
 	item1 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0}}
