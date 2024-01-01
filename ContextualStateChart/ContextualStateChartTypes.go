@@ -929,14 +929,56 @@ func moveBackward1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z, subtrac
 func checkLeft1D(d1Curr, d1Prev int) bool  { return d1Curr == d1Prev-1 }
 func checkRight1D(d1Curr, d1Prev int) bool { return d1Curr == d1Prev+1 }
 
+func checkDirection1D2(v *Variables, c *Caretaker, d1, direction string) {
+	d1Curr := v.State[d1].(int)
+	d1Prev := c.GetMemento(c.GetLastIndex()).State[d1].(int)
+
+	v.State[direction] = d1Curr == d1Prev-1
+}
+func checkRightX2(v *Variables, c *Caretaker) {
+	checkDirection1D2(v, c, "x", "checkRightD2")
+}
+func checkLefttX2(v *Variables, c *Caretaker) {
+	checkDirection1D2(v, c, "x", "checkLeftD2")
+}
+func isEqualIntHelper(v *Variables, equalKind string, n1, n2 int) {
+	v.State[equalKind] = n1 == n2
+}
+
+func isDimentionChangeSame(v *Variables, c *Caretaker, d1, resultName string) {
+	d1Curr := v.State[d1].(int)
+	d1Prev := c.GetMemento(c.GetLastIndex()).State[d1].(int)
+	isEqualIntHelper(v, resultName, d1Curr, d1Prev)
+}
+func isXChangeSame(v *Variables, c *Caretaker) {
+	isDimentionChangeSame(v, c, x, "isXChangeSame")
+}
+func isYChangeSame(v *Variables, c *Caretaker) {
+	isDimentionChangeSame(v, c, y, "isYChangeSame")
+}
+func isZChangeSame(v *Variables, c *Caretaker) {
+	isDimentionChangeSame(v, c, z, "isZChangeSame")
+}
+
+func and(v *Variables, b1Name, b2Name string, resultName string) {
+
+	b1 := v.State[b1Name].(bool)
+	b2 := v.State[b2Name].(bool)
+	v.State[resultName] = b1 && b2
+}
+func checkLeftXChangePart1(v *Variables, c *Caretaker) {
+
+	and(v, "isXChangeSame", "isYChangeSame", "IsXYChangeSame")
+}
+func checkLeftXChangePart2(v *Variables, c *Caretaker) {
+
+	and(v, "isXYChangeSame", "checkLeft1D2", "IsLeftZChange")
+}
 func checkDimensionChange(
 	v *Variables,
 	c *Caretaker,
-	d1, d2, d3, directionName string,
+	d1, d2, d3 string,
 	checkDirection1D func(d1Curr, d1Prev int) bool) bool {
-	if !R3Test(v) {
-		return false
-	}
 
 	d1Curr := v.State[d1].(int)
 	d1Prev := c.GetMemento(c.GetLastIndex()).State[d1].(int)
@@ -948,22 +990,22 @@ func checkDimensionChange(
 }
 
 func checkLeftX(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, y, z, x, left, checkLeft1D)
+	return checkDimensionChange(v, c, y, z, x, checkLeft1D)
 }
 func checkLeftY(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, x, z, y, left, checkLeft1D)
+	return checkDimensionChange(v, c, x, z, y, checkLeft1D)
 }
 func checkLeftZ(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, x, y, z, left, checkLeft1D)
+	return checkDimensionChange(v, c, x, y, z, checkLeft1D)
 }
 func checkRightX(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, y, z, x, right, checkRight1D)
+	return checkDimensionChange(v, c, y, z, x, checkRight1D)
 }
 func checkRightY(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, x, z, y, right, checkRight1D)
+	return checkDimensionChange(v, c, x, z, y, checkRight1D)
 }
 func checkRightZ(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, x, y, z, right, checkRight1D)
+	return checkDimensionChange(v, c, x, y, z, checkRight1D)
 }
 
 type Node1 struct {
@@ -1043,6 +1085,9 @@ var functions = map[string]interface{}{
 func pattern() {
 
 	item1 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0}}
+	if !R3Test(&item1) {
+		return
+	}
 	caretaker1 := Caretaker{}
 	itemSequence1 := []string{
 		mF1UY,
@@ -1067,7 +1112,7 @@ func pattern() {
 
 		if strings.Contains(item, "check") {
 			// fmt.Printf("%v, %v\n", item, i)
-
+			// functions[item].(func(v *Variables, c *Caretaker))(&item1, &caretaker1)
 			// fmt.Printf("%v, %v\n", item, functions[item].(func(v *Variables, c *Caretaker) bool)(&item1, &caretaker1))
 			if !functions[item].(func(v *Variables, c *Caretaker) bool)(&item1, &caretaker1) {
 				continue
