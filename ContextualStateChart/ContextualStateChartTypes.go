@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"sort"
 	"strconv"
-	"strings"
 	"sync"
 	"time"
 )
@@ -1010,7 +1009,7 @@ func checkRightZ(v *Variables, c *Caretaker) bool {
 
 type Node1 struct {
 	Id            int
-	Name          string
+	Change        map[string]string
 	Edges         map[string][]int
 	ParentChildId int
 }
@@ -1082,11 +1081,32 @@ var functions = map[string]interface{}{
 	cRZ:   checkRightZ,
 }
 
-func createCheckFunctions() {
+func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caretaker, sequence []string) {
 	// when the command changes
 	// note what variable values changed
-	// record the change as a sequence of check functions
+	// record the changes as a sequence of operation change names
 
+	lastOperationName := ""
+	for _, item := range sequence {
+		functions[item].(func(v *Variables, c *Caretaker))(v, c)
+		if item != lastOperationName {
+			changedVariableName := ""
+			changeName := ""
+			for variableName, value := range v.State {
+				prevValue := c.GetMemento(c.GetLastIndex()).State[variableName].(int)
+				if value != prevValue {
+					changedVariableName = variableName
+				}
+				if value == prevValue+1 {
+					changeName = "Add1"
+				} else if value == prevValue-1 {
+					changeName = "Subtract1"
+				}
+			}
+			*nodes = append(*nodes, Node1{Id: len(*nodes), Change: map[string]string{changedVariableName: changeName}})
+		}
+		lastOperationName = item
+	}
 }
 func pattern() {
 
@@ -1099,41 +1119,41 @@ func pattern() {
 		mF1UY,
 		mF1UY,
 		mB1UX,
-		cLX,
 		mB1UX,
 		mB1UY,
-		cLY,
 		mB1UY,
 		mF1UX,
-		cRX,
 		mF1UX,
 		mF1UZ,
-		cRZ,
 		mF1UZ}
-
-	checkFunctions := map[int][]string{}
-	for _, item := range itemSequence1 {
-		// fmt.Printf("%v. %v, %v\n", item, "check", strings.Contains(item, "check"))
-		// fmt.Printf("item1 %v\n", item1)
-
-		if strings.Contains(item, "check") {
-			// fmt.Printf("%v, %v\n", item, i)
-			// functions[item].(func(v *Variables, c *Caretaker))(&item1, &caretaker1)
-			// fmt.Printf("%v, %v\n", item, functions[item].(func(v *Variables, c *Caretaker) bool)(&item1, &caretaker1))
-			if !functions[item].(func(v *Variables, c *Caretaker) bool)(&item1, &caretaker1) {
-				continue
-			}
-			if entry := checkFunctions[0]; len(entry) >= 1 {
-				checkFunctions[0] = append(checkFunctions[0], item)
-			} else {
-				checkFunctions[0] = []string{item}
-			}
-		} else {
-			functions[item].(func(v *Variables, c *Caretaker))(&item1, &caretaker1)
-		}
-
+	nodes := []Node1{}
+	createSequenceOfOperationChangeNames(&nodes, &item1, &caretaker1, itemSequence1)
+	for _, item := range nodes {
+		fmt.Printf("%v\n", item)
 	}
-	fmt.Printf("%v", checkFunctions)
+	// checkFunctions := map[int][]string{}
+	// for _, item := range itemSequence1 {
+	// 	// fmt.Printf("%v. %v, %v\n", item, "check", strings.Contains(item, "check"))
+	// 	// fmt.Printf("item1 %v\n", item1)
+
+	// 	if strings.Contains(item, "check") {
+	// 		// fmt.Printf("%v, %v\n", item, i)
+	// 		// functions[item].(func(v *Variables, c *Caretaker))(&item1, &caretaker1)
+	// 		// fmt.Printf("%v, %v\n", item, functions[item].(func(v *Variables, c *Caretaker) bool)(&item1, &caretaker1))
+	// 		if !functions[item].(func(v *Variables, c *Caretaker) bool)(&item1, &caretaker1) {
+	// 			continue
+	// 		}
+	// 		if entry := checkFunctions[0]; len(entry) >= 1 {
+	// 			checkFunctions[0] = append(checkFunctions[0], item)
+	// 		} else {
+	// 			checkFunctions[0] = []string{item}
+	// 		}
+	// 	} else {
+	// 		functions[item].(func(v *Variables, c *Caretaker))(&item1, &caretaker1)
+	// 	}
+
+	// }
+	// fmt.Printf("%v", checkFunctions)
 	// myBlocks := Blocks{Blocks: map[string]Block{}, MaxInt: 0}
 
 	// myBlocks.Blocks["leftY"] = Block{Id: "leftY", FunctionName: "leftY"}
