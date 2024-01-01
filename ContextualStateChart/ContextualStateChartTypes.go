@@ -966,6 +966,15 @@ func checkRightZ(v *Variables, c *Caretaker) bool {
 	return checkDimensionChange(v, c, x, y, z, right, checkRight1D)
 }
 
+type Node1 struct {
+	Id            int
+	Name          string
+	Edges         map[string][]int
+	ParentChildId int
+}
+
+var Nodes = []Node1{}
+
 type Variables struct {
 	State map[string]interface{}
 }
