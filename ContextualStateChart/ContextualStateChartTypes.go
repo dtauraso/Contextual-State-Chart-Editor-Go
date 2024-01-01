@@ -1084,7 +1084,7 @@ var functions = map[string]interface{}{
 
 func createCheckFunctions() {
 	// when the command changes
-	// note what variable values stayed the same and changed
+	// note what variable values changed
 	// record the change as a sequence of check functions
 
 }
