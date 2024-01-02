@@ -1008,9 +1008,10 @@ func checkRightZ(v *Variables, c *Caretaker) bool {
 }
 
 type Node1 struct {
-	Id       int
-	Change   map[string]string
-	TypeName string
+	Id                 int
+	ChangeVariableName string
+	ChangeFunctionName string
+	TypeName           string
 
 	Edges         map[string][]int
 	ParentChildId int
@@ -1098,9 +1099,10 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 				}
 			}
 			*nodes = append(*nodes, Node1{
-				Id:       len(*nodes),
-				Change:   map[string]string{changedVariableName: item},
-				TypeName: "int"})
+				Id:                 len(*nodes),
+				ChangeVariableName: changedVariableName,
+				ChangeFunctionName: item,
+				TypeName:           "int"})
 		}
 		lastOperationName = item
 	}
