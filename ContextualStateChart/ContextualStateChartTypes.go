@@ -1039,6 +1039,7 @@ type Caretaker struct {
 	memento Memento
 }
 
+// {sequenceVarName: Memento} of mementos for each sequence to process
 func (c *Caretaker) UpdateMemento(m Memento) {
 	c.memento = m
 
@@ -1088,19 +1089,13 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 		functions[item].(func(v *Variables, c *Caretaker))(v, c)
 		if item != lastOperationName {
 			changedVariableName := ""
-			changeName := ""
 			for variableName, value := range v.State {
 				prevValue := c.GetMemento().State[variableName].(int)
 				if value != prevValue {
 					changedVariableName = variableName
 				}
-				if value == prevValue+1 {
-					changeName = "Add1"
-				} else if value == prevValue-1 {
-					changeName = "Subtract1"
-				}
 			}
-			*nodes = append(*nodes, Node1{Id: len(*nodes), Change: map[string]string{changedVariableName: changeName}})
+			*nodes = append(*nodes, Node1{Id: len(*nodes), Change: map[string]string{changedVariableName: item}})
 		}
 		lastOperationName = item
 	}
