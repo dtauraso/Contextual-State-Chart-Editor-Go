@@ -1012,9 +1012,8 @@ type Node1 struct {
 	ChangeVariableName string
 	ChangeFunctionName string
 	TypeName           string
-
-	Edges         map[string][]int
-	ParentChildId int
+	Edges              map[string][]int
+	ParentChildId      int
 }
 
 var Nodes = []Node1{}
@@ -1088,9 +1087,9 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 	// record the changes as a sequence of operation change names
 
 	lastOperationName := ""
-	for _, item := range sequence {
-		functions[item].(func(v *Variables, c *Caretaker))(v, c)
-		if item != lastOperationName {
+	for _, functionName := range sequence {
+		functions[functionName].(func(v *Variables, c *Caretaker))(v, c)
+		if functionName != lastOperationName {
 			changedVariableName := ""
 			for variableName, value := range v.State {
 				prevValue := c.GetMemento().State[variableName].(int)
@@ -1101,10 +1100,10 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 			*nodes = append(*nodes, Node1{
 				Id:                 len(*nodes),
 				ChangeVariableName: changedVariableName,
-				ChangeFunctionName: item,
+				ChangeFunctionName: functionName,
 				TypeName:           "int"})
 		}
-		lastOperationName = item
+		lastOperationName = functionName
 	}
 }
 func pattern() {
