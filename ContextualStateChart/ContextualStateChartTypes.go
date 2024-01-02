@@ -912,7 +912,7 @@ func move1Unit(v *Variables, c *Caretaker, dimensionName string, direction func(
 		return
 	}
 
-	c.AddMemento(v.CreateMemento())
+	c.UpdateMemento(v.CreateMemento())
 	dimension := v.State[dimensionName].(int)
 	dimension = direction(dimension)
 	v.State[dimensionName] = dimension
@@ -930,7 +930,7 @@ func checkRight1D(d1Curr, d1Prev int) bool { return d1Curr == d1Prev+1 }
 
 func checkDirection1D2(v *Variables, c *Caretaker, d1, direction string) {
 	d1Curr := v.State[d1].(int)
-	d1Prev := c.GetMemento(c.GetLastIndex()).State[d1].(int)
+	d1Prev := c.GetMemento().State[d1].(int)
 
 	v.State[direction] = d1Curr == d1Prev-1
 }
@@ -946,7 +946,7 @@ func isEqualIntHelper(v *Variables, equalKind string, n1, n2 int) {
 
 func isDimentionChangeSame(v *Variables, c *Caretaker, d1, resultName string) {
 	d1Curr := v.State[d1].(int)
-	d1Prev := c.GetMemento(c.GetLastIndex()).State[d1].(int)
+	d1Prev := c.GetMemento().State[d1].(int)
 	isEqualIntHelper(v, resultName, d1Curr, d1Prev)
 }
 func isXChangeSame(v *Variables, c *Caretaker) {
@@ -980,11 +980,11 @@ func checkDimensionChange(
 	checkDirection1D func(d1Curr, d1Prev int) bool) bool {
 
 	d1Curr := v.State[d1].(int)
-	d1Prev := c.GetMemento(c.GetLastIndex()).State[d1].(int)
+	d1Prev := c.GetMemento().State[d1].(int)
 	d2Curr := v.State[d2].(int)
-	d2Prev := c.GetMemento(c.GetLastIndex()).State[d2].(int)
+	d2Prev := c.GetMemento().State[d2].(int)
 	d3Curr := v.State[d3].(int)
-	d3Prev := c.GetMemento(c.GetLastIndex()).State[d3].(int)
+	d3Prev := c.GetMemento().State[d3].(int)
 	return (d1Prev == d1Curr) && (d2Prev == d2Curr) && checkDirection1D(d3Curr, d3Prev)
 }
 
@@ -1036,19 +1036,16 @@ type Memento struct {
 }
 
 type Caretaker struct {
-	mementos []Memento
+	memento Memento
 }
 
-func (c *Caretaker) GetLastIndex() int {
-	return len(c.mementos) - 1
-}
-func (c *Caretaker) AddMemento(m Memento) {
-	c.mementos = append(c.mementos, m)
+func (c *Caretaker) UpdateMemento(m Memento) {
+	c.memento = m
 
 }
 
-func (c *Caretaker) GetMemento(index int) Memento {
-	return c.mementos[index]
+func (c *Caretaker) GetMemento() Memento {
+	return c.memento
 }
 
 const (
@@ -1093,7 +1090,7 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 			changedVariableName := ""
 			changeName := ""
 			for variableName, value := range v.State {
-				prevValue := c.GetMemento(c.GetLastIndex()).State[variableName].(int)
+				prevValue := c.GetMemento().State[variableName].(int)
 				if value != prevValue {
 					changedVariableName = variableName
 				}
