@@ -1126,9 +1126,22 @@ func pattern() {
 		mF1UX,
 		mF1UZ,
 		mF1UZ}
-	nodes := []Node1{}
-	createSequenceOfOperationChangeNames(&nodes, &item1, &caretaker1, itemSequence1)
-	for _, item := range nodes {
+	nodes1 := []Node1{}
+	createSequenceOfOperationChangeNames(&nodes1, &item1, &caretaker1, itemSequence1)
+	for _, item := range nodes1 {
+		fmt.Printf("%v\n", item)
+	}
+
+	fmt.Printf("\n\n")
+
+	item2 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0}}
+
+	caretaker2 := Caretaker{}
+
+	nodes2 := []Node1{}
+	itemSequence2 := []string{mF1UY, mB1UX, mB1UY, mF1UX, mF1UZ}
+	createSequenceOfOperationChangeNames(&nodes2, &item2, &caretaker2, itemSequence2)
+	for _, item := range nodes2 {
 		fmt.Printf("%v\n", item)
 	}
 	// checkFunctions := map[int][]string{}
