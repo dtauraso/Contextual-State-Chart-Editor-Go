@@ -1015,8 +1015,6 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 				TypeName:           typeName})
 		}
 		lastOperationName = functionName
-		if !v.IfConditionResult {
-		}
 	}
 }
 func pattern() {
