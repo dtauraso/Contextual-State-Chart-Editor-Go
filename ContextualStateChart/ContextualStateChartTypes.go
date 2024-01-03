@@ -996,9 +996,7 @@ func notEqual(a1, a2 interface{}) bool {
 	return a1 != a2
 }
 
-// each node having a "storage" key that holds each enumerated user entered version with the count of the
-// number of times the operation node was used.
-func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caretaker, sequence []string, comparator func(a1, a2 interface{}) bool) {
+func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caretaker, sequence []string) {
 	// when the command changes
 	// note what variable values changed
 	// record the changes as a sequence of operation change names
@@ -1007,7 +1005,7 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 	lastOperationName := ""
 	for _, functionName := range sequence {
 		functions[functionName].(func(v *Variables, c *Caretaker))(v, c)
-		if comparator(functionName, lastOperationName) {
+		if functionName != lastOperationName {
 			changedVariableName := ""
 			typeName := ""
 			for variableName, value := range v.State {
@@ -1046,7 +1044,7 @@ func pattern() {
 		mF1UZ,
 		mF1UZ}
 	nodes1 := []Node1{}
-	createSequenceOfOperationChangeNames(&nodes1, &item1, &caretaker1, itemSequence1, notEqual)
+	createSequenceOfOperationChangeNames(&nodes1, &item1, &caretaker1, itemSequence1)
 	for _, item := range nodes1 {
 		fmt.Printf("%v\n", item)
 	}
@@ -1060,7 +1058,7 @@ func pattern() {
 
 	nodes2 := []Node1{}
 	itemSequence2 := []string{mF1UY, mB1UX, mB1UY, mF1UX, mF1UZ}
-	createSequenceOfOperationChangeNames(&nodes2, &item2, &caretaker2, itemSequence2, notEqual)
+	createSequenceOfOperationChangeNames(&nodes2, &item2, &caretaker2, itemSequence2)
 	for _, item := range nodes2 {
 		fmt.Printf("%v\n", item)
 	}
