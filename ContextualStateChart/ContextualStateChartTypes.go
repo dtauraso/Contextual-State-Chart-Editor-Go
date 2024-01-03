@@ -1019,11 +1019,13 @@ type Node1 struct {
 var Nodes = []Node1{}
 
 type Variables struct {
-	State map[string]interface{}
+	State     map[string]interface{}
+	TypeNames map[string]string
 }
 
 func (v *Variables) CreateMemento() Memento {
 	memento := map[string]interface{}{}
+
 	for key, value := range v.State {
 		memento[key] = value
 	}
@@ -1091,24 +1093,27 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 		functions[functionName].(func(v *Variables, c *Caretaker))(v, c)
 		if functionName != lastOperationName {
 			changedVariableName := ""
+			typeName := ""
 			for variableName, value := range v.State {
-				prevValue := c.GetMemento().State[variableName].(int)
+				prevValue := c.GetMemento().State[variableName]
 				if value != prevValue {
 					changedVariableName = variableName
 				}
+				typeName = v.TypeNames[variableName]
 			}
 			*nodes = append(*nodes, Node1{
 				Id:                 len(*nodes),
 				ChangeVariableName: changedVariableName,
 				ChangeFunctionName: functionName,
-				TypeName:           "int"})
+				TypeName:           typeName})
 		}
 		lastOperationName = functionName
 	}
 }
 func pattern() {
 
-	item1 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0}}
+	item1 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0},
+		TypeNames: map[string]string{x: "int", y: "int", z: "int"}}
 	if !R3Test(&item1) {
 		return
 	}
@@ -1132,7 +1137,8 @@ func pattern() {
 
 	fmt.Printf("\n\n")
 
-	item2 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0}}
+	item2 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0},
+		TypeNames: map[string]string{x: "int", y: "int", z: "int"}}
 
 	caretaker2 := Caretaker{}
 
