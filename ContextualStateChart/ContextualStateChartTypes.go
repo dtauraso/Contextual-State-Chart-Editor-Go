@@ -995,6 +995,7 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 	// note what variable values changed
 	// record the changes as a sequence of operation change names
 
+	// functionNameMapsToIsInNode := map[string]bool{}
 	lastOperationName := ""
 	for _, functionName := range sequence {
 		functions[functionName].(func(v *Variables, c *Caretaker))(v, c)
