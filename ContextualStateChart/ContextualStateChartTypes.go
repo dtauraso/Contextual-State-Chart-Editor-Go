@@ -1098,8 +1098,8 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 				prevValue := c.GetMemento().State[variableName]
 				if value != prevValue {
 					changedVariableName = variableName
+					typeName = v.TypeNames[variableName]
 				}
-				typeName = v.TypeNames[variableName]
 			}
 			*nodes = append(*nodes, Node1{
 				Id:                 len(*nodes),
