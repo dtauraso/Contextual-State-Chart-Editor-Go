@@ -862,11 +862,9 @@ func (b *Blocks) GetBlock(path []string) Block {
 }
 
 const (
-	x     = "x"
-	y     = "y"
-	z     = "z"
-	left  = "Left"
-	right = "Right"
+	x = "x"
+	y = "y"
+	z = "z"
 )
 
 func R3Test(v *Variables) bool {
@@ -908,10 +906,6 @@ func subtract1(x int) int {
 
 func move1Unit(v *Variables, c *Caretaker, dimensionName string, direction func(int) int) {
 
-	if !R3Test(v) {
-		return
-	}
-
 	c.UpdateMemento(v.CreateMemento())
 	dimension := v.State[dimensionName].(int)
 	dimension = direction(dimension)
@@ -925,88 +919,6 @@ func moveBackward1UnitX(v *Variables, c *Caretaker) { move1Unit(v, c, x, subtrac
 func moveBackward1UnitY(v *Variables, c *Caretaker) { move1Unit(v, c, y, subtract1) }
 func moveBackward1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z, subtract1) }
 
-func checkLeft1D(d1Curr, d1Prev int) bool  { return d1Curr == d1Prev-1 }
-func checkRight1D(d1Curr, d1Prev int) bool { return d1Curr == d1Prev+1 }
-
-func checkDirection1D2(v *Variables, c *Caretaker, d1, direction string) {
-	d1Curr := v.State[d1].(int)
-	d1Prev := c.GetMemento().State[d1].(int)
-
-	v.State[direction] = d1Curr == d1Prev-1
-}
-func checkRightX2(v *Variables, c *Caretaker) {
-	checkDirection1D2(v, c, "x", "checkRightD2")
-}
-func checkLefttX2(v *Variables, c *Caretaker) {
-	checkDirection1D2(v, c, "x", "checkLeftD2")
-}
-func isEqualIntHelper(v *Variables, equalKind string, n1, n2 int) {
-	v.State[equalKind] = n1 == n2
-}
-
-func isDimentionChangeSame(v *Variables, c *Caretaker, d1, resultName string) {
-	d1Curr := v.State[d1].(int)
-	d1Prev := c.GetMemento().State[d1].(int)
-	isEqualIntHelper(v, resultName, d1Curr, d1Prev)
-}
-func isXChangeSame(v *Variables, c *Caretaker) {
-	isDimentionChangeSame(v, c, x, "isXChangeSame")
-}
-func isYChangeSame(v *Variables, c *Caretaker) {
-	isDimentionChangeSame(v, c, y, "isYChangeSame")
-}
-func isZChangeSame(v *Variables, c *Caretaker) {
-	isDimentionChangeSame(v, c, z, "isZChangeSame")
-}
-
-func and(v *Variables, b1Name, b2Name string, resultName string) {
-
-	b1 := v.State[b1Name].(bool)
-	b2 := v.State[b2Name].(bool)
-	v.State[resultName] = b1 && b2
-}
-func checkLeftXChangePart1(v *Variables, c *Caretaker) {
-
-	and(v, "isXChangeSame", "isYChangeSame", "IsXYChangeSame")
-}
-func checkLeftXChangePart2(v *Variables, c *Caretaker) {
-
-	and(v, "isXYChangeSame", "checkLeft1D2", "IsLeftZChange")
-}
-func checkDimensionChange(
-	v *Variables,
-	c *Caretaker,
-	d1, d2, d3 string,
-	checkDirection1D func(d1Curr, d1Prev int) bool) bool {
-
-	d1Curr := v.State[d1].(int)
-	d1Prev := c.GetMemento().State[d1].(int)
-	d2Curr := v.State[d2].(int)
-	d2Prev := c.GetMemento().State[d2].(int)
-	d3Curr := v.State[d3].(int)
-	d3Prev := c.GetMemento().State[d3].(int)
-	return (d1Prev == d1Curr) && (d2Prev == d2Curr) && checkDirection1D(d3Curr, d3Prev)
-}
-
-func checkLeftX(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, y, z, x, checkLeft1D)
-}
-func checkLeftY(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, x, z, y, checkLeft1D)
-}
-func checkLeftZ(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, x, y, z, checkLeft1D)
-}
-func checkRightX(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, y, z, x, checkRight1D)
-}
-func checkRightY(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, x, z, y, checkRight1D)
-}
-func checkRightZ(v *Variables, c *Caretaker) bool {
-	return checkDimensionChange(v, c, x, y, z, checkRight1D)
-}
-
 type Node1 struct {
 	Id                 int
 	ChangeVariableName string
@@ -1019,7 +931,8 @@ type Node1 struct {
 var Nodes = []Node1{}
 
 type Variables struct {
-	State map[string]interface{}
+	State             map[string]interface{}
+	IfConditionResult bool
 }
 
 func (v *Variables) CreateMemento() Memento {
@@ -1059,12 +972,6 @@ const (
 	mB1UX = "moveBackward1UnitX"
 	mB1UY = "moveBackward1UnitY"
 	mB1UZ = "moveBackward1UnitZ"
-	cLX   = "checkLeftX"
-	cLY   = "checkLeftY"
-	cLZ   = "checkLeftZ"
-	cRX   = "checkRightX"
-	cRY   = "checkRightY"
-	cRZ   = "checkRightZ"
 )
 
 var functions = map[string]interface{}{
@@ -1074,15 +981,16 @@ var functions = map[string]interface{}{
 	mB1UX: moveBackward1UnitX,
 	mB1UY: moveBackward1UnitY,
 	mB1UZ: moveBackward1UnitZ,
-	cLX:   checkLeftX,
-	cLY:   checkLeftY,
-	cLZ:   checkLeftZ,
-	cRX:   checkRightX,
-	cRY:   checkRightY,
-	cRZ:   checkRightZ,
 }
 
-func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caretaker, sequence []string) {
+func equal(a1, a2 interface{}) bool {
+	return a1 == a2
+}
+
+func notEqual(a1, a2 interface{}) bool {
+	return a1 != a2
+}
+func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caretaker, sequence []string, comparator func(a1, a2 interface{}) bool) {
 	// when the command changes
 	// note what variable values changed
 	// record the changes as a sequence of operation change names
@@ -1090,7 +998,10 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 	lastOperationName := ""
 	for _, functionName := range sequence {
 		functions[functionName].(func(v *Variables, c *Caretaker))(v, c)
-		if functionName != lastOperationName {
+		if !v.IfConditionResult {
+			continue
+		}
+		if comparator(functionName, lastOperationName) {
 			changedVariableName := ""
 			typeName := ""
 			for variableName, value := range v.State {
@@ -1111,7 +1022,8 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 }
 func pattern() {
 
-	item1 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0}}
+	item1 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0},
+		IfConditionResult: true}
 	if !R3Test(&item1) {
 		return
 	}
@@ -1128,20 +1040,21 @@ func pattern() {
 		mF1UZ,
 		mF1UZ}
 	nodes1 := []Node1{}
-	createSequenceOfOperationChangeNames(&nodes1, &item1, &caretaker1, itemSequence1)
+	createSequenceOfOperationChangeNames(&nodes1, &item1, &caretaker1, itemSequence1, notEqual)
 	for _, item := range nodes1 {
 		fmt.Printf("%v\n", item)
 	}
 
 	fmt.Printf("\n\n")
 
-	item2 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0}}
+	item2 := Variables{State: map[string]interface{}{x: 0, y: 0, z: 0},
+		IfConditionResult: true}
 
 	caretaker2 := Caretaker{}
 
 	nodes2 := []Node1{}
 	itemSequence2 := []string{mF1UY, mB1UX, mB1UY, mF1UX, mF1UZ}
-	createSequenceOfOperationChangeNames(&nodes2, &item2, &caretaker2, itemSequence2)
+	createSequenceOfOperationChangeNames(&nodes2, &item2, &caretaker2, itemSequence2, notEqual)
 	for _, item := range nodes2 {
 		fmt.Printf("%v\n", item)
 	}
