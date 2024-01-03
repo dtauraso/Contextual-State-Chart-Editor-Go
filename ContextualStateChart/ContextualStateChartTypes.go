@@ -930,6 +930,11 @@ type Node1 struct {
 
 var Nodes = []Node1{}
 
+type Storage struct {
+	Id           int
+	Node1Id      int
+	StreakLength int
+}
 type Variables struct {
 	State             map[string]interface{}
 	IfConditionResult bool
@@ -990,12 +995,15 @@ func equal(a1, a2 interface{}) bool {
 func notEqual(a1, a2 interface{}) bool {
 	return a1 != a2
 }
+
+// each node having a "storage" key that holds each enumerated user entered version with the count of the
+// number of times the operation node was used.
 func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caretaker, sequence []string, comparator func(a1, a2 interface{}) bool) {
 	// when the command changes
 	// note what variable values changed
 	// record the changes as a sequence of operation change names
 
-	// functionNameMapsToIsInNode := map[string]bool{}
+	// functionNameMapsNodeId := map[string]int{}
 	lastOperationName := ""
 	for _, functionName := range sequence {
 		functions[functionName].(func(v *Variables, c *Caretaker))(v, c)
