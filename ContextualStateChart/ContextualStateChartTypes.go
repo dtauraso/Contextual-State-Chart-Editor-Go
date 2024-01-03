@@ -998,9 +998,6 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 	lastOperationName := ""
 	for _, functionName := range sequence {
 		functions[functionName].(func(v *Variables, c *Caretaker))(v, c)
-		if !v.IfConditionResult {
-			continue
-		}
 		if comparator(functionName, lastOperationName) {
 			changedVariableName := ""
 			typeName := ""
@@ -1018,6 +1015,8 @@ func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caret
 				TypeName:           typeName})
 		}
 		lastOperationName = functionName
+		if !v.IfConditionResult {
+		}
 	}
 }
 func pattern() {
