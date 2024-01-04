@@ -919,16 +919,18 @@ func moveBackward1UnitX(v *Variables, c *Caretaker) { move1Unit(v, c, x, subtrac
 func moveBackward1UnitY(v *Variables, c *Caretaker) { move1Unit(v, c, y, subtract1) }
 func moveBackward1UnitZ(v *Variables, c *Caretaker) { move1Unit(v, c, z, subtract1) }
 
-type Node1 struct {
-	Id                 int
-	ChangeVariableName string
-	ChangeFunctionName string
-	TypeName           string
-	Edges              map[string][]int
-	ParentChildId      int
+type Operation struct {
+	Id           int
+	VariableName string
+	FunctionName string
+	TypeName     string
 }
-
-var Nodes = []Node1{}
+type Node1 struct {
+	Id            int
+	OperationId   int
+	Edges         map[string][]int
+	ParentChildId int
+}
 
 type Storage struct {
 	Id           int
@@ -996,30 +998,52 @@ func notEqual(a1, a2 interface{}) bool {
 	return a1 != a2
 }
 
-func createSequenceOfOperationChangeNames(nodes *[]Node1, v *Variables, c *Caretaker, sequence []string) {
+var operationNameToNodes = map[string]map[int][]int{
+	mF1UX: {},
+	mF1UY: {},
+	mF1UZ: {},
+	mB1UX: {},
+	mB1UY: {},
+	mB1UZ: {},
+}
+var operations = map[int]Operation{
+	0: {VariableName: "x", FunctionName: mF1UX, TypeName: "int"},
+	1: {VariableName: "x", FunctionName: mB1UX, TypeName: "int"},
+	2: {VariableName: "y", FunctionName: mF1UY, TypeName: "int"},
+	3: {VariableName: "y", FunctionName: mB1UY, TypeName: "int"},
+	4: {VariableName: "z", FunctionName: mF1UZ, TypeName: "int"},
+	5: {VariableName: "z", FunctionName: mB1UZ, TypeName: "int"}}
+var sequences = []Node1{}
+
+func createSequenceOfOperationChangeNames(
+	// nodes *[]Node1,
+	v *Variables,
+	c *Caretaker,
+	sequence []string) {
 	// when the command changes
 	// note what variable values changed
 	// record the changes as a sequence of operation change names
 
-	// functionNameMapsNodeId := map[string]int{}
 	lastOperationName := ""
 	for _, functionName := range sequence {
 		functions[functionName].(func(v *Variables, c *Caretaker))(v, c)
 		if functionName != lastOperationName {
-			changedVariableName := ""
-			typeName := ""
+			// changedVariableName := ""
+			// typeName := ""
 			for variableName, value := range v.State {
 				prevValue := c.GetMemento().State[variableName]
 				if value != prevValue {
-					changedVariableName = variableName
-					typeName = fmt.Sprintf("%T", value)
+					// changedVariableName = variableName
+					// typeName = fmt.Sprintf("%T", value)
 				}
 			}
-			*nodes = append(*nodes, Node1{
-				Id:                 len(*nodes),
-				ChangeVariableName: changedVariableName,
-				ChangeFunctionName: functionName,
-				TypeName:           typeName})
+			// update operationNameToNodes
+			// add nodes to sequences and connect them with node ids found in operationNameToNodes
+			// *nodes = append(*nodes, Node1{
+			// 	Id:                 len(*nodes),
+			// 	ChangeVariableName: changedVariableName,
+			// 	ChangeFunctionName: functionName,
+			// 	TypeName:           typeName})
 		}
 		lastOperationName = functionName
 	}
@@ -1043,9 +1067,9 @@ func pattern() {
 		mF1UX,
 		mF1UZ,
 		mF1UZ}
-	nodes1 := []Node1{}
-	createSequenceOfOperationChangeNames(&nodes1, &item1, &caretaker1, itemSequence1)
-	for _, item := range nodes1 {
+	// nodes1 := []Node1{}
+	createSequenceOfOperationChangeNames(&item1, &caretaker1, itemSequence1)
+	for _, item := range sequences {
 		fmt.Printf("%v\n", item)
 	}
 
@@ -1056,10 +1080,9 @@ func pattern() {
 
 	caretaker2 := Caretaker{}
 
-	nodes2 := []Node1{}
 	itemSequence2 := []string{mF1UY, mB1UX, mB1UY, mF1UX, mF1UZ}
-	createSequenceOfOperationChangeNames(&nodes2, &item2, &caretaker2, itemSequence2)
-	for _, item := range nodes2 {
+	createSequenceOfOperationChangeNames(&item2, &caretaker2, itemSequence2)
+	for _, item := range sequences {
 		fmt.Printf("%v\n", item)
 	}
 	// checkFunctions := map[int][]string{}
