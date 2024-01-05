@@ -1015,6 +1015,26 @@ var operations = map[int]Operation{
 	5: {VariableName: "z", FunctionName: mB1UZ, TypeName: "int"}}
 var sequences = []Node1{}
 
+type SequencePair struct {
+	A1 int
+	A2 int
+}
+type CategoryTracker struct {
+	IsVisited                bool
+	TotalSequenceLengthFound int
+	SequencePairMatches      SequencePair
+}
+
+var catagoryTracker = map[int]CategoryTracker{}
+
+// {sequence node id: {isVisited, totalSequenceLengthFound, sequenceIndexPairMatches}
+// sequenceIndexPairMatches is list of node id pairs from stored sequence and new sequence that match
+// use isVisited to remove duplicate sequence trackers if they are discovered
+// 1 entry per sequence after algorithm is done {last sequence node id: {isVisited: true, totalSequenceLengthFound: n}
+
+// 1) make sequence
+// 2) find the connections between new sequece and already existing sequencs
+
 func createSequenceOfOperationChangeNames(
 	// nodes *[]Node1,
 	v *Variables,
@@ -1028,8 +1048,12 @@ func createSequenceOfOperationChangeNames(
 	for _, functionName := range sequence {
 		functions[functionName].(func(v *Variables, c *Caretaker))(v, c)
 		if functionName != lastOperationName {
+			if len(operationNameToNodes[functionName]) == 0 {
+
+			}
 			// changedVariableName := ""
 			// typeName := ""
+			// likely to be O(1) due to each operation only changing 1 variable at a time
 			for variableName, value := range v.State {
 				prevValue := c.GetMemento().State[variableName]
 				if value != prevValue {
@@ -1039,6 +1063,14 @@ func createSequenceOfOperationChangeNames(
 			}
 			// update operationNameToNodes
 			// add nodes to sequences and connect them with node ids found in operationNameToNodes
+			// find the sequences the nodes that match with the input are part of
+			// shorter sequences are above longer sequences
+			// sequences of same length are lower than the sequence of items they have in common in relative order
+			// the lower sequence doesn't match all its items with the higher sequence.
+			// lower sequence was entered before the higher sequences and
+			// only has 1 match with n different higher sequences and only 1 of those
+			// sequences has been entered
+			// cound number of nodes in linked list
 			// *nodes = append(*nodes, Node1{
 			// 	Id:                 len(*nodes),
 			// 	ChangeVariableName: changedVariableName,
