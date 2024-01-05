@@ -926,8 +926,11 @@ type Operation struct {
 	TypeName     string
 }
 type Node1 struct {
-	Id            int
-	OperationId   int
+	Id int
+	// OperationId   int
+	VariableName  string
+	FunctionName  string
+	TypeName      string
 	Edges         map[string][]int
 	ParentChildId int
 }
@@ -1033,10 +1036,10 @@ var catagoryTracker = map[int]CategoryTracker{}
 // 1 entry per sequence after algorithm is done {last sequence node id: {isVisited: true, totalSequenceLengthFound: n}
 
 // 1) make sequence
-// 2) find the connections between new sequece and already existing sequencs
+// 2) find the connections between new sequece and already existing sequence
 
 func createSequenceOfOperationChangeNames(
-	// nodes *[]Node1,
+	nodes *[]Node1,
 	v *Variables,
 	c *Caretaker,
 	sequence []string) {
@@ -1048,17 +1051,15 @@ func createSequenceOfOperationChangeNames(
 	for _, functionName := range sequence {
 		functions[functionName].(func(v *Variables, c *Caretaker))(v, c)
 		if functionName != lastOperationName {
-			if len(operationNameToNodes[functionName]) == 0 {
 
-			}
-			// changedVariableName := ""
-			// typeName := ""
+			changedVariableName := ""
+			typeName := ""
 			// likely to be O(1) due to each operation only changing 1 variable at a time
 			for variableName, value := range v.State {
 				prevValue := c.GetMemento().State[variableName]
 				if value != prevValue {
-					// changedVariableName = variableName
-					// typeName = fmt.Sprintf("%T", value)
+					changedVariableName = variableName
+					typeName = fmt.Sprintf("%T", value)
 				}
 			}
 			// update operationNameToNodes
@@ -1071,11 +1072,11 @@ func createSequenceOfOperationChangeNames(
 			// only has 1 match with n different higher sequences and only 1 of those
 			// sequences has been entered
 			// cound number of nodes in linked list
-			// *nodes = append(*nodes, Node1{
-			// 	Id:                 len(*nodes),
-			// 	ChangeVariableName: changedVariableName,
-			// 	ChangeFunctionName: functionName,
-			// 	TypeName:           typeName})
+			*nodes = append(*nodes, Node1{
+				Id:           len(*nodes),
+				VariableName: changedVariableName,
+				FunctionName: functionName,
+				TypeName:     typeName})
 		}
 		lastOperationName = functionName
 	}
@@ -1099,9 +1100,9 @@ func pattern() {
 		mF1UX,
 		mF1UZ,
 		mF1UZ}
-	// nodes1 := []Node1{}
-	createSequenceOfOperationChangeNames(&item1, &caretaker1, itemSequence1)
-	for _, item := range sequences {
+	nodes1 := []Node1{}
+	createSequenceOfOperationChangeNames(&nodes1, &item1, &caretaker1, itemSequence1)
+	for _, item := range nodes1 {
 		fmt.Printf("%v\n", item)
 	}
 
@@ -1112,9 +1113,11 @@ func pattern() {
 
 	caretaker2 := Caretaker{}
 
+	nodes2 := []Node1{}
+
 	itemSequence2 := []string{mF1UY, mB1UX, mB1UY, mF1UX, mF1UZ}
-	createSequenceOfOperationChangeNames(&item2, &caretaker2, itemSequence2)
-	for _, item := range sequences {
+	createSequenceOfOperationChangeNames(&nodes2, &item2, &caretaker2, itemSequence2)
+	for _, item := range nodes2 {
 		fmt.Printf("%v\n", item)
 	}
 	// checkFunctions := map[int][]string{}
