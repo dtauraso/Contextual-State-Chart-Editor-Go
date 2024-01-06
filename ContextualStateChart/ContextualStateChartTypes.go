@@ -935,6 +935,16 @@ type Node1 struct {
 	ParentChildId int
 }
 
+func (n1 *Node1) init(variableName, functionName, typeName string, prev, next, id int) Node1 {
+
+	return Node1{
+		Id:           id,
+		VariableName: variableName,
+		FunctionName: functionName,
+		TypeName:     typeName,
+		Edges:        map[string][]int{"prev": {prev}, "next": {next}}}
+}
+
 type Storage struct {
 	Id           int
 	Node1Id      int
